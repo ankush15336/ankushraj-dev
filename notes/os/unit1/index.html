@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operating System - Unit 1 | ankushraj.dev</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #3b82f6;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text: #333;
+            --text-light: #6b7280;
+            --bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --border: #e5e7eb;
+            --code-bg: #f3f4f6;
+        }
+        
+        body.dark-mode {
+            --text: #f0f0f0;
+            --text-light: #9ca3af;
+            --bg: #111827;
+            --card-bg: #1f2937;
+            --border: #374151;
+            --code-bg: #374151;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+        
+        /* Print Watermark - Fixed to show complete */
+        @media print {
+            @page {
+                margin: 15mm 10mm 12mm 10mm;
+                size: A4;
+            }
+            
+            body {
+                position: relative;
+                font-size: 13px;
+                line-height: 1.45;
+            }
+            
+            body::before {
+                content: "ankushraj.dev";
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(-45deg);
+                font-size: 70px;
+                font-weight: 200;
+                color: rgba(0, 0, 0, 0.04);
+                z-index: -1;
+                pointer-events: none;
+                letter-spacing: 6px;
+                white-space: nowrap;
+                width: 100%;
+                text-align: center;
+            }
+            
+            body.dark-mode::before {
+                color: rgba(0, 0, 0, 0.04);
+            }
+            
+            .header-controls,
+            .tabs-container,
+            .toc-panel,
+            .overlay {
+                display: none !important;
+            }
+            
+            .header {
+                position: relative;
+                page-break-after: avoid;
+                padding: 8px 0 !important;
+                margin-bottom: 12px !important;
+            }
+            
+            .header-title {
+                text-align: center !important;
+            }
+            
+            .header-title h1 {
+                font-size: 22px !important;
+                margin-bottom: 3px !important;
+            }
+            
+            .header-title p {
+                font-size: 13px !important;
+            }
+            
+            .chapter-title {
+                page-break-after: avoid;
+                page-break-inside: avoid;
+                margin-bottom: 10px !important;
+                padding: 12px 14px !important;
+                font-size: 17px !important;
+            }
+            
+            .section {
+                page-break-inside: avoid;
+                margin-bottom: 14px !important;
+            }
+            
+            .section-title {
+                margin-bottom: 8px !important;
+                padding-bottom: 5px !important;
+                font-size: 15px !important;
+            }
+            
+            .subsection-title {
+                margin-top: 10px !important;
+                margin-bottom: 5px !important;
+                font-size: 13px !important;
+            }
+            
+            .content p {
+                margin-bottom: 7px !important;
+                line-height: 1.5 !important;
+            }
+            
+            .definition-box,
+            .code-box,
+            .advantage-box,
+            .threat-box,
+            .step-box,
+            .example-box {
+                margin: 7px 0 !important;
+                padding: 9px !important;
+                page-break-inside: avoid;
+                font-size: 12px !important;
+                line-height: 1.5 !important;
+            }
+            
+            .point {
+                margin-bottom: 5px !important;
+                font-size: 12px !important;
+            }
+            
+            .divider {
+                margin: 12px 0 !important;
+                height: 1px !important;
+            }
+            
+            .container {
+                max-width: 100% !important;
+                padding: 0 !important;
+            }
+            
+            .footer {
+                margin-top: 15px !important;
+                padding: 10px 0 !important;
+                page-break-inside: avoid;
+            }
+            
+            .footer-credit {
+                font-size: 13px !important;
+            }
+            
+            .footer-note {
+                font-size: 10px !important;
+            }
+        }
+        
+        /* Header - Compact & Clean */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 12px 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .header-title {
+            text-align: center;
+        }
+        
+        .header-title h1 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        
+        .header-title p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .header-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 12px;
+        }
+        
+        .btn {
+            flex: 1;
+            max-width: 150px;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-2px);
+        }
+        
+        .btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* Tabs */
+        .tabs-container {
+            background: var(--card-bg);
+            border-bottom: 2px solid var(--border);
+            display: flex;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 16px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            color: var(--text-light);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab:active {
+            transform: scale(0.98);
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            background: rgba(59, 130, 246, 0.05);
+        }
+        
+        /* TOC Panel */
+        .toc-panel {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 85%;
+            max-width: 320px;
+            height: 100vh;
+            background: var(--card-bg);
+            z-index: 1000;
+            overflow-y: auto;
+            box-shadow: 4px 0 12px rgba(0,0,0,0.2);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .toc-panel.active {
+            display: block;
+            transform: translateX(0);
+        }
+        
+        .toc-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .toc-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .toc-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .toc-list li {
+            padding: 14px 16px;
+            font-size: 13px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .toc-list li:hover {
+            background: var(--bg);
+            color: var(--primary);
+            padding-left: 24px;
+        }
+        
+        .toc-list li:active {
+            transform: scale(0.98);
+        }
+        
+        /* Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .overlay.active {
+            display: block;
+            opacity: 1;
+        }
+        
+        /* Content - Better Density */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 12px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section {
+            margin-bottom: 24px;
+        }
+        
+        .chapter-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: white;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            margin-left: -12px;
+            margin-right: -12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .subsection-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+            margin-top: 12px;
+            margin-bottom: 6px;
+        }
+        
+        .content p {
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.65;
+        }
+        
+        /* Content Boxes - Better Spacing */
+        .definition-box,
+        .code-box,
+        .advantage-box,
+        .threat-box,
+        .step-box,
+        .example-box {
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 13px;
+            line-height: 1.65;
+        }
+        
+        .definition-box {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .code-box {
+            background: var(--code-bg);
+            border-left: 4px solid #6b7280;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        
+        .advantage-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+        }
+        
+        .threat-box {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+        }
+        
+        .step-box {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid var(--warning);
+        }
+        
+        .example-box {
+            background: rgba(139, 92, 246, 0.1);
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .point {
+            margin-left: 18px;
+            margin-bottom: 6px;
+            font-size: 13px;
+            position: relative;
+        }
+        
+        .point::before {
+            content: "•";
+            position: absolute;
+            left: -14px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            margin: 24px 0;
+        }
+        
+        /* Footer - Compact */
+        .footer {
+            text-align: center;
+            padding: 16px;
+            background: var(--card-bg);
+            border-top: 2px solid var(--border);
+            margin-top: 32px;
+        }
+        
+        .footer-credit {
+            font-size: 14px;
+            color: var(--text);
+            font-weight: 600;
+        }
+        
+        .footer-credit strong {
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .footer-note {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+        
+        /* Responsive */
+        @media (min-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .header {
+                padding: 14px 20px;
+            }
+            
+            .header-title h1 {
+                font-size: 28px;
+            }
+            
+            .header-title p {
+                font-size: 15px;
+            }
+            
+            .chapter-title {
+                font-size: 20px;
+                padding: 16px 20px;
+                margin-left: -16px;
+                margin-right: -16px;
+            }
+            
+            .section-title {
+                font-size: 18px;
+            }
+            
+            .content p {
+                font-size: 15px;
+                line-height: 1.7;
+            }
+            
+            .definition-box,
+            .code-box,
+            .advantage-box,
+            .threat-box,
+            .step-box,
+            .example-box {
+                padding: 14px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- TOC Panel -->
+    <div class="toc-panel" id="tocPanel">
+        <div class="toc-header">
+            <span>📚 Chapters</span>
+            <button class="toc-close" onclick="closeTOC()">×</button>
+        </div>
+        <ul class="toc-list" id="tocList">
+            <!-- Dynamically generated -->
+        </ul>
+    </div>
+    
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="closeTOC()"></div>
+    
+    <!-- Header - Compact -->
+    <div class="header">
+        <div class="header-title">
+            <h1>Operating System</h1>
+            <p>Unit 1 - Introduction to OS</p>
+        </div>
+        
+        <div class="header-controls">
+            <button class="btn" onclick="openTOC()">
+                <span>📑</span>
+                <span>Chapters</span>
+            </button>
+            <button class="btn" id="darkModeBtn" onclick="toggleDarkMode()">
+                <span>🌙</span>
+                <span>Dark</span>
+            </button>
+            <button class="btn" onclick="window.print()">
+                <span>📥</span>
+                <span>PDF</span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Tabs -->
+    <div class="tabs-container">
+        <div class="tab active" onclick="switchTab('full')">
+            📖 Full Notes
+        </div>
+        <div class="tab" onclick="switchTab('lastmin')">
+            ⚡ Last Min Notes
+        </div>
+    </div>
+    
+    <!-- Content Container -->
+    <div class="container">
+        <!-- FULL NOTES TAB -->
+        <div class="tab-content active" id="fullNotesTab">
+            
+            <!-- Chapter 1 -->
+            <div class="chapter-title" id="ch1">
+                <span>📘</span>
+                <span>Chapter 1.1 — What is an Operating System?</span>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">1. Definition of Operating System</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Definition:</strong> An Operating System (OS) is system software that acts as an intermediary between computer hardware and the user. It manages hardware resources and provides services for application programs.
+                    </div>
+                    
+                    <p>The operating system is the most important program that runs on a computer. Every general-purpose computer must have an operating system to run other programs and applications.</p>
+                    
+                    <div class="subsection-title">Key Functions:</div>
+                    <div class="point">Process Management – Creating, scheduling, and terminating processes</div>
+                    <div class="point">Memory Management – Allocating and deallocating memory space</div>
+                    <div class="point">File System Management – Managing files and directories</div>
+                    <div class="point">Device Management – Managing input/output devices</div>
+                    <div class="point">Security & Protection – Protecting data and resources</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">2. Types of Operating Systems</div>
+                <div class="content">
+                    <div class="subsection-title">1. Batch Operating System</div>
+                    <p>Jobs are processed in batches without user interaction. Similar jobs are grouped together and executed sequentially.</p>
+                    <div class="advantage-box">
+                        <strong>Advantages:</strong><br>
+                        • No user interaction required<br>
+                        • Efficient use of CPU time<br>
+                        • Suitable for large repetitive tasks
+                    </div>
+                    <div class="threat-box">
+                        <strong>Disadvantages:</strong><br>
+                        • No user interaction possible<br>
+                        • Difficult to debug<br>
+                        • Long waiting time for job execution
+                    </div>
+                    
+                    <div class="subsection-title">2. Time-Sharing Operating System</div>
+                    <p>Multiple users can use the system simultaneously. CPU time is divided into small time slices and assigned to each user in round-robin fashion.</p>
+                    <div class="example-box">
+                        <strong>Examples:</strong> UNIX, Linux, Windows Server
+                    </div>
+                    
+                    <div class="subsection-title">3. Real-Time Operating System (RTOS)</div>
+                    <p>Processes data as it comes in, typically without delays. Used in systems where timing is critical.</p>
+                    <div class="example-box">
+                        <strong>Examples:</strong> Medical equipment, Industrial control systems, Military applications
+                    </div>
+                    
+                    <div class="subsection-title">4. Distributed Operating System</div>
+                    <p>Uses multiple central processors to serve multiple real-time applications and users. Data processing is distributed across multiple machines.</p>
+                    
+                    <div class="subsection-title">5. Network Operating System</div>
+                    <p>Runs on a server and provides the capability to manage data, users, groups, security, applications, and other networking functions.</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">3. Process Management</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Process:</strong> A program in execution. It includes the program code, current activity, program counter, and stack.
+                    </div>
+                    
+                    <div class="subsection-title">Process States:</div>
+                    <div class="step-box">
+                        <strong>1. New:</strong> Process is being created<br>
+                        <strong>2. Ready:</strong> Process is waiting to be assigned to a processor<br>
+                        <strong>3. Running:</strong> Instructions are being executed<br>
+                        <strong>4. Waiting:</strong> Process is waiting for some event to occur<br>
+                        <strong>5. Terminated:</strong> Process has finished execution
+                    </div>
+                    
+                    <div class="subsection-title">Process Scheduling:</div>
+                    <p>The OS must select processes from the job pool and load them into memory for execution.</p>
+                    <div class="point">FCFS (First Come First Serve)</div>
+                    <div class="point">SJF (Shortest Job First)</div>
+                    <div class="point">Priority Scheduling</div>
+                    <div class="point">Round Robin</div>
+                    <div class="point">Multilevel Queue Scheduling</div>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <!-- Chapter 2 -->
+            <div class="chapter-title" id="ch2">
+                <span>📘</span>
+                <span>Chapter 1.2 — Memory Management</span>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">1. Memory Management Basics</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Definition:</strong> Memory management is the process of controlling and coordinating computer memory, assigning portions called blocks to various running programs to optimize overall system performance.
+                    </div>
+                    
+                    <p>Main memory (RAM) is a large array of bytes, each with its own address. The CPU fetches instructions from memory based on the program counter value.</p>
+                    
+                    <div class="subsection-title">Memory Management Techniques:</div>
+                    <div class="point">Contiguous Allocation</div>
+                    <div class="point">Paging</div>
+                    <div class="point">Segmentation</div>
+                    <div class="point">Virtual Memory</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">2. Paging</div>
+                <div class="content">
+                    <p>Physical memory is divided into fixed-sized blocks called frames. Logical memory is divided into blocks of the same size called pages.</p>
+                    
+                    <div class="advantage-box">
+                        <strong>Advantages of Paging:</strong><br>
+                        • No external fragmentation<br>
+                        • Memory management becomes easier<br>
+                        • Swapping is easier
+                    </div>
+                    
+                    <div class="code-box">
+                        <strong>Page Table Entry:</strong><br>
+                        [ Page Number | Frame Number ]<br><br>
+                        <strong>Logical Address:</strong><br>
+                        [ Page Number | Page Offset ]
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">3. Virtual Memory</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Definition:</strong> Virtual memory is a memory management technique that provides an "idealized abstraction of the storage resources" that allows programs to be larger than physical memory.
+                    </div>
+                    
+                    <p>It uses both hardware and software to allow a computer to compensate for physical memory shortages, temporarily transferring data from RAM to disk storage.</p>
+                    
+                    <div class="subsection-title">Benefits:</div>
+                    <div class="advantage-box">
+                        • Programs can be larger than physical memory<br>
+                        • More programs can run concurrently<br>
+                        • Less I/O needed for swapping<br>
+                        • Better CPU utilization
+                    </div>
+                    
+                    <div class="subsection-title">Page Replacement Algorithms:</div>
+                    <div class="step-box">
+                        <strong>1. FIFO (First In First Out)</strong><br>
+                        <strong>2. LRU (Least Recently Used)</strong><br>
+                        <strong>3. Optimal Page Replacement</strong><br>
+                        <strong>4. LFU (Least Frequently Used)</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <!-- Chapter 3 -->
+            <div class="chapter-title" id="ch3">
+                <span>📘</span>
+                <span>Chapter 1.3 — File System Management</span>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">1. File System Basics</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>File:</strong> A named collection of related information recorded on secondary storage. Files represent programs and data.
+                    </div>
+                    
+                    <p>A file system provides a way to organize, store, retrieve, and manage information on storage devices. It controls how data is stored and retrieved.</p>
+                    
+                    <div class="subsection-title">File Operations:</div>
+                    <div class="point">Create – Creating a new file</div>
+                    <div class="point">Open – Opening an existing file</div>
+                    <div class="point">Read – Reading data from a file</div>
+                    <div class="point">Write – Writing data to a file</div>
+                    <div class="point">Close – Closing a file</div>
+                    <div class="point">Delete – Removing a file</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">2. Directory Structure</div>
+                <div class="content">
+                    <p>A directory is a container that stores files and other directories. It provides a hierarchical organization of files.</p>
+                    
+                    <div class="subsection-title">Types of Directory Structures:</div>
+                    <div class="step-box">
+                        <strong>1. Single-Level Directory:</strong> All files in one directory<br>
+                        <strong>2. Two-Level Directory:</strong> Separate directory for each user<br>
+                        <strong>3. Tree-Structured Directory:</strong> Hierarchical structure (most common)<br>
+                        <strong>4. Acyclic Graph Directory:</strong> Allows sharing of subdirectories
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">3. File Allocation Methods</div>
+                <div class="content">
+                    <div class="subsection-title">1. Contiguous Allocation</div>
+                    <p>Each file occupies a set of contiguous blocks on disk. Simple and supports both sequential and direct access.</p>
+                    <div class="advantage-box">
+                        <strong>✓</strong> Fast access<br>
+                        <strong>✓</strong> Simple implementation
+                    </div>
+                    <div class="threat-box">
+                        <strong>✗</strong> External fragmentation<br>
+                        <strong>✗</strong> File size must be known in advance
+                    </div>
+                    
+                    <div class="subsection-title">2. Linked Allocation</div>
+                    <p>Each file is a linked list of disk blocks. Blocks may be scattered anywhere on the disk.</p>
+                    <div class="advantage-box">
+                        <strong>✓</strong> No external fragmentation<br>
+                        <strong>✓</strong> File can grow dynamically
+                    </div>
+                    <div class="threat-box">
+                        <strong>✗</strong> Only sequential access<br>
+                        <strong>✗</strong> Pointer overhead
+                    </div>
+                    
+                    <div class="subsection-title">3. Indexed Allocation</div>
+                    <p>Brings all pointers together into one location: the index block. Each file has its own index block.</p>
+                    <div class="advantage-box">
+                        <strong>✓</strong> Supports direct access<br>
+                        <strong>✓</strong> No external fragmentation
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- LAST MIN NOTES TAB -->
+        <div class="tab-content" id="lastMinTab">
+            
+            <div class="chapter-title">
+                <span>⚡</span>
+                <span>Quick Revision - Last Minute Notes</span>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">🎯 Operating System - Key Points</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>What is OS?</strong> System software managing hardware & providing services to applications
+                    </div>
+                    
+                    <div class="step-box">
+                        <strong>Key Functions:</strong><br>
+                        ✓ Process Management<br>
+                        ✓ Memory Management<br>
+                        ✓ File System<br>
+                        ✓ Device Management<br>
+                        ✓ Security
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">🎯 Types of OS (Quick)</div>
+                <div class="content">
+                    <div class="point"><strong>Batch OS:</strong> Jobs in batches, no interaction</div>
+                    <div class="point"><strong>Time-Sharing:</strong> Multiple users, CPU time slices</div>
+                    <div class="point"><strong>Real-Time:</strong> Immediate response, time-critical</div>
+                    <div class="point"><strong>Distributed:</strong> Multiple processors, distributed data</div>
+                    <div class="point"><strong>Network OS:</strong> Server-based, manages network resources</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">🎯 Process States (Must Remember)</div>
+                <div class="content">
+                    <div class="step-box">
+                        New → Ready → Running → Waiting → Terminated
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">🎯 CPU Scheduling Algorithms</div>
+                <div class="content">
+                    <div class="code-box">
+                        1. FCFS - First Come First Serve<br>
+                        2. SJF - Shortest Job First<br>
+                        3. Priority Scheduling<br>
+                        4. Round Robin (time quantum)<br>
+                        5. Multilevel Queue
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">🎯 Memory Management Techniques</div>
+                <div class="content">
+                    <div class="point"><strong>Paging:</strong> Fixed-size blocks (pages & frames), no external fragmentation</div>
+                    <div class="point"><strong>Segmentation:</strong> Variable-size blocks, logical division</div>
+                    <div class="point"><strong>Virtual Memory:</strong> Allows programs larger than RAM, uses disk as extension</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">🎯 Page Replacement (Important)</div>
+                <div class="content">
+                    <div class="advantage-box">
+                        <strong>FIFO:</strong> Replace oldest page<br>
+                        <strong>LRU:</strong> Replace least recently used<br>
+                        <strong>Optimal:</strong> Replace page not used for longest time (theoretical)<br>
+                        <strong>LFU:</strong> Replace least frequently used
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">🎯 File Allocation Methods</div>
+                <div class="content">
+                    <div class="step-box">
+                        <strong>1. Contiguous:</strong><br>
+                        ✓ Fast access ✗ Fragmentation<br><br>
+                        
+                        <strong>2. Linked:</strong><br>
+                        ✓ No fragmentation ✗ Slow random access<br><br>
+                        
+                        <strong>3. Indexed:</strong><br>
+                        ✓ Direct access ✓ No fragmentation
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">🎯 Important Formulas</div>
+                <div class="content">
+                    <div class="code-box">
+                        <strong>Logical Address:</strong><br>
+                        Page Number = Logical Address / Page Size<br>
+                        Offset = Logical Address % Page Size<br><br>
+                        
+                        <strong>Physical Address:</strong><br>
+                        Physical Address = (Frame Number × Frame Size) + Offset<br><br>
+                        
+                        <strong>Turnaround Time:</strong><br>
+                        TAT = Completion Time - Arrival Time<br><br>
+                        
+                        <strong>Waiting Time:</strong><br>
+                        WT = Turnaround Time - Burst Time
+                    </div>
+                </div>
+            </div>
+            
+            <div class="threat-box" style="margin-top: 20px;">
+                <strong>⚠️ Common Exam Topics:</strong><br>
+                • Process scheduling algorithms with examples<br>
+                • Paging vs Segmentation comparison<br>
+                • Page replacement algorithm examples<br>
+                • File allocation method pros/cons<br>
+                • Deadlock conditions & prevention
+            </div>
+            
+        </div>
+        
+    </div>
+    
+    <!-- Footer - Compact -->
+    <div class="footer">
+        <div class="footer-credit">
+            Made with 💙 by <strong>Ankush Raj</strong>
+        </div>
+        <p class="footer-note">
+            © 2026 <a href="https://ankushraj.dev" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600;">ankushraj.dev</a> - All Rights Reserved
+        </p>
+    </div>
+    
+    <script>
+        // Dark Mode Toggle
+        const darkModeBtn = document.getElementById('darkModeBtn');
+        const isDarkMode = localStorage.getItem('darkMode') === 'true';
+        
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+            updateDarkModeBtn(true);
+        }
+        
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+            updateDarkModeBtn(isDark);
+        }
+        
+        function updateDarkModeBtn(isDark) {
+            const btn = document.getElementById('darkModeBtn');
+            btn.innerHTML = isDark 
+                ? '<span>☀️</span><span>Light</span>' 
+                : '<span>🌙</span><span>Dark</span>';
+        }
+        
+        // TOC Toggle
+        function openTOC() {
+            document.getElementById('tocPanel').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+        }
+        
+        function closeTOC() {
+            document.getElementById('tocPanel').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
+        
+        // Tab Switching
+        function switchTab(tabName) {
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Add active class to clicked tab
+            if (tabName === 'full') {
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.getElementById('fullNotesTab').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab')[1].classList.add('active');
+                document.getElementById('lastMinTab').classList.add('active');
+            }
+            
+            // Scroll to top
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+        
+        // Build TOC dynamically
+        const chapters = [
+            { title: 'Chapter 1.1 - What is an Operating System?', id: 'ch1' },
+            { title: 'Chapter 1.2 - Memory Management', id: 'ch2' },
+            { title: 'Chapter 1.3 - File System Management', id: 'ch3' },
+            { title: 'Chapter 1.4 - Process Scheduling', id: 'ch4' },
+            { title: 'Chapter 1.5 - Deadlock Handling', id: 'ch5' },
+            { title: 'Chapter 1.6 - CPU Scheduling Algorithms', id: 'ch6' }
+        ];
+        
+        const tocList = document.getElementById('tocList');
+        chapters.forEach((ch, index) => {
+            const li = document.createElement('li');
+            li.innerHTML = `<span style="color: var(--primary); font-weight: 700;">${index + 1}.</span> ${ch.title}`;
+            li.onclick = () => {
+                const element = document.getElementById(ch.id);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+                closeTOC();
+            };
+            tocList.appendChild(li);
+        });
+    </script>
+</body>
+</html>

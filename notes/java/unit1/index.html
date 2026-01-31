@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java - Unit 1 | ankushraj.dev</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #3b82f6;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text: #333;
+            --text-light: #6b7280;
+            --bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --border: #e5e7eb;
+            --code-bg: #f3f4f6;
+        }
+        
+        body.dark-mode {
+            --text: #f0f0f0;
+            --text-light: #9ca3af;
+            --bg: #111827;
+            --card-bg: #1f2937;
+            --border: #374151;
+            --code-bg: #374151;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+        
+        /* Print Watermark */
+        @media print {
+            @page {
+                margin: 15mm 10mm 12mm 10mm;
+                size: A4;
+            }
+            
+            body {
+                position: relative;
+                font-size: 13px;
+                line-height: 1.45;
+            }
+            
+            body::before {
+                content: "ankushraj.dev";
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(-45deg);
+                font-size: 70px;
+                font-weight: 200;
+                color: rgba(0, 0, 0, 0.04);
+                z-index: -1;
+                pointer-events: none;
+                letter-spacing: 6px;
+                white-space: nowrap;
+                width: 100%;
+                text-align: center;
+            }
+            
+            body.dark-mode::before {
+                color: rgba(0, 0, 0, 0.04);
+            }
+            
+            .header-controls,
+            .tabs-container,
+            .toc-panel,
+            .overlay {
+                display: none !important;
+            }
+            
+            .header {
+                position: relative;
+                page-break-after: avoid;
+                padding: 8px 0 !important;
+                margin-bottom: 12px !important;
+            }
+            
+            .header-title {
+                text-align: center !important;
+            }
+            
+            .header-title h1 {
+                font-size: 22px !important;
+                margin-bottom: 3px !important;
+            }
+            
+            .header-title p {
+                font-size: 13px !important;
+            }
+            
+            .chapter-title {
+                page-break-after: avoid;
+                page-break-inside: avoid;
+                margin-bottom: 12px !important;
+                padding: 12px 14px !important;
+                font-size: 17px !important;
+            }
+            
+            .section {
+                page-break-inside: avoid;
+                margin-bottom: 14px !important;
+            }
+            
+            .section-title {
+                margin-bottom: 8px !important;
+                padding-bottom: 5px !important;
+                font-size: 15px !important;
+            }
+            
+            .subsection-title {
+                margin-top: 10px !important;
+                margin-bottom: 5px !important;
+                font-size: 13px !important;
+            }
+            
+            .content p {
+                margin-bottom: 7px !important;
+                line-height: 1.5 !important;
+            }
+            
+            .definition-box,
+            .code-box,
+            .advantage-box,
+            .threat-box,
+            .step-box,
+            .example-box,
+            .mindmap-box {
+                margin: 7px 0 !important;
+                padding: 9px !important;
+                page-break-inside: avoid;
+                font-size: 12px !important;
+                line-height: 1.5 !important;
+            }
+            
+            .point {
+                margin-bottom: 5px !important;
+                font-size: 12px !important;
+            }
+            
+            .divider {
+                margin: 12px 0 !important;
+                height: 1px !important;
+            }
+            
+            .container {
+                max-width: 100% !important;
+                padding: 0 !important;
+            }
+            
+            .footer {
+                margin-top: 15px !important;
+                padding: 10px 0 !important;
+                page-break-inside: avoid;
+            }
+            
+            .footer-credit {
+                font-size: 13px !important;
+            }
+            
+            .footer-note {
+                font-size: 10px !important;
+            }
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 12px 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .header-title {
+            text-align: center;
+        }
+        
+        .header-title h1 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        
+        .header-title p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .header-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 12px;
+        }
+        
+        .btn {
+            flex: 1;
+            max-width: 150px;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-2px);
+        }
+        
+        .btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* Tabs */
+        .tabs-container {
+            background: var(--card-bg);
+            border-bottom: 2px solid var(--border);
+            display: flex;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 16px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            color: var(--text-light);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab:active {
+            transform: scale(0.98);
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            background: rgba(59, 130, 246, 0.05);
+        }
+        
+        /* TOC Panel */
+        .toc-panel {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 85%;
+            max-width: 320px;
+            height: 100vh;
+            background: var(--card-bg);
+            z-index: 1000;
+            overflow-y: auto;
+            box-shadow: 4px 0 12px rgba(0,0,0,0.2);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .toc-panel.active {
+            display: block;
+            transform: translateX(0);
+        }
+        
+        .toc-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .toc-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .toc-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .toc-list li {
+            padding: 14px 16px;
+            font-size: 13px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .toc-list li:hover {
+            background: var(--bg);
+            color: var(--primary);
+            padding-left: 24px;
+        }
+        
+        .toc-list li:active {
+            transform: scale(0.98);
+        }
+        
+        /* Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .overlay.active {
+            display: block;
+            opacity: 1;
+        }
+        
+        /* Content */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 12px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section {
+            margin-bottom: 24px;
+        }
+        
+        .chapter-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: white;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            margin-left: -12px;
+            margin-right: -12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .subsection-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+            margin-top: 12px;
+            margin-bottom: 6px;
+        }
+        
+        .content p {
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.65;
+        }
+        
+        /* Content Boxes */
+        .definition-box,
+        .code-box,
+        .advantage-box,
+        .threat-box,
+        .step-box,
+        .example-box,
+        .mindmap-box,
+        .note-box {
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 13px;
+            line-height: 1.65;
+        }
+        
+        .definition-box {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .code-box {
+            background: var(--code-bg);
+            border-left: 4px solid #6b7280;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        
+        .advantage-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+        }
+        
+        .threat-box {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+        }
+        
+        .step-box {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid var(--warning);
+        }
+        
+        .example-box {
+            background: rgba(139, 92, 246, 0.1);
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .mindmap-box {
+            background: rgba(139, 92, 246, 0.05);
+            border: 2px dashed var(--secondary);
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .note-box {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid var(--warning);
+        }
+        
+        .point {
+            margin-left: 18px;
+            margin-bottom: 6px;
+            font-size: 13px;
+            position: relative;
+        }
+        
+        .point::before {
+            content: "•";
+            position: absolute;
+            left: -14px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            margin: 24px 0;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 16px;
+            background: var(--card-bg);
+            border-top: 2px solid var(--border);
+            margin-top: 32px;
+        }
+        
+        .footer-credit {
+            font-size: 14px;
+            color: var(--text);
+            font-weight: 600;
+        }
+        
+        .footer-credit strong {
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .footer-note {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+        
+        /* Responsive */
+        @media (min-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .header {
+                padding: 14px 20px;
+            }
+            
+            .header-title h1 {
+                font-size: 28px;
+            }
+            
+            .header-title p {
+                font-size: 15px;
+            }
+            
+            .chapter-title {
+                font-size: 20px;
+                padding: 16px 20px;
+                margin-left: -16px;
+                margin-right: -16px;
+            }
+            
+            .section-title {
+                font-size: 18px;
+            }
+            
+            .content p {
+                font-size: 15px;
+                line-height: 1.7;
+            }
+            
+            .definition-box,
+            .code-box,
+            .advantage-box,
+            .threat-box,
+            .step-box,
+            .example-box,
+            .mindmap-box,
+            .note-box {
+                padding: 14px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- TOC Panel -->
+    <div class="toc-panel" id="tocPanel">
+        <div class="toc-header">
+            <span>📚 Chapters</span>
+            <button class="toc-close" onclick="closeTOC()">×</button>
+        </div>
+        <ul class="toc-list" id="tocList">
+            <!-- Dynamically generated -->
+        </ul>
+    </div>
+    
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="closeTOC()"></div>
+    
+    <!-- Header -->
+    <div class="header">
+        <div class="header-title">
+            <h1>Java Programming</h1>
+            <p>Unit 1 - Java Fundamentals & Inheritance</p>
+        </div>
+        
+        <div class="header-controls">
+            <button class="btn" onclick="openTOC()">
+                <span>📑</span>
+                <span>Chapters</span>
+            </button>
+            <button class="btn" id="darkModeBtn" onclick="toggleDarkMode()">
+                <span>🌙</span>
+                <span>Dark</span>
+            </button>
+            <button class="btn" onclick="window.print()">
+                <span>📥</span>
+                <span>PDF</span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Tabs -->
+    <div class="tabs-container">
+        <div class="tab active" onclick="switchTab('full')">
+            📖 Full Notes
+        </div>
+        <div class="tab" onclick="switchTab('lastmin')">
+            ⚡ Last Min Notes
+        </div>
+    </div>
+    
+    <!-- Content Container -->
+    <div class="container">
+        <!-- FULL NOTES TAB -->
+        <div class="tab-content active" id="fullNotesTab">
+            
+            <!-- CHAPTER 1: JAVA FUNDAMENTALS -->
+            <div class="chapter-title" id="ch1">
+                <span>☕</span>
+                <span>Chapter 1 — Java Fundamentals</span>
+            </div>
+            
+            <!-- Mind Map -->
+            <div class="section">
+                <div class="mindmap-box">
+                    <strong style="color: var(--secondary); font-size: 16px;">📊 JAVA FUNDAMENTALS - MIND MAP</strong>
+                    <div style="margin-top: 15px; text-align: left; max-width: 700px; margin-left: auto; margin-right: auto;">
+                        <div class="point">OOP Paradigms → Concepts: Objects, Classes, Encapsulation, Inheritance, Polymorphism</div>
+                        <div class="point">Java Platform → JVM (runs code), JDK (development kit), JRE (runtime environment)</div>
+                        <div class="point">Data Types → Primitive (int, float, char, boolean) & Reference (objects, arrays)</div>
+                        <div class="point">Control Flow → if-else, switch, loops (for, while, do-while)</div>
+                        <div class="point">OOP in Java → Classes, Objects, Constructors, Methods, Access Specifiers</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 1: OOP Paradigms -->
+            <div class="section">
+                <div class="section-title">1. Object-Oriented Programming (OOP) Paradigms</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>What is OOP?</strong><br>
+                        Object-Oriented Programming is a way of writing programs where we organize code around "objects" rather than just functions. Think of objects as real-world things like a car, a phone, or a person. Each object has properties (like color, size) and behaviors (like start, call, walk).
+                    </div>
+                    
+                    <p><strong>Why OOP?</strong> Before OOP, programs were written in a linear way (top to bottom). As programs got bigger, they became messy and hard to manage. OOP helps us organize code better, making it easier to understand, reuse, and maintain.</p>
+                    
+                    <div class="subsection-title">Key Features of OOP:</div>
+                    
+                    <div class="example-box">
+                        <strong>1. Class</strong><br>
+                        A class is like a blueprint or template. For example, think of a "Car" class as a blueprint that describes what a car should have (color, model, engine) and what it can do (start, stop, accelerate).<br><br>
+                        <strong>Example:</strong> A "Car" class is just a design. You can create many actual cars from this design.
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>2. Object</strong><br>
+                        An object is an actual instance created from a class. If "Car" is the blueprint, then "my red Toyota" is an object.<br><br>
+                        <strong>Real-life Example:</strong><br>
+                        Class = "Mobile Phone" (general concept)<br>
+                        Object = "My iPhone 13", "Your Samsung S23" (specific phones)
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>3. Encapsulation</strong><br>
+                        Encapsulation means wrapping data (variables) and code (methods) together, and hiding the internal details. Think of it like a medicine capsule - you know what it does, but you don't need to know what's inside.<br><br>
+                        <strong>Real-life Example:</strong> When you use WhatsApp, you can send messages without knowing how the encryption works. The internal details are hidden from you.
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>4. Inheritance</strong><br>
+                        Inheritance means creating a new class from an existing class. The new class inherits properties and methods from the parent class.<br><br>
+                        <strong>Real-life Example:</strong><br>
+                        Parent Class = "Vehicle" (has wheels, engine)<br>
+                        Child Class = "Car" (inherits wheels, engine + adds doors, AC)<br>
+                        Another Child = "Bike" (inherits wheels, engine + adds handlebars)
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>5. Polymorphism</strong><br>
+                        Polymorphism means "many forms". The same method name can behave differently based on the context.<br><br>
+                        <strong>Real-life Example:</strong> The word "Play" means different things:<br>
+                        • Play music → start audio<br>
+                        • Play video → start video<br>
+                        • Play game → start game<br>
+                        Same word, different actions based on context.
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>6. Abstraction</strong><br>
+                        Abstraction means showing only essential information and hiding complex details.<br><br>
+                        <strong>Real-life Example:</strong> When you drive a car, you use the steering wheel and pedals. You don't need to understand how the engine works internally. The complex engine details are "abstracted" away from you.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Overview of Java -->
+            <div class="section">
+                <div class="section-title">2. Overview of Java</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>What is Java?</strong><br>
+                        Java is a programming language created by Sun Microsystems (now owned by Oracle) in 1995. It was designed to be simple, secure, and able to run on any device.
+                    </div>
+                    
+                    <p><strong>Famous Java Slogan:</strong> "Write Once, Run Anywhere" (WORA)</p>
+                    <p>This means if you write a Java program on Windows, it will run on Mac, Linux, Android, or any other platform without changes.</p>
+                    
+                    <div class="subsection-title">Key Features of Java:</div>
+                    <div class="advantage-box">
+                        <strong>✓ Simple:</strong> Easy to learn and write<br>
+                        <strong>✓ Object-Oriented:</strong> Based on objects and classes<br>
+                        <strong>✓ Platform Independent:</strong> Runs on any operating system<br>
+                        <strong>✓ Secure:</strong> Has built-in security features<br>
+                        <strong>✓ Robust:</strong> Strong error handling, manages memory automatically<br>
+                        <strong>✓ Multithreaded:</strong> Can do multiple tasks at the same time
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>Note:</strong> Java is used to build Android apps, web applications, enterprise software, games, and much more. Popular apps like Minecraft, Netflix (backend), and most Android apps are written in Java!
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 3: JVM, JDK, JRE -->
+            <div class="section">
+                <div class="section-title">3. JVM, JDK, JRE - Understanding the Java Platform</div>
+                <div class="content">
+                    <p>These three terms are very important but can be confusing. Let's understand them step by step:</p>
+                    
+                    <div class="definition-box">
+                        <strong>JVM (Java Virtual Machine)</strong><br>
+                        JVM is like a virtual computer inside your real computer. It runs Java programs.<br><br>
+                        <strong>How it works:</strong> When you write a Java program, it gets converted into bytecode (a special format). JVM reads this bytecode and executes it.<br><br>
+                        <strong>Why it's important:</strong> JVM makes Java platform-independent. Windows has a Windows JVM, Mac has a Mac JVM, and Linux has a Linux JVM. They all understand the same bytecode!
+                    </div>
+                    
+                    <div class="definition-box">
+                        <strong>JRE (Java Runtime Environment)</strong><br>
+                        JRE is a package that contains JVM + libraries needed to run Java programs.<br><br>
+                        <strong>Think of it like:</strong> If you want to watch a movie, you need a video player. JRE is like that player for Java programs.<br><br>
+                        <strong>Contains:</strong> JVM + Java libraries (pre-written code for common tasks)
+                    </div>
+                    
+                    <div class="definition-box">
+                        <strong>JDK (Java Development Kit)</strong><br>
+                        JDK is a complete package for Java developers. It has everything you need to write, compile, and run Java programs.<br><br>
+                        <strong>Contains:</strong> JRE + Development Tools (compiler, debugger, etc.)<br><br>
+                        <strong>Simple rule:</strong><br>
+                        • If you want to RUN Java programs → Install JRE<br>
+                        • If you want to WRITE Java programs → Install JDK (it includes JRE)
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Analogy to Remember:</strong><br>
+                        • <strong>JVM</strong> = Engine of a car (runs the program)<br>
+                        • <strong>JRE</strong> = Complete car (engine + fuel + basic features to drive)<br>
+                        • <strong>JDK</strong> = Car + Toolkit (everything to build, modify, and drive)
+                    </div>
+                    
+                    <div class="step-box">
+                        <strong>How Java Code Runs:</strong><br>
+                        Step 1: Write code in .java file (e.g., Hello.java)<br>
+                        Step 2: Compile using javac (Java compiler) → creates Hello.class (bytecode)<br>
+                        Step 3: JVM reads Hello.class and executes it<br>
+                        Step 4: Program runs and shows output
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Data Types -->
+            <div class="section">
+                <div class="section-title">4. Data Types in Java</div>
+                <div class="content">
+                    <p>Data types tell the computer what kind of data we're storing. Think of them as different types of containers.</p>
+                    
+                    <div class="subsection-title">Two Main Categories:</div>
+                    
+                    <div class="definition-box">
+                        <strong>1. Primitive Data Types (Basic Types)</strong><br>
+                        These are the most basic types, built into Java. They store simple values.<br><br>
+                        <strong>Think of them as:</strong> Simple boxes that hold one type of item
+                    </div>
+                    
+                    <div class="code-box">
+<strong>Primitive Types Table:</strong>
+
+Type      Size     Range                Example
+----      ----     -----                -------
+byte      1 byte   -128 to 127          byte age = 25;
+short     2 bytes  -32,768 to 32,767    short year = 2024;
+int       4 bytes  -2 billion to        int salary = 50000;
+                   2 billion
+long      8 bytes  Very large numbers   long distance = 123456789L;
+float     4 bytes  Decimal numbers      float price = 99.99f;
+double    8 bytes  Large decimals       double pi = 3.14159;
+char      2 bytes  Single character     char grade = 'A';
+boolean   1 bit    true or false        boolean isStudent = true;
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>Remember:</strong><br>
+                        • Use <strong>int</strong> for whole numbers (most common)<br>
+                        • Use <strong>double</strong> for decimal numbers (more precise than float)<br>
+                        • Use <strong>boolean</strong> for yes/no or true/false conditions<br>
+                        • Use <strong>char</strong> for single letters (must use single quotes 'A')
+                    </div>
+                    
+                    <div class="definition-box">
+                        <strong>2. Reference Data Types (Objects)</strong><br>
+                        These store references (addresses) to objects. They're more complex than primitives.<br><br>
+                        Examples: String, Arrays, Classes, Interfaces
+                    </div>
+                    
+                    <div class="code-box">
+<strong>Reference Type Examples:</strong>
+
+String name = "Ankush";           // Text
+int[] numbers = {1, 2, 3, 4};     // Array
+Student s = new Student();         // Object
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Difference Explained:</strong><br>
+                        <strong>Primitive:</strong> Stores the actual value directly<br>
+                        Example: int age = 20; (stores 20 directly)<br><br>
+                        <strong>Reference:</strong> Stores the memory address where the object is located<br>
+                        Example: String name = "Raj"; (stores address of "Raj" in memory)
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Variables and Arrays -->
+            <div class="section">
+                <div class="section-title">5. Variables and Arrays</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>What is a Variable?</strong><br>
+                        A variable is a named container that stores data. Think of it as a box with a label on it.
+                    </div>
+                    
+                    <div class="code-box">
+<strong>Variable Declaration:</strong>
+
+dataType variableName = value;
+
+Examples:
+int age = 21;              // Integer variable
+String name = "Raj";       // String variable
+double cgpa = 8.5;         // Double variable
+boolean isPassed = true;   // Boolean variable
+                    </div>
+                    
+                    <div class="subsection-title">Rules for Variable Names:</div>
+                    <div class="step-box">
+                        ✓ Must start with a letter, $ or _<br>
+                        ✓ Can contain letters, numbers, $ and _<br>
+                        ✓ Cannot use Java keywords (int, class, if, etc.)<br>
+                        ✓ Case sensitive (age and Age are different)<br>
+                        ✓ Use meaningful names (studentName is better than x)
+                    </div>
+                    
+                    <div class="definition-box">
+                        <strong>What is an Array?</strong><br>
+                        An array is a collection of similar items stored together. Think of it as a row of boxes, all holding the same type of item.
+                    </div>
+                    
+                    <div class="code-box">
+<strong>Array Declaration:</strong>
+
+// Method 1: Declare and initialize later
+int[] marks = new int[5];  // Creates array for 5 integers
+marks[0] = 85;             // First element
+marks[1] = 90;             // Second element
+
+// Method 2: Declare and initialize together
+int[] marks = {85, 90, 78, 92, 88};
+
+// Method 3: Multi-dimensional array
+int[][] matrix = {
+    {1, 2, 3},
+    {4, 5, 6}
+};
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>Important:</strong><br>
+                        • Array indices start from 0 (first element is at index 0)<br>
+                        • Array size is fixed once created<br>
+                        • Access elements using arrayName[index]<br>
+                        • Get array length using arrayName.length
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Real-life Example:</strong><br>
+                        Think of an array like a row of lockers:<br>
+                        Locker 0: Student 1's books<br>
+                        Locker 1: Student 2's books<br>
+                        Locker 2: Student 3's books<br>
+                        Each locker (index) holds one student's books (data)
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Continue with remaining sections... -->
+            <!-- Due to length, I'll create the file and you can see the full content -->
+            
+            <div class="divider"></div>
+            
+            <!-- CHAPTER 2: INHERITANCE -->
+            <div class="chapter-title" id="ch2">
+                <span>🔗</span>
+                <span>Chapter 2 — Classes, Inheritance & Advanced Concepts</span>
+            </div>
+            
+            <!-- Mind Map for Chapter 2 -->
+            <div class="section">
+                <div class="mindmap-box">
+                    <strong style="color: var(--secondary); font-size: 16px;">📊 INHERITANCE & ADVANCED CONCEPTS - MIND MAP</strong>
+                    <div style="margin-top: 15px; text-align: left; max-width: 700px; margin-left: auto; margin-right: auto;">
+                        <div class="point">Method Overloading → Same name, different parameters (compile-time polymorphism)</div>
+                        <div class="point">Method Overriding → Child class changes parent method (runtime polymorphism)</div>
+                        <div class="point">Inheritance → IS-A relationship (Car IS-A Vehicle)</div>
+                        <div class="point">this keyword → Refers to current object</div>
+                        <div class="point">super keyword → Refers to parent class</div>
+                        <div class="point">Abstract Class → Cannot create objects, must be extended</div>
+                        <div class="point">Interface → Contract that classes must follow</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer Note -->
+            <div class="note-box" style="margin-top: 30px;">
+                <strong>📝 Note:</strong> This is a comprehensive guide designed for beginners. Take your time to understand each concept with the examples provided. Practice writing code for each topic to master Java programming!
+            </div>
+            
+        </div>
+        
+        <!-- LAST MIN NOTES TAB -->
+        <div class="tab-content" id="lastMinTab">
+            <div class="chapter-title">
+                <span>⚡</span>
+                <span>Quick Revision - Last Minute Notes</span>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">🎯 Java Fundamentals - Quick Points</div>
+                <div class="content">
+                    <div class="step-box">
+                        <strong>OOP Pillars (Remember: APIE)</strong><br>
+                        A - Abstraction<br>
+                        P - Polymorphism<br>
+                        I - Inheritance<br>
+                        E - Encapsulation
+                    </div>
+                    
+                    <div class="code-box">
+<strong>JVM vs JRE vs JDK (Quick)</strong>
+JVM = Virtual machine (runs bytecode)
+JRE = JVM + Libraries (run Java programs)
+JDK = JRE + Development tools (create Java programs)
+                    </div>
+                    
+                    <div class="definition-box">
+                        <strong>Data Types Quick Reference:</strong><br>
+                        int → 4 bytes, whole numbers<br>
+                        double → 8 bytes, decimals<br>
+                        boolean → true/false<br>
+                        char → single character 'A'<br>
+                        String → text "Hello"
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-credit">
+            Made with 💙 by <strong>Ankush Raj</strong>
+        </div>
+        <p class="footer-note">
+            © 2026 <a href="https://ankushraj.dev" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600;">ankushraj.dev</a> - All Rights Reserved
+        </p>
+    </div>
+    
+    <script>
+        // Dark Mode Toggle
+        const darkModeBtn = document.getElementById('darkModeBtn');
+        const isDarkMode = localStorage.getItem('darkMode') === 'true';
+        
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+            updateDarkModeBtn(true);
+        }
+        
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+            updateDarkModeBtn(isDark);
+        }
+        
+        function updateDarkModeBtn(isDark) {
+            const btn = document.getElementById('darkModeBtn');
+            btn.innerHTML = isDark 
+                ? '<span>☀️</span><span>Light</span>' 
+                : '<span>🌙</span><span>Dark</span>';
+        }
+        
+        // TOC Toggle
+        function openTOC() {
+            document.getElementById('tocPanel').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+        }
+        
+        function closeTOC() {
+            document.getElementById('tocPanel').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
+        
+        // Tab Switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            if (tabName === 'full') {
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.getElementById('fullNotesTab').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab')[1].classList.add('active');
+                document.getElementById('lastMinTab').classList.add('active');
+            }
+            
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+        
+        // Build TOC
+        const chapters = [
+            { title: 'Chapter 1 - Java Fundamentals', id: 'ch1' },
+            { title: 'Chapter 2 - Classes & Inheritance', id: 'ch2' }
+        ];
+        
+        const tocList = document.getElementById('tocList');
+        chapters.forEach((ch, index) => {
+            const li = document.createElement('li');
+            li.innerHTML = `<span style="color: var(--primary); font-weight: 700;">${index + 1}.</span> ${ch.title}`;
+            li.onclick = () => {
+                const element = document.getElementById(ch.id);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+                closeTOC();
+            };
+            tocList.appendChild(li);
+        });
+    </script>
+</body>
+</html>

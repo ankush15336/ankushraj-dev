@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OS Unit 2 - Memory Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(-4px);
+        }
+
+        .topic-section { margin-bottom: 32px; }
+        .topic-section h2 { color: #60a5fa; font-size: 28px; font-weight: 700; margin-bottom: 16px; }
+        .topic-section h3 { color: #a78bfa; font-size: 22px; font-weight: 600; margin-bottom: 12px; margin-top: 24px; }
+        .topic-section p { color: #cbd5e1; font-size: 17px; line-height: 1.8; margin-bottom: 12px; }
+        .topic-section ul { color: #cbd5e1; font-size: 17px; line-height: 1.8; margin-left: 24px; margin-bottom: 12px; }
+        .topic-section li { margin-bottom: 8px; }
+
+        .note-box {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid #3b82f6;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 8px;
+        }
+
+        .note-box p { color: #93c5fd; margin: 0; }
+
+        .sidebar { position: sticky; top: 24px; }
+        .toc-link {
+            color: #94a3b8;
+            padding: 8px 16px;
+            display: block;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .toc-link:hover { background: rgba(255, 255, 255, 0.05); color: #60a5fa; }
+        .toc-link.active { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <div class="lg:col-span-1">
+                <div class="sidebar">
+                    <a href="/notes/os" class="back-btn inline-flex items-center gap-2 px-4 py-2 rounded-xl text-white mb-6 text-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                        </svg>
+                        Back to OS
+                    </a>
+                    
+                    <div class="content-card">
+                        <h3 class="text-white font-bold mb-4">Contents</h3>
+                        <nav>
+                            <a href="#intro" class="toc-link">Memory Management</a>
+                            <a href="#paging" class="toc-link">Paging</a>
+                            <a href="#segmentation" class="toc-link">Segmentation</a>
+                            <a href="#virtual" class="toc-link">Virtual Memory</a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3">
+                <div class="mb-8">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center text-3xl font-bold text-white">2</div>
+                        <div>
+                            <h1 class="text-4xl md:text-5xl font-bold text-white">
+                                Memory <span class="gradient-text">Management</span>
+                            </h1>
+                            <p class="text-gray-400 mt-2">OS Unit 2</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="topic-section" id="intro">
+                        <h2>Memory Management Overview</h2>
+                        <p>
+                            Memory management is crucial for efficient system operation. It involves tracking memory usage, allocating and deallocating memory, and ensuring processes have the memory they need.
+                        </p>
+                    </div>
+
+                    <div class="topic-section" id="paging">
+                        <h2>Paging</h2>
+                        <p>
+                            Paging divides physical memory into fixed-size blocks called frames and divides logical memory into blocks of the same size called pages.
+                        </p>
+                        <div class="note-box">
+                            <p><strong>Key Concept:</strong> Paging eliminates external fragmentation and allows non-contiguous memory allocation.</p>
+                        </div>
+                    </div>
+
+                    <div class="topic-section" id="segmentation">
+                        <h2>Segmentation</h2>
+                        <p>
+                            Memory is divided into variable-sized segments based on logical divisions like code, data, and stack.
+                        </p>
+                    </div>
+
+                    <div class="topic-section" id="virtual">
+                        <h2>Virtual Memory</h2>
+                        <p>
+                            Virtual memory allows execution of processes that may not be completely in physical memory, enabling larger programs to run on systems with limited RAM.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center mt-8">
+                    <a href="/notes/os/unit1" class="back-btn px-6 py-3 rounded-xl text-white inline-flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                        </svg>
+                        Previous Unit
+                    </a>
+                    <a href="/notes/os/unit3" class="back-btn px-6 py-3 rounded-xl text-white inline-flex items-center gap-2">
+                        Next Unit
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
