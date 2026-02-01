@@ -1,0 +1,2624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COA Unit 1 - Basic Computer Organization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --bg-light: #ffffff;
+            --bg-section: #f7fafc;
+            --text-dark: #333;
+            --text-light: #666;
+            --border-color: #e2e8f0;
+            --success-bg: #f0fff4;
+            --success-border: #48bb78;
+            --danger-bg: #fff5f5;
+            --danger-border: #f56565;
+            --warning-bg: #fffbeb;
+            --warning-border: #f59e0b;
+            --code-bg: #2d3748;
+            --code-text: #68d391;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #7c3aed;
+            --secondary-color: #a855f7;
+            --bg-light: #1a202c;
+            --bg-section: #2d3748;
+            --text-dark: #e2e8f0;
+            --text-light: #cbd5e0;
+            --border-color: #4a5568;
+            --success-bg: #1a4d2e;
+            --success-border: #48bb78;
+            --danger-bg: #4a1c1c;
+            --danger-border: #f56565;
+            --warning-bg: #4a3410;
+            --warning-border: #f59e0b;
+            --code-bg: #1a202c;
+            --code-text: #68d391;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--bg-light);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .credit-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            margin-top: 15px;
+            display: inline-block;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.3);
+            font-size: 0.9em;
+        }
+
+        .credit-badge strong {
+            color: #ffd700;
+            font-size: 1.1em;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.2em;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+
+        nav {
+            background: var(--code-bg);
+            padding: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        nav button {
+            background: #4a5568;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        nav button:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        nav button.active {
+            background: var(--primary-color);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .module {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .module.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            margin-bottom: 30px;
+            background: var(--bg-section);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            font-size: 1.3em;
+            margin: 20px 0 12px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        h4 {
+            color: var(--text-light);
+            font-size: 1.1em;
+            margin: 15px 0 10px 0;
+        }
+
+        .definition-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-color);
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+
+        .definition-box strong {
+            color: var(--primary-color);
+            font-size: 1.05em;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: var(--bg-light);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-size: 0.9em;
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 12px 10px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        tr:hover {
+            background: var(--bg-section);
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            line-height: 1.6;
+        }
+
+        .diagram {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 15px 0;
+            border: 2px dashed var(--primary-color);
+            font-family: monospace;
+            color: var(--text-dark);
+            font-size: 0.85em;
+            overflow-x: auto;
+        }
+
+        .advantages, .characteristics {
+            background: var(--success-bg);
+            padding: 12px;
+            border-radius: 10px;
+            margin: 12px 0;
+            border-left: 4px solid var(--success-border);
+            font-size: 0.9em;
+        }
+
+        .disadvantages {
+            background: var(--danger-bg);
+            padding: 12px;
+            border-radius: 10px;
+            margin: 12px 0;
+            border-left: 4px solid var(--danger-border);
+            font-size: 0.9em;
+        }
+
+        ul, ol {
+            margin-left: 25px;
+            margin-top: 8px;
+        }
+
+        li {
+            margin: 6px 0;
+            font-size: 0.95em;
+        }
+
+        .icon {
+            font-size: 1.3em;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #fef3c7 0%, #fde68a 100%);
+            padding: 2px 6px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
+        [data-theme="dark"] .highlight {
+            background: linear-gradient(120deg, #78350f 0%, #92400e 100%);
+            color: #fde68a;
+        }
+
+        .example-box {
+            background: var(--warning-bg);
+            padding: 12px;
+            border-radius: 10px;
+            margin: 12px 0;
+            border-left: 4px solid var(--warning-border);
+            font-size: 0.9em;
+        }
+
+        .example-box strong {
+            color: #d97706;
+        }
+
+        [data-theme="dark"] .example-box strong {
+            color: #fbbf24;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .comparison-card {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .comparison-card h4 {
+            color: var(--primary-color);
+            margin-top: 0;
+            font-size: 1.1em;
+        }
+
+        .comparison-card p {
+            font-size: 0.9em;
+            margin: 8px 0;
+        }
+
+        footer {
+            background: var(--code-bg);
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+            font-size: 0.85em;
+        }
+
+        .footer-credits {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #4a5568;
+        }
+
+        .footer-credits p {
+            margin: 8px 0;
+        }
+
+        .creator-name {
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        .heart {
+            color: #ff6b6b;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+            }
+
+            header h1 {
+                font-size: 1.5em;
+            }
+
+            header p {
+                font-size: 0.9em;
+            }
+
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
+                padding: 8px 15px;
+                font-size: 1em;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+
+            .section {
+                padding: 15px;
+            }
+            
+            nav button {
+                font-size: 12px;
+                padding: 8px 12px;
+                min-width: 100px;
+            }
+
+            .credit-badge {
+                font-size: 0.8em;
+                padding: 8px 15px;
+            }
+
+            h2 {
+                font-size: 1.3em;
+            }
+
+            h3 {
+                font-size: 1.15em;
+            }
+
+            h4 {
+                font-size: 1em;
+            }
+
+            table {
+                font-size: 0.8em;
+            }
+
+            th, td {
+                padding: 8px 6px;
+            }
+
+            .code-block {
+                font-size: 0.75em;
+                padding: 12px;
+            }
+
+            .diagram {
+                font-size: 0.75em;
+                padding: 12px;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .icon {
+                font-size: 1.2em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.3em;
+            }
+
+            header p {
+                font-size: 0.85em;
+            }
+
+            nav {
+                padding: 8px;
+                gap: 6px;
+            }
+
+            nav button {
+                font-size: 11px;
+                padding: 7px 10px;
+                min-width: 90px;
+            }
+
+            h2 {
+                font-size: 1.2em;
+            }
+
+            h3 {
+                font-size: 1.05em;
+            }
+
+            .section {
+                padding: 12px;
+                margin-bottom: 20px;
+            }
+
+            table {
+                font-size: 0.75em;
+            }
+
+            th, td {
+                padding: 6px 4px;
+            }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-section);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">🌙</button>
+            <h1>📚 Computer Organization & Architecture</h1>
+            <p>Unit 1: Basic Computer Organization & Data Representation</p>
+            <div class="credit-badge">
+                ✨ Created by <strong>Ankush Raj</strong> ✨
+            </div>
+        </header>
+
+        <nav>
+            <button class="nav-btn active" data-module="module1">Functional Units</button>
+            <button class="nav-btn" data-module="module2">Data Representation</button>
+            <button class="nav-btn" data-module="module3">Instruction Set</button>
+            <button class="nav-btn" data-module="module4">Quick Revision</button>
+        </nav>
+
+        <div class="content">
+            <!-- MODULE 1: FUNCTIONAL UNITS -->
+            <div class="module active" id="module1">
+                <div class="section">
+                    <h2><span class="icon">💻</span> 1. Digital Computer</h2>
+                    
+                    <div class="definition-box">
+                        <strong>Definition:</strong> A digital computer is an electronic machine that processes and stores information in the form of binary digits (0s and 1s). It accepts input, stores data, processes instructions using arithmetic and logical operations, and outputs final results. Computer works based on the stored program concept, meaning the instructions reside in memory and the CPU fetches them one by one.
+                    </div>
+
+                    <h3>Key Characteristics</h3>
+                    <div class="advantages">
+                        ✅ Processes data in binary (0s and 1s)<br>
+                        ✅ Works on stored program concept<br>
+                        ✅ Executes instructions sequentially<br>
+                        ✅ Performs arithmetic & logical operations<br>
+                        ✅ Stores data and instructions in memory
+                    </div>
+
+                    <div class="example-box">
+                        <strong>Examples:</strong> Personal computers, Laptops, Smartphones, Tablets, Industrial control systems, Embedded systems
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2><span class="icon">🔧</span> 2. Functional Units of a Computer</h2>
+                    
+                    <div class="definition-box">
+                        <strong>Definition:</strong> A computer is divided into 5 major functional units, each performing a specific role in the processing of data and execution of instructions.
+                    </div>
+
+                    <div class="diagram">
+┌─────────────────────────────────────┐<br>
+│         COMPUTER SYSTEM             │<br>
+├──────┬──────┬──────┬──────┬────────┤<br>
+│Input │Memory│  ALU │  CU  │ Output │<br>
+└──────┴──────┴──────┴──────┴────────┘
+                    </div>
+
+                    <h3>1. Input Unit</h3>
+                    <div class="comparison-card">
+                        <h4>Definition</h4>
+                        <p>The input unit is responsible for receiving raw data and user instructions. It converts human-readable form into binary and sends it to the computer's memory or CPU for processing.</p>
+                        
+                        <h4>Functions:</h4>
+                        <ul>
+                            <li>Accepts data from user</li>
+                            <li>Converts data into machine-readable format (binary)</li>
+                            <li>Sends data to memory/CPU</li>
+                        </ul>
+
+                        <div class="example-box">
+                            <strong>Examples:</strong>
+                            <ul>
+                                <li>Keyboard - Text input</li>
+                                <li>Mouse - Point and click</li>
+                                <li>Scanner - Image input</li>
+                                <li>Microphone - Audio input</li>
+                                <li>Webcam - Video input</li>
+                                <li>Barcode Scanner - Product codes</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>2. Output Unit</h3>
+                    <div class="comparison-card">
+                        <h4>Definition</h4>
+                        <p>The output unit provides the processed information to the user in a readable form. It converts digital output back into human-understandable form.</p>
+                        
+                        <h4>Functions:</h4>
+                        <ul>
+                            <li>Receives processed data from CPU</li>
+                            <li>Converts binary to human-readable format</li>
+                            <li>Displays/outputs results to user</li>
+                        </ul>
+
+                        <div class="example-box">
+                            <strong>Examples:</strong>
+                            <ul>
+                                <li>Monitor - Visual output</li>
+                                <li>Printer - Paper output</li>
+                                <li>Speakers - Audio output</li>
+                                <li>Projector - Large display</li>
+                                <li>Plotter - Technical drawings</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>3. Memory Unit</h3>
+                    <div class="comparison-card">
+                        <h4>Definition</h4>
+                        <p>The memory unit stores instructions, data, intermediate results, and final outputs. It consists of high-speed temporary memory (RAM) and permanent memory (ROM).</p>
+                        
+                        <h4>Types of Memory:</h4>
+                        
+                        <strong>A) Primary Memory (Main Memory)</strong>
+                        <table>
+                            <tr>
+                                <th>Type</th>
+                                <th>Full Form</th>
+                                <th>Characteristics</th>
+                            </tr>
+                            <tr>
+                                <td><strong>RAM</strong></td>
+                                <td>Random Access Memory</td>
+                                <td>Volatile, Fast, Temporary storage</td>
+                            </tr>
+                            <tr>
+                                <td><strong>ROM</strong></td>
+                                <td>Read Only Memory</td>
+                                <td>Non-volatile, Permanent, Read-only</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cache</strong></td>
+                                <td>Cache Memory</td>
+                                <td>Very fast, Small size, CPU internal</td>
+                            </tr>
+                        </table>
+
+                        <strong>B) Secondary Memory (Storage)</strong>
+                        <div class="example-box">
+                            <strong>Examples:</strong>
+                            <ul>
+                                <li>HDD (Hard Disk Drive) - Magnetic storage</li>
+                                <li>SSD (Solid State Drive) - Flash storage</li>
+                                <li>USB Drive - Portable storage</li>
+                                <li>CD/DVD - Optical storage</li>
+                                <li>Memory Card - Removable storage</li>
+                            </ul>
+                        </div>
+
+                        <h4>Memory Hierarchy:</h4>
+                        <div class="code-block">
+Fastest & Smallest
+    ↓
+Registers (CPU internal)
+    ↓
+Cache Memory (L1, L2, L3)
+    ↓
+RAM (Main Memory)
+    ↓
+Secondary Storage (HDD/SSD)
+    ↓
+Slowest & Largest
+                        </div>
+                    </div>
+
+                    <h3>4. ALU (Arithmetic and Logic Unit)</h3>
+                    <div class="comparison-card">
+                        <h4>Definition</h4>
+                        <p>The ALU performs all arithmetic operations (addition, subtraction, multiplication, division) and logical operations (AND, OR, NOT, compare). It is the "mathematical brain" of the computer.</p>
+                        
+                        <h4>Functions:</h4>
+                        
+                        <strong>Arithmetic Operations:</strong>
+                        <ul>
+                            <li>Addition (+)</li>
+                            <li>Subtraction (-)</li>
+                            <li>Multiplication (×)</li>
+                            <li>Division (÷)</li>
+                        </ul>
+
+                        <strong>Logical Operations:</strong>
+                        <ul>
+                            <li>AND - Both conditions true</li>
+                            <li>OR - At least one true</li>
+                            <li>NOT - Negation/Inversion</li>
+                            <li>XOR - Exclusive OR</li>
+                            <li>Compare - Check equality</li>
+                        </ul>
+
+                        <div class="example-box">
+                            <strong>Example:</strong> When you calculate 5 + 3 in a calculator, the ALU performs the addition operation and produces result 8.
+                        </div>
+                    </div>
+
+                    <h3>5. Control Unit (CU)</h3>
+                    <div class="comparison-card">
+                        <h4>Definition</h4>
+                        <p>The CU controls and coordinates all components of the computer. It fetches instructions from memory, decodes them, generates control signals, and directs ALU, memory, and I/O units to perform tasks.</p>
+                        
+                        <h4>Functions:</h4>
+                        <ol>
+                            <li><strong>Fetch</strong> - Retrieves instruction from memory</li>
+                            <li><strong>Decode</strong> - Interprets the instruction</li>
+                            <li><strong>Execute</strong> - Sends control signals to execute</li>
+                            <li><strong>Coordinate</strong> - Manages timing & synchronization</li>
+                        </ol>
+
+                        <div class="diagram">
+Control Unit (CU)<br>
+    ↓ Control Signals<br>
+├── ALU<br>
+├── Memory<br>
+├── Input<br>
+└── Output
+                        </div>
+
+                        <div class="advantages">
+                            <strong>Key Point:</strong> The Control Unit acts like a traffic controller, managing all operations and ensuring smooth execution of instructions.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2><span class="icon">📦</span> 3. Computer Registers</h2>
+                    
+                    <div class="definition-box">
+                        <strong>Definition:</strong> Registers are high-speed small storage units inside the CPU used to hold intermediate data, addresses, instructions, and results. They are faster than cache and memory.
+                    </div>
+
+                    <h3>Main CPU Registers</h3>
+                    <table>
+                        <tr>
+                            <th>Register</th>
+                            <th>Full Name</th>
+                            <th>Function</th>
+                        </tr>
+                        <tr>
+                            <td><strong>PC</strong></td>
+                            <td>Program Counter</td>
+                            <td>Holds address of next instruction to be executed</td>
+                        </tr>
+                        <tr>
+                            <td><strong>IR</strong></td>
+                            <td>Instruction Register</td>
+                            <td>Stores current instruction being executed</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MAR</strong></td>
+                            <td>Memory Address Register</td>
+                            <td>Stores memory address to be accessed</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MDR</strong></td>
+                            <td>Memory Data Register</td>
+                            <td>Stores data fetched from or to be written to memory</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ACC</strong></td>
+                            <td>Accumulator</td>
+                            <td>Stores results of arithmetic and logical operations</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SR</strong></td>
+                            <td>Status Register</td>
+                            <td>Stores flags (carry, zero, overflow, sign)</td>
+                        </tr>
+                    </table>
+
+                    <h3>Register Operations Example</h3>
+                    <div class="code-block">
+Instruction: ADD R1, R2
+
+Step 1: PC points to instruction address
+Step 2: Instruction loaded into IR
+Step 3: Control Unit decodes IR
+Step 4: ALU adds values from R1 and R2
+Step 5: Result stored in Accumulator
+Step 6: PC incremented to next instruction
+                    </div>
+
+                    <div class="advantages">
+                        <strong>Speed Comparison:</strong><br>
+                        Registers (Fastest) > Cache > RAM > Secondary Storage (Slowest)
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2><span class="icon">🚌</span> 4. System Bus Structure</h2>
+                    
+                    <div class="definition-box">
+                        <strong>Definition:</strong> A bus is a communication pathway consisting of multiple wires that transfer data, addresses, and control signals among CPU, memory, and I/O devices.
+                    </div>
+
+                    <div class="diagram">
+        ┌─────────┐<br>
+        │   CPU   │<br>
+        └────┬────┘<br>
+             │<br>
+    ┌────────┼────────┐<br>
+    │    SYSTEM BUS   │<br>
+    ├────┬────┬───────┤<br>
+    │Data│Addr│Control│<br>
+    └────┴────┴───────┘<br>
+         │<br>
+    ┌────┴────┐<br>
+    │  Memory │  I/O<br>
+    └─────────┘
+                    </div>
+
+                    <h3>Types of Buses</h3>
+
+                    <h4>1. Data Bus</h4>
+                    <div class="comparison-card">
+                        <h4>Definition</h4>
+                        <p>The data bus carries actual data between the CPU, memory, and I/O devices. It is bidirectional, meaning data flows both into and out of the CPU.</p>
+                        
+                        <h4>Characteristics:</h4>
+                        <ul>
+                            <li><strong>Direction:</strong> Bidirectional (↔)</li>
+                            <li><strong>Width:</strong> 8-bit, 16-bit, 32-bit, 64-bit</li>
+                            <li><strong>Function:</strong> Transfers actual data</li>
+                        </ul>
+
+                        <div class="example-box">
+                            <strong>Example:</strong> A 64-bit processor uses a 64-bit data bus allowing 8 bytes of data transfer in one cycle → faster performance.
+                        </div>
+
+                        <h4>Bus Width Impact:</h4>
+                        <div class="code-block">
+8-bit bus  = 1 byte per cycle
+16-bit bus = 2 bytes per cycle
+32-bit bus = 4 bytes per cycle
+64-bit bus = 8 bytes per cycle (Fastest)
+                        </div>
+                    </div>
+
+                    <h4>2. Address Bus</h4>
+                    <div class="comparison-card">
+                        <h4>Definition</h4>
+                        <p>The address bus carries the location/address of data in memory so the CPU knows where to read/write data. It is unidirectional (CPU → memory).</p>
+                        
+                        <h4>Characteristics:</h4>
+                        <ul>
+                            <li><strong>Direction:</strong> Unidirectional (CPU → Memory)</li>
+                            <li><strong>Width:</strong> Determines addressable memory</li>
+                            <li><strong>Function:</strong> Specifies memory location</li>
+                        </ul>
+
+                        <h4>Addressable Memory Calculation:</h4>
+                        <table>
+                                    <tr>
+                            <th>Address Bus Width</th>
+                            <th>Addressable Memory</th>
+                            <th>Calculation</th>
+                        </tr>
+                        <tr>
+                            <td>16-bit</td>
+                            <td>64 KB</td>
+                            <td>2<sup>16</sup> = 65,536 bytes</td>
+                        </tr>
+                        <tr>
+                            <td>20-bit</td>
+                            <td>1 MB</td>
+                            <td>2<sup>20</sup> = 1,048,576 bytes</td>
+                        </tr>
+                        <tr>
+                            <td>32-bit</td>
+                            <td>4 GB</td>
+                            <td>2<sup>32</sup> = 4,294,967,296 bytes</td>
+                        </tr>
+                        <tr>
+                            <td>64-bit</td>
+                            <td>16 EB</td>
+                            <td>2<sup>64</sup> = 16 Exabytes</td>
+                        </tr>
+                    </table>
+
+                    <div class="example-box">
+                        <strong>Example:</strong> A 32-bit address bus can address up to 4 GB of memory (2<sup>32</sup> = 4,294,967,296 bytes).
+                    </div>
+                </div>
+
+                <h4>3. Control Bus</h4>
+                <div class="comparison-card">
+                    <h4>Definition</h4>
+                    <p>The control bus carries all control and timing signals used to manage communication between components.</p>
+                    
+                    <h4>Characteristics:</h4>
+                    <ul>
+                        <li><strong>Direction:</strong> Bidirectional</li>
+                        <li><strong>Function:</strong> Carries control signals</li>
+                    </ul>
+
+                    <h4>Control Signals:</h4>
+                    <ul>
+                        <li><strong>Read</strong> - Read data from memory</li>
+                        <li><strong>Write</strong> - Write data to memory</li>
+                        <li><strong>Clock</strong> - Synchronization signal</li>
+                        <li><strong>Interrupt</strong> - Request CPU attention</li>
+                        <li><strong>Acknowledge</strong> - Confirm signal received</li>
+                        <li><strong>Reset</strong> - System reset signal</li>
+                        <li><strong>Bus Request</strong> - Request bus access</li>
+                        <li><strong>Bus Grant</strong> - Grant bus access</li>
+                    </ul>
+                </div>
+
+                <h3>Bus Comparison</h3>
+                <table>
+                    <tr>
+                        <th>Bus Type</th>
+                        <th>Direction</th>
+                        <th>Purpose</th>
+                        <th>Width Matters?</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Bus</strong></td>
+                        <td>Bidirectional</td>
+                        <td>Transfer data</td>
+                        <td>Yes (affects speed)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Address Bus</strong></td>
+                        <td>Unidirectional</td>
+                        <td>Specify location</td>
+                        <td>Yes (affects memory size)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Control Bus</strong></td>
+                        <td>Bidirectional</td>
+                        <td>Control signals</td>
+                        <td>No (varies by design)</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">🗺️</span> 5. Memory & I/O Addressing</h2>
+                
+                <h3>Memory Addressing</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong> CPU assigns a unique address to each memory location to read/write data efficiently.
+                </div>
+
+                <div class="example-box">
+                    <strong>Example:</strong>
+                    <div class="code-block">
+Memory Address    Data<br>
+0x0000           10101100<br>
+0x0001           11110000<br>
+0x0002           00110011<br>
+0x0003           10011001
+</div>
+</div>
+                <h3>I/O Addressing Methods</h3>
+                
+                <h4>1. Memory-Mapped I/O</h4>
+                <div class="comparison-card">
+                    <h4>Definition</h4>
+                    <p>I/O devices share the same address space as memory. Same instructions used for both memory and I/O operations.</p>
+                    
+                    <div class="advantages">
+                        <strong>Advantages:</strong><br>
+                        ✅ Same instructions for memory and I/O<br>
+                        ✅ No special I/O instructions needed<br>
+                        ✅ Flexible addressing
+                    </div>
+
+                    <div class="disadvantages">
+                        <strong>Disadvantages:</strong><br>
+                        ❌ Reduces available memory address space<br>
+                        ❌ Slower I/O operations
+                    </div>
+
+                    <div class="diagram">
+Address Space:<br>
+0x0000 - 0x7FFF → Memory<br>
+0x8000 - 0xFFFF → I/O Devices
+</div>
+</div>
+                <h4>2. Isolated I/O (Port-Mapped I/O)</h4>
+                <div class="comparison-card">
+                    <h4>Definition</h4>
+                    <p>Separate address space for I/O devices. Special instructions (IN, OUT) used for I/O operations.</p>
+                    
+                    <div class="advantages">
+                        <strong>Advantages:</strong><br>
+                        ✅ Full memory address space available<br>
+                        ✅ Faster I/O operations<br>
+                        ✅ Clear separation between memory and I/O
+                    </div>
+
+                    <div class="disadvantages">
+                        <strong>Disadvantages:</strong><br>
+                        ❌ Requires special I/O instructions<br>
+                        ❌ Limited I/O address space
+                    </div>
+
+                    <div class="code-block">
+Memory Instructions:
+MOV AX, [1000H]  ; Read from memory
+MOV [2000H], BX  ; Write to memory
+I/O Instructions:
+IN AL, 80H       ; Read from I/O port 80H
+OUT 90H, AL      ; Write to I/O port 90H
+</div>
+</div>
+                <h3>Comparison: Memory-Mapped vs Isolated I/O</h3>
+                <table>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Memory-Mapped I/O</th>
+                        <th>Isolated I/O</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Address Space</strong></td>
+                        <td>Shared with memory</td>
+                        <td>Separate</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Instructions</strong></td>
+                        <td>MOV, LOAD, STORE</td>
+                        <td>IN, OUT</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Memory Available</strong></td>
+                        <td>Reduced</td>
+                        <td>Full</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Speed</strong></td>
+                        <td>Slower</td>
+                        <td>Faster</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Example</strong></td>
+                        <td>ARM processors</td>
+                        <td>Intel x86</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- MODULE 2: DATA REPRESENTATION -->
+        <div class="module" id="module2">
+            <div class="section">
+                <h2><span class="icon">🔢</span> 1. Fixed-Point Representation</h2>
+                
+                <div class="definition-box">
+                    <strong>Definition:</strong> In fixed-point representation, the binary point (decimal point in binary) is placed at a fixed position. Primarily used for storing integers. Positive and negative numbers are represented using sign magnitude, 1's complement, or 2's complement.
+                </div>
+
+                <h3>Integer Representation Methods</h3>
+
+                <h4>1. Sign-Magnitude Representation</h4>
+                <div class="comparison-card">
+                    <p><strong>Format:</strong> MSB (Most Significant Bit) represents sign</p>
+                    <ul>
+                        <li>0 = Positive</li>
+                        <li>1 = Negative</li>
+                    </ul>
+
+                    <div class="example-box">
+                        <strong>Example (8-bit):</strong>
+                        <div class="code-block">
++13 = 0 0001101
+↑ (0 = positive)
+-13 = 1 0001101
+↑ (1 = negative)
+</div>
+</div>
+                    <div class="disadvantages">
+                        <strong>Problems:</strong><br>
+                        ❌ Two representations of zero (+0 and -0)<br>
+                        ❌ Complex arithmetic operations
+                    </div>
+                </div>
+
+                <h4>2. 1's Complement</h4>
+                <div class="comparison-card">
+                    <p><strong>Method:</strong> Invert all bits (0→1, 1→0)</p>
+
+                    <div class="example-box">
+                        <strong>Example:</strong>
+                        <div class="code-block">
++13 = 00001101
+-13 = 11110010 (1's complement)
+(Invert all bits of +13)
+</div>
+</div>
+                    <div class="disadvantages">
+                        <strong>Problems:</strong><br>
+                        ❌ Still has two zeros (+0 and -0)<br>
+                        ❌ Requires end-around carry in addition
+                    </div>
+                </div>
+
+                <h4>3. 2's Complement (Most Commonly Used)</h4>
+                <div class="comparison-card">
+                    <p><strong>Method:</strong> 2's complement = 1's complement + 1</p>
+
+                    <div class="example-box">
+                        <strong>Example:</strong>
+                        <div class="code-block">
++13 = 00001101
+Step 1: 1's complement
+11110010
+Step 2: Add 1
+11110010
++        1
+──────────
+-13 =   11110011 (2's complement)
+</div>
+</div>
+                    <div class="advantages">
+                        <strong>Advantages:</strong><br>
+                        ✅ Only one representation of zero<br>
+                        ✅ Simple arithmetic operations<br>
+                        ✅ Subtraction = Addition of 2's complement<br>
+                        ✅ Most widely used method
+                    </div>
+
+                    <h4>Quick Method to Find 2's Complement:</h4>
+                    <div class="code-block">
+Starting from right:
+
+Keep all 0s as is until first 1
+Keep first 1 as is
+Invert all remaining bits
+
+Example: +13 = 00001101
+↑
+From right: 1101 stays, then invert
+Result:     11110011
+</div>
+</div>
+                <h3>Range of Numbers</h3>
+                <table>
+                    <tr>
+                        <th>Bits</th>
+                        <th>Sign-Magnitude</th>
+                        <th>1's Complement</th>
+                        <th>2's Complement</th>
+                    </tr>
+                    <tr>
+                        <td>4-bit</td>
+                        <td>-7 to +7</td>
+                        <td>-7 to +7</td>
+                        <td>-8 to +7</td>
+                    </tr>
+                    <tr>
+                        <td>8-bit</td>
+                        <td>-127 to +127</td>
+                        <td>-127 to +127</td>
+                        <td>-128 to +127</td>
+                    </tr>
+                    <tr>
+                        <td>16-bit</td>
+                        <td>-32767 to +32767</td>
+                        <td>-32767 to +32767</td>
+                        <td>-32768 to +32767</td>
+                    </tr>
+                </table>
+
+                <div class="highlight">
+                    <strong>Formula for 2's Complement Range:</strong> -2<sup>(n-1)</sup> to +2<sup>(n-1)</sup>-1
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">🌊</span> 2. Floating-Point Representation</h2>
+                
+                <div class="definition-box">
+                    <strong>Definition:</strong> Floating-point representation is used to store real numbers (fractions and very large numbers). A number is represented using mantissa (significant digits) and exponent (power of 2).
+                </div>
+
+                <h3>Floating-Point Format</h3>
+                <div class="code-block">
+N = Mantissa × 2<sup>Exponent</sup>
+Or
+N = M × 2<sup>E</sup>
+</div>
+                <h3>IEEE 754 Standard</h3>
+
+                <h4>Single Precision (32-bit)</h4>
+                <div class="diagram">
+|Sign|  Exponent |      Mantissa     |<br>
+| 1  |     8     |        23         |<br>
+└────┴───────────┴───────────────────┘<br>
+bit     bits          bits
+</div>
+                <h4>Double Precision (64-bit)</h4>
+                <div class="diagram">
+|Sign|  Exponent |         Mantissa        |<br>
+| 1  |    11     |           52            |<br>
+└────┴───────────┴─────────────────────────┘<br>
+bit     bits            bits
+</div>
+                <h3>Components</h3>
+                <table>
+                    <tr>
+                        <th>Component</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Sign Bit</strong></td>
+                        <td>0 = Positive, 1 = Negative</td>
+                        <td>0 for +ve, 1 for -ve</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Exponent</strong></td>
+                        <td>Power of 2 (biased)</td>
+                        <td>Bias = 127 (32-bit)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mantissa</strong></td>
+                        <td>Significant digits (normalized)</td>
+                        <td>1.xxxxx format</td>
+                    </tr>
+                </table>
+
+                <h3>Example: Representing 13.0</h3>
+                <div class="example-box">
+                    <div class="code-block">
+Step 1: Convert to binary
+13.0 = 1101.0
+Step 2: Normalize (1.xxx format)
+1101.0 = 1.101 × 2³
+Step 3: Extract components
+Sign = 0 (positive)
+Mantissa = 101 (after binary point)
+Exponent = 3
+Step 4: Add bias (127 for 32-bit)
+Biased Exponent = 3 + 127 = 130
+Binary: 10000010
+Final Representation (32-bit):
+| 0 | 10000010 | 10100000000000000000000 |
+Sign  Exponent        Mantissa
+</div>
+</div>
+                <h3>Special Values</h3>
+                <table>
+                    <tr>
+                        <th>Value</th>
+                        <th>Exponent</th>
+                        <th>Mantissa</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Zero</strong></td>
+                        <td>All 0s</td>
+                        <td>All 0s</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Infinity</strong></td>
+                        <td>All 1s</td>
+                        <td>All 0s</td>
+                    </tr>
+                    <tr>
+                        <td><strong>NaN (Not a Number)</strong></td>
+                        <td>All 1s</td>
+                        <td>Non-zero</td>
+                    </tr>
+                </table>
+
+                <div class="advantages">
+                    <strong>Applications:</strong><br>
+                    ✅ Scientific computing<br>
+                    ✅ Graphics processing<br>
+                    ✅ Financial calculations<br>
+                    ✅ Engineering simulations
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">➕</span> 3. Fixed-Point Arithmetic</h2>
+
+                <h3>Binary Addition</h3>
+                <div class="definition-box">
+                    <strong>Rules:</strong>
+                    <div class="code-block">
+0 + 0 = 0
+0 + 1 = 1
+1 + 0 = 1
+1 + 1 = 10 (0 with carry 1)
+1 + 1 + 1 = 11 (1 with carry 1)
+</div>
+</div>
+                <div class="example-box">
+                    <strong>Example 1: Simple Addition</strong>
+                    <div class="code-block">
+1011  (11 in decimal)
+
+0110  (6 in decimal)
+──────
+10001  (17 in decimal)
+
+Carry: 1 1
+1 0 1 1
++ 0 1 1 0
+─────────
+1 0 0 0 1
+</div>
+</div>
+                <div class="example-box">
+                    <strong>Example 2: With Multiple Carries</strong>
+                    <div class="code-block">
+  1111  (15)
++ 0001  (1)
+──────
+ 10000  (16)
+Carry: 1111
+1 1 1 1
++ 0 0 0 1
+─────────
+1 0 0 0 0
+</div>
+</div>
+                <h3>Binary Subtraction using 2's Complement</h3>
+                <div class="definition-box">
+                    <strong>Method:</strong> A - B = A + (2's complement of B)
+                </div>
+
+                <div class="example-box">
+                    <strong>Example: 13 - 6</strong>
+                    <div class="code-block">
+A = 13 = 00001101
+B = 6  = 00000110
+Step 1: Find 2's complement of B
+1's complement of 6: 11111001
+Add 1:             +        1
+───────────
+2's complement:      11111010
+Step 2: Add A + 2's complement of B
+00001101  (13)
+
+11111010  (-6 in 2's complement)
+──────────
+1 00000111  (7)
+↑
+Discard carry
+
+Result = 7 ✓
+</div>
+</div>
+                <h3>Overflow Detection</h3>
+                <div class="comparison-card">
+                    <h4>When does overflow occur?</h4>
+                    <ul>
+                        <li>Adding two positive numbers gives negative result</li>
+                        <li>Adding two negative numbers gives positive result</li>
+                    </ul>
+
+                    <h4>Overflow Detection Rule:</h4>
+                    <p>Overflow occurs when carry into MSB ≠ carry out of MSB</p>
+
+                    <div class="example-box">
+                        <strong>Example: Overflow (4-bit system)</strong>
+                        <div class="code-block">
+0111  (+7)
+
+0010  (+2)
+──────
+1001  (-7 in 2's complement) ← WRONG!
+
+Overflow occurred!
+Expected: +9, but 4-bit can only hold -8 to +7
+</div>
+</div>
+</div>
+</div>
+            <div class="section">
+                <h2><span class="icon">✖️</span> 4. Binary Multiplication Algorithms</h2>
+
+                <h3>1. Add-and-Shift Algorithm</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong> Binary multiplication by checking each bit of multiplier. If bit = 1, add multiplicand; then shift left. Simple but slow.
+                </div>
+
+                <div class="example-box">
+                    <strong>Example: 5 × 3 (101 × 011)</strong>
+                    <div class="code-block">
+Multiplicand:  101  (5)
+Multiplier:    011  (3)
+Step-by-step:
+101
+× 011
+─────
+101  (101 × 1)
+101   (101 × 1, shifted left)
+000    (101 × 0, shifted left)
+─────
+1111   (15 in decimal) ✓
+</div>
+</div>
+                <h4>Algorithm Steps:</h4>
+                <ol>
+                    <li>Initialize product = 0</li>
+                    <li>For each bit of multiplier (right to left):
+                        <ul>
+                            <li>If bit = 1, add multiplicand to product</li>
+                            <li>Shift multiplicand left</li>
+                        </ul>
+                    </li>
+                    <li>Repeat until all bits processed</li>
+                </ol>
+
+                <h3>2. Booth's Algorithm</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong> Booth's algorithm efficiently multiplies signed binary numbers. It reduces the number of additions/subtractions by encoding sequences of bits.
+                </div>
+
+                <h4>Booth's Encoding Rules:</h4>
+                <table>
+                    <tr>
+                        <th>Current Bit</th>
+                        <th>Previous Bit</th>
+                        <th>Operation</th>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>Shift only (no operation)</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>1</td>
+                        <td>Add multiplicand</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>Subtract multiplicand</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>Shift only (no operation)</td>
+                    </tr>
+                </table>
+
+                <h4>Why Booth's Algorithm?</h4>
+                <div class="advantages">
+                    <strong>Advantages:</strong><br>
+                    ✅ Handles signed numbers directly<br>
+                    ✅ Reduces number of operations<br>
+                    ✅ Efficient for sequences of 1s or 0s<br>
+                    ✅ Faster than simple add-and-shift
+                </div>
+
+                <div class="example-box">
+                    <strong>Example: Multiplying using Booth's</strong>
+                    <div class="code-block">
+Multiplicand: 0110 (6)
+Multiplier:   1111 (-1)
+1111 represents string of 1s
+Booth encoding:
+Instead of 4 additions, do:
+1 subtraction at start + shifts
+Result: 11111010 (-6) ✓
+</div>
+</div>
+                <h4>Key Insight:</h4>
+                <div class="highlight">
+                    Sequence "1111" can be encoded as: 10000 - 00001 = subtract once, then shift multiple times (fewer operations!)
+                </div>
+            </div>
+        </div>
+
+        <!-- MODULE 3: INSTRUCTION SET ARCHITECTURE -->
+        <div class="module" id="module3">
+            <div class="section">
+                <h2><span class="icon">💾</span> 1. Levels of Programming Languages</h2>
+
+                <div class="diagram">
+High Level → Assembly → Machine<br>
+(Python)     (ADD A,B)   (01101010)
+↓            ↓           ↓
+Easy          Medium      Difficult<br>
+Slow          Fast        Fastest<br>
+Portable      Less        Machine-specific
+</div>
+                <h3>1. Machine Language</h3>
+                <div class="comparison-card">
+                    <h4>Characteristics:</h4>
+                    <ul>
+                        <li>Binary code (0s and 1s)</li>
+                        <li>Directly executed by CPU</li>
+                        <li>Fastest execution</li>
+                        <li>Machine-specific</li>
+                    </ul>
+
+                    <div class="example-box">
+                        <strong>Example:</strong>
+                        <div class="code-block">
+10110000 01100001  ; Load value into register
+</div>
+</div>
+                    <div class="advantages">
+                        ✅ Fastest execution<br>
+                        ✅ No translation needed
+                    </div>
+
+                    <div class="disadvantages">
+                        ❌ Extremely difficult to write<br>
+                        ❌ Error-prone<br>
+                        ❌ Not portable<br>
+                        ❌ Hard to debug
+                    </div>
+                </div>
+
+                <h3>2. Assembly Language</h3>
+                <div class="comparison-card">
+                    <h4>Characteristics:</h4>
+                    <ul>
+                        <li>Uses mnemonics (symbolic names)</li>
+                        <li>Converted by assembler</li>
+                        <li>One-to-one mapping with machine code</li>
+                        <li>Low-level language</li>
+                    </ul>
+
+                    <div class="example-box">
+                        <strong>Example:</strong>
+                        <div class="code-block">
+MOV AX, 5    ; Move 5 into AX register
+ADD BX, AX   ; Add AX to BX
+MOV [100], BX ; Store result at memory 100
+</div>
+</div>
+                    <div class="advantages">
+                        ✅ More readable than machine code<br>
+                        ✅ Faster execution<br>
+                        ✅ Direct hardware control<br>
+                        ✅ Memory efficient
+                    </div>
+
+                    <div class="disadvantages">
+                        ❌ Machine-dependent<br>
+                        ❌ Difficult to learn<br>
+                        ❌ Time-consuming to write
+                    </div>
+
+                    <h4>Common Mnemonics:</h4>
+                    <table>
+                        <tr>
+                            <th>Mnemonic</th>
+                            <th>Operation</th>
+                            <th>Example</th>
+                        </tr>
+                        <tr>
+                            <td>MOV</td>
+                            <td>Move/Copy data</td>
+                            <td>MOV AX, BX</td>
+                        </tr>
+                        <tr>
+                            <td>ADD</td>
+                            <td>Addition</td>
+                            <td>ADD AX, 5</td>
+                        </tr>
+                        <tr>
+                            <td>SUB</td>
+                            <td>Subtraction</td>
+                            <td>SUB BX, CX</td>
+                        </tr>
+                        <tr>
+                            <td>MUL</td>
+                            <td>Multiplication</td>
+                            <td>MUL DX</td>
+                        </tr>
+                        <tr>
+                            <td>JMP</td>
+                            <td>Jump/Branch</td>
+                            <td>JMP LABEL</td>
+                        </tr>
+                        <tr>
+                            <td>CMP</td>
+                            <td>Compare</td>
+                            <td>CMP AX, BX</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <h3>3. High-Level Language</h3>
+                <div class="comparison-card">
+                    <h4>Characteristics:</h4>
+                    <ul>
+                        <li>English-like syntax</li>
+                        <li>Portable across platforms</li>
+                        <li>Requires compiler/interpreter</li>
+                        <li>Easy to learn and write</li>
+                    </ul>
+
+                    <div class="example-box">
+                        <strong>Example (C language):</strong>
+                        <div class="code-block">
+int a = 5;
+int b = 10;
+int sum = a + b;
+printf("Sum = %d", sum);
+</div>
+</div>
+                    <div class="advantages">
+                        ✅ Easy to write and understand<br>
+                        ✅ Portable across machines<br>
+                        ✅ Faster development<br>
+                        ✅ Better debugging tools<br>
+                        ✅ Maintainable code
+                    </div>
+
+                    <div class="disadvantages">
+                        ❌ Slower execution<br>
+                        ❌ Requires compiler/interpreter<br>
+                        ❌ Less control over hardware
+                    </div>
+
+                    <h4>Popular High-Level Languages:</h4>
+                    <ul>
+                        <li><strong>C</strong> - System programming</li>
+                        <li><strong>C++</strong> - Object-oriented programming</li>
+                        <li><strong>Java</strong> - Platform-independent</li>
+                        <li><strong>Python</strong> - Scripting, AI/ML</li>
+                        <li><strong>JavaScript</strong> -
+                                    <tr>
+                            <th>Address Bus Width</th>
+                            <th>Addressable Memory</th>
+                            <th>Calculation</th>
+                        </tr>
+                        <tr>
+                            <td>16-bit</td>
+                            <td>64 KB</td>
+                            <td>2<sup>16</sup> = 65,536 bytes</td>
+                        </tr>
+                        <tr>
+                            <td>20-bit</td>
+                            <td>1 MB</td>
+                            <td>2<sup>20</sup> = 1,048,576 bytes</td>
+                        </tr>
+                        <tr>
+                            <td>32-bit</td>
+                            <td>4 GB</td>
+                            <td>2<sup>32</sup> = 4,294,967,296 bytes</td>
+                        </tr>
+                        <tr>
+                            <td>64-bit</td>
+                            <td>16 EB</td>
+                            <td>2<sup>64</sup> = 16 Exabytes</td>
+                        </tr>
+                    </table>
+
+                    <div class="example-box">
+                        <strong>Example:</strong> A 32-bit address bus can address up to 4 GB of memory (2<sup>32</sup> = 4,294,967,296 bytes).
+                    </div>
+                </div>
+
+                <h4>3. Control Bus</h4>
+                <div class="comparison-card">
+                    <h4>Definition</h4>
+                    <p>The control bus carries all control and timing signals used to manage communication between components.</p>
+                    
+                    <h4>Characteristics:</h4>
+                    <ul>
+                        <li><strong>Direction:</strong> Bidirectional</li>
+                        <li><strong>Function:</strong> Carries control signals</li>
+                    </ul>
+
+                    <h4>Control Signals:</h4>
+                    <ul>
+                        <li><strong>Read</strong> - Read data from memory</li>
+                        <li><strong>Write</strong> - Write data to memory</li>
+                        <li><strong>Clock</strong> - Synchronization signal</li>
+                        <li><strong>Interrupt</strong> - Request CPU attention</li>
+                        <li><strong>Acknowledge</strong> - Confirm signal received</li>
+                        <li><strong>Reset</strong> - System reset signal</li>
+                        <li><strong>Bus Request</strong> - Request bus access</li>
+                        <li><strong>Bus Grant</strong> - Grant bus access</li>
+                    </ul>
+                </div>
+
+                <h3>Bus Comparison</h3>
+                <table>
+                    <tr>
+                        <th>Bus Type</th>
+                        <th>Direction</th>
+                        <th>Purpose</th>
+                        <th>Width Matters?</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Bus</strong></td>
+                        <td>Bidirectional</td>
+                        <td>Transfer data</td>
+                        <td>Yes (affects speed)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Address Bus</strong></td>
+                        <td>Unidirectional</td>
+                        <td>Specify location</td>
+                        <td>Yes (affects memory size)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Control Bus</strong></td>
+                        <td>Bidirectional</td>
+                        <td>Control signals</td>
+                        <td>No (varies by design)</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">🗺️</span> 5. Memory & I/O Addressing</h2>
+                
+                <h3>Memory Addressing</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong> CPU assigns a unique address to each memory location to read/write data efficiently.
+                </div>
+
+                <div class="example-box">
+                    <strong>Example:</strong>
+                    <div class="code-block">
+Memory Address    Data<br>
+0x0000           10101100<br>
+0x0001           11110000<br>
+0x0002           00110011<br>
+0x0003           10011001
+</div>
+</div>
+                <h3>I/O Addressing Methods</h3>
+                
+                <h4>1. Memory-Mapped I/O</h4>
+                <div class="comparison-card">
+                    <h4>Definition</h4>
+                    <p>I/O devices share the same address space as memory. Same instructions used for both memory and I/O operations.</p>
+                    
+                    <div class="advantages">
+                        <strong>Advantages:</strong><br>
+                        ✅ Same instructions for memory and I/O<br>
+                        ✅ No special I/O instructions needed<br>
+                        ✅ Flexible addressing
+                    </div>
+
+                    <div class="disadvantages">
+                        <strong>Disadvantages:</strong><br>
+                        ❌ Reduces available memory address space<br>
+                        ❌ Slower I/O operations
+                    </div>
+
+                    <div class="diagram">
+Address Space:<br>
+0x0000 - 0x7FFF → Memory<br>
+0x8000 - 0xFFFF → I/O Devices
+</div>
+</div>
+                <h4>2. Isolated I/O (Port-Mapped I/O)</h4>
+                <div class="comparison-card">
+                    <h4>Definition</h4>
+                    <p>Separate address space for I/O devices. Special instructions (IN, OUT) used for I/O operations.</p>
+                    
+                    <div class="advantages">
+                        <strong>Advantages:</strong><br>
+                        ✅ Full memory address space available<br>
+                        ✅ Faster I/O operations<br>
+                        ✅ Clear separation between memory and I/O
+                    </div>
+
+                    <div class="disadvantages">
+                        <strong>Disadvantages:</strong><br>
+                        ❌ Requires special I/O instructions<br>
+                        ❌ Limited I/O address space
+                    </div>
+
+                    <div class="code-block">
+Memory Instructions:
+MOV AX, [1000H]  ; Read from memory
+MOV [2000H], BX  ; Write to memory
+I/O Instructions:
+IN AL, 80H       ; Read from I/O port 80H
+OUT 90H, AL      ; Write to I/O port 90H
+</div>
+</div>
+                <h3>Comparison: Memory-Mapped vs Isolated I/O</h3>
+                <table>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Memory-Mapped I/O</th>
+                        <th>Isolated I/O</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Address Space</strong></td>
+                        <td>Shared with memory</td>
+                        <td>Separate</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Instructions</strong></td>
+                        <td>MOV, LOAD, STORE</td>
+                        <td>IN, OUT</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Memory Available</strong></td>
+                        <td>Reduced</td>
+                        <td>Full</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Speed</strong></td>
+                        <td>Slower</td>
+                        <td>Faster</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Example</strong></td>
+                        <td>ARM processors</td>
+                        <td>Intel x86</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- MODULE 2: DATA REPRESENTATION -->
+        <div class="module" id="module2">
+            <div class="section">
+                <h2><span class="icon">🔢</span> 1. Fixed-Point Representation</h2>
+                
+                <div class="definition-box">
+                    <strong>Definition:</strong> In fixed-point representation, the binary point (decimal point in binary) is placed at a fixed position. Primarily used for storing integers. Positive and negative numbers are represented using sign magnitude, 1's complement, or 2's complement.
+                </div>
+
+                <h3>Integer Representation Methods</h3>
+
+                <h4>1. Sign-Magnitude Representation</h4>
+                <div class="comparison-card">
+                    <p><strong>Format:</strong> MSB (Most Significant Bit) represents sign</p>
+                    <ul>
+                        <li>0 = Positive</li>
+                        <li>1 = Negative</li>
+                    </ul>
+
+                    <div class="example-box">
+                        <strong>Example (8-bit):</strong>
+                        <div class="code-block">
++13 = 0 0001101
+↑ (0 = positive)
+-13 = 1 0001101
+↑ (1 = negative)
+</div>
+</div>
+                    <div class="disadvantages">
+                        <strong>Problems:</strong><br>
+                        ❌ Two representations of zero (+0 and -0)<br>
+                        ❌ Complex arithmetic operations
+                    </div>
+                </div>
+
+                <h4>2. 1's Complement</h4>
+                <div class="comparison-card">
+                    <p><strong>Method:</strong> Invert all bits (0→1, 1→0)</p>
+
+                    <div class="example-box">
+                        <strong>Example:</strong>
+                        <div class="code-block">
++13 = 00001101
+-13 = 11110010 (1's complement)
+(Invert all bits of +13)
+</div>
+</div>
+                    <div class="disadvantages">
+                        <strong>Problems:</strong><br>
+                        ❌ Still has two zeros (+0 and -0)<br>
+                        ❌ Requires end-around carry in addition
+                    </div>
+                </div>
+
+                <h4>3. 2's Complement (Most Commonly Used)</h4>
+                <div class="comparison-card">
+                    <p><strong>Method:</strong> 2's complement = 1's complement + 1</p>
+
+                    <div class="example-box">
+                        <strong>Example:</strong>
+                        <div class="code-block">
++13 = 00001101
+Step 1: 1's complement
+11110010
+Step 2: Add 1
+11110010
++        1
+──────────
+-13 =   11110011 (2's complement)
+</div>
+</div>
+                    <div class="advantages">
+                        <strong>Advantages:</strong><br>
+                        ✅ Only one representation of zero<br>
+                        ✅ Simple arithmetic operations<br>
+                        ✅ Subtraction = Addition of 2's complement<br>
+                        ✅ Most widely used method
+                    </div>
+
+                    <h4>Quick Method to Find 2's Complement:</h4>
+                    <div class="code-block">
+Starting from right:
+
+Keep all 0s as is until first 1
+Keep first 1 as is
+Invert all remaining bits
+
+Example: +13 = 00001101
+↑
+From right: 1101 stays, then invert
+Result:     11110011
+</div>
+</div>
+                <h3>Range of Numbers</h3>
+                <table>
+                    <tr>
+                        <th>Bits</th>
+                        <th>Sign-Magnitude</th>
+                        <th>1's Complement</th>
+                        <th>2's Complement</th>
+                    </tr>
+                    <tr>
+                        <td>4-bit</td>
+                        <td>-7 to +7</td>
+                        <td>-7 to +7</td>
+                        <td>-8 to +7</td>
+                    </tr>
+                    <tr>
+                        <td>8-bit</td>
+                        <td>-127 to +127</td>
+                        <td>-127 to +127</td>
+                        <td>-128 to +127</td>
+                    </tr>
+                    <tr>
+                        <td>16-bit</td>
+                        <td>-32767 to +32767</td>
+                        <td>-32767 to +32767</td>
+                        <td>-32768 to +32767</td>
+                    </tr>
+                </table>
+
+                <div class="highlight">
+                    <strong>Formula for 2's Complement Range:</strong> -2<sup>(n-1)</sup> to +2<sup>(n-1)</sup>-1
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">🌊</span> 2. Floating-Point Representation</h2>
+                
+                <div class="definition-box">
+                    <strong>Definition:</strong> Floating-point representation is used to store real numbers (fractions and very large numbers). A number is represented using mantissa (significant digits) and exponent (power of 2).
+                </div>
+
+                <h3>Floating-Point Format</h3>
+                <div class="code-block">
+N = Mantissa × 2<sup>Exponent</sup>
+Or
+N = M × 2<sup>E</sup>
+</div>
+                <h3>IEEE 754 Standard</h3>
+
+                <h4>Single Precision (32-bit)</h4>
+                <div class="diagram">
+|Sign|  Exponent |      Mantissa     |<br>
+| 1  |     8     |        23         |<br>
+└────┴───────────┴───────────────────┘<br>
+bit     bits          bits
+</div>
+                <h4>Double Precision (64-bit)</h4>
+                <div class="diagram">
+|Sign|  Exponent |         Mantissa        |<br>
+| 1  |    11     |           52            |<br>
+└────┴───────────┴─────────────────────────┘<br>
+bit     bits            bits
+</div>
+                <h3>Components</h3>
+                <table>
+                    <tr>
+                        <th>Component</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Sign Bit</strong></td>
+                        <td>0 = Positive, 1 = Negative</td>
+                        <td>0 for +ve, 1 for -ve</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Exponent</strong></td>
+                        <td>Power of 2 (biased)</td>
+                        <td>Bias = 127 (32-bit)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mantissa</strong></td>
+                        <td>Significant digits (normalized)</td>
+                        <td>1.xxxxx format</td>
+                    </tr>
+                </table>
+
+                <h3>Example: Representing 13.0</h3>
+                <div class="example-box">
+                    <div class="code-block">
+Step 1: Convert to binary
+13.0 = 1101.0
+Step 2: Normalize (1.xxx format)
+1101.0 = 1.101 × 2³
+Step 3: Extract components
+Sign = 0 (positive)
+Mantissa = 101 (after binary point)
+Exponent = 3
+Step 4: Add bias (127 for 32-bit)
+Biased Exponent = 3 + 127 = 130
+Binary: 10000010
+Final Representation (32-bit):
+| 0 | 10000010 | 10100000000000000000000 |
+Sign  Exponent        Mantissa
+</div>
+</div>
+                <h3>Special Values</h3>
+                <table>
+                    <tr>
+                        <th>Value</th>
+                        <th>Exponent</th>
+                        <th>Mantissa</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Zero</strong></td>
+                        <td>All 0s</td>
+                        <td>All 0s</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Infinity</strong></td>
+                        <td>All 1s</td>
+                        <td>All 0s</td>
+                    </tr>
+                    <tr>
+                        <td><strong>NaN (Not a Number)</strong></td>
+                        <td>All 1s</td>
+                        <td>Non-zero</td>
+                    </tr>
+                </table>
+
+                <div class="advantages">
+                    <strong>Applications:</strong><br>
+                    ✅ Scientific computing<br>
+                    ✅ Graphics processing<br>
+                    ✅ Financial calculations<br>
+                    ✅ Engineering simulations
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">➕</span> 3. Fixed-Point Arithmetic</h2>
+
+                <h3>Binary Addition</h3>
+                <div class="definition-box">
+                    <strong>Rules:</strong>
+                    <div class="code-block">
+0 + 0 = 0
+0 + 1 = 1
+1 + 0 = 1
+1 + 1 = 10 (0 with carry 1)
+1 + 1 + 1 = 11 (1 with carry 1)
+</div>
+</div>
+                <div class="example-box">
+                    <strong>Example 1: Simple Addition</strong>
+                    <div class="code-block">
+1011  (11 in decimal)
+
+0110  (6 in decimal)
+──────
+10001  (17 in decimal)
+
+Carry: 1 1
+1 0 1 1
++ 0 1 1 0
+─────────
+1 0 0 0 1
+</div>
+</div>
+                <div class="example-box">
+                    <strong>Example 2: With Multiple Carries</strong>
+                    <div class="code-block">
+  1111  (15)
++ 0001  (1)
+──────
+ 10000  (16)
+Carry: 1111
+1 1 1 1
++ 0 0 0 1
+─────────
+1 0 0 0 0
+</div>
+</div>
+                <h3>Binary Subtraction using 2's Complement</h3>
+                <div class="definition-box">
+                    <strong>Method:</strong> A - B = A + (2's complement of B)
+                </div>
+
+                <div class="example-box">
+                    <strong>Example: 13 - 6</strong>
+                    <div class="code-block">
+A = 13 = 00001101
+B = 6  = 00000110
+Step 1: Find 2's complement of B
+1's complement of 6: 11111001
+Add 1:             +        1
+───────────
+2's complement:      11111010
+Step 2: Add A + 2's complement of B
+00001101  (13)
+
+11111010  (-6 in 2's complement)
+──────────
+1 00000111  (7)
+↑
+Discard carry
+
+Result = 7 ✓
+</div>
+</div>
+                <h3>Overflow Detection</h3>
+                <div class="comparison-card">
+                    <h4>When does overflow occur?</h4>
+                    <ul>
+                        <li>Adding two positive numbers gives negative result</li>
+                        <li>Adding two negative numbers gives positive result</li>
+                    </ul>
+
+                    <h4>Overflow Detection Rule:</h4>
+                    <p>Overflow occurs when carry into MSB ≠ carry out of MSB</p>
+
+                    <div class="example-box">
+                        <strong>Example: Overflow (4-bit system)</strong>
+                        <div class="code-block">
+0111  (+7)
+
+0010  (+2)
+──────
+1001  (-7 in 2's complement) ← WRONG!
+
+Overflow occurred!
+Expected: +9, but 4-bit can only hold -8 to +7
+</div>
+</div>
+</div>
+</div>
+            <div class="section">
+                <h2><span class="icon">✖️</span> 4. Binary Multiplication Algorithms</h2>
+
+                <h3>1. Add-and-Shift Algorithm</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong> Binary multiplication by checking each bit of multiplier. If bit = 1, add multiplicand; then shift left. Simple but slow.
+                </div>
+
+                <div class="example-box">
+                    <strong>Example: 5 × 3 (101 × 011)</strong>
+                    <div class="code-block">
+Multiplicand:  101  (5)
+Multiplier:    011  (3)
+Step-by-step:
+101
+× 011
+─────
+101  (101 × 1)
+101   (101 × 1, shifted left)
+000    (101 × 0, shifted left)
+─────
+1111   (15 in decimal) ✓
+</div>
+</div>
+                <h4>Algorithm Steps:</h4>
+                <ol>
+                    <li>Initialize product = 0</li>
+                    <li>For each bit of multiplier (right to left):
+                        <ul>
+                            <li>If bit = 1, add multiplicand to product</li>
+                            <li>Shift multiplicand left</li>
+                        </ul>
+                    </li>
+                    <li>Repeat until all bits processed</li>
+                </ol>
+
+                <h3>2. Booth's Algorithm</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong> Booth's algorithm efficiently multiplies signed binary numbers. It reduces the number of additions/subtractions by encoding sequences of bits.
+                </div>
+
+                <h4>Booth's Encoding Rules:</h4>
+                <table>
+                    <tr>
+                        <th>Current Bit</th>
+                        <th>Previous Bit</th>
+                        <th>Operation</th>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>Shift only (no operation)</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>1</td>
+                        <td>Add multiplicand</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>Subtract multiplicand</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>Shift only (no operation)</td>
+                    </tr>
+                </table>
+
+                <h4>Why Booth's Algorithm?</h4>
+                <div class="advantages">
+                    <strong>Advantages:</strong><br>
+                    ✅ Handles signed numbers directly<br>
+                    ✅ Reduces number of operations<br>
+                    ✅ Efficient for sequences of 1s or 0s<br>
+                    ✅ Faster than simple add-and-shift
+                </div>
+
+                <div class="example-box">
+                    <strong>Example: Multiplying using Booth's</strong>
+                    <div class="code-block">
+Multiplicand: 0110 (6)
+Multiplier:   1111 (-1)
+1111 represents string of 1s
+Booth encoding:
+Instead of 4 additions, do:
+1 subtraction at start + shifts
+Result: 11111010 (-6) ✓
+</div>
+</div>
+                <h4>Key Insight:</h4>
+                <div class="highlight">
+                    Sequence "1111" can be encoded as: 10000 - 00001 = subtract once, then shift multiple times (fewer operations!)
+                </div>
+            </div>
+        </div>
+
+        <!-- MODULE 3: INSTRUCTION SET ARCHITECTURE -->
+        <div class="module" id="module3">
+            <div class="section">
+                <h2><span class="icon">💾</span> 1. Levels of Programming Languages</h2>
+
+                <div class="diagram">
+High Level → Assembly → Machine<br>
+(Python)     (ADD A,B)   (01101010)
+↓            ↓           ↓
+Easy          Medium      Difficult<br>
+Slow          Fast        Fastest<br>
+Portable      Less        Machine-specific
+</div>
+                <h3>1. Machine Language</h3>
+                <div class="comparison-card">
+                    <h4>Characteristics:</h4>
+                    <ul>
+                        <li>Binary code (0s and 1s)</li>
+                        <li>Directly executed by CPU</li>
+                        <li>Fastest execution</li>
+                        <li>Machine-specific</li>
+                    </ul>
+
+                    <div class="example-box">
+                        <strong>Example:</strong>
+                        <div class="code-block">
+10110000 01100001  ; Load value into register
+</div>
+</div>
+                    <div class="advantages">
+                        ✅ Fastest execution<br>
+                        ✅ No translation needed
+                    </div>
+
+                    <div class="disadvantages">
+                        ❌ Extremely difficult to write<br>
+                        ❌ Error-prone<br>
+                        ❌ Not portable<br>
+                        ❌ Hard to debug
+                    </div>
+                </div>
+
+                <h3>2. Assembly Language</h3>
+                <div class="comparison-card">
+                    <h4>Characteristics:</h4>
+                    <ul>
+                        <li>Uses mnemonics (symbolic names)</li>
+                        <li>Converted by assembler</li>
+                        <li>One-to-one mapping with machine code</li>
+                        <li>Low-level language</li>
+                    </ul>
+
+                    <div class="example-box">
+                        <strong>Example:</strong>
+                        <div class="code-block">
+MOV AX, 5    ; Move 5 into AX register
+ADD BX, AX   ; Add AX to BX
+MOV [100], BX ; Store result at memory 100
+</div>
+</div>
+                    <div class="advantages">
+                        ✅ More readable than machine code<br>
+                        ✅ Faster execution<br>
+                        ✅ Direct hardware control<br>
+                        ✅ Memory efficient
+                    </div>
+
+                    <div class="disadvantages">
+                        ❌ Machine-dependent<br>
+                        ❌ Difficult to learn<br>
+                        ❌ Time-consuming to write
+                    </div>
+
+                    <h4>Common Mnemonics:</h4>
+                    <table>
+                        <tr>
+                            <th>Mnemonic</th>
+                            <th>Operation</th>
+                            <th>Example</th>
+                        </tr>
+                        <tr>
+                            <td>MOV</td>
+                            <td>Move/Copy data</td>
+                            <td>MOV AX, BX</td>
+                        </tr>
+                        <tr>
+                            <td>ADD</td>
+                            <td>Addition</td>
+                            <td>ADD AX, 5</td>
+                        </tr>
+                        <tr>
+                            <td>SUB</td>
+                            <td>Subtraction</td>
+                            <td>SUB BX, CX</td>
+                        </tr>
+                        <tr>
+                            <td>MUL</td>
+                            <td>Multiplication</td>
+                            <td>MUL DX</td>
+                        </tr>
+                        <tr>
+                            <td>JMP</td>
+                            <td>Jump/Branch</td>
+                            <td>JMP LABEL</td>
+                        </tr>
+                        <tr>
+                            <td>CMP</td>
+                            <td>Compare</td>
+                            <td>CMP AX, BX</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <h3>3. High-Level Language</h3>
+                <div class="comparison-card">
+                    <h4>Characteristics:</h4>
+                    <ul>
+                        <li>English-like syntax</li>
+                        <li>Portable across platforms</li>
+                        <li>Requires compiler/interpreter</li>
+                        <li>Easy to learn and write</li>
+                    </ul>
+
+                    <div class="example-box">
+                        <strong>Example (C language):</strong>
+                        <div class="code-block">
+int a = 5;
+int b = 10;
+int sum = a + b;
+printf("Sum = %d", sum);
+</div>
+</div>
+                    <div class="advantages">
+                        ✅ Easy to write and understand<br>
+                        ✅ Portable across machines<br>
+                        ✅ Faster development<br>
+                        ✅ Better debugging tools<br>
+                        ✅ Maintainable code
+                    </div>
+
+                    <div class="disadvantages">
+                        ❌ Slower execution<br>
+                        ❌ Requires compiler/interpreter<br>
+                        ❌ Less control over hardware
+                    </div>
+
+                    <h4>Popular High-Level Languages:</h4>
+                    <ul>
+                        <li><strong>C</strong> - System programming</li>
+                        <li><strong>C++</strong> - Object-oriented programming</li>
+                        <li><strong>Java</strong> - Platform-independent</li>
+                        <li><strong>Python</strong> - Scripting, AI/ML</li>
+                        <li><strong>JavaScript</strong> -
+                            Fastest</td>
+<td>Constants</td>
+</tr>
+<tr>
+<td><strong>Register</strong></td>
+<td>MOV AX, BX</td>
+<td>Very Fast</td>
+<td>Temp data</td>
+</tr>
+<tr>
+<td><strong>Direct</strong></td>
+<td>MOV AX, [1000]</td>
+<td>Fast</td>
+<td>Variables</td>
+</tr>
+<tr>
+<td><strong>Indirect</strong></td>
+<td>MOV AX, [BX]</td>
+<td>Slow</td>
+<td>Pointers</td>
+</tr>
+<tr>
+<td><strong>Indexed</strong></td>
+<td>MOV AX, [BX+SI]</td>
+<td>Medium</td>
+<td>Arrays</td>
+</tr>
+</table>
+
+                <h3>🔹 Instruction Types</h3>
+                <div class="code-block">
+
+DATA TRANSFER → MOV, LOAD, STORE
+ARITHMETIC    → ADD, SUB, MUL, DIV
+LOGICAL       → AND, OR, NOT, XOR
+CONTROL       → JMP, CALL, RET
+I/O           → IN, OUT
+</div>
+             <h3>🔹 Instruction Format</h3>
+             <div class="code-block">
+
+
+| Opcode | Operand(s) | Addressing Mode |
+Components:
+
+Opcode: Operation to perform
+Operand: Data or address
+Mode: How to access operand
+</div>
+              <h3>🔹 I/O Addressing</h3>
+              <div class="comparison-grid">
+                  <div class="comparison-card">
+                      <h4>Memory-Mapped I/O</h4>
+                      <p>✅ Same instructions</p>
+                      <p>❌ Reduces memory</p>
+                      <p>Uses: MOV, LOAD</p>
+                  </div>
+                  <div class="comparison-card">
+                      <h4>Isolated I/O</h4>
+                      <p>✅ Full memory available</p>
+                      <p>✅ Faster</p>
+                      <p>Uses: IN, OUT</p>
+                  </div>
+              </div>
+
+              <h3>🔹 Last-Minute Formula Sheet</h3>
+              <div class="code-block">
+
+
+✅ Addressable Memory = 2^n
+(n = address bus width)
+✅ 2's Complement = 1's complement + 1
+✅ Range (n-bit 2's complement) =
+-2^(n-1) to +2^(n-1)-1
+✅ Floating-Point = M × 2^E
+(M = Mantissa, E = Exponent)
+</div>
+                <h3>🔹 Important One-Liners for Exam</h3>
+                <div class="advantages">
+                    ✔ ALU = Arithmetic & Logic operations<br>
+                    ✔ CU = Controls all units<br>
+                    ✔ Data bus is bidirectional<br>
+                    ✔ Address bus is unidirectional<br>
+                    ✔ 2's complement most widely used<br>
+                    ✔ Booth's algorithm handles signed numbers<br>
+                    ✔ Immediate addressing is fastest<br>
+                    ✔ Machine cycle: F → D → E<br>
+                    ✔ Registers faster than cache & memory<br>
+                    ✔ PC holds next instruction address
+                </div>
+
+                <h3>🔹 Exam Tips</h3>
+                <div class="example-box">
+                    <strong>If question asks:</strong>
+                    <ul>
+                        <li>"Fastest addressing?" → <strong>Immediate or Register</strong></li>
+                        <li>"Bidirectional bus?" → <strong>Data Bus</strong></li>
+                        <li>"Signed numbers?" → <strong>2's Complement</strong></li>
+                        <li>"Real numbers?" → <strong>Floating-Point</strong></li>
+                        <li>"Array access?" → <strong>Indexed Addressing</strong></li>
+                        <li>"Controls CPU?" → <strong>Control Unit</strong></li>
+                        <li>"Machine cycle steps?" → <strong>Fetch, Decode, Execute</strong></li>
+                        <li>"32-bit address bus memory?" → <strong>4 GB</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>📚 Computer Organization & Architecture - Unit 1 Digital Notes</p>
+        <div class="footer-credits">
+            <p>Made with <span class="heart">❤️</span> by <span class="creator-name">Ankush Raj</span></p>
+            <p>© 2024 | Study Material for Educational Purpose</p>
+        </div>
+    </footer>
+</div>
+
+<script>
+    // Theme Toggle Functionality
+    function toggleTheme() {
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+        
+        if (html.getAttribute('data-theme') === 'dark') {
+            html.removeAttribute('data-theme');
+            themeToggle.textContent = '🌙';
+            localStorage.setItem('theme', 'light');
+        } else {
+            html.setAttribute('data-theme', 'dark');
+            themeToggle.textContent = '☀️';
+            localStorage.setItem('theme', 'dark');
+        }
+    }
+
+    // Load saved theme on page load
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedTheme = localStorage.getItem('theme');
+        const themeToggle = document.getElementById('themeToggle');
+        
+        if (savedTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeToggle.textContent = '☀️';
+        }
+    });
+
+    // Navigation functionality
+    const navButtons = document.querySelectorAll('.nav-btn');
+    const modules = document.querySelectorAll('.module');
+
+    navButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all
+            navButtons.forEach(btn => btn.classList.remove('active'));
+            modules.forEach(module => module.classList.remove('active'));
+
+            // Add active class to clicked
+            button.classList.add('active');
+
+            // Show corresponding module
+            const moduleId = button.getAttribute('data-module');
+            document.getElementById(moduleId).classList.add('active');
+
+            // Smooth scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    });
+
+    // Add smooth scroll to all internal links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+
+    // Add touch feedback for mobile
+    const cards = document.querySelectorAll('.comparison-card, .section');
+    cards.forEach(card => {
+        card.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.98)';
+        });
+        card.addEventListener('touchend', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+</script>
+</body>
+</html>
+```
