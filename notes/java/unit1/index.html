@@ -139,7 +139,8 @@
             .threat-box,
             .step-box,
             .example-box,
-            .mindmap-box {
+            .mindmap-box,
+            .note-box {
                 margin: 7px 0 !important;
                 padding: 9px !important;
                 page-break-inside: avoid;
@@ -450,6 +451,7 @@
             border-left: 4px solid #6b7280;
             font-family: 'Courier New', monospace;
             overflow-x: auto;
+            white-space: pre-wrap;
         }
         
         .advantage-box {
@@ -643,11 +645,11 @@
                 <div class="mindmap-box">
                     <strong style="color: var(--secondary); font-size: 16px;">📊 JAVA FUNDAMENTALS - MIND MAP</strong>
                     <div style="margin-top: 15px; text-align: left; max-width: 700px; margin-left: auto; margin-right: auto;">
-                        <div class="point">OOP Paradigms → Concepts: Objects, Classes, Encapsulation, Inheritance, Polymorphism</div>
-                        <div class="point">Java Platform → JVM (runs code), JDK (development kit), JRE (runtime environment)</div>
+                        <div class="point">OOP Paradigms → Concepts: Objects, Classes, Encapsulation, Inheritance, Polymorphism, Abstraction</div>
+                        <div class="point">Java Platform → JVM (runs bytecode), JDK (development tools), JRE (runtime environment)</div>
                         <div class="point">Data Types → Primitive (int, float, char, boolean) & Reference (objects, arrays)</div>
                         <div class="point">Control Flow → if-else, switch, loops (for, while, do-while)</div>
-                        <div class="point">OOP in Java → Classes, Objects, Constructors, Methods, Access Specifiers</div>
+                        <div class="point">OOP in Java → Classes, Objects, Constructors, Methods, Access Specifiers, Static members</div>
                     </div>
                 </div>
             </div>
@@ -800,28 +802,26 @@
                         <strong>Think of them as:</strong> Simple boxes that hold one type of item
                     </div>
                     
-                    <div class="code-box">
-<strong>Primitive Types Table:</strong>
+                    <div class="code-box"><strong>Primitive Types Table:</strong>
 
-Type      Size     Range                Example
-----      ----     -----                -------
-byte      1 byte   -128 to 127          byte age = 25;
-short     2 bytes  -32,768 to 32,767    short year = 2024;
-int       4 bytes  -2 billion to        int salary = 50000;
-                   2 billion
-long      8 bytes  Very large numbers   long distance = 123456789L;
-float     4 bytes  Decimal numbers      float price = 99.99f;
-double    8 bytes  Large decimals       double pi = 3.14159;
-char      2 bytes  Single character     char grade = 'A';
-boolean   1 bit    true or false        boolean isStudent = true;
-                    </div>
+Type      Size     Range                     Example
+----      ----     -----                     -------
+byte      1 byte   -128 to 127               byte age = 25;
+short     2 bytes  -32,768 to 32,767         short year = 2024;
+int       4 bytes  -2 billion to 2 billion   int salary = 50000;
+long      8 bytes  Very large numbers        long distance = 123456789L;
+float     4 bytes  Decimal numbers           float price = 99.99f;
+double    8 bytes  Large decimals            double pi = 3.14159;
+char      2 bytes  Single character          char grade = 'A';
+boolean   1 bit    true or false             boolean isStudent = true;</div>
                     
                     <div class="note-box">
                         <strong>Remember:</strong><br>
                         • Use <strong>int</strong> for whole numbers (most common)<br>
                         • Use <strong>double</strong> for decimal numbers (more precise than float)<br>
                         • Use <strong>boolean</strong> for yes/no or true/false conditions<br>
-                        • Use <strong>char</strong> for single letters (must use single quotes 'A')
+                        • Use <strong>char</strong> for single letters (must use single quotes 'A')<br>
+                        • Add 'L' after long values, 'f' after float values
                     </div>
                     
                     <div class="definition-box">
@@ -830,13 +830,11 @@ boolean   1 bit    true or false        boolean isStudent = true;
                         Examples: String, Arrays, Classes, Interfaces
                     </div>
                     
-                    <div class="code-box">
-<strong>Reference Type Examples:</strong>
+                    <div class="code-box"><strong>Reference Type Examples:</strong>
 
 String name = "Ankush";           // Text
 int[] numbers = {1, 2, 3, 4};     // Array
-Student s = new Student();         // Object
-                    </div>
+Student s = new Student();         // Object</div>
                     
                     <div class="example-box">
                         <strong>Difference Explained:</strong><br>
@@ -847,7 +845,6 @@ Student s = new Student();         // Object
                     </div>
                 </div>
             </div>
-            
             <!-- Section 5: Variables and Arrays -->
             <div class="section">
                 <div class="section-title">5. Variables and Arrays</div>
@@ -857,8 +854,7 @@ Student s = new Student();         // Object
                         A variable is a named container that stores data. Think of it as a box with a label on it.
                     </div>
                     
-                    <div class="code-box">
-<strong>Variable Declaration:</strong>
+                    <div class="code-box"><strong>Variable Declaration:</strong>
 
 dataType variableName = value;
 
@@ -866,8 +862,7 @@ Examples:
 int age = 21;              // Integer variable
 String name = "Raj";       // String variable
 double cgpa = 8.5;         // Double variable
-boolean isPassed = true;   // Boolean variable
-                    </div>
+boolean isPassed = true;   // Boolean variable</div>
                     
                     <div class="subsection-title">Rules for Variable Names:</div>
                     <div class="step-box">
@@ -883,8 +878,7 @@ boolean isPassed = true;   // Boolean variable
                         An array is a collection of similar items stored together. Think of it as a row of boxes, all holding the same type of item.
                     </div>
                     
-                    <div class="code-box">
-<strong>Array Declaration:</strong>
+                    <div class="code-box"><strong>Array Declaration:</strong>
 
 // Method 1: Declare and initialize later
 int[] marks = new int[5];  // Creates array for 5 integers
@@ -898,8 +892,7 @@ int[] marks = {85, 90, 78, 92, 88};
 int[][] matrix = {
     {1, 2, 3},
     {4, 5, 6}
-};
-                    </div>
+};</div>
                     
                     <div class="note-box">
                         <strong>Important:</strong><br>
@@ -920,36 +913,1371 @@ int[][] matrix = {
                 </div>
             </div>
             
-            <!-- Continue with remaining sections... -->
-            <!-- Due to length, I'll create the file and you can see the full content -->
-            
-            <div class="divider"></div>
-            
-            <!-- CHAPTER 2: INHERITANCE -->
-            <div class="chapter-title" id="ch2">
-                <span>🔗</span>
-                <span>Chapter 2 — Classes, Inheritance & Advanced Concepts</span>
-            </div>
-            
-            <!-- Mind Map for Chapter 2 -->
+            <!-- Section 6: Operators -->
             <div class="section">
-                <div class="mindmap-box">
-                    <strong style="color: var(--secondary); font-size: 16px;">📊 INHERITANCE & ADVANCED CONCEPTS - MIND MAP</strong>
-                    <div style="margin-top: 15px; text-align: left; max-width: 700px; margin-left: auto; margin-right: auto;">
-                        <div class="point">Method Overloading → Same name, different parameters (compile-time polymorphism)</div>
-                        <div class="point">Method Overriding → Child class changes parent method (runtime polymorphism)</div>
-                        <div class="point">Inheritance → IS-A relationship (Car IS-A Vehicle)</div>
-                        <div class="point">this keyword → Refers to current object</div>
-                        <div class="point">super keyword → Refers to parent class</div>
-                        <div class="point">Abstract Class → Cannot create objects, must be extended</div>
-                        <div class="point">Interface → Contract that classes must follow</div>
+                <div class="section-title">6. Operators in Java</div>
+                <div class="content">
+                    <p>Operators are symbols that perform operations on variables and values. Think of them as actions you can perform.</p>
+                    
+                    <div class="subsection-title">1. Arithmetic Operators (Math Operations)</div>
+                    <div class="code-box"><strong>Basic Math:</strong>
+
++  Addition          int sum = 10 + 5;      // 15
+-  Subtraction       int diff = 10 - 5;     // 5
+*  Multiplication    int prod = 10 * 5;     // 50
+/  Division          int quot = 10 / 5;     // 2
+%  Modulus          int rem = 10 % 3;      // 1 (remainder)
+
+<strong>Example:</strong>
+int a = 10, b = 3;
+System.out.println(a + b);   // 13
+System.out.println(a - b);   // 7
+System.out.println(a * b);   // 30
+System.out.println(a / b);   // 3 (integer division)
+System.out.println(a % b);   // 1 (remainder)</div>
+                    
+                    <div class="subsection-title">2. Relational Operators (Comparison)</div>
+                    <div class="code-box"><strong>Compare Values (returns true/false):</strong>
+
+==  Equal to              5 == 5    // true
+!=  Not equal to          5 != 3    // true
+>   Greater than          5 > 3     // true
+<   Less than             3 < 5     // true
+>=  Greater or equal      5 >= 5    // true
+<=  Less or equal         3 <= 5    // true
+
+<strong>Example:</strong>
+int age = 18;
+boolean canVote = (age >= 18);  // true</div>
+                    
+                    <div class="subsection-title">3. Logical Operators (Combine Conditions)</div>
+                    <div class="code-box"><strong>Combine Multiple Conditions:</strong>
+
+&&  AND - Both must be true
+||  OR  - At least one must be true
+!   NOT - Reverse the result
+
+<strong>Example:</strong>
+int age = 20;
+boolean hasLicense = true;
+
+// Can drive if age >= 18 AND has license
+boolean canDrive = (age >= 18) && hasLicense;  // true
+
+// Can enter if age >= 18 OR has adult guardian
+boolean canEnter = (age >= 18) || hasGuardian;
+
+// Is NOT a minor
+boolean isAdult = !(age < 18);  // true</div>
+                    
+                    <div class="subsection-title">4. Assignment Operators</div>
+                    <div class="code-box"><strong>Assign and Update Values:</strong>
+
+=   Assign              int x = 10;
++=  Add and assign      x += 5;  // x = x + 5 (x becomes 15)
+-=  Subtract and assign x -= 3;  // x = x - 3 (x becomes 12)
+*=  Multiply and assign x *= 2;  // x = x * 2 (x becomes 24)
+/=  Divide and assign   x /= 4;  // x = x / 4 (x becomes 6)</div>
+                    
+                    <div class="subsection-title">5. Unary Operators</div>
+                    <div class="code-box"><strong>Single Operand Operations:</strong>
+
+++  Increment (add 1)
+--  Decrement (subtract 1)
+
+<strong>Pre-increment vs Post-increment:</strong>
+int a = 5;
+int b = ++a;  // Pre: First increase a to 6, then assign (b = 6, a = 6)
+int c = a++;  // Post: First assign a to c (c = 6), then increase (a = 7)
+
+<strong>Example:</strong>
+int count = 0;
+count++;      // count becomes 1
+++count;      // count becomes 2</div>
+                    
+                    <div class="example-box">
+                        <strong>Real-life Example - Shopping Cart:</strong><br>
+                        int totalPrice = 1000;<br>
+                        int discount = 100;<br>
+                        int finalPrice = totalPrice - discount;  // Subtraction<br>
+                        boolean canAfford = (finalPrice <= budget);  // Comparison<br>
+                        int itemCount = 0;<br>
+                        itemCount++;  // Add item to cart
                     </div>
                 </div>
             </div>
             
-            <!-- Footer Note -->
-            <div class="note-box" style="margin-top: 30px;">
-                <strong>📝 Note:</strong> This is a comprehensive guide designed for beginners. Take your time to understand each concept with the examples provided. Practice writing code for each topic to master Java programming!
+            <!-- Section 7: Control Statements -->
+            <div class="section">
+                <div class="section-title">7. Control Statements</div>
+                <div class="content">
+                    <p>Control statements help us make decisions and repeat actions in our programs. Think of them as traffic signals that control the flow of your code.</p>
+                    
+                    <div class="subsection-title">1. if-else Statement (Decision Making)</div>
+                    <div class="definition-box">
+                        <strong>Purpose:</strong> Execute code based on a condition (true/false)
+                    </div>
+                    
+                    <div class="code-box"><strong>Syntax:</strong>
+
+// Simple if
+if (condition) {
+    // code runs if condition is true
+}
+
+// if-else
+if (condition) {
+    // runs if true
+} else {
+    // runs if false
+}
+
+// if-else-if ladder
+if (condition1) {
+    // runs if condition1 is true
+} else if (condition2) {
+    // runs if condition2 is true
+} else {
+    // runs if all conditions are false
+}
+
+<strong>Example - Grade System:</strong>
+int marks = 85;
+
+if (marks >= 90) {
+    System.out.println("Grade A");
+} else if (marks >= 75) {
+    System.out.println("Grade B");  // This executes
+} else if (marks >= 60) {
+    System.out.println("Grade C");
+} else {
+    System.out.println("Fail");
+}</div>
+                    
+                    <div class="subsection-title">2. switch Statement (Multiple Choices)</div>
+                    <div class="definition-box">
+                        <strong>Purpose:</strong> Select one option from many choices. Better than multiple if-else when checking the same variable.
+                    </div>
+                    
+                    <div class="code-box"><strong>Syntax:</strong>
+
+switch (variable) {
+    case value1:
+        // code
+        break;
+    case value2:
+        // code
+        break;
+    default:
+        // code if no case matches
+}
+
+<strong>Example - Day of Week:</strong>
+int day = 3;
+
+switch (day) {
+    case 1:
+        System.out.println("Monday");
+        break;
+    case 2:
+        System.out.println("Tuesday");
+        break;
+    case 3:
+        System.out.println("Wednesday");  // This executes
+        break;
+    default:
+        System.out.println("Invalid day");
+}</div>
+                    
+                    <div class="note-box">
+                        <strong>Important:</strong> Don't forget the <code>break</code> statement! Without it, code will continue to the next case (fall-through).
+                    </div>
+                    
+                    <div class="subsection-title">3. for Loop (Repeat Known Times)</div>
+                    <div class="definition-box">
+                        <strong>Purpose:</strong> Repeat code a specific number of times. Use when you know how many iterations you need.
+                    </div>
+                    
+                    <div class="code-box"><strong>Syntax:</strong>
+
+for (initialization; condition; update) {
+    // code to repeat
+}
+
+<strong>Example - Print 1 to 5:</strong>
+for (int i = 1; i <= 5; i++) {
+    System.out.println(i);
+}
+// Output: 1 2 3 4 5
+
+<strong>Example - Array Traversal:</strong>
+int[] marks = {85, 90, 78, 92};
+for (int i = 0; i < marks.length; i++) {
+    System.out.println("Mark " + i + ": " + marks[i]);
+}
+
+<strong>Enhanced for Loop (for-each):</strong>
+for (int mark : marks) {
+    System.out.println(mark);  // Simpler for arrays
+}</div>
+                    
+                    <div class="subsection-title">4. while Loop (Repeat Until Condition False)</div>
+                    <div class="definition-box">
+                        <strong>Purpose:</strong> Repeat code as long as condition is true. Use when you don't know how many iterations needed.
+                    </div>
+                    
+                    <div class="code-box"><strong>Syntax:</strong>
+
+while (condition) {
+    // code to repeat
+}
+
+<strong>Example - Count to 5:</strong>
+int i = 1;
+while (i <= 5) {
+    System.out.println(i);
+    i++;  // Important: update counter!
+}
+
+<strong>Example - Password Check:</strong>
+String password = "";
+while (!password.equals("1234")) {
+    System.out.println("Enter password:");
+    password = input.next();
+}
+System.out.println("Access granted!");</div>
+                    
+                    <div class="subsection-title">5. do-while Loop (Execute At Least Once)</div>
+                    <div class="definition-box">
+                        <strong>Purpose:</strong> Similar to while, but guarantees at least one execution (checks condition after running code).
+                    </div>
+                    
+                    <div class="code-box"><strong>Syntax:</strong>
+
+do {
+    // code to repeat
+} while (condition);
+
+<strong>Example - Menu System:</strong>
+int choice;
+do {
+    System.out.println("1. Add");
+    System.out.println("2. Delete");
+    System.out.println("3. Exit");
+    choice = input.nextInt();
+    
+    // Process choice...
+} while (choice != 3);  // Repeat until Exit</div>
+                    
+                    <div class="example-box">
+                        <strong>When to Use Which Loop?</strong><br>
+                        <strong>for:</strong> When you know the number of iterations (e.g., print 1-10, traverse array)<br>
+                        <strong>while:</strong> When condition-dependent (e.g., until correct password)<br>
+                        <strong>do-while:</strong> When code must run at least once (e.g., menu display)
+                    </div>
+                    
+                    <div class="subsection-title">6. break and continue</div>
+                    <div class="code-box"><strong>break - Exit Loop Immediately:</strong>
+for (int i = 1; i <= 10; i++) {
+    if (i == 5) {
+        break;  // Loop stops at 5
+    }
+    System.out.println(i);
+}
+// Output: 1 2 3 4
+
+<strong>continue - Skip Current Iteration:</strong>
+for (int i = 1; i <= 5; i++) {
+    if (i == 3) {
+        continue;  // Skip 3
+    }
+    System.out.println(i);
+}
+// Output: 1 2 4 5</div>
+                </div>
+            </div>
+            
+            <!-- Section 8: Classes and Objects -->
+            <div class="section">
+                <div class="section-title">8. Objects and Classes in Java</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>What is a Class?</strong><br>
+                        A class is a blueprint or template that defines what an object will look like and what it can do. It's like a cookie cutter - the class is the cutter, objects are the cookies made from it.
+                    </div>
+                    
+                    <div class="definition-box">
+                        <strong>What is an Object?</strong><br>
+                        An object is an instance (actual example) of a class. If "Student" is a class, then "Raj", "Priya", and "Amit" are objects of that class.
+                    </div>
+                    
+                    <div class="code-box"><strong>Creating a Class:</strong>
+
+class Student {
+    // Instance Variables (Properties/Attributes)
+    String name;
+    int rollNo;
+    int age;
+    
+    // Method (Behavior/Function)
+    void displayInfo() {
+        System.out.println("Name: " + name);
+        System.out.println("Roll No: " + rollNo);
+        System.out.println("Age: " + age);
+    }
+}
+
+<strong>Creating Objects:</strong>
+
+class Main {
+    public static void main(String[] args) {
+        // Create object 1
+        Student s1 = new Student();
+        s1.name = "Raj";
+        s1.rollNo = 101;
+        s1.age = 20;
+        
+        // Create object 2
+        Student s2 = new Student();
+        s2.name = "Priya";
+        s2.rollNo = 102;
+        s2.age = 19;
+        
+        // Call methods
+        s1.displayInfo();  // Shows Raj's info
+        s2.displayInfo();  // Shows Priya's info
+    }
+}</div>
+                    
+                    <div class="example-box">
+                        <strong>Real-life Analogy:</strong><br>
+                        <strong>Class = Car Blueprint</strong><br>
+                        Properties: color, model, price<br>
+                        Methods: start(), stop(), accelerate()<br><br>
+                        <strong>Objects = Actual Cars</strong><br>
+                        Object 1: Red Toyota, ₹10 lakh<br>
+                        Object 2: Blue Honda, ₹12 lakh<br>
+                        Both follow the same blueprint but have different values.
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>Key Points:</strong><br>
+                        • Class name should start with a capital letter<br>
+                        • Use <code>new</code> keyword to create objects<br>
+                        • Each object has its own copy of instance variables<br>
+                        • Access members using dot operator (object.variable)
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 9: Programming Structures -->
+            <div class="section">
+                <div class="section-title">9. Programming Structures in Java</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>What are Programming Structures?</strong><br>
+                        Programming structures are different ways to organize and execute code. Java supports three main structures:
+                    </div>
+                    
+                    <div class="subsection-title">1. Sequential Structure</div>
+                    <div class="example-box">
+                        <strong>Definition:</strong> Code executes line by line from top to bottom.<br><br>
+                        <strong>Example:</strong><br>
+                        int a = 10;<br>
+                        int b = 20;<br>
+                        int sum = a + b;<br>
+                        System.out.println(sum);  // Executes in order
+                    </div>
+                    
+                    <div class="subsection-title">2. Selection Structure (Decision Making)</div>
+                    <div class="example-box">
+                        <strong>Definition:</strong> Code executes based on conditions (if-else, switch).<br><br>
+                        <strong>Example:</strong><br>
+                        if (age >= 18) {<br>
+                        &nbsp;&nbsp;System.out.println("Adult");<br>
+                        } else {<br>
+                        &nbsp;&nbsp;System.out.println("Minor");<br>
+                        }
+                    </div>
+                    
+                    <div class="subsection-title">3. Iteration Structure (Loops)</div>
+                    <div class="example-box">
+                        <strong>Definition:</strong> Code repeats multiple times (for, while, do-while).<br><br>
+                        <strong>Example:</strong><br>
+                        for (int i = 1; i <= 5; i++) {<br>
+                        &nbsp;&nbsp;System.out.println(i);<br>
+                        }
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>Remember:</strong> Most programs use a combination of all three structures to solve complex problems.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            <!-- Section 10: Constructors -->
+            <div class="section">
+                <div class="section-title">10. Constructors</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>What is a Constructor?</strong><br>
+                        A constructor is a special method that runs automatically when you create an object. It's used to initialize (set starting values) the object.<br><br>
+                        <strong>Think of it like:</strong> When you buy a new phone, it comes pre-configured with default settings. Constructor does the same for objects.
+                    </div>
+                    
+                    <div class="step-box">
+                        <strong>Rules for Constructors:</strong><br>
+                        1. Name must be exactly same as class name<br>
+                        2. No return type (not even void)<br>
+                        3. Called automatically when object is created<br>
+                        4. Can be overloaded (multiple constructors)
+                    </div>
+                    
+                    <div class="code-box"><strong>Types of Constructors:</strong>
+
+class Student {
+    String name;
+    int rollNo;
+    
+    // 1. Default Constructor
+    Student() {
+        name = "Unknown";
+        rollNo = 0;
+    }
+    
+    // 2. Parameterized Constructor
+    Student(String n, int r) {
+        name = n;
+        rollNo = r;
+    }
+    
+    // 3. Copy Constructor
+    Student(Student s) {
+        name = s.name;
+        rollNo = s.rollNo;
+    }
+}
+
+<strong>Usage:</strong>
+Student s1 = new Student();  
+Student s2 = new Student("Raj", 101);
+Student s3 = new Student(s2);</div>
+                    
+                    <div class="note-box">
+                        <strong>Important:</strong><br>
+                        • If you don't write constructor, Java provides default one<br>
+                        • Once you write any constructor, Java stops providing default<br>
+                        • Use <code>this</code> keyword when parameter names match variable names
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 11: Methods -->
+            <div class="section">
+                <div class="section-title">11. Methods in Java</div>
+                <div class="content">
+                    <div class="code-box"><strong>Method Syntax:</strong>
+
+returnType methodName(parameters) {
+    // code
+    return value;
+}
+
+<strong>Examples:</strong>
+
+class Calculator {
+    void greet() {
+        System.out.println("Hello!");
+    }
+    
+    int add(int a, int b) {
+        return a + b;
+    }
+    
+    void printSum(int a, int b) {
+        System.out.println("Sum: " + (a + b));
+    }
+}</div>
+                </div>
+            </div>
+            
+            <!-- Section 12: Access Specifiers -->
+            <div class="section">
+                <div class="section-title">12. Access Specifiers</div>
+                <div class="content">
+                    <div class="code-box"><strong>Four Types:</strong>
+
+1. public    - Everywhere
+2. private   - Same class only
+3. protected - Package + subclasses
+4. default   - Package only
+
+<strong>Example:</strong>
+
+class BankAccount {
+    public String accountHolder;
+    private double balance;
+    protected String accountType;
+    int accountNumber;  // default
+    
+    public void deposit(double amount) {
+        balance += amount;
+    }
+}</div>
+                    
+                    <div class="note-box">
+                        <strong>Best Practice:</strong> Keep variables private, provide public getters/setters
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 13: Static Members -->
+            <div class="section">
+                <div class="section-title">13. Static Members</div>
+                <div class="content">
+                    <div class="code-box"><strong>Static Variables & Methods:</strong>
+
+class Student {
+    String name;              // Instance
+    static String school;     // Static (shared)
+    static int count = 0;
+    
+    Student(String n) {
+        name = n;
+        count++;
+    }
+}
+
+class MathUtils {
+    static int square(int n) {
+        return n * n;
+    }
+}
+
+<strong>Usage:</strong>
+Student.school = "ABC School";
+int result = MathUtils.square(5);</div>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <!-- CHAPTER 2 -->
+            <div class="chapter-title" id="ch2">
+                <span>🔗</span>
+                <span>Chapter 2 — Inheritance & Advanced Concepts</span>
+            </div>
+            
+            <!-- Mind Map -->
+            <div class="section">
+                <div class="mindmap-box">
+                    <strong style="color: var(--secondary); font-size: 16px;">📊 INHERITANCE - MIND MAP</strong>
+                    <div style="margin-top: 15px; text-align: left; max-width: 700px; margin-left: auto; margin-right: auto;">
+                        <div class="point">Overloading → Same name, different parameters</div>
+                        <div class="point">Overriding → Child redefines parent method</div>
+                        <div class="point">Inheritance → Code reusability (Single, Multilevel, Hierarchical)</div>
+                        <div class="point">this & super → Current object, Parent class reference</div>
+                        <div class="point">Abstract → Cannot instantiate</div>
+                        <div class="point">Interface → Contract, multiple inheritance</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Method Overloading -->
+            <div class="section">
+                <div class="section-title">1. Method Overloading</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Definition:</strong> Same method name, different parameters (compile-time polymorphism)
+                    </div>
+                    
+                    <div class="code-box"><strong>Example:</strong>
+
+class Calculator {
+    int add(int a, int b) {
+        return a + b;
+    }
+    
+    int add(int a, int b, int c) {
+        return a + b + c;
+    }
+    
+    double add(double a, double b) {
+        return a + b;
+    }
+}
+
+<strong>Usage:</strong>
+Calculator c = new Calculator();
+c.add(5, 3);        // 8
+c.add(5, 3, 2);     // 10
+c.add(5.5, 3.2);    // 8.7</div>
+                </div>
+            </div>
+            
+            <!-- Method Overriding -->
+            <div class="section">
+                <div class="section-title">2. Method Overriding</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Definition:</strong> Child class redefines parent method (runtime polymorphism)
+                    </div>
+                    
+                    <div class="code-box"><strong>Example:</strong>
+
+class Animal {
+    void sound() {
+        System.out.println("Animal sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Bark!");
+    }
+}
+
+<strong>Usage:</strong>
+Animal a = new Dog();
+a.sound();  // Bark!</div>
+                    
+                    <div class="step-box">
+                        <strong>Rules:</strong><br>
+                        • Same method name & parameters<br>
+                        • Cannot override static/final/private<br>
+                        • Use @Override annotation
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Objects as Parameters -->
+            <div class="section">
+                <div class="section-title">3. Objects as Parameters</div>
+                <div class="content">
+                    <div class="code-box"><strong>Example:</strong>
+
+class Student {
+    String name;
+    int marks;
+    
+    boolean hasBetterMarks(Student other) {
+        return this.marks > other.marks;
+    }
+}
+
+<strong>Usage:</strong>
+Student s1 = new Student("Raj", 85);
+Student s2 = new Student("Priya", 90);
+s1.hasBetterMarks(s2);  // false</div>
+                </div>
+            </div>
+            
+            <!-- Returning Objects -->
+            <div class="section">
+                <div class="section-title">4. Returning Objects</div>
+                <div class="content">
+                    <div class="code-box"><strong>Example:</strong>
+
+class Student {
+    String name;
+    int rollNo;
+    
+    Student createCopy() {
+        return new Student(this.name, this.rollNo);
+    }
+    
+    static Student createDefault() {
+        return new Student("Unknown", 0);
+    }
+}</div>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            <!-- Section 6: Static, Inner & Wrapper Classes -->
+            <div class="section">
+                <div class="section-title">6. Static, Inner & Wrapper Classes</div>
+                <div class="content">
+                    
+                    <div class="subsection-title">Static Class (Nested Static Class)</div>
+                    <div class="definition-box">
+                        <strong>Definition:</strong> A static nested class is a class defined inside another class with the static keyword. It can be accessed without creating an object of the outer class.
+                    </div>
+                    
+                    <div class="code-box"><strong>Example - Static Nested Class:</strong>
+
+class Outer {
+    static int outerStatic = 10;
+    
+    static class StaticNested {
+        void display() {
+            System.out.println("Static nested class");
+            System.out.println("Outer static: " + outerStatic);
+        }
+    }
+}
+
+<strong>Usage:</strong>
+Outer.StaticNested nested = new Outer.StaticNested();
+nested.display();</div>
+                    
+                    <div class="subsection-title">Inner Class (Non-static Nested Class)</div>
+                    <div class="definition-box">
+                        <strong>Definition:</strong> An inner class is a non-static class defined inside another class. It has access to all members of the outer class.
+                    </div>
+                    
+                    <div class="code-box"><strong>Example - Inner Class:</strong>
+
+class Outer {
+    private int data = 20;
+    
+    class Inner {
+        void display() {
+            System.out.println("Inner class");
+            System.out.println("Outer data: " + data);
+        }
+    }
+}
+
+<strong>Usage:</strong>
+Outer outer = new Outer();
+Outer.Inner inner = outer.new Inner();
+inner.display();</div>
+                    
+                    <div class="subsection-title">Wrapper Classes</div>
+                    <div class="definition-box">
+                        <strong>What are Wrapper Classes?</strong><br>
+                        Wrapper classes convert primitive data types into objects. This is useful when you need objects instead of primitives (like in collections).
+                    </div>
+                    
+                    <div class="code-box"><strong>Primitive vs Wrapper:</strong>
+
+Primitive Type    Wrapper Class
+--------------    -------------
+byte              Byte
+short             Short
+int               Integer
+long              Long
+float             Float
+double            Double
+char              Character
+boolean           Boolean
+
+<strong>Examples:</strong>
+
+// Boxing (primitive to object)
+int num = 10;
+Integer obj = Integer.valueOf(num);  // Manual boxing
+Integer obj2 = num;  // Auto-boxing (automatic)
+
+// Unboxing (object to primitive)
+Integer obj3 = new Integer(20);
+int num2 = obj3.intValue();  // Manual unboxing
+int num3 = obj3;  // Auto-unboxing (automatic)
+
+// Useful methods
+String str = "123";
+int converted = Integer.parseInt(str);  // String to int
+String back = Integer.toString(converted);  // int to String</div>
+                    
+                    <div class="example-box">
+                        <strong>Real-life Example:</strong><br>
+                        Think of a gift. The primitive is the gift itself, and the wrapper is the gift box. Sometimes you need the box (wrapper) to handle it properly.
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>Why Wrapper Classes?</strong><br>
+                        • Collections (ArrayList, HashMap) only work with objects, not primitives<br>
+                        • Provides utility methods (parseInt, toString, etc.)<br>
+                        • Allows null values (primitives cannot be null)
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 7: Inheritance -->
+            <div class="section">
+                <div class="section-title">7. Inheritance and Types of Inheritance</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>What is Inheritance?</strong><br>
+                        Inheritance is a mechanism where a new class (child/subclass) acquires properties and methods of an existing class (parent/superclass). It promotes code reusability.<br><br>
+                        <strong>Syntax:</strong> class Child extends Parent { }
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Real-life Example:</strong><br>
+                        You inherit features from your parents (eye color, height, etc.). Similarly, a child class inherits features from its parent class.
+                    </div>
+                    
+                    <div class="subsection-title">Type 1: Single Inheritance</div>
+                    <div class="definition-box">
+                        <strong>Definition:</strong> One child class inherits from one parent class.
+                    </div>
+                    
+                    <div class="code-box"><strong>Example - Single Inheritance:</strong>
+
+class Vehicle {
+    void start() {
+        System.out.println("Vehicle started");
+    }
+}
+
+class Car extends Vehicle {
+    void drive() {
+        System.out.println("Car driving");
+    }
+}
+
+<strong>Usage:</strong>
+Car c = new Car();
+c.start();  // Inherited from Vehicle
+c.drive();  // Own method</div>
+                    
+                    <div class="subsection-title">Type 2: Multilevel Inheritance</div>
+                    <div class="definition-box">
+                        <strong>Definition:</strong> A child class inherits from a parent class, which itself inherits from another parent class. Forms a chain.
+                    </div>
+                    
+                    <div class="code-box"><strong>Example - Multilevel Inheritance:</strong>
+
+class Vehicle {
+    void start() {
+        System.out.println("Vehicle started");
+    }
+}
+
+class Car extends Vehicle {
+    void drive() {
+        System.out.println("Car driving");
+    }
+}
+
+class SportsCar extends Car {
+    void turboBoost() {
+        System.out.println("Turbo activated!");
+    }
+}
+
+<strong>Usage:</strong>
+SportsCar sc = new SportsCar();
+sc.start();       // From Vehicle (grandparent)
+sc.drive();       // From Car (parent)
+sc.turboBoost();  // Own method</div>
+                    
+                    <div class="subsection-title">Type 3: Hierarchical Inheritance</div>
+                    <div class="definition-box">
+                        <strong>Definition:</strong> Multiple child classes inherit from the same parent class.
+                    </div>
+                    
+                    <div class="code-box"><strong>Example - Hierarchical Inheritance:</strong>
+
+class Animal {
+    void eat() {
+        System.out.println("Animal eats");
+    }
+}
+
+class Dog extends Animal {
+    void bark() {
+        System.out.println("Dog barks");
+    }
+}
+
+class Cat extends Animal {
+    void meow() {
+        System.out.println("Cat meows");
+    }
+}
+
+<strong>Usage:</strong>
+Dog d = new Dog();
+d.eat();   // Inherited
+d.bark();  // Own
+
+Cat c = new Cat();
+c.eat();   // Inherited
+c.meow();  // Own</div>
+                    
+                    <div class="subsection-title">Type 4: Multiple Inheritance (NOT in Java)</div>
+                    <div class="threat-box">
+                        <strong>⚠️ Important:</strong> Java does NOT support multiple inheritance with classes (one class cannot extend multiple classes). This prevents the "Diamond Problem".<br><br>
+                        <strong>Solution:</strong> Use interfaces to achieve multiple inheritance (explained in Interface section).
+                    </div>
+                    
+                    <div class="subsection-title">Type 5: Hybrid Inheritance (NOT in Java)</div>
+                    <div class="threat-box">
+                        <strong>⚠️ Important:</strong> Hybrid inheritance (combination of two or more types) is also NOT supported in Java with classes.<br><br>
+                        <strong>Solution:</strong> Can be achieved using interfaces.
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>Remember:</strong><br>
+                        • Java supports: Single, Multilevel, Hierarchical<br>
+                        • Java does NOT support: Multiple, Hybrid (with classes)<br>
+                        • Use <code>extends</code> keyword for inheritance<br>
+                        • A class can extend only ONE class but implement MULTIPLE interfaces
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 8: this and super keywords -->
+            <div class="section">
+                <div class="section-title">8. this and super Keywords</div>
+                <div class="content">
+                    
+                    <div class="subsection-title">this Keyword</div>
+                    <div class="definition-box">
+                        <strong>What is 'this'?</strong><br>
+                        The <code>this</code> keyword refers to the current object (the object whose method or constructor is being called).
+                    </div>
+                    
+                    <div class="code-box"><strong>Uses of 'this' keyword:</strong>
+
+class Student {
+    String name;
+    int age;
+    
+    // 1. To refer to instance variable when parameter has same name
+    Student(String name, int age) {
+        this.name = name;  // this.name = instance variable
+        this.age = age;    // name = parameter
+    }
+    
+    // 2. To call another constructor of same class
+    Student() {
+        this("Unknown", 0);  // Calls parameterized constructor
+    }
+    
+    // 3. To pass current object as parameter
+    void display(Student s) {
+        System.out.println(s.name);
+    }
+    
+    void show() {
+        display(this);  // Passing current object
+    }
+    
+    // 4. To return current object
+    Student getInstance() {
+        return this;
+    }
+}</div>
+                    
+                    <div class="subsection-title">super Keyword</div>
+                    <div class="definition-box">
+                        <strong>What is 'super'?</strong><br>
+                        The <code>super</code> keyword refers to the parent class. It's used to access parent class members.
+                    </div>
+                    
+                    <div class="code-box"><strong>Uses of 'super' keyword:</strong>
+
+class Vehicle {
+    String type = "Vehicle";
+    int speed = 50;
+    
+    Vehicle() {
+        System.out.println("Vehicle constructor");
+    }
+    
+    void display() {
+        System.out.println("Vehicle display");
+    }
+}
+
+class Car extends Vehicle {
+    String type = "Car";
+    int speed = 100;
+    
+    // 1. To call parent constructor
+    Car() {
+        super();  // Calls Vehicle()
+        System.out.println("Car constructor");
+    }
+    
+    // 2. To access parent class variable
+    void showSpeed() {
+        System.out.println("Car speed: " + speed);       // 100
+        System.out.println("Vehicle speed: " + super.speed); // 50
+    }
+    
+    // 3. To call parent class method
+    void display() {
+        super.display();  // Calls Vehicle's display()
+        System.out.println("Car display");
+    }
+}</div>
+                    
+                    <div class="example-box">
+                        <strong>this vs super:</strong><br>
+                        • <strong>this:</strong> Refers to current object (same class)<br>
+                        • <strong>super:</strong> Refers to parent object (parent class)<br><br>
+                        Think of <code>this</code> as "me" and <code>super</code> as "my parent"
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>Important Rules:</strong><br>
+                        • <code>super()</code> must be first statement in constructor<br>
+                        • <code>this()</code> must be first statement in constructor<br>
+                        • Cannot use both <code>super()</code> and <code>this()</code> together in same constructor
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 9: Abstract Classes -->
+            <div class="section">
+                <div class="section-title">9. Abstract Classes</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>What is an Abstract Class?</strong><br>
+                        An abstract class is a class that cannot be instantiated (cannot create objects). It serves as a template for other classes. It can have both abstract methods (without body) and concrete methods (with body).
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Real-life Example:</strong><br>
+                        "Shape" is an abstract concept. You can't draw a "shape" directly, but you can draw specific shapes like circle, rectangle, triangle. Shape is the abstract class, specific shapes are concrete classes.
+                    </div>
+                    
+                    <div class="code-box"><strong>Abstract Class Example:</strong>
+
+abstract class Shape {
+    String color;
+    
+    // Abstract method (no body)
+    abstract void draw();
+    
+    // Concrete method (has body)
+    void setColor(String color) {
+        this.color = color;
+    }
+}
+
+class Circle extends Shape {
+    // Must implement abstract method
+    void draw() {
+        System.out.println("Drawing circle");
+    }
+}
+
+class Rectangle extends Shape {
+    // Must implement abstract method
+    void draw() {
+        System.out.println("Drawing rectangle");
+    }
+}
+
+<strong>Usage:</strong>
+
+// Shape s = new Shape();  // ERROR! Cannot instantiate
+
+Circle c = new Circle();
+c.setColor("Red");
+c.draw();  // Drawing circle
+
+Rectangle r = new Rectangle();
+r.draw();  // Drawing rectangle</div>
+                    
+                    <div class="step-box">
+                        <strong>Rules for Abstract Classes:</strong><br>
+                        1. Use <code>abstract</code> keyword<br>
+                        2. Cannot create objects of abstract class<br>
+                        3. Can have abstract methods (no body) and concrete methods (with body)<br>
+                        4. Child class MUST implement all abstract methods (or be abstract itself)<br>
+                        5. Can have constructors and static methods<br>
+                        6. Can have instance variables
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>When to use Abstract Classes?</strong><br>
+                        • When you have common functionality to share<br>
+                        • When you want to enforce certain methods in child classes<br>
+                        • When you want partial abstraction (some concrete, some abstract methods)
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 10: final Keyword -->
+            <div class="section">
+                <div class="section-title">10. final Variables, Methods & Classes</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>What is 'final'?</strong><br>
+                        The <code>final</code> keyword is used to restrict the user. It can be applied to variables, methods, and classes.
+                    </div>
+                    
+                    <div class="subsection-title">1. final Variables</div>
+                    <div class="code-box"><strong>final Variable (Constant):</strong>
+
+class Demo {
+    final int MAX_VALUE = 100;  // Cannot be changed
+    
+    void changeValue() {
+        // MAX_VALUE = 200;  // ERROR! Cannot modify final variable
+    }
+}
+
+<strong>Example - Blank final variable:</strong>
+
+class Student {
+    final int rollNo;  // Blank final
+    
+    Student(int rollNo) {
+        this.rollNo = rollNo;  // Can be initialized in constructor
+    }
+}</div>
+                    
+                    <div class="subsection-title">2. final Methods</div>
+                    <div class="code-box"><strong>final Method (Cannot be overridden):</strong>
+
+class Parent {
+    final void show() {
+        System.out.println("Parent show");
+    }
+}
+
+class Child extends Parent {
+    // void show() {  // ERROR! Cannot override final method
+    //     System.out.println("Child show");
+    // }
+}</div>
+                    
+                    <div class="subsection-title">3. final Classes</div>
+                    <div class="code-box"><strong>final Class (Cannot be inherited):</strong>
+
+final class Vehicle {
+    void start() {
+        System.out.println("Vehicle started");
+    }
+}
+
+// class Car extends Vehicle {  // ERROR! Cannot extend final class
+// }</div>
+                    
+                    <div class="example-box">
+                        <strong>Real-life Examples:</strong><br>
+                        • <strong>final variable:</strong> Speed limit on highway (fixed, cannot change)<br>
+                        • <strong>final method:</strong> Safety protocol that must remain same (cannot be modified)<br>
+                        • <strong>final class:</strong> String class in Java (cannot be extended)
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>Remember:</strong><br>
+                        • final variable = constant<br>
+                        • final method = cannot override<br>
+                        • final class = cannot inherit<br>
+                        • Use final for security and immutability
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 11: Interface -->
+            <div class="section">
+                <div class="section-title">11. Interface</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>What is an Interface?</strong><br>
+                        An interface is a completely abstract class that contains only abstract methods (and constants). It's like a contract that a class must follow. It achieves 100% abstraction and supports multiple inheritance.
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Real-life Example:</strong><br>
+                        Think of a TV remote interface. Different TVs (Samsung, LG, Sony) implement the same interface (power button, volume, channel buttons), but each works differently internally.
+                    </div>
+                    
+                    <div class="code-box"><strong>Interface Example:</strong>
+
+interface Animal {
+    // All methods are public abstract by default
+    void eat();
+    void sleep();
+    
+    // All variables are public static final (constants)
+    int LEGS = 4;
+}
+
+class Dog implements Animal {
+    // Must implement all interface methods
+    public void eat() {
+        System.out.println("Dog eats");
+    }
+    
+    public void sleep() {
+        System.out.println("Dog sleeps");
+    }
+}
+
+<strong>Usage:</strong>
+Dog d = new Dog();
+d.eat();
+System.out.println("Legs: " + Animal.LEGS);</div>
+                    
+                    <div class="subsection-title">Multiple Inheritance with Interfaces</div>
+                    <div class="code-box"><strong>Multiple Interface Implementation:</strong>
+
+interface Flyable {
+    void fly();
+}
+
+interface Swimmable {
+    void swim();
+}
+
+class Duck implements Flyable, Swimmable {
+    public void fly() {
+        System.out.println("Duck flies");
+    }
+    
+    public void swim() {
+        System.out.println("Duck swims");
+    }
+}
+
+<strong>Usage:</strong>
+Duck d = new Duck();
+d.fly();
+d.swim();</div>
+                    
+                    <div class="subsection-title">Interface Inheritance</div>
+                    <div class="code-box"><strong>Interface can extend another Interface:</strong>
+
+interface A {
+    void methodA();
+}
+
+interface B extends A {
+    void methodB();
+}
+
+class C implements B {
+    public void methodA() {
+        System.out.println("Method A");
+    }
+    
+    public void methodB() {
+        System.out.println("Method B");
+    }
+}</div>
+                    
+                    <div class="step-box">
+                        <strong>Rules for Interfaces:</strong><br>
+                        1. Use <code>interface</code> keyword<br>
+                        2. All methods are public abstract (by default)<br>
+                        3. All variables are public static final (constants)<br>
+                        4. Cannot have constructors<br>
+                        5. A class can implement multiple interfaces<br>
+                        6. Use <code>implements</code> keyword<br>
+                        7. Must implement ALL methods from interface
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>Abstract Class vs Interface:</strong><br><br>
+                        <strong>Abstract Class:</strong><br>
+                        • Can have abstract and concrete methods<br>
+                        • Can have instance variables<br>
+                        • Can have constructors<br>
+                        • Single inheritance only<br>
+                        • Use <code>extends</code><br><br>
+                        <strong>Interface:</strong><br>
+                        • Only abstract methods (before Java 8)<br>
+                        • Only constants (static final)<br>
+                        • No constructors<br>
+                        • Multiple inheritance<br>
+                        • Use <code>implements</code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            <!-- Section 12: Member Access -->
+            <div class="section">
+                <div class="section-title">12. Member Access and Visibility</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>What is Member Access?</strong><br>
+                        Member access refers to how and where you can access class members (variables and methods) based on their access modifiers.
+                    </div>
+                    
+                    <div class="code-box"><strong>Access Modifier Summary Table:</strong>
+
+Modifier    Same Class  Same Package  Subclass  Everywhere
+--------    ----------  ------------  --------  ----------
+private        ✓            ✗            ✗          ✗
+default        ✓            ✓            ✗          ✗
+protected      ✓            ✓            ✓          ✗
+public         ✓            ✓            ✓          ✓
+
+<strong>Example:</strong>
+
+package com.example;
+
+public class Parent {
+    public int a = 10;        // Accessible everywhere
+    protected int b = 20;     // Package + subclasses
+    int c = 30;               // Package only (default)
+    private int d = 40;       // This class only
+    
+    public void show() {
+        // Can access all members here
+        System.out.println(a + b + c + d);
+    }
+}</div>
+                    
+                    <div class="code-box"><strong>Access from Different Locations:</strong>
+
+// Same package, same class
+class Parent {
+    private int x = 10;
+    void test() {
+        System.out.println(x);  // ✓ OK
+    }
+}
+
+// Same package, different class
+class Child extends Parent {
+    void display() {
+        // System.out.println(x);  // ✗ Error (private)
+    }
+}
+
+// Different package, subclass
+package other;
+import com.example.Parent;
+
+class SubClass extends Parent {
+    void show() {
+        System.out.println(a);  // ✓ public
+        System.out.println(b);  // ✓ protected
+        // System.out.println(c);  // ✗ default
+        // System.out.println(d);  // ✗ private
+    }
+}</div>
+                    
+                    <div class="note-box">
+                        <strong>Best Practice for Encapsulation:</strong><br>
+                        • Make variables private<br>
+                        • Make methods public (if needed externally)<br>
+                        • Use getters/setters for controlled access<br>
+                        • This protects data and maintains flexibility
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Real-world Example:</strong><br>
+                        Think of a house:<br>
+                        • <strong>private:</strong> Your diary (only you)<br>
+                        • <strong>default:</strong> Living room (family/neighbors)<br>
+                        • <strong>protected:</strong> Family heirloom (family + relatives)<br>
+                        • <strong>public:</strong> Front door (everyone)
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Summary Section -->
+            <div class="section">
+                <div class="note-box" style="margin-top: 30px;">
+                    <strong>🎯 Unit 1 Complete!</strong><br>
+                    You've learned Java from scratch - from basic syntax to advanced OOP concepts. Practice writing code for each topic to master these concepts. Remember: Programming is learned by doing, not just reading!
+                </div>
             </div>
             
         </div>
@@ -958,38 +2286,387 @@ int[][] matrix = {
         <div class="tab-content" id="lastMinTab">
             <div class="chapter-title">
                 <span>⚡</span>
-                <span>Quick Revision - Last Minute Notes</span>
+                <span>Last Minute Notes - Quick Revision (5-10 mins)</span>
             </div>
             
+            <!-- Quick Overview -->
             <div class="section">
-                <div class="section-title">🎯 Java Fundamentals - Quick Points</div>
+                <div class="note-box">
+                    <strong>📌 How to Use:</strong> Read this section 5-10 minutes before your exam. It contains all important points, formulas, and commonly asked topics in condensed form.
+                </div>
+            </div>
+            
+            <!-- OOP Concepts -->
+            <div class="section">
+                <div class="section-title">🎯 OOP - Remember APIE</div>
                 <div class="content">
                     <div class="step-box">
-                        <strong>OOP Pillars (Remember: APIE)</strong><br>
-                        A - Abstraction<br>
-                        P - Polymorphism<br>
-                        I - Inheritance<br>
-                        E - Encapsulation
-                    </div>
-                    
-                    <div class="code-box">
-<strong>JVM vs JRE vs JDK (Quick)</strong>
-JVM = Virtual machine (runs bytecode)
-JRE = JVM + Libraries (run Java programs)
-JDK = JRE + Development tools (create Java programs)
-                    </div>
-                    
-                    <div class="definition-box">
-                        <strong>Data Types Quick Reference:</strong><br>
-                        int → 4 bytes, whole numbers<br>
-                        double → 8 bytes, decimals<br>
-                        boolean → true/false<br>
-                        char → single character 'A'<br>
-                        String → text "Hello"
+                        <strong>A - Abstraction:</strong> Hide complex details, show only essential<br>
+                        <strong>P - Polymorphism:</strong> One name, many forms (Overloading + Overriding)<br>
+                        <strong>I - Inheritance:</strong> Code reusability (IS-A relationship)<br>
+                        <strong>E - Encapsulation:</strong> Data hiding using private + getters/setters
                     </div>
                 </div>
             </div>
+            
+            <!-- JVM, JDK, JRE -->
+            <div class="section">
+                <div class="section-title">💻 JVM vs JDK vs JRE</div>
+                <div class="content">
+                    <div class="code-box">JVM = Virtual Machine (runs bytecode)
+JRE = JVM + Libraries (run programs)
+JDK = JRE + Dev Tools (create + run programs)
+
+Remember: JDK ⊃ JRE ⊃ JVM</div>
+                </div>
+            </div>
+            
+            <!-- Data Types -->
+            <div class="section">
+                <div class="section-title">📊 Data Types - Quick Reference</div>
+                <div class="content">
+                    <div class="code-box">Primitive (8 types):
+byte(1), short(2), int(4), long(8) - integers
+float(4), double(8) - decimals
+char(2) - single character
+boolean(1 bit) - true/false
+
+Reference: String, Arrays, Objects
+
+Remember: int & double are most used!</div>
+                </div>
+            </div>
+            
+            <!-- Operators -->
+            <div class="section">
+                <div class="section-title">⚙️ Operators - Must Know</div>
+                <div class="content">
+                    <div class="code-box">Arithmetic: + - * / %
+Relational: == != > < >= <=
+Logical: && || !
+Unary: ++ -- (pre/post increment)
+Assignment: = += -= *= /=
+
+Tricky: 
+int a=5; b=a++; → b=5, a=6 (post)
+int a=5; b=++a; → b=6, a=6 (pre)</div>
+                </div>
+            </div>
+            
+            <!-- Control Statements -->
+            <div class="section">
+                <div class="section-title">🔄 Control Statements</div>
+                <div class="content">
+                    <div class="step-box">
+                        <strong>if-else:</strong> Decision making<br>
+                        <strong>switch:</strong> Multiple choices (use break!)<br>
+                        <strong>for:</strong> Known iterations<br>
+                        <strong>while:</strong> Unknown iterations (check first)<br>
+                        <strong>do-while:</strong> Run at least once (check after)<br>
+                        <strong>break:</strong> Exit loop<br>
+                        <strong>continue:</strong> Skip iteration
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Constructor -->
+            <div class="section">
+                <div class="section-title">🏗️ Constructor Rules</div>
+                <div class="content">
+                    <div class="step-box">
+                        ✓ Same name as class<br>
+                        ✓ No return type (not even void)<br>
+                        ✓ Called automatically with 'new'<br>
+                        ✓ Can be overloaded<br>
+                        ✗ Cannot be static, final, or abstract
+                    </div>
+                    
+                    <div class="code-box">Types:
+1. Default - No parameters
+2. Parameterized - With parameters
+3. Copy - Copies another object</div>
+                </div>
+            </div>
+            
+            <!-- Access Specifiers -->
+            <div class="section">
+                <div class="section-title">🔒 Access Specifiers (Most Asked!)</div>
+                <div class="content">
+                    <div class="code-box">Order (Restrictive → Open):
+private < default < protected < public
+
+private    → Same class only
+default    → Same package
+protected  → Package + subclasses
+public     → Everywhere
+
+Exam Tip: Draw the table!</div>
+                </div>
+            </div>
+            
+            <!-- Static -->
+            <div class="section">
+                <div class="section-title">⚡ Static - Key Points</div>
+                <div class="content">
+                    <div class="step-box">
+                        • Belongs to class, not object<br>
+                        • Shared by all objects<br>
+                        • Access using ClassName.member<br>
+                        • main() is static (runs without object)<br>
+                        • Static can access only static members<br>
+                        • Cannot use 'this' or 'super' in static
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Overloading vs Overriding -->
+            <div class="section">
+                <div class="section-title">🔄 Overloading vs Overriding (IMP!)</div>
+                <div class="content">
+                    <div class="code-box"><strong>OVERLOADING (Compile-time)</strong>
+• Same class
+• Same name, different parameters
+• Can change return type
+• Example: add(int,int), add(double,double)
+
+<strong>OVERRIDING (Runtime)</strong>
+• Parent-child classes
+• Same signature (name + parameters)
+• Same return type
+• Use @Override
+• Cannot override: static, final, private</div>
+                </div>
+            </div>
+            
+            <!-- Inheritance -->
+            <div class="section">
+                <div class="section-title">🔗 Inheritance Types</div>
+                <div class="content">
+                    <div class="step-box">
+                        ✓ <strong>Single:</strong> A → B<br>
+                        ✓ <strong>Multilevel:</strong> A → B → C<br>
+                        ✓ <strong>Hierarchical:</strong> A → B, A → C<br>
+                        ✗ <strong>Multiple:</strong> NOT in Java (use Interface)<br>
+                        ✗ <strong>Hybrid:</strong> NOT in Java (use Interface)
+                    </div>
+                    
+                    <div class="code-box">Keyword: extends
+Syntax: class Child extends Parent { }
+Diamond Problem → Why no multiple inheritance</div>
+                </div>
+            </div>
+            
+            <!-- this vs super -->
+            <div class="section">
+                <div class="section-title">👆 this vs super</div>
+                <div class="content">
+                    <div class="code-box"><strong>this</strong> (current object)
+• this.variable → instance variable
+• this() → call another constructor
+• this → return/pass current object
+
+<strong>super</strong> (parent class)
+• super.variable → parent variable
+• super.method() → parent method
+• super() → call parent constructor
+
+Rules:
+• super() must be FIRST in constructor
+• Cannot use both super() and this() together</div>
+                </div>
+            </div>
+            
+            <!-- Abstract Class -->
+            <div class="section">
+                <div class="section-title">🎭 Abstract Class</div>
+                <div class="content">
+                    <div class="step-box">
+                        • Use 'abstract' keyword<br>
+                        • Cannot create objects<br>
+                        • Can have abstract + concrete methods<br>
+                        • Can have constructors<br>
+                        • Child must implement abstract methods<br>
+                        • Provides 0-100% abstraction
+                    </div>
+                    
+                    <div class="code-box">abstract class Animal {
+    abstract void sound();  // No body
+    void sleep() { }        // Has body
+}</div>
+                </div>
+            </div>
+            
+            <!-- Interface -->
+            <div class="section">
+                <div class="section-title">📜 Interface (Very Important!)</div>
+                <div class="content">
+                    <div class="step-box">
+                        • Use 'interface' keyword<br>
+                        • All methods public abstract (by default)<br>
+                        • All variables public static final<br>
+                        • No constructors<br>
+                        • Multiple inheritance allowed<br>
+                        • Use 'implements' keyword<br>
+                        • Provides 100% abstraction
+                    </div>
+                    
+                    <div class="code-box">interface Flyable {
+    void fly();  // public abstract
+    int WINGS = 2;  // public static final
+}
+
+class Bird implements Flyable {
+    public void fly() { }  // Must implement
+}</div>
+                </div>
+            </div>
+            
+            <!-- Abstract vs Interface -->
+            <div class="section">
+                <div class="section-title">⚖️ Abstract Class vs Interface</div>
+                <div class="content">
+                    <div class="code-box">Abstract Class          | Interface
+----------------------- | -----------------------
+abstract keyword        | interface keyword
+0-100% abstraction      | 100% abstraction
+Can have constructors   | No constructors
+extends (single)        | implements (multiple)
+Any access modifier     | Only public
+Can have variables      | Only constants
+When: Share code        | When: Contract/Multiple</div>
+                </div>
+            </div>
+            
+            <!-- final keyword -->
+            <div class="section">
+                <div class="section-title">🔐 final Keyword</div>
+                <div class="content">
+                    <div class="step-box">
+                        <strong>final variable:</strong> Cannot change (constant)<br>
+                        <strong>final method:</strong> Cannot override<br>
+                        <strong>final class:</strong> Cannot inherit
+                    </div>
+                    
+                    <div class="example-box">
+                        Examples:<br>
+                        • final int MAX = 100;<br>
+                        • final void show() { }<br>
+                        • final class String { }
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Wrapper Classes -->
+            <div class="section">
+                <div class="section-title">📦 Wrapper Classes</div>
+                <div class="content">
+                    <div class="code-box">Primitive → Wrapper
+int       → Integer
+double    → Double
+char      → Character
+boolean   → Boolean
+
+Boxing: int → Integer (primitive to object)
+Unboxing: Integer → int (object to primitive)
+
+Useful: Integer.parseInt("123") → 123</div>
+                </div>
+            </div>
+            
+            <!-- Common Mistakes -->
+            <div class="section">
+                <div class="section-title">⚠️ Common Exam Mistakes</div>
+                <div class="content">
+                    <div class="threat-box">
+                        ❌ Forgetting 'break' in switch<br>
+                        ❌ Using == for String comparison (use .equals())<br>
+                        ❌ Array index starts from 0, not 1<br>
+                        ❌ Calling non-static from static method<br>
+                        ❌ Forgetting @Override annotation<br>
+                        ❌ Using 'this' or 'super' in static method<br>
+                        ❌ Multiple inheritance with classes (use interface)<br>
+                        ❌ Overriding static/final/private methods<br>
+                        ❌ Creating object of abstract class/interface
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Important Programs -->
+            <div class="section">
+                <div class="section-title">💻 Must Practice Programs</div>
+                <div class="content">
+                    <div class="step-box">
+                        1. Constructor overloading example<br>
+                        2. Method overloading vs overriding<br>
+                        3. Single, multilevel, hierarchical inheritance<br>
+                        4. Abstract class with implementation<br>
+                        5. Interface with multiple implementation<br>
+                        6. this and super keyword usage<br>
+                        7. Static members example<br>
+                        8. Access specifier demonstration<br>
+                        9. Wrapper class conversions<br>
+                        10. final keyword examples
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Revision Checklist -->
+            <div class="section">
+                <div class="section-title">✅ Pre-Exam Checklist</div>
+                <div class="content">
+                    <div class="advantage-box">
+                        ☑ OOP principles (APIE)<br>
+                        ☑ JVM, JDK, JRE difference<br>
+                        ☑ Data types with sizes<br>
+                        ☑ Access specifier table<br>
+                        ☑ Overloading vs Overriding<br>
+                        ☑ Inheritance types (which are supported)<br>
+                        ☑ this vs super usage<br>
+                        ☑ Abstract class vs Interface<br>
+                        ☑ final keyword (3 uses)<br>
+                        ☑ Static keyword rules<br>
+                        ☑ Constructor rules<br>
+                        ☑ Common mistakes list
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Exam Tips -->
+            <div class="section">
+                <div class="section-title">🎯 Exam Strategy Tips</div>
+                <div class="content">
+                    <div class="example-box">
+                        <strong>Theory Questions:</strong><br>
+                        • Define → Write definition + example<br>
+                        • Explain → Add diagram if possible<br>
+                        • Differentiate → Make a comparison table<br>
+                        • List → Use bullet points<br><br>
+                        
+                        <strong>Code Questions:</strong><br>
+                        • Write proper syntax<br>
+                        • Add comments for clarity<br>
+                        • Show output if asked<br>
+                        • Handle exceptions if needed<br><br>
+                        
+                        <strong>Time Management:</strong><br>
+                        • Read all questions first<br>
+                        • Start with easy ones<br>
+                        • Leave tricky for later<br>
+                        • Reserve 10 mins for revision
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Final Message -->
+            <div class="section">
+                <div class="note-box" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%); border-left: 4px solid var(--success);">
+                    <strong>🌟 Good Luck!</strong><br>
+                    You've got this! Java is all about practice. The more you code, the better you get. Remember: Every expert was once a beginner. Keep coding, keep learning! 💪
+                </div>
+            </div>
+            
         </div>
+        
     </div>
     
     <!-- Footer -->
@@ -1060,8 +2737,8 @@ JDK = JRE + Development tools (create Java programs)
         
         // Build TOC
         const chapters = [
-            { title: 'Chapter 1 - Java Fundamentals', id: 'ch1' },
-            { title: 'Chapter 2 - Classes & Inheritance', id: 'ch2' }
+            { title: 'Java Fundamentals', id: 'ch1' },
+            { title: 'Inheritance & Advanced', id: 'ch2' }
         ];
         
         const tocList = document.getElementById('tocList');
