@@ -2352,3 +2352,580 @@ Dependency: Order ---→ Payment (uses)</code></div>
             </div>
             
             <div class="divider"></div>
+            <!-- Section 7: Interaction Diagrams -->
+            <div class="section">
+                <div class="section-title">7. Interaction Diagrams</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Interaction Diagrams:</strong><br>
+                        Show how objects interact with each other through messages. Focus on dynamic behavior - the flow of control and data between objects over time.
+                    </div>
+                    
+                    <div class="subsection-title">Types of Interaction Diagrams:</div>
+                    <div class="step-box">
+                        <strong>1. Sequence Diagram:</strong> Shows time-ordered interactions<br>
+                        <strong>2. Collaboration Diagram:</strong> Shows structural organization
+                    </step-box>
+                    
+                    <div class="subsection-title">Sequence Diagram:</div>
+                    <div class="definition-box">
+                        <strong>Sequence Diagram:</strong> Shows interactions between objects in time sequence. Emphasizes the order in which messages are sent.
+                    </div>
+                    
+                    <div class="code-box"><strong>Sequence Diagram Components:</strong>
+
+• Actor/Object: Box at top
+• Lifeline: Vertical dashed line
+• Activation: Thin rectangle on lifeline (object is active)
+• Message: Horizontal arrow between objects
+• Return: Dashed arrow (optional)
+• Self-call: Message to itself</code></div>
+                    
+                    <div class="example-box">
+                        <strong>Example - ATM Withdrawal:</strong><br>
+                        <code>
+                        Customer    ATM        Bank      Account<br>
+                        |           |          |         |<br>
+                        |--insert card--->|   |         |<br>
+                        |<--request PIN---|   |         |<br>
+                        |--enter PIN----->|   |         |<br>
+                        |           |--verify PIN-->|   |<br>
+                        |           |<--PIN OK------|   |<br>
+                        |--select amount->|   |         |<br>
+                        |           |--check balance--->|<br>
+                        |           |<--balance OK-----|<br>
+                        |           |--debit amount--->|<br>
+                        |<--dispense cash-|   |         |<br>
+                        |<--receipt-------|   |         |<br>
+                        </code>
+                    </example-box>
+                </div>
+            </div>
+            
+            <!-- Section 8: Activity Diagrams -->
+            <div class="section">
+                <div class="section-title">8. Activity Diagrams</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Activity Diagram:</strong><br>
+                        Shows workflow of a system - the flow of control from activity to activity. Similar to flowchart but more powerful.
+                    </div>
+                    
+                    <div class="code-box"><strong>Activity Diagram Components:</strong>
+
+• Initial Node: Filled circle (start)
+• Activity: Rounded rectangle
+• Decision: Diamond (if-else)
+• Fork/Join: Thick bar (parallel activities)
+• Final Node: Circle with inner filled circle (end)
+• Transitions: Arrows connecting activities</code></div>
+                    
+                    <div class="example-box">
+                        <strong>Example - Online Order Process:</strong><br>
+                        <code>
+                        ● (Start)<br>
+                        ↓<br>
+                        [Browse Products]<br>
+                        ↓<br>
+                        [Add to Cart]<br>
+                        ↓<br>
+                        ◇ More items?<br>
+                        Yes → (back to Browse Products)<br>
+                        No ↓<br>
+                        [Checkout]<br>
+                        ↓<br>
+                        [Enter Details]<br>
+                        ↓<br>
+                        ◇ Valid details?<br>
+                        No → (back to Enter Details)<br>
+                        Yes ↓<br>
+                        [Make Payment]<br>
+                        ↓<br>
+                        ◇ Payment successful?<br>
+                        No → [Cancel Order] → ◉ (End)<br>
+                        Yes ↓<br>
+                        [Confirm Order]<br>
+                        ↓<br>
+                        [Send Email]<br>
+                        ↓<br>
+                        ◉ (End)<br>
+                        </code>
+                    </example-box>
+                </div>
+            </div>
+            
+            <!-- Section 9: State Chart Diagrams -->
+            <div class="section">
+                <div class="section-title">9. State Chart Diagrams</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>State Chart Diagram:</strong><br>
+                        Shows different states of an object and transitions between states based on events. Describes lifecycle of an object.
+                    </div>
+                    
+                    <div class="code-box"><strong>State Chart Components:</strong>
+
+• State: Rounded rectangle
+• Initial State: Filled circle
+• Final State: Circle with inner filled circle
+• Transition: Arrow with event label
+• Event: Trigger causing transition
+• Guard: Condition in [brackets]</code></div>
+                    
+                    <div class="example-box">
+                        <strong>Example - Order State Chart:</strong><br>
+                        <code>
+                        ● → [New Order]<br>
+                        ↓ payment confirmed<br>
+                        [Order Confirmed]<br>
+                        ↓ item packed<br>
+                        [Ready to Ship]<br>
+                        ↓ picked by courier<br>
+                        [In Transit]<br>
+                        ↓ reached destination<br>
+                        [Out for Delivery]<br>
+                        ↓ delivered<br>
+                        [Delivered] → ◉<br><br>
+                        
+                        Alternate: cancel order (from any state) → [Cancelled] → ◉<br>
+                        </code>
+                    </example-box>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- LAST MIN NOTES TAB -->
+        <div class="tab-content" id="lastMinTab">
+            <div class="chapter-title">
+                <span>⚡</span>
+                <span>Last Minute Notes - Quick Revision (5-10 mins)</span>
+            </div>
+            
+            <div class="section">
+                <div class="note-box">
+                    <strong>📌 How to Use:</strong> Read this 5-10 minutes before exam for quick revision of all key concepts!
+                </div>
+            </div>
+            
+            <!-- Introduction -->
+            <div class="section">
+                <div class="section-title">🎯 Introduction</div>
+                <div class="content">
+                    <div class="code-box">Software = Programs + Documentation + Data
+
+Software Engineering = Systematic approach to develop quality software
+
+Need of SE:
+• Handle complexity
+• Ensure quality
+• Manage cost & time
+• Team collaboration
+• Maintainability
+
+Program vs Product:
+Program: For developer, minimal testing
+Product: For users, tested, documented, maintained
+
+SDLC Phases:
+1. Planning
+2. Requirement Analysis
+3. Design
+4. Implementation
+5. Testing
+6. Deployment
+7. Maintenance</code></div>
+                </div>
+            </div>
+            
+            <!-- SDLC Models -->
+            <div class="section">
+                <div class="section-title">🔄 SDLC Models</div>
+                <div class="content">
+                    <div class="code-box"><strong>1. Waterfall:</strong> Sequential, no going back
+Use: Small projects, clear requirements
+
+<strong>2. Iterative Waterfall:</strong> Can go back to previous phase
+Better than Waterfall
+
+<strong>3. Prototype:</strong> Build working model first
+Use: Unclear requirements, complex UI
+
+<strong>4. Evolutionary:</strong> Incremental versions
+Example: v1.0 → v2.0 → v3.0
+
+<strong>5. Spiral:</strong> Focus on risk analysis, 4 quadrants
+Use: Large, risky projects
+
+<strong>6. Agile:</strong> Flexible, 2-4 week sprints
+Use: Changing requirements, startups
+
+<strong>7. V-Model:</strong> Testing planned from start
+Use: High reliability needed</code></div>
+                </div>
+            </div>
+            
+            <!-- Requirements -->
+            <div class="section">
+                <div class="section-title">📋 Requirements</div>
+                <div class="content">
+                    <div class="code-box"><strong>Requirement Types:</strong>
+• Functional: What system does
+• Non-Functional: How well it performs
+
+<strong>Analysis Principles:</strong>
+1. Information Domain
+2. Functional
+3. Behavioral
+4. Partition
+5. Essential vs Implementation
+
+<strong>SRS Characteristics:</strong>
+1. Correct
+2. Unambiguous
+3. Complete
+4. Consistent
+5. Ranked
+6. Verifiable
+7. Modifiable
+8. Traceable
+
+<strong>Data Modelling:</strong> ER diagrams (Entity-Relationship)
+• Entity: Real-world object
+• Attribute: Property
+• Relationship: Association
+
+<strong>DFD Components:</strong>
+• Process: Circle
+• Data Flow: Arrow
+• Data Store: Parallel lines
+• External Entity: Rectangle
+
+<strong>Behavioral Modelling:</strong> State Transition Diagrams
+• Shows states and transitions
+
+<strong>Structural Modelling:</strong>
+• High Cohesion (Good): Related functions together
+• Low Coupling (Good): Independent modules
+
+<strong>Data Dictionary:</strong> Definitions of all data elements</code></div>
+                </div>
+            </div>
+            
+            <!-- OOP -->
+            <div class="section">
+                <div class="section-title">🎨 Object-Oriented Concepts</div>
+                <div class="content">
+                    <div class="code-box"><strong>Core OOP Concepts:</strong>
+
+1. Class: Blueprint
+2. Object: Instance of class
+3. Encapsulation: Data hiding
+4. Inheritance: Parent → Child (code reuse)
+5. Polymorphism: Same name, different behavior
+6. Abstraction: Hide complexity
+
+<strong>Advantages:</strong>
+• Code reusability
+• Easy maintenance
+• Data security
+• Flexibility</code></div>
+                </div>
+            </div>
+            
+            <!-- UML -->
+            <div class="section">
+                <div class="section-title">📊 UML Diagrams</div>
+                <div class="content">
+                    <div class="code-box"><strong>UML Diagram Types:</strong>
+
+<strong>Structural:</strong>
+• Class Diagram (most important)
+• Object Diagram
+• Component Diagram
+
+<strong>Behavioral:</strong>
+• Use Case Diagram (requirements)
+• Activity Diagram (workflow)
+• State Diagram (states)
+• Sequence Diagram (interactions)
+
+<strong>Use Case Components:</strong>
+• Actor: Stick figure
+• Use Case: Oval
+• Include: <<include>> (mandatory)
+• Extend: <<extend>> (optional)
+
+<strong>Class Diagram Relationships:</strong>
+• Association: ———
+• Aggregation: ◇——— (weak has-a)
+• Composition: ◆——— (strong has-a)
+• Inheritance: △——— (is-a)
+• Dependency: ---→ (uses)
+
+<strong>Multiplicity:</strong>
+1 = one, * = many, 0..1 = optional, 1..* = one or more
+
+<strong>Activity Diagram:</strong>
+• Shows workflow
+• Start: ●
+• Activity: Rounded rectangle
+• Decision: ◇
+• End: ◉
+
+<strong>State Diagram:</strong>
+• Shows object lifecycle
+• State changes based on events
+
+<strong>Sequence Diagram:</strong>
+• Shows time-ordered interactions
+• Objects at top, messages as arrows</code></div>
+                </div>
+            </div>
+            
+            <!-- Important Points -->
+            <div class="section">
+                <div class="section-title">⚠️ Common Exam Topics</div>
+                <div class="content">
+                    <div class="threat-box">
+                        <strong>Must Remember:</strong><br>
+                        ❌ Waterfall vs Agile differences<br>
+                        ❌ When to use which SDLC model<br>
+                        ❌ SRS characteristics (all 8)<br>
+                        ❌ DFD symbols and levels<br>
+                        ❌ OOP concepts with examples<br>
+                        ❌ Class diagram relationships<br>
+                        ❌ Use Case include vs extend<br>
+                        ❌ High cohesion + Low coupling = Good design<br>
+                        ❌ Functional vs Non-functional requirements
+                    </threat-box>
+                </div>
+            </div>
+            
+            <!-- Formulas & Key Points -->
+            <div class="section">
+                <div class="section-title">📐 Key Points to Remember</div>
+                <div class="content">
+                    <div class="advantage-box">
+                        ✓ 60-70% software failures due to poor requirements<br>
+                        ✓ 60-70% cost is in maintenance phase<br>
+                        ✓ Software Crisis occurred in 1960s-1970s<br>
+                        ✓ IEEE 830 standard for SRS<br>
+                        ✓ Agile: 2-4 week sprints<br>
+                        ✓ Spiral: 4 quadrants (Plan, Risk, Develop, Evaluate)<br>
+                        ✓ UML = Unified Modelling Language<br>
+                        ✓ ER Model: Entity-Relationship<br>
+                        ✓ DFD: Data Flow Diagram (3 levels: 0, 1, 2)
+                    </advantage-box>
+                </div>
+            </div>
+            
+            <!-- Comparison Tables -->
+            <div class="section">
+                <div class="section-title">📊 Quick Comparison Tables</div>
+                <div class="content">
+                    <div class="code-box"><strong>SDLC Models Comparison:</strong>
+
+Model      | Flexibility | When to Use
+---------- | ----------- | -----------
+Waterfall  | Low         | Small, clear requirements
+Agile      | Very High   | Changing requirements
+Spiral     | High        | Large, risky projects
+Prototype  | High        | Unclear requirements
+V-Model    | Low         | High reliability needed
+
+<strong>Structured vs OOP:</strong>
+
+Aspect     | Structured  | OOP
+---------- | ----------- | -----------
+Focus      | Functions   | Objects
+Approach   | Top-Down    | Bottom-Up
+Data       | Separate    | With methods
+Reuse      | Limited     | High (Inheritance)
+
+<strong>Aggregation vs Composition:</strong>
+
+Feature    | Aggregation | Composition
+---------- | ----------- | -----------
+Strength   | Weak        | Strong
+Part exist | Yes         | No
+alone?     |             |
+Example    | Dept-Student| House-Room</code></div>
+                </div>
+            </div>
+            
+            <!-- Diagram Drawing Tips -->
+            <div class="section">
+                <div class="section-title">✏️ Diagram Drawing Tips</div>
+                <div class="content">
+                    <div class="step-box">
+                        <strong>DFD:</strong><br>
+                        • Start with Context Diagram (Level 0)<br>
+                        • Use proper symbols<br>
+                        • Label all flows<br>
+                        • Balance inputs/outputs<br><br>
+                        
+                        <strong>Class Diagram:</strong><br>
+                        • Show 3 compartments (Name, Attributes, Methods)<br>
+                        • Use visibility symbols (+, -, #)<br>
+                        • Show relationships with correct symbols<br>
+                        • Add multiplicity<br><br>
+                        
+                        <strong>Use Case:</strong><br>
+                        • Actor as stick figure<br>
+                        • Use cases as ovals<br>
+                        • Draw system boundary box<br>
+                        • Use <<include>> and <<extend>> correctly<br><br>
+                        
+                        <strong>Activity Diagram:</strong><br>
+                        • Start with ● (filled circle)<br>
+                        • Activities as rounded rectangles<br>
+                        • Decisions as diamonds<br>
+                        • End with ◉ (double circle)
+                    </step-box>
+                </div>
+            </div>
+            
+            <!-- Exam Strategy -->
+            <div class="section">
+                <div class="section-title">💡 Exam Strategy</div>
+                <div class="content">
+                    <div class="example-box">
+                        <strong>For Theory Questions:</strong><br>
+                        • Define clearly<br>
+                        • Give real-life example<br>
+                        • List advantages/disadvantages<br>
+                        • Compare if asked<br><br>
+                        
+                        <strong>For Diagram Questions:</strong><br>
+                        • Use correct symbols<br>
+                        • Label everything<br>
+                        • Keep it neat and readable<br>
+                        • Show all relationships<br><br>
+                        
+                        <strong>For Model Questions:</strong><br>
+                        • Explain phases<br>
+                        • Draw diagram if possible<br>
+                        • Mention advantages/disadvantages<br>
+                        • Give when to use<br><br>
+                        
+                        <strong>Time Management:</strong><br>
+                        • Read all questions first<br>
+                        • Start with easy ones<br>
+                        • Allocate time per question<br>
+                        • Keep 10 mins for revision
+                    </example-box>
+                </div>
+            </div>
+            
+            <!-- Final Tips -->
+            <div class="section">
+                <div class="section-title">🌟 Final Tips</div>
+                <div class="content">
+                    <div class="note-box" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%); border-left: 4px solid var(--success);">
+                        <strong>Remember:</strong><br>
+                        • Software Engineering is about systematic approach<br>
+                        • Choose right SDLC model based on project needs<br>
+                        • Requirements are foundation - get them right!<br>
+                        • UML diagrams = Visual communication<br>
+                        • OOP principles = Better software design<br><br>
+                        
+                        <strong>🎯 All the Best!</strong><br>
+                        You've covered everything! Focus on understanding concepts, not just memorizing. Practice drawing diagrams. You'll do great! 💪🚀
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-credit">
+            Made with 💙 by <strong>Ankush Raj</strong>
+        </div>
+        <p class="footer-note">
+            © 2026 <a href="https://ankushraj.dev" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600;">ankushraj.dev</a> - All Rights Reserved
+        </p>
+    </div>
+    
+    <script>
+        // Dark Mode Toggle
+        const darkModeBtn = document.getElementById('darkModeBtn');
+        const isDarkMode = localStorage.getItem('darkMode') === 'true';
+        
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+            updateDarkModeBtn(true);
+        }
+        
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+            updateDarkModeBtn(isDark);
+        }
+        
+        function updateDarkModeBtn(isDark) {
+            const btn = document.getElementById('darkModeBtn');
+            btn.innerHTML = isDark 
+                ? '<span>☀️</span><span>Light</span>' 
+                : '<span>🌙</span><span>Dark</span>';
+        }
+        
+        // TOC Toggle
+        function openTOC() {
+            document.getElementById('tocPanel').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+        }
+        
+        function closeTOC() {
+            document.getElementById('tocPanel').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
+        
+        // Tab Switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            if (tabName === 'full') {
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.getElementById('fullNotesTab').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab')[1].classList.add('active');
+                document.getElementById('lastMinTab').classList.add('active');
+            }
+            
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+        
+        // Build TOC
+        const chapters = [
+            { title: 'Introduction to SE', id: 'ch1' },
+            { title: 'Software Requirements', id: 'ch2' },
+            { title: 'Object Oriented Design', id: 'ch3' }
+        ];
+        
+        const tocList = document.getElementById('tocList');
+        chapters.forEach((ch, index) => {
+            const li = document.createElement('li');
+            li.innerHTML = `<span style="color: var(--primary); font-weight: 700;">${index + 1}.</span> ${ch.title}`;
+            li.onclick = () => {
+                const element = document.getElementById(ch.id);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+                closeTOC();
+            };
+            tocList.appendChild(li);
+        });
+    </script>
+</body>
+</html>

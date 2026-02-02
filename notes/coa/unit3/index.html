@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unit Loading | Engineering Protocol</title>
+    <title>COA Unit 3 - I/O Architecture & Pipeline Processing</title>
     <style>
         * {
             margin: 0;
@@ -12,623 +12,1624 @@
         }
 
         body {
-            font-family: 'Courier New', monospace;
-            background: #000000;
-            color: #00ff88;
-            overflow: hidden;
-            height: 100vh;
-            position: relative;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 10px;
         }
 
-        /* Animated Background */
-        .bg-container {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
-        }
-
-        /* Matrix Canvas */
-        #matrix {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0.15;
-        }
-
-        /* 3D Grid */
-        .grid-3d {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            perspective: 800px;
-        }
-
-        .grid-plane {
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            top: 60%;
-            left: 50%;
-            transform: translate(-50%, 0) rotateX(70deg);
-            background-image: 
-                linear-gradient(rgba(0, 255, 136, 0.15) 2px, transparent 2px),
-                linear-gradient(90deg, rgba(0, 255, 136, 0.15) 2px, transparent 2px);
-            background-size: 60px 60px;
-            animation: gridFlow 8s linear infinite;
-        }
-
-        @keyframes gridFlow {
-            from { transform: translate(-50%, 0) rotateX(70deg) translateY(0); }
-            to { transform: translate(-50%, 0) rotateX(70deg) translateY(60px); }
-        }
-
-        /* Floating Particles */
-        .particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #00ff88;
-            border-radius: 50%;
-            box-shadow: 0 0 15px #00ff88;
-            animation: float 10s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0); opacity: 0; }
-            10%, 90% { opacity: 1; }
-            50% { transform: translate(var(--dx), var(--dy)); }
-        }
-
-        /* Scan Lines */
-        .scanline {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(0, 255, 136, 0.03) 2px,
-                rgba(0, 255, 136, 0.03) 4px
-            );
-            pointer-events: none;
-            animation: scanMove 8s linear infinite;
-        }
-
-        @keyframes scanMove {
-            from { transform: translateY(0); }
-            to { transform: translateY(20px); }
-        }
-
-        /* Glowing Orbs */
-        .orb {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.4;
-        }
-
-        .orb1 {
-            background: radial-gradient(circle, #00ff88 0%, transparent 70%);
-            top: -200px;
-            left: -200px;
-            animation: orbFloat1 8s ease-in-out infinite;
-        }
-
-        .orb2 {
-            background: radial-gradient(circle, #00ffff 0%, transparent 70%);
-            bottom: -200px;
-            right: -200px;
-            animation: orbFloat2 8s ease-in-out infinite;
-        }
-
-        @keyframes orbFloat1 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(50px, 30px) scale(1.1); }
-        }
-
-        @keyframes orbFloat2 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(-50px, -30px) scale(1.1); }
-        }
-
-        /* Main Content */
         .container {
-            position: relative;
-            z-index: 10;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 20px;
             text-align: center;
         }
 
-        /* 3D Rotating Logo/Icon */
-        .unit-icon {
-            width: 150px;
-            height: 150px;
-            margin: 0 auto 30px;
-            position: relative;
-            animation: iconFloat 3s ease-in-out infinite;
+        header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
-        @keyframes iconFloat {
-            0%, 100% { transform: translateY(0) rotateY(0deg); }
-            50% { transform: translateY(-20px) rotateY(180deg); }
+        header p {
+            font-size: 1em;
+            opacity: 0.9;
+            margin-bottom: 10px;
         }
 
-        .icon-ring {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: 3px solid #00ff88;
-            border-radius: 50%;
-            animation: ringPulse 2s ease-in-out infinite;
-        }
-
-        .icon-ring:nth-child(2) {
-            animation-delay: 0.5s;
-            border-color: #00ffff;
-        }
-
-        .icon-ring:nth-child(3) {
-            animation-delay: 1s;
-            border-color: #ffff00;
-        }
-
-        @keyframes ringPulse {
-            0%, 100% { transform: scale(0.8); opacity: 0.3; }
-            50% { transform: scale(1.2); opacity: 0.8; }
-        }
-
-        .icon-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 60px;
-            animation: iconSpin 4s linear infinite;
-        }
-
-        @keyframes iconSpin {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        /* Glitch Title */
-        .title {
-            font-size: 72px;
-            font-weight: 900;
-            color: #00ff88;
-            text-transform: uppercase;
-            letter-spacing: 10px;
-            margin: 20px 0;
-            text-shadow: 
-                0 0 30px #00ff88,
-                0 0 60px #00ff88,
-                3px 3px 0 #ff00ff,
-                -3px -3px 0 #00ffff;
-            animation: glitchAnim 4s ease-in-out infinite;
-        }
-
-        @keyframes glitchAnim {
-            0%, 90%, 100% {
-                transform: skew(0deg);
-                text-shadow: 
-                    0 0 30px #00ff88,
-                    0 0 60px #00ff88;
-            }
-            92%, 96% {
-                transform: skew(-3deg);
-                text-shadow: 
-                    -5px 0 30px #ff00ff,
-                    5px 0 30px #00ffff,
-                    0 0 60px #00ff88;
-            }
-        }
-
-        .subtitle {
-            font-size: 20px;
-            color: #00ffff;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            margin-bottom: 40px;
-            text-shadow: 0 0 20px #00ffff;
-        }
-
-        /* Holographic Status Card */
-        .status-card {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 255, 255, 0.1) 100%);
-            border: 2px solid #00ff88;
-            border-radius: 15px;
-            padding: 25px 40px;
-            max-width: 600px;
-            margin: 0 auto 40px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 
-                0 0 40px rgba(0, 255, 136, 0.4),
-                inset 0 0 40px rgba(0, 255, 136, 0.1);
+        .credit-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            margin-top: 15px;
+            display: inline-block;
             backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.3);
+            font-size: 0.9em;
         }
 
-        .status-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(0, 255, 136, 0.1), transparent);
-            animation: cardShine 4s linear infinite;
+        .credit-badge strong {
+            color: #ffd700;
+            font-size: 1.1em;
         }
 
-        @keyframes cardShine {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .status-row {
+        nav {
+            background: #2d3748;
+            padding: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.3);
-            position: relative;
-            z-index: 1;
-        }
-
-        .status-row:last-child {
-            border-bottom: none;
-        }
-
-        .status-label {
-            font-size: 14px;
-            color: #00ffff;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .status-value {
-            font-size: 14px;
-            color: #00ff88;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
             gap: 8px;
         }
 
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            background: #00ff88;
-            border-radius: 50%;
-            box-shadow: 0 0 15px #00ff88;
-            animation: pulse 1.5s ease-in-out infinite;
+        nav button {
+            background: #4a5568;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+            flex: 1;
+            min-width: 120px;
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.3); opacity: 0.7; }
+        nav button:hover {
+            background: #667eea;
+            transform: translateY(-2px);
         }
 
-        /* Progress Bar */
-        .progress-container {
-            margin: 15px 0;
-            position: relative;
-            z-index: 1;
+        nav button.active {
+            background: #667eea;
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
         }
 
-        .progress-bar {
-            height: 8px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid #00ff88;
+        .content {
+            padding: 20px;
         }
 
-        .progress-fill {
-            height: 100%;
-            width: 75%;
-            background: linear-gradient(90deg, #00ff88, #00ffff);
-            box-shadow: 0 0 20px #00ff88;
-            animation: progressPulse 2s ease-in-out infinite;
+        .module {
+            display: none;
+            animation: fadeIn 0.5s;
         }
 
-        @keyframes progressPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+        .module.active {
+            display: block;
         }
 
-        /* Action Buttons */
-        .btn-container {
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            margin-bottom: 30px;
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 15px;
             display: flex;
-            gap: 20px;
-            justify-content: center;
+            align-items: center;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
-        .holo-btn {
-            padding: 15px 40px;
-            background: transparent;
-            border: 2px solid #00ff88;
-            color: #00ff88;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            cursor: pointer;
-            border-radius: 8px;
-            position: relative;
+        h3 {
+            color: #764ba2;
+            font-size: 1.3em;
+            margin: 20px 0 12px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        h4 {
+            color: #4a5568;
+            font-size: 1.1em;
+            margin: 15px 0 10px 0;
+        }
+
+        .definition-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+
+        .definition-box strong {
+            color: #667eea;
+            font-size: 1.05em;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border-radius: 10px;
             overflow: hidden;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-size: 0.9em;
         }
 
-        .holo-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.4), transparent);
-            transition: left 0.5s;
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 10px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9em;
         }
 
-        .holo-btn:hover::before {
-            left: 100%;
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #e2e8f0;
         }
 
-        .holo-btn:hover {
-            background: rgba(0, 255, 136, 0.15);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 40px rgba(0, 255, 136, 0.6);
-            border-color: #00ffff;
-            color: #00ffff;
+        tr:hover {
+            background: #f7fafc;
         }
 
-        .holo-btn:active {
-            transform: translateY(0);
+        .code-block {
+            background: #2d3748;
+            color: #68d391;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            line-height: 1.6;
         }
 
-        /* Footer */
-        .footer {
-            position: fixed;
-            bottom: 20px;
-            width: 100%;
+        .diagram {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
             text-align: center;
-            font-size: 11px;
-            color: rgba(0, 255, 136, 0.5);
-            z-index: 10;
+            margin: 15px 0;
+            border: 2px dashed #667eea;
+            font-family: monospace;
+            color: #2d3748;
+            font-size: 0.85em;
+            overflow-x: auto;
         }
 
-        .footer a {
-            color: #00ff88;
-            text-decoration: none;
-            font-weight: 700;
+        .advantages, .characteristics {
+            background: #f0fff4;
+            padding: 12px;
+            border-radius: 10px;
+            margin: 12px 0;
+            border-left: 4px solid #48bb78;
+            font-size: 0.9em;
         }
 
-        /* Responsive */
+        .disadvantages {
+            background: #fff5f5;
+            padding: 12px;
+            border-radius: 10px;
+            margin: 12px 0;
+            border-left: 4px solid #f56565;
+            font-size: 0.9em;
+        }
+
+        ul, ol {
+            margin-left: 25px;
+            margin-top: 8px;
+        }
+
+        li {
+            margin: 6px 0;
+            font-size: 0.95em;
+        }
+
+        .icon {
+            font-size: 1.3em;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #fef3c7 0%, #fde68a 100%);
+            padding: 2px 6px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
+        .example-box {
+            background: #fffbeb;
+            padding: 12px;
+            border-radius: 10px;
+            margin: 12px 0;
+            border-left: 4px solid #f59e0b;
+            font-size: 0.9em;
+        }
+
+        .example-box strong {
+            color: #d97706;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .comparison-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-top: 4px solid #667eea;
+        }
+
+        .comparison-card h4 {
+            color: #667eea;
+            margin-top: 0;
+            font-size: 1.1em;
+        }
+
+        .comparison-card p {
+            font-size: 0.9em;
+            margin: 8px 0;
+        }
+
+        footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+            font-size: 0.85em;
+        }
+
+        .footer-credits {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #4a5568;
+        }
+
+        .footer-credits p {
+            margin: 8px 0;
+        }
+
+        .creator-name {
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        .heart {
+            color: #ff6b6b;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Mobile Optimizations */
         @media (max-width: 768px) {
-            .title {
-                font-size: 42px;
-                letter-spacing: 5px;
+            body {
+                padding: 5px;
             }
 
-            .subtitle {
-                font-size: 14px;
-                letter-spacing: 3px;
+            header h1 {
+                font-size: 1.5em;
             }
 
-            .unit-icon {
-                width: 100px;
-                height: 100px;
+            header p {
+                font-size: 0.9em;
+            }
+            
+            .content {
+                padding: 15px;
             }
 
-            .icon-center {
-                font-size: 40px;
+            .section {
+                padding: 15px;
             }
-
-            .status-card {
-                padding: 20px;
-            }
-
-            .status-label,
-            .status-value {
+            
+            nav button {
                 font-size: 12px;
+                padding: 8px 12px;
+                min-width: 100px;
             }
 
-            .holo-btn {
-                padding: 12px 25px;
-                font-size: 12px;
+            .credit-badge {
+                font-size: 0.8em;
+                padding: 8px 15px;
+            }
+
+            h2 {
+                font-size: 1.3em;
+            }
+
+            h3 {
+                font-size: 1.15em;
+            }
+
+            h4 {
+                font-size: 1em;
+            }
+
+            table {
+                font-size: 0.8em;
+            }
+
+            th, td {
+                padding: 8px 6px;
+            }
+
+            .code-block {
+                font-size: 0.75em;
+                padding: 12px;
+            }
+
+            .diagram {
+                font-size: 0.75em;
+                padding: 12px;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .icon {
+                font-size: 1.2em;
             }
         }
 
-        @media (max-height: 700px) {
-            .unit-icon {
-                width: 100px;
-                height: 100px;
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.3em;
+            }
+
+            header p {
+                font-size: 0.85em;
+            }
+
+            nav {
+                padding: 8px;
+                gap: 6px;
+            }
+
+            nav button {
+                font-size: 11px;
+                padding: 7px 10px;
+                min-width: 90px;
+            }
+
+            h2 {
+                font-size: 1.2em;
+            }
+
+            h3 {
+                font-size: 1.05em;
+            }
+
+            .section {
+                padding: 12px;
                 margin-bottom: 20px;
             }
 
-            .title {
-                font-size: 48px;
-                margin: 15px 0;
+            table {
+                font-size: 0.75em;
             }
 
-            .subtitle {
-                font-size: 16px;
-                margin-bottom: 25px;
+            th, td {
+                padding: 6px 4px;
             }
+        }
 
-            .status-card {
-                padding: 20px 30px;
-                margin-bottom: 25px;
-            }
+        /* Scrollbar styling for better mobile experience */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #764ba2;
         }
     </style>
 </head>
 <body>
-    <!-- Background -->
-    <div class="bg-container">
-        <canvas id="matrix"></canvas>
-        <div class="grid-3d">
-            <div class="grid-plane"></div>
-        </div>
-        <div class="particles" id="particles"></div>
-        <div class="scanline"></div>
-        <div class="orb orb1"></div>
-        <div class="orb orb2"></div>
-    </div>
-
-    <!-- Main Content -->
     <div class="container">
-        <!-- 3D Icon -->
-        <div class="unit-icon">
-            <div class="icon-ring"></div>
-            <div class="icon-ring"></div>
-            <div class="icon-ring"></div>
-            <div class="icon-center">⚙️</div>
-        </div>
-
-        <!-- Title -->
-        <div class="title" id="unitTitle">LOADING</div>
-        <div class="subtitle">ENGINEERING PROTOCOL</div>
-
-        <!-- Status Card -->
-        <div class="status-card">
-            <div class="status-row">
-                <span class="status-label">Status</span>
-                <span class="status-value">
-                    <span class="status-dot"></span>
-                    COMPILING
-                </span>
+        <header>
+            <h1>📚 Computer Organization & Architecture</h1>
+            <p>Unit 3: I/O Architecture and Performance Enhancement</p>
+            <div class="credit-badge">
+                ✨ Created by <strong>Ankush Raj</strong> ✨
             </div>
-            <div class="status-row">
-                <span class="status-label">Progress</span>
-                <span class="status-value">75%</span>
-            </div>
-            <div class="progress-container">
-                <div class="progress-bar">
-                    <div class="progress-fill"></div>
+        </header>
+
+        <nav>
+            <button class="nav-btn active" data-module="module1">I/O Subsystems</button>
+            <button class="nav-btn" data-module="module2">Pipeline Processing</button>
+            <button class="nav-btn" data-module="module3">Quick Revision</button>
+        </nav>
+
+        <div class="content">
+            <!-- MODULE 1: I/O SUBSYSTEMS -->
+            <div class="module active" id="module1">
+                <div class="section">
+                    <h2><span class="icon">🔌</span> 1. Peripheral Devices</h2>
+                    
+                    <div class="definition-box">
+                        <strong>Definition:</strong> Peripheral devices are external hardware components connected to the computer to perform input, output, storage, communication, or controlling functions. They are not part of the CPU or main memory but work as an extension to the computer system.
+                    </div>
+
+                    <h3>Types & Examples</h3>
+                    <table>
+                        <tr>
+                            <th>Type</th>
+                            <th>Function</th>
+                            <th>Examples</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Input Devices</strong></td>
+                            <td>Send data to computer</td>
+                            <td>Keyboard, Mouse, Scanner, Webcam, Microphone</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Output Devices</strong></td>
+                            <td>Receive data from computer</td>
+                            <td>Monitor, Printer, Speakers, Projector</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Storage Devices</strong></td>
+                            <td>Store data permanently</td>
+                            <td>HDD, SSD, USB Drive, SD Card</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Communication Devices</strong></td>
+                            <td>Enable data transmission</td>
+                            <td>Modem, Router, Bluetooth Adapter, NIC</td>
+                        </tr>
+                    </table>
+
+                    <div class="diagram">
+[Peripheral Device] ↔ [I/O Interface] ↔ [System Bus] ↔ [CPU/Memory]
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2><span class="icon">🔗</span> 2. I/O Interface</h2>
+                    
+                    <div class="definition-box">
+                        <strong>Definition:</strong> An I/O Interface is a hardware module that acts as a communication bridge between slow I/O devices and fast CPU/Memory. It handles signal conversion, buffering, timing mismatch, and provides control/status information to CPU.
+                    </div>
+
+                    <h3>Key Functions</h3>
+                    <ol>
+                        <li><strong>Command Decoding</strong> – Interprets control signals from CPU</li>
+                        <li><strong>Data Buffering</strong> – Temporarily stores data to match speed differences</li>
+                        <li><strong>Signal Conversion</strong> – Converts digital/analog signals</li>
+                        <li><strong>Timing & Control</strong> – Synchronizes operations between CPU and devices</li>
+                        <li><strong>Error Detection</strong> – Identifies transmission errors using parity bits</li>
+                        <li><strong>Status Reporting</strong> – Informs CPU about device readiness</li>
+                    </ol>
+
+                    <h3>Interface Types</h3>
+                    <div class="comparison-grid">
+                        <div class="comparison-card">
+                            <h4>Serial Interface</h4>
+                            <p>Data transmitted bit-by-bit sequentially</p>
+                            <p><strong>Examples:</strong> USB, RS-232, SATA</p>
+                        </div>
+                        <div class="comparison-card">
+                            <h4>Parallel Interface</h4>
+                            <p>Multiple bits transmitted simultaneously</p>
+                            <p><strong>Examples:</strong> Printer Port, IDE</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2><span class="icon">🔄</span> 3. Asynchronous Data Transfer</h2>
+                    
+                    <div class="definition-box">
+                        <strong>Definition:</strong> Asynchronous data transfer is a method where CPU and I/O device do not share a common clock. Both operate at different speeds and synchronize using control signals to ensure data integrity.
+                    </div>
+
+                    <h3>Methods</h3>
+
+                    <h4>A) Strobe Control</h4>
+                    <p>A strobe signal indicates when data is valid on the data bus.</p>
+                    <div class="diagram">
+Data:   _____|████|_____<br>
+Strobe: _____|‾‾|______
+                    </div>
+                    <div class="characteristics">
+                        ✔ Single control line<br>
+                        ✔ Unidirectional communication<br>
+                        ✔ Simpler implementation<br>
+                        ✔ Less reliable
+                    </div>
+
+                    <h4>B) Handshaking Method</h4>
+                    <p>Two-way acknowledgment system for reliable data transfer.</p>
+                    <div class="code-block">
+Source         Destination
+|--Data Ready-->|
+|<-Data Accepted-|
+|--Remove Data-->|
+                    </div>
+
+                    <div class="advantages">
+                        <strong>Advantages:</strong><br>
+                        ✅ No clock synchronization needed<br>
+                        ✅ Flexible timing<br>
+                        ✅ Better error detection<br>
+                        ✅ More reliable data transfer
+                    </div>
+
+                    <div class="example-box">
+                        <strong>Example:</strong> USB communication, printer data transfer
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2><span class="icon">⚡</span> 4. Interrupts</h2>
+                    
+                    <div class="definition-box">
+                        <strong>Definition:</strong> An interrupt is a hardware or software signal that requests immediate attention from the CPU, temporarily suspending current execution and shifting control to an Interrupt Service Routine (ISR).
+                    </div>
+
+                    <h3>Interrupt Processing Steps</h3>
+                    <ol>
+                        <li>Device sends interrupt signal</li>
+                        <li>CPU completes current instruction</li>
+                        <li>CPU saves Program Counter (PC) and registers</li>
+                        <li>Control transfers to ISR</li>
+                        <li>ISR executes</li>
+                        <li>Restore saved context</li>
+                        <li>Resume interrupted program</li>
+                    </ol>
+
+                    <div class="diagram">
+Normal → Interrupt → Save → ISR → Restore → Resume
+                    </div>
+
+                    <h3>Types of Interrupts</h3>
+                    <table>
+                        <tr>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Hardware</strong></td>
+                            <td>External devices</td>
+                            <td>Keyboard, Timer, Mouse</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Software</strong></td>
+                            <td>Program instructions</td>
+                            <td>System call, INT 21H</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Maskable</strong></td>
+                            <td>Can be disabled</td>
+                            <td>I/O device interrupts</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Non-Maskable</strong></td>
+                            <td>Cannot be disabled</td>
+                            <td>Power failure, Memory error</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Vectored</strong></td>
+                            <td>ISR address predefined</td>
+                            <td>8086 interrupts</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Non-Vectored</strong></td>
+                            <td>Device provides address</td>
+                            <td>Requires polling</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="section">
+                    <h2><span class="icon">📤</span> 5. Modes of Data Transfer</h2>
+
+                    <h3>1. Programmed I/O (Polling)</h3>
+                    <div class="definition-box">
+                        <strong>Definition:</strong> CPU continuously checks device status in a loop and transfers data by itself. The CPU wastes time waiting → also called busy waiting.
+                    </div>
+
+                    <div class="code-block">
+Process:
+1. CPU sends read command
+2. CPU checks status (busy wait)
+3. If ready, CPU reads data
+4. Repeat for next byte
+                    </div>
+
+                    <div class="advantages">
+                        <strong>Advantages:</strong><br>
+                        ✅ Simple implementation<br>
+                        ✅ No additional hardware
+                    </div>
+
+                    <div class="disadvantages">
+                        <strong>Disadvantages:</strong><br>
+                        ❌ CPU time wasted<br>
+                        ❌ Inefficient for slow devices<br>
+                        ❌ Cannot multitask
+                    </div>
+
+                    <div class="example-box">
+                        <strong>Example:</strong> Reading character from keyboard
+                    </div>
+
+                    <h3>2. Interrupt-Driven I/O</h3>
+                    <div class="definition-box">
+                        <strong>Definition:</strong> CPU issues a request → continues its own work → gets interrupted only when device becomes ready. CPU time is saved.
+                    </div>
+
+                    <div class="code-block">
+Process:
+1. CPU sends I/O command
+2. CPU continues other tasks
+3. Device completes operation
+4. Device sends interrupt
+5. CPU services interrupt
+                    </div>
+
+                    <div class="advantages">
+                        <strong>Advantages:</strong><br>
+                        ✅ CPU not wasted<br>
+                        ✅ Better efficiency<br>
+                        ✅ Supports multitasking
+                    </div>
+
+                    <div class="disadvantages">
+                        <strong>Disadvantages:</strong><br>
+                        ❌ Interrupt overhead<br>
+                        ❌ Complex implementation
+                    </div>
+
+                    <div class="example-box">
+                        <strong>Example:</strong> Keyboard input, mouse events
+                    </div>
+
+                    <h3>3. Direct Memory Access (DMA)</h3>
+                    <div class="definition-box">
+                        <strong>Definition:</strong> DMA allows high-speed devices to transfer data directly between I/O device and main memory without using CPU for every byte. CPU only initializes DMA.
+                    </div>
+
+                    <h4>DMA Controller Components</h4>
+                    <ul>
+                        <li><strong>Address Register</strong> – Memory address pointer</li>
+                        <li><strong>Word Count Register</strong> – Number of bytes to transfer</li>
+                        <li><strong>Control Register</strong> – R/W mode, transfer type</li>
+                        <li><strong>Status Register</strong> – Transfer status</li>
+                    </ul>
+
+                    <h4>DMA Transfer Process</h4>
+                    <div class="code-block">
+Step 1: CPU initializes DMA
+  ├─ Source address
+  ├─ Destination address
+  ├─ Byte count
+  └─ Control settings
+
+Step 2: DMA requests bus
+
+Step 3: DMA transfers data
+  Memory ↔ DMA ↔ I/O Device
+
+Step 4: DMA sends interrupt
+                    </div>
+
+                    <h4>DMA Transfer Modes</h4>
+                    <div class="comparison-grid">
+                        <div class="comparison-card">
+                            <h4>Burst Mode</h4>
+                            <p>DMA takes complete bus control and transfers entire block at once</p>
+                        </div>
+                        <div class="comparison-card">
+                            <h4>Cycle Stealing</h4>
+                            <p>DMA steals one bus cycle at a time, minimal CPU interruption</p>
+                        </div>
+                        <div class="comparison-card">
+                            <h4>Transparent Mode</h4>
+                            <p>DMA transfers only when CPU is not using the bus</p>
+                        </div>
+                    </div>
+
+                    <div class="advantages">
+                        <strong>Advantages:</strong><br>
+                        ✅ Fastest data transfer<br>
+                        ✅ CPU completely free<br>
+                        ✅ Suitable for high-speed devices<br>
+                        ✅ Efficient for bulk data
+                    </div>
+
+                    <div class="example-box">
+                        <strong>Examples:</strong> Disk to RAM transfer, Video streaming, Network data transfer
+                    </div>
+
+                    <h3>Comparison of Data Transfer Modes</h3>
+                    <table>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Programmed I/O</th>
+                            <th>Interrupt I/O</th>
+                            <th>DMA</th>
+                        </tr>
+                        <tr>
+                            <td><strong>CPU Usage</strong></td>
+                            <td>Continuous</td>
+                            <td>Minimal</td>
+                            <td>Initial only</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Speed</strong></td>
+                            <td>Slowest</td>
+                            <td>Medium</td>
+                            <td>Fastest</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Efficiency</strong></td>
+                            <td>Very Low</td>
+                            <td>Medium</td>
+                            <td>High</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hardware Cost</strong></td>
+                            <td>Low</td>
+                            <td>Medium</td>
+                            <td>High</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Best For</strong></td>
+                            <td>Simple devices</td>
+                            <td>Keyboards, mice</td>
+                            <td>Disk, video</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="section">
+                    <h2><span class="icon">🖥️</span> 6. I/O Processor (IOP)</h2>
+                    
+                    <div class="definition-box">
+                        <strong>Definition:</strong> An I/O Processor is a dedicated processor responsible for controlling I/O operations independently of the CPU. It can execute its own instructions related to I/O tasks.
+                    </div>
+
+                    <h3>Functions of IOP</h3>
+                    <ol>
+                        <li>Executes I/O channel programs</li>
+                        <li>Manages multiple I/O devices simultaneously</li>
+                        <li>Performs data buffering and formatting</li>
+                        <li>Handles error detection and correction</li>
+                        <li>Sends completion interrupts to CPU</li>
+                        <li>Reduces CPU workload significantly</li>
+                    </ol>
+
+                    <div class="diagram">
+    CPU<br>
+     |<br>
+System Bus<br>
+     |<br>
+I/O Processor<br>
+/    |    \<br>
+Dev1 Dev2 Dev3
+                    </div>
+
+                    <div class="advantages">
+                        <strong>Advantages:</strong><br>
+                        ✅ CPU freed from I/O management<br>
+                        ✅ Parallel I/O operations possible<br>
+                        ✅ Better system throughput<br>
+                        ✅ Improved overall performance
+                    </div>
                 </div>
             </div>
-            <div class="status-row">
-                <span class="status-label">Modules Ready</span>
-                <span class="status-value">12 / 16</span>
-            </div>
-            <div class="status-row">
-                <span class="status-label">ETA</span>
-                <span class="status-value">COMING SOON™</span>
-            </div>
-        </div>
 
-        <!-- Buttons -->
-        <div class="btn-container">
-            <a href="/notes" class="holo-btn">
-                <span>←</span>
-                <span>BACK TO NOTES</span>
-            </a>
-            <a href="/" class="holo-btn">
-                <span>🏠</span>
-                <span>HOME</span>
-            </a>
+            <!-- MODULE 2: PIPELINE PROCESSING -->
+            <div class="module" id="module2">
+                <div class="section">
+                    <h2><span class="icon">⚙️</span> 1. Parallel Processing</h2>
+                    
+                    <div class="definition-box">
+                        <strong>Definition:</strong> Parallel processing is a technique where multiple operations are performed simultaneously using multiple functional units or processors. Instead of completing tasks one-by-one, the system processes multiple instructions/data streams at the same time.
+                    </div>
+
+                    <h3>Goals of Parallel Processing</h3>
+                    <ul>
+                        <li>⚡ Increase execution speed</li>
+                        <li>⚡ Improve throughput</li>
+                        <li>⚡ Better resource utilization</li>
+                        <li>⚡ Handle complex computations efficiently</li>
+                    </ul>
+
+                    <h3>Types of Parallelism</h3>
+                    <div class="comparison-grid">
+                        <div class="comparison-card">
+                            <h4>Bit-Level</h4>
+                            <p>Processing multiple bits together (8-bit → 64-bit)</p>
+                        </div>
+                        <div class="comparison-card">
+                            <h4>Instruction-Level</h4>
+                            <p>Multiple instructions executed simultaneously</p>
+                        </div>
+                        <div class="comparison-card">
+                            <h4>Task-Level</h4>
+                            <p>Different tasks on different processors</p>
+                        </div>
+                        <div class="comparison-card">
+                            <h4>Data-Level</h4>
+                            <p>Same operation on multiple data elements</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2><span class="icon">📊</span> 2. Flynn's Classification</h2>
+                    
+                    <div class="definition-box">
+                        <strong>Definition:</strong> Flynn's taxonomy classifies computer architectures based on the number of concurrent instruction streams (I) and data streams (D) that can be processed.
+                    </div>
+
+                    <h3>1. SISD (Single Instruction, Single Data)</h3>RetryARContinue                <div class="comparison-card">
+                    <p><strong>Concept:</strong> Traditional von Neumann architecture</p>
+                    <p><strong>Working:</strong> One instruction on one data at a time</p>
+                    <div class="diagram">
+Control → Processing → Data
+</div>
+<p><strong>Examples:</strong> Intel 8086, Early processors</p>
+</div>
+                <h3>2. SIMD (Single Instruction, Multiple Data)</h3>
+                <div class="comparison-card">
+                    <p><strong>Concept:</strong> One instruction operates on multiple data simultaneously</p>
+                    <p><strong>Working:</strong> Vector/array processing</p>
+                    <div class="diagram">
+Single Instruction<br>
+↓<br>
+[PE1] [PE2] [PE3]<br>
+↓     ↓     ↓<br>
+Data1 Data2 Data3
+</div>
+<p><strong>Examples:</strong> GPUs, Intel SSE/AVX</p>
+<p><strong>Applications:</strong> Image processing, scientific computing</p>
+</div>
+                <h3>3. MISD (Multiple Instruction, Single Data)</h3>
+                <div class="comparison-card">
+                    <p><strong>Concept:</strong> Multiple instructions on same data</p>
+                    <p><strong>Working:</strong> Rarely implemented</p>
+                    <p><strong>Examples:</strong> Fault-tolerant systems</p>
+                    <p><strong>Note:</strong> Theoretical, not commonly used</p>
+                </div>
+
+                <h3>4. MIMD (Multiple Instruction, Multiple Data)</h3>
+                <div class="comparison-card">
+                    <p><strong>Concept:</strong> Multiple processors, different instructions on different data</p>
+                    <p><strong>Working:</strong> True parallel computing</p>
+                    <div class="diagram">
+[CPU1]  [CPU2]  [CPU3]<br>
+↓       ↓       ↓<br>
+Data1   Data2   Data3
+</div>
+<p><strong>Examples:</strong> Multi-core CPUs, distributed systems</p>
+<p><strong>Applications:</strong> Web servers, databases</p>
+</div>
+</div>
+            <div class="section">
+                <h2><span class="icon">🔀</span> 3. Instruction Level Parallelism (ILP)</h2>
+                
+                <div class="definition-box">
+                    <strong>Definition:</strong> ILP refers to the capability of CPU to execute multiple independent instructions simultaneously by overlapping their execution stages.
+                </div>
+
+                <h3>Techniques to Achieve ILP</h3>
+                <ol>
+                    <li><strong>Pipelining</strong> – Overlapping instruction stages</li>
+                    <li><strong>Superscalar</strong> – Multiple instructions per cycle</li>
+                    <li><strong>Out-of-Order Execution</strong> – Execute ready instructions first</li>
+                    <li><strong>Branch Prediction</strong> – Predict branch outcomes</li>
+                    <li><strong>Register Renaming</strong> – Eliminate false dependencies</li>
+                    <li><strong>Speculative Execution</strong> – Execute before knowing if needed</li>
+                </ol>
+
+                <div class="example-box">
+                    <strong>Example of Independent Instructions:</strong>
+                    <div class="code-block">
+I1: R1 = R2 + R3  } Can
+I2: R4 = R5 - R6  } execute
+} parallel
+I3: R7 = R1 * 2   } Must wait
+for I1
+</div>
+</div>
+</div>
+            <div class="section">
+                <h2><span class="icon">🏭</span> 4. Pipeline Processing</h2>
+                
+                <div class="definition-box">
+                    <strong>Definition:</strong> Pipeline processing divides instruction execution into several stages. Each stage works in parallel on different instructions, increasing total throughput.
+                </div>
+
+                <h3>Classic 5-Stage Pipeline</h3>
+                <div class="code-block">
+Stage 1: IF  - Instruction Fetch
+Stage 2: ID  - Instruction Decode
+Stage 3: EX  - Execute
+Stage 4: MEM - Memory Access
+Stage 5: WB  - Write Back
+</div>
+                <h3>Pipeline Execution Diagram</h3>
+                <div class="diagram">
+Time→ 1  2  3  4  5  6<br>
+I1:   IF ID EX ME WB<br>
+I2:      IF ID EX ME WB<br>
+I3:         IF ID EX ME<br>
+I4:            IF ID EX
+</div>
+                <h3>Analogy</h3>
+                <div class="example-box">
+                    <strong>Factory Assembly Line:</strong> Like car manufacturing where:
+                    <ul>
+                        <li>Worker 1: Installs chassis</li>
+                        <li>Worker 2: Installs engine</li>
+                        <li>Worker 3: Paints car</li>
+                        <li>Worker 4: Installs wheels</li>
+                        <li>Worker 5: Final inspection</li>
+                    </ul>
+                    All work simultaneously on different cars!
+                </div>
+
+                <h3>Performance Metrics</h3>
+
+                <h4>1. Throughput</h4>
+                <div class="definition-box">
+                    <strong>Throughput</strong> = Instructions completed per unit time
+                </div>
+
+                <h4>2. Speedup</h4>
+                <div class="definition-box">
+                    <strong>Speedup</strong> = Non-pipelined time / Pipelined time
+                </div>
+
+                <h4>3. Efficiency</h4>
+                <div class="definition-box">
+                    <strong>Efficiency</strong> = (Speedup / Number of stages) × 100%
+                </div>
+
+                <div class="example-box">
+                    <strong>Example Calculation:</strong>
+                    <div class="code-block">
+Given: 5-stage pipeline
+Each stage = 10ns
+Non-pipelined:
+5 × 10ns = 50ns/instruction
+10 inst = 500ns
+Pipelined:
+First inst: 50ns
+Next 9: 9×10ns = 90ns
+Total = 140ns
+Speedup = 500/140 = 3.57×
+</div>
+</div>
+                <div class="advantages">
+                    <strong>Advantages:</strong><br>
+                    ✅ Increased throughput<br>
+                    ✅ Better CPU utilization<br>
+                    ✅ Faster execution<br>
+                    ✅ No hardware duplication
+                </div>
+
+                <div class="disadvantages">
+                    <strong>Limitations:</strong><br>
+                    ❌ Pipeline hazards cause stalls<br>
+                    ❌ Complex control logic<br>
+                    ❌ Branch instructions create problems
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">⚠️</span> 5. Pipeline Hazards</h2>
+                
+                <div class="definition-box">
+                    <strong>Definition:</strong> Hazards are conditions that delay or disrupt smooth instruction flow through the pipeline, causing stalls or bubbles.
+                </div>
+
+                <h3>1. Structural Hazards</h3>
+                <div class="comparison-card">
+                    <h4>What is it?</h4>
+                    <p>Hardware resource conflict - two instructions need same resource at same time.</p>
+                    
+                    <div class="example-box">
+                        <strong>Example:</strong>
+                        <div class="code-block">
+Problem:
+I1 needs memory (data read)
+I2 needs memory (instruction)
+→ Only one memory port
+→ CONFLICT!
+</div>
+</div>
+                    <h4>Solutions:</h4>
+                    <ul>
+                        <li>✅ Duplicate hardware resources</li>
+                        <li>✅ Separate instruction & data caches</li>
+                        <li>✅ Pipeline reorganization</li>
+                        <li>✅ Resource scheduling</li>
+                    </ul>
+                </div>
+
+                <h3>2. Data Hazards</h3>
+                <div class="comparison-card">
+                    <h4>What is it?</h4>
+                    <p>Instruction depends on result of previous instruction that hasn't completed yet.</p>
+                    
+                    <h4>Types:</h4>
+
+                    <strong>A) RAW (Read After Write) - True Dependency</strong>
+                    <div class="code-block">
+I1: R2 = R1 + R3
+I2: R4 = R2 + R5
+← Needs R2 (not ready!)
+MOST COMMON hazard
+</div>
+                    <strong>B) WAR (Write After Read) - Anti Dependency</strong>
+                    <div class="code-block">
+I1: R4 = R1 + R5
+I2: R1 = R2 + R3
+← Writes R1 after I1 reads
+</div>
+                    <strong>C) WAW (Write After Write) - Output Dependency</strong>
+                    <div class="code-block">
+I1: R2 = R1 + R3
+I2: R2 = R4 + R5
+← Both write to R2
+</div>
+                    <h4>Solutions:</h4>
+                    
+                    <strong>1. Data Forwarding/Bypassing</strong>
+                    <div class="example-box">
+                        Pass result directly from one stage to another
+                        <div class="code-block">
+EX/MEM → directly to → EX
+(Result available immediately)
+</div>
+</div>
+                    <strong>2. Pipeline Stalling</strong>
+                    <div class="example-box">
+                        Insert NOP (bubbles) to create delay
+                        <div class="code-block">
+I1: R2 = R1 + R3
+[NOP - bubble]
+I2: R4 = R2 + R5  ← R2 ready!
+</div>
+</div>
+                    <strong>3. Compiler Scheduling</strong>
+                    <div class="example-box">
+                        Reorder instructions to avoid dependencies
+                        <div class="code-block">
+Original:
+I1: R2 = R1 + R3
+I2: R4 = R2 + R5 ← depends
+Reordered:
+I1: R2 = R1 + R3
+I3: R6 = R7 + R8 ← independent
+I2: R4 = R2 + R5 ← I1 complete!
+</div>
+</div>
+</div>
+                <h3>3. Control Hazards (Branch Hazards)</h3>
+                <div class="comparison-card">
+                    <h4>What is it?</h4>
+                    <p>Due to branch/jump instructions - pipeline doesn't know which instruction to fetch next.</p>
+                    
+                    <div class="example-box">
+                        <strong>Example:</strong>
+                        <div class="code-block">
+I1: BEQ R1, R2, Label
+← Branch instruction
+I2: ADD R3, R4, R5
+← May not execute
+I3: SUB R6, R7, R8
+...
+Label: MUL R9, R10, R11
+← Jump to here?
+Problem: Fetch I2 or Label?
+Don't know until I1 completes!
+</div>
+</div>
+                    <h4>Solutions:</h4>
+
+                    <strong>1. Branch Prediction</strong>
+                    <div class="example-box">
+                        <strong>Static:</strong>
+                        <ul>
+                            <li>Always predict taken/not taken</li>
+                            <li>Backward branches → taken (loops)</li>
+                            <li>Forward branches → not taken</li>
+                        </ul>
+                        <strong>Dynamic:</strong>
+                        <ul>
+                            <li>Use branch history</li>
+                            <li>1-bit: Remember last outcome</li>
+                            <li>2-bit: Change after 2 mispredictions</li>
+                        </ul>
+                    </div>
+
+                    <strong>2. Branch Delay Slot</strong>
+                    <div class="example-box">
+                        Place useful instruction after branch
+                        <div class="code-block">
+BEQ R1, R2, Label
+ADD R3, R4, R5
+← Delay slot (always executes)
+</div>
+</div>
+                    <strong>3. Multiple Streams</strong>
+                    <div class="example-box">
+                        Fetch from both paths simultaneously
+                    </div>
+
+                    <strong>4. Pipeline Flushing</strong>
+                    <div class="example-box">
+                        If misprediction, flush wrong instructions and restart
+                    </div>
+                </div>
+
+                <h3>Comparison of Hazards</h3>
+                <table>
+                    <tr>
+                        <th>Hazard</th>
+                        <th>Cause</th>
+                        <th>Main Solution</th>
+                        <th>Impact</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Structural</strong></td>
+                        <td>Resource conflict</td>
+                        <td>Duplicate resources</td>
+                        <td>Medium</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data (RAW)</strong></td>
+                        <td>Data dependency</td>
+                        <td>Forwarding</td>
+                        <td>Low-Medium</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Control</strong></td>
+                        <td>Branch instructions</td>
+                        <td>Branch prediction</td>
+                        <td>High</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">📈</span> 6. Performance Metrics</h2>
+
+                <h3>1. Throughput</h3>
+                <div class="definition-box">
+                    <strong>Throughput</strong> is the number of instructions completed per unit time. Higher = Better.
+                </div>
+                <div class="code-block">
+Formula:
+Throughput = Instructions / Time
+Example:
+100 instructions in 150ns
+= 100/150ns
+= 0.67 instructions/ns
+</div>
+                <h3>2. Speedup</h3>
+                <div class="definition-box">
+                    <strong>Speedup</strong> is ratio of performance improvement.
+                </div>
+                <div class="code-block">
+Formula:
+Speedup = Time(non-pipelined)
+/ Time(pipelined)
+Ideal Speedup =
+Number of stages (k)
+Example:
+Non-pipelined: 500ns
+Pipelined: 140ns
+Speedup = 500/140 = 3.57×
+</div>
+                <h3>3. Efficiency</h3>
+                <div class="definition-box">
+                    <strong>Efficiency</strong> measures how effectively pipeline stages are utilized.
+                </div>
+                <div class="code-block">
+Formula:
+Efficiency =
+(Actual Speedup/Ideal Speedup)
+× 100%
+Example:
+Actual Speedup = 3.57
+Ideal = 5 (5 stages)
+Efficiency = (3.57/5) × 100%
+= 71.4%
+</div>
+                <h3>4. CPI (Cycles Per Instruction)</h3>
+                <div class="definition-box">
+                    <strong>CPI</strong> indicates average cycles needed per instruction.
+                </div>
+                <div class="code-block">
+Formula:
+CPI = Total Cycles
+/ Number of Instructions
+Ideal pipelined CPI = 1
+(one instruction per cycle
+after pipeline fills)
+</div>
+</div>
+</div>
+        <!-- MODULE 3: QUICK REVISION -->
+        <div class="module" id="module3">
+            <div class="section">
+                <h2><span class="icon">⚡</span> Quick Revision - Unit 3</h2>
+
+                <h3>🔹 I/O Subsystems - Flow</h3>
+                <div class="code-block">
+Peripheral → Interface → Async
+→ Interrupt → Transfer Modes
+→ DMA → IOP
+</div>
+                <h3>🔹 Peripheral Devices</h3>
+                <table>
+                    <tr>
+                        <th>Type</th>
+                        <th>Examples</th>
+                    </tr>
+                    <tr>
+                        <td>Input</td>
+                        <td>Keyboard, Mouse, Scanner</td>
+                    </tr>
+                    <tr>
+                        <td>Output</td>
+                        <td>Monitor, Printer, Speakers</td>
+                    </tr>
+                    <tr>
+                        <td>Storage</td>
+                        <td>HDD, SSD, USB</td>
+                    </tr>
+                    <tr>
+                        <td>Communication</td>
+                        <td>Modem, Router, NIC</td>
+                    </tr>
+                </table>
+
+                <h3>🔹 I/O Interface Functions</h3>
+                <div class="highlight">Remember: CBSTCE</div>
+                <ul>
+                    <li><strong>C</strong>ommand decoding</li>
+                    <li><strong>B</strong>uffering</li>
+                    <li><strong>S</strong>ignal conversion</li>
+                    <li><strong>T</strong>iming & control</li>
+                    <li><strong>C</strong>ontrol signals</li>
+                    <li><strong>E</strong>rror detection</li>
+                </ul>
+
+                <h3>🔹 Asynchronous Transfer Methods</h3>
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>Strobe Control</h4>
+                        <p>✔ Single signal</p>
+                        <p>✔ Simpler</p>
+                        <p>✖ Less reliable</p>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>Handshaking</h4>
+                        <p>✔ Two-way acknowledgment</p>
+                        <p>✔ More reliable</p>
+                        <p>✔ Used in USB</p>
+                    </div>
+                </div>
+
+                <h3>🔹 Interrupt Types</h3>
+                <div class="code-block">
+Hardware ─── External devices
+Software ─── Program instructions
+Maskable ─── Can be disabled
+Non-Maskable ─ Cannot disable
+Vectored ─── ISR predefined
+Non-Vectored ─ Device provides ISR
+</div>
+                <h3>🔹 Data Transfer Modes - MOST IMPORTANT!</h3>
+                <table>
+                    <tr>
+                        <th>Mode</th>
+                        <th>CPU Usage</th>
+                        <th>Speed</th>
+                        <th>Best For</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Programmed I/O</strong></td>
+                        <td>CPU busy</td>
+                        <td>Slowest</td>
+                        <td>Simple devices</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Interrupt-Driven</strong></td>
+                        <td>CPU free</td>
+                        <td>Medium</td>
+                        <td>Keyboard, mouse</td>
+                    </tr>
+                    <tr>
+                        <td><strong>DMA</strong></td>
+                        <td>CPU not used</td>
+                        <td>Fastest</td>
+                        <td>Disk, video</td>
+                    </tr>
+                </table>
+
+                <div class="highlight">
+                    <strong>Remember:</strong> Programmed I/O = CPU busy | Interrupt = CPU free | DMA = CPU not involved
+                </div>
+
+                <h3>🔹 DMA Key Points</h3>
+                <ul>
+                    <li>✅ Direct Memory Access</li>
+                    <li>✅ CPU only initializes</li>
+                    <li>✅ Data: Device ↔ Memory (no CPU)</li>
+                    <li>✅ Interrupt on completion</li>
+                    <li>✅ 3 modes: Burst, Cycle Stealing, Transparent</li>
+                </ul>
+
+                <h3>🔹 I/O Processor (IOP)</h3>
+                <div class="code-block">
+Dedicated processor for I/O
+├─ Executes I/O instructions
+├─ Manages multiple devices
+├─ Performs buffering
+└─ Reduces CPU workload
+</div>
+                <h3>🔹 Parallel Processing</h3>
+                <div class="definition-box">
+                    <strong>Goal:</strong> Many operations at same time → Faster execution
+                </div>
+
+                <h3>🔹 Flynn's Classification - Super Important!</h3>
+                <table>
+                    <tr>
+                        <th>Type</th>
+                        <th>Example</th>
+                        <th>Use Case</th>
+                    </tr>
+                    <tr>
+                        <td><strong>SISD</strong></td>
+                        <td>Old processors</td>
+                        <td>Traditional</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SIMD</strong></td>
+                        <td>GPU</td>
+                        <td>Image processing</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MISD</strong></td>
+                        <td>Rare</td>
+                        <td>Fault-tolerant</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MIMD</strong></td>
+                        <td>Multicore CPUs</td>
+                        <td>Parallel computing</td>
+                    </tr>
+                </table>
+
+                <div class="highlight">
+                    <strong>Easy Memory Trick:</strong> SISD = Simple | SIMD = GPU | MISD = Rare | MIMD = Multicore
+                </div>
+
+                <h3>🔹 Pipeline Processing</h3>
+                <div class="code-block">
+5 Stages:
+IF → ID → EX → MEM → WB
+IF  = Instruction Fetch
+ID  = Instruction Decode
+EX  = Execute
+MEM = Memory Access
+WB  = Write Back
+</div>
+                <div class="example-box">
+                    <strong>Analogy:</strong> Assembly line in factory - each worker does one task, all work simultaneously!
+                </div>
+
+                <h3>🔹 Pipeline Hazards - Must Know!</h3>
+                <table>
+                    <tr>
+                        <th>Hazard</th>
+                        <th>Cause</th>
+                        <th>Solution</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Structural</strong></td>
+                        <td>Resource conflict</td>
+                        <td>Duplicate resources</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data (RAW)</strong></td>
+                        <td>Data dependency</td>
+                        <td>Forwarding / Stalling</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Control</strong></td>
+                        <td>Branch instructions</td>
+                        <td>Branch prediction</td>
+                    </tr>
+                </table>
+
+                <h3>🔹 Data Hazards Types</h3>
+                <div class="code-block">
+RAW (Read After Write)
+← MOST COMMON
+← True dependency
+WAR (Write After Read)
+← Anti-dependency
+WAW (Write After Write)
+← Output dependency
+</div>
+                <h3>🔹 Performance Terms</h3>
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>Throughput</h4>
+                        <p>Instructions per time</p>
+                        <p><strong>Higher = Better</strong></p>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>Speedup</h4>
+                        <p>Non-pipelined / Pipelined</p>
+                        <p><strong>Ideal = Stages</strong></p>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>Efficiency</h4>
+                        <p>(Actual/Ideal) × 100%</p>
+                        <p><strong>Closer to 100% = Better</strong></p>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>CPI</h4>
+                        <p>Cycles Per Instruction</p>
+                        <p><strong>Ideal pipelined = 1</strong></p>
+                    </div>
+                </div>
+
+                <h3>🔹 Last-Minute Formula Sheet</h3>
+                <div class="code-block">
+✅ Speedup =
+Time(non-pipe) / Time(pipe)
+✅ Throughput =
+Instructions / Time
+✅ Efficiency =
+(Actual Speedup / Ideal) × 100%
+✅ CPI =
+Total Cycles / Instructions
+✅ Pipeline Time =
+(k + n - 1) × tp
+k=stages, n=instructions
+tp=time per stage
+✅ Non-pipeline Time =
+n × k × tp
+</div>
+                <h3>🔹 Important One-Liners for Exam</h3>
+                <div class="advantages">
+                    ✔ DMA is fastest data transfer<br>
+                    ✔ NMI cannot be disabled<br>
+                    ✔ Handshaking more reliable than strobe<br>
+                    ✔ SIMD used in GPUs<br>
+                    ✔ RAW is most common data hazard<br>
+                    ✔ Branch prediction solves control hazards<br>
+                    ✔ Forwarding solves data hazards<br>
+                    ✔ Ideal speedup = number of stages<br>
+                    ✔ IOP reduces CPU workload<br>
+                    ✔ Interrupt-driven better than programmed I/O
+                </div>
+
+                <h3>🔹 Exam Tips</h3>
+                <div class="example-box">
+                    <strong>If question asks:</strong>
+                    <ul>
+                        <li>"Fastest transfer?" → <strong>DMA</strong></li>
+                        <li>"CPU free?" → <strong>Interrupt/DMA</strong></li>
+                        <li>"Used in GPUs?" → <strong>SIMD</strong></li>
+                        <li>"Most common hazard?" → <strong>Data (RAW)</strong></li>
+                        <li>"Branch solution?" → <strong>Branch prediction</strong></li>
+                        <li>"Pipeline stages?" → <strong>IF, ID, EX, MEM, WB</strong></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <div class="footer">
-        Engineered by <a href="https://ankushraj.dev" target="_blank">Ankush Raj</a> • © 2026 ankushraj.dev
-    </div>
+    <footer>
+        <p>📚 Computer Organization & Architecture - Unit 3 Digital Notes</p>
+        <div class="footer-credits">
+            <p>Made with <span class="heart">❤️</span> by <span class="creator-name">Ankush Raj</span></p>
+           <!-- <p>📧 Contact: your.email@example.com</p>
+            <p>🌐 Website: ankushraj.dev</p> -->
+            <p>© 2024 | Study Material for Educational Purpose</p>
+        </div>
+    </footer>
+</div>
 
-    <script>
-        // Matrix Effect
-        const canvas = document.getElementById('matrix');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+<script>
+    // Navigation functionality
+    const navButtons = document.querySelectorAll('.nav-btn');
+    const modules = document.querySelectorAll('.module');
 
-        const chars = '01アイウエオカキクケコ';
-        const fontSize = 14;
-        const columns = canvas.width / fontSize;
-        const drops = Array(Math.floor(columns)).fill(1);
+    navButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all
+            navButtons.forEach(btn => btn.classList.remove('active'));
+            modules.forEach(module => module.classList.remove('active'));
 
-        function drawMatrix() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#00ff88';
-            ctx.font = fontSize + 'px monospace';
+            // Add active class to clicked
+            button.classList.add('active');
 
-            for (let i = 0; i < drops.length; i++) {
-                const text = chars[Math.floor(Math.random() * chars.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
-            }
-        }
+            // Show corresponding module
+            const moduleId = button.getAttribute('data-module');
+            document.getElementById(moduleId).classList.add('active');
 
-        setInterval(drawMatrix, 50);
-
-        // Create Particles
-        const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 20; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.setProperty('--dx', (Math.random() * 200 - 100) + 'px');
-            particle.style.setProperty('--dy', (Math.random() * 200 - 100) + 'px');
-            particle.style.animationDelay = Math.random() * 10 + 's';
-            particlesContainer.appendChild(particle);
-        }
-
-        // Auto-detect Unit Number
-        const urlPath = window.location.pathname;
-        const unitMatch = urlPath.match(/unit(\d+)/i);
-        if (unitMatch) {
-            const unitNumber = unitMatch[1];
-            document.getElementById('unitTitle').textContent = `UNIT ${unitNumber}`;
-            document.title = `Unit ${unitNumber} Loading | Engineering Protocol`;
-        }
-
-        // Random Glitch
-        setInterval(() => {
-            const title = document.getElementById('unitTitle');
-            if (Math.random() > 0.93) {
-                const original = title.textContent;
-                title.textContent = original.split('').map(c => 
-                    Math.random() > 0.7 ? String.fromCharCode(33 + Math.random() * 94) : c
-                ).join('');
-                setTimeout(() => title.textContent = original, 80);
-            }
-        }, 2000);
-
-        // Resize Handler
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            // Smooth scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
-    </script>
+    });
+
+    // Add smooth scroll to all internal links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+
+    // Add click feedback for mobile
+    const cards = document.querySelectorAll('.comparison-card, .section');
+    cards.forEach(card => {
+        card.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.98)';
+        });
+        card.addEventListener('touchend', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+</script>
 </body>
 </html>
+```

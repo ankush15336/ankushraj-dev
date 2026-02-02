@@ -3,631 +3,789 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unit Loading | Engineering Protocol</title>
+    <title>DBMS Unit 2 - Normalization & Security</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
-        body {
-            font-family: 'Courier New', monospace;
-            background: #000000;
-            color: #00ff88;
-            overflow: hidden;
-            height: 100vh;
-            position: relative;
+        
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --text: #333;
+            --bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --border: #e0e0e0;
         }
-
-        /* Animated Background */
-        .bg-container {
+        
+        body.dark-mode {
+            --text: #f0f0f0;
+            --bg: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --border: #444;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 12px;
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 16px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            word-wrap: break-word;
+        }
+        
+        .header p {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-bottom: 4px;
+        }
+        
+        .credit-line {
+            font-size: 11px;
+            opacity: 0.8;
+            margin-top: 8px;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            padding: 12px 16px;
+            background: var(--bg);
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .btn {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
+            background: var(--primary);
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 80px;
+        }
+        
+        .btn:active {
+            transform: scale(0.95);
+        }
+        
+        .toc-btn {
+            background: var(--primary);
+        }
+        
+        .dark-mode-btn {
+            background: #555;
+        }
+        
+        .toc-panel {
+            display: none;
             position: fixed;
-            width: 100%;
-            height: 100%;
+            left: 0;
+            top: 0;
+            width: 80%;
+            max-width: 300px;
+            height: 100vh;
+            background: var(--card-bg);
+            z-index: 1000;
+            overflow-y: auto;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+            padding-top: 50px;
+        }
+        
+        .toc-panel.active {
+            display: block;
+        }
+        
+        .toc-panel h3 {
+            padding: 12px 16px;
+            color: var(--primary);
+            font-size: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .toc-panel ul {
+            list-style: none;
+            padding: 8px 0;
+        }
+        
+        .toc-panel li {
+            padding: 10px 16px;
+            font-size: 12px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .toc-panel li:hover {
+            background: var(--bg);
+            color: var(--primary);
+        }
+        
+        .overlay {
+            display: none;
+            position: fixed;
             top: 0;
             left: 0;
-            z-index: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
         }
-
-        /* Matrix Canvas */
-        #matrix {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0.15;
+        
+        .overlay.active {
+            display: block;
         }
-
-        /* 3D Grid */
-        .grid-3d {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            perspective: 800px;
+        
+        .content-wrapper {
+            padding: 16px;
         }
-
-        .grid-plane {
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            top: 60%;
-            left: 50%;
-            transform: translate(-50%, 0) rotateX(70deg);
-            background-image: 
-                linear-gradient(rgba(0, 255, 136, 0.15) 2px, transparent 2px),
-                linear-gradient(90deg, rgba(0, 255, 136, 0.15) 2px, transparent 2px);
-            background-size: 60px 60px;
-            animation: gridFlow 8s linear infinite;
+        
+        .section {
+            margin-bottom: 24px;
         }
-
-        @keyframes gridFlow {
-            from { transform: translate(-50%, 0) rotateX(70deg) translateY(0); }
-            to { transform: translate(-50%, 0) rotateX(70deg) translateY(60px); }
-        }
-
-        /* Floating Particles */
-        .particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #00ff88;
-            border-radius: 50%;
-            box-shadow: 0 0 15px #00ff88;
-            animation: float 10s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0); opacity: 0; }
-            10%, 90% { opacity: 1; }
-            50% { transform: translate(var(--dx), var(--dy)); }
-        }
-
-        /* Scan Lines */
-        .scanline {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(0, 255, 136, 0.03) 2px,
-                rgba(0, 255, 136, 0.03) 4px
-            );
-            pointer-events: none;
-            animation: scanMove 8s linear infinite;
-        }
-
-        @keyframes scanMove {
-            from { transform: translateY(0); }
-            to { transform: translateY(20px); }
-        }
-
-        /* Glowing Orbs */
-        .orb {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.4;
-        }
-
-        .orb1 {
-            background: radial-gradient(circle, #00ff88 0%, transparent 70%);
-            top: -200px;
-            left: -200px;
-            animation: orbFloat1 8s ease-in-out infinite;
-        }
-
-        .orb2 {
-            background: radial-gradient(circle, #00ffff 0%, transparent 70%);
-            bottom: -200px;
-            right: -200px;
-            animation: orbFloat2 8s ease-in-out infinite;
-        }
-
-        @keyframes orbFloat1 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(50px, 30px) scale(1.1); }
-        }
-
-        @keyframes orbFloat2 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(-50px, -30px) scale(1.1); }
-        }
-
-        /* Main Content */
-        .container {
-            position: relative;
-            z-index: 10;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            text-align: center;
-        }
-
-        /* 3D Rotating Logo/Icon */
-        .unit-icon {
-            width: 150px;
-            height: 150px;
-            margin: 0 auto 30px;
-            position: relative;
-            animation: iconFloat 3s ease-in-out infinite;
-        }
-
-        @keyframes iconFloat {
-            0%, 100% { transform: translateY(0) rotateY(0deg); }
-            50% { transform: translateY(-20px) rotateY(180deg); }
-        }
-
-        .icon-ring {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: 3px solid #00ff88;
-            border-radius: 50%;
-            animation: ringPulse 2s ease-in-out infinite;
-        }
-
-        .icon-ring:nth-child(2) {
-            animation-delay: 0.5s;
-            border-color: #00ffff;
-        }
-
-        .icon-ring:nth-child(3) {
-            animation-delay: 1s;
-            border-color: #ffff00;
-        }
-
-        @keyframes ringPulse {
-            0%, 100% { transform: scale(0.8); opacity: 0.3; }
-            50% { transform: scale(1.2); opacity: 0.8; }
-        }
-
-        .icon-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 60px;
-            animation: iconSpin 4s linear infinite;
-        }
-
-        @keyframes iconSpin {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        /* Glitch Title */
-        .title {
-            font-size: 72px;
-            font-weight: 900;
-            color: #00ff88;
-            text-transform: uppercase;
-            letter-spacing: 10px;
-            margin: 20px 0;
-            text-shadow: 
-                0 0 30px #00ff88,
-                0 0 60px #00ff88,
-                3px 3px 0 #ff00ff,
-                -3px -3px 0 #00ffff;
-            animation: glitchAnim 4s ease-in-out infinite;
-        }
-
-        @keyframes glitchAnim {
-            0%, 90%, 100% {
-                transform: skew(0deg);
-                text-shadow: 
-                    0 0 30px #00ff88,
-                    0 0 60px #00ff88;
-            }
-            92%, 96% {
-                transform: skew(-3deg);
-                text-shadow: 
-                    -5px 0 30px #ff00ff,
-                    5px 0 30px #00ffff,
-                    0 0 60px #00ff88;
-            }
-        }
-
-        .subtitle {
-            font-size: 20px;
-            color: #00ffff;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            margin-bottom: 40px;
-            text-shadow: 0 0 20px #00ffff;
-        }
-
-        /* Holographic Status Card */
-        .status-card {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 255, 255, 0.1) 100%);
-            border: 2px solid #00ff88;
-            border-radius: 15px;
-            padding: 25px 40px;
-            max-width: 600px;
-            margin: 0 auto 40px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 
-                0 0 40px rgba(0, 255, 136, 0.4),
-                inset 0 0 40px rgba(0, 255, 136, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        .status-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(0, 255, 136, 0.1), transparent);
-            animation: cardShine 4s linear infinite;
-        }
-
-        @keyframes cardShine {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .status-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.3);
-            position: relative;
-            z-index: 1;
-        }
-
-        .status-row:last-child {
-            border-bottom: none;
-        }
-
-        .status-label {
-            font-size: 14px;
-            color: #00ffff;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .status-value {
-            font-size: 14px;
-            color: #00ff88;
+        
+        .chapter-title {
+            font-size: 15px;
             font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 12px 14px;
+            margin-bottom: 16px;
+            border-radius: 6px;
+            word-break: break-word;
         }
-
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            background: #00ff88;
-            border-radius: 50%;
-            box-shadow: 0 0 15px #00ff88;
-            animation: pulse 1.5s ease-in-out infinite;
+        
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary);
+            word-break: break-word;
         }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.3); opacity: 0.7; }
+        
+        .subsection-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text);
+            margin-top: 10px;
+            margin-bottom: 6px;
+            word-break: break-word;
         }
-
-        /* Progress Bar */
-        .progress-container {
-            margin: 15px 0;
-            position: relative;
-            z-index: 1;
+        
+        .content {
+            font-size: 13px;
+            line-height: 1.7;
         }
-
-        .progress-bar {
-            height: 8px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid #00ff88;
+        
+        .content p {
+            margin-bottom: 8px;
+            word-break: break-word;
         }
-
-        .progress-fill {
-            height: 100%;
-            width: 75%;
-            background: linear-gradient(90deg, #00ff88, #00ffff);
-            box-shadow: 0 0 20px #00ff88;
-            animation: progressPulse 2s ease-in-out infinite;
+        
+        .point {
+            margin-left: 12px;
+            margin-bottom: 6px;
+            font-size: 13px;
+            word-break: break-word;
         }
-
-        @keyframes progressPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+        
+        .definition-box,
+        .example-box,
+        .advantage-box,
+        .threat-box,
+        .formula-box,
+        .key-box,
+        .step-box,
+        .code-box {
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 6px;
+            font-size: 12px;
+            line-height: 1.6;
+            border-left: 3px solid;
+            word-break: break-word;
         }
-
-        /* Action Buttons */
-        .btn-container {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
+        
+        .definition-box {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            color: #1565c0;
         }
-
-        .holo-btn {
-            padding: 15px 40px;
-            background: transparent;
-            border: 2px solid #00ff88;
-            color: #00ff88;
+        
+        .example-box {
+            background: #fff3e0;
+            border-color: #ff9800;
+            color: #e65100;
+        }
+        
+        .advantage-box {
+            background: #e8f5e9;
+            border-color: #4caf50;
+            color: #2e7d32;
+        }
+        
+        .threat-box {
+            background: #ffebee;
+            border-color: #f44336;
+            color: #c62828;
+        }
+        
+        .formula-box {
+            background: #f5f5f5;
+            border-color: #9c27b0;
+            color: var(--text);
             font-family: 'Courier New', monospace;
-            font-size: 14px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            cursor: pointer;
-            border-radius: 8px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
-        }
-
-        .holo-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.4), transparent);
-            transition: left 0.5s;
-        }
-
-        .holo-btn:hover::before {
-            left: 100%;
-        }
-
-        .holo-btn:hover {
-            background: rgba(0, 255, 136, 0.15);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 40px rgba(0, 255, 136, 0.6);
-            border-color: #00ffff;
-            color: #00ffff;
-        }
-
-        .holo-btn:active {
-            transform: translateY(0);
-        }
-
-        /* Footer */
-        .footer {
-            position: fixed;
-            bottom: 20px;
-            width: 100%;
-            text-align: center;
             font-size: 11px;
-            color: rgba(0, 255, 136, 0.5);
-            z-index: 10;
+            overflow-x: auto;
         }
-
-        .footer a {
-            color: #00ff88;
-            text-decoration: none;
-            font-weight: 700;
+        
+        .key-box {
+            background: #fce4ec;
+            border-color: #e91e63;
+            color: #880e4f;
         }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .title {
-                font-size: 42px;
-                letter-spacing: 5px;
+        
+        .step-box {
+            background: #f0f4ff;
+            border-color: #667eea;
+            color: var(--text);
+        }
+        
+        .code-box {
+            background: #f5f5f5;
+            border-color: #666;
+            color: var(--text);
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            overflow-x: auto;
+        }
+        
+        /* Dark Mode Overrides */
+        body.dark-mode .definition-box {
+            background: #1a3a52;
+            color: #b3d9ff;
+        }
+        
+        body.dark-mode .example-box {
+            background: #523a1a;
+            color: #ffd6a5;
+        }
+        
+        body.dark-mode .advantage-box {
+            background: #1a3a2a;
+            color: #a5ffc8;
+        }
+        
+        body.dark-mode .threat-box {
+            background: #3a1a1a;
+            color: #ff9999;
+        }
+        
+        body.dark-mode .formula-box {
+            background: #3a3a3a;
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode .key-box {
+            background: #3a1a2a;
+            color: #ff99dd;
+        }
+        
+        body.dark-mode .step-box {
+            background: #3a3a5c;
+            color: #e8e8ff;
+        }
+        
+        body.dark-mode .code-box {
+            background: #3a3a3a;
+            color: #e0e0e0;
+        }
+        
+        .note-highlight {
+            background: #ffeaa7;
+            border-left: 3px solid #fdcb6e;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 6px;
+            font-size: 12px;
+            word-break: break-word;
+        }
+        
+        body.dark-mode .note-highlight {
+            background: #4a4a1a;
+            color: #ffed99;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 11px;
+            overflow-x: auto;
+            display: block;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid var(--border);
+            padding: 8px;
+            text-align: left;
+            word-break: break-word;
+        }
+        
+        .comparison-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: var(--bg);
+        }
+        
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 20px 0;
+        }
+        
+        .one-liner {
+            background: #e8f5e9;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 6px;
+            font-size: 12px;
+            border-left: 3px solid #4caf50;
+            font-weight: 500;
+            word-break: break-word;
+        }
+        
+        body.dark-mode .one-liner {
+            background: #1a3a2a;
+            color: #a5ffc8;
+        }
+        
+        .print-btn {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+            padding: 12px 16px;
+            background: var(--bg);
+            border-top: 1px solid var(--border);
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 8px;
             }
-
-            .subtitle {
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .controls {
+                padding: 10px;
+                gap: 8px;
+            }
+            
+            .btn {
+                font-size: 11px;
+                padding: 6px 10px;
+            }
+            
+            .content-wrapper {
+                padding: 12px;
+            }
+            
+            .chapter-title {
                 font-size: 14px;
-                letter-spacing: 3px;
-            }
-
-            .unit-icon {
-                width: 100px;
-                height: 100px;
-            }
-
-            .icon-center {
-                font-size: 40px;
-            }
-
-            .status-card {
-                padding: 20px;
-            }
-
-            .status-label,
-            .status-value {
-                font-size: 12px;
-            }
-
-            .holo-btn {
-                padding: 12px 25px;
-                font-size: 12px;
             }
         }
-
-        @media (max-height: 700px) {
-            .unit-icon {
-                width: 100px;
-                height: 100px;
-                margin-bottom: 20px;
-            }
-
-            .title {
-                font-size: 48px;
-                margin: 15px 0;
-            }
-
-            .subtitle {
-                font-size: 16px;
-                margin-bottom: 25px;
-            }
-
-            .status-card {
-                padding: 20px 30px;
-                margin-bottom: 25px;
+        
+        @media print {
+            .controls, .print-btn, .toc-panel, .overlay {
+                display: none !important;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Background -->
-    <div class="bg-container">
-        <canvas id="matrix"></canvas>
-        <div class="grid-3d">
-            <div class="grid-plane"></div>
-        </div>
-        <div class="particles" id="particles"></div>
-        <div class="scanline"></div>
-        <div class="orb orb1"></div>
-        <div class="orb orb2"></div>
+    <div class="overlay" id="overlay"></div>
+    <div class="toc-panel" id="tocPanel">
+        <h3>📑 Chapters</h3>
+        <ul id="tocList"></ul>
     </div>
 
-    <!-- Main Content -->
     <div class="container">
-        <!-- 3D Icon -->
-        <div class="unit-icon">
-            <div class="icon-ring"></div>
-            <div class="icon-ring"></div>
-            <div class="icon-ring"></div>
-            <div class="icon-center">⚙️</div>
+        <div class="header">
+            <h1>📚 DBMS Unit 2</h1>
+            <p>Functional Dependencies • Normalization • Security • Control Structures</p>
+            <p class="credit-line">Compiled & Formatted by Ankush Raj</p>
         </div>
 
-        <!-- Title -->
-        <div class="title" id="unitTitle">LOADING</div>
-        <div class="subtitle">ENGINEERING PROTOCOL</div>
+        <div class="controls">
+            <button class="btn toc-btn" id="tocBtn">📑 Chapters</button>
+            <button class="btn dark-mode-btn" id="darkModeBtn">🌙 Dark</button>
+            <button class="btn toc-btn" onclick="window.print()" style="background: #4caf50;">🖨️ Print</button>
+        </div>
 
-        <!-- Status Card -->
-        <div class="status-card">
-            <div class="status-row">
-                <span class="status-label">Status</span>
-                <span class="status-value">
-                    <span class="status-dot"></span>
-                    COMPILING
-                </span>
-            </div>
-            <div class="status-row">
-                <span class="status-label">Progress</span>
-                <span class="status-value">75%</span>
-            </div>
-            <div class="progress-container">
-                <div class="progress-bar">
-                    <div class="progress-fill"></div>
+        <div class="content-wrapper">
+            <!-- CHAPTER 2.1 -->
+            <div class="chapter-title" id="ch1">📘 Chapter 2.1 — Functional Dependencies & Normalization</div>
+
+            <div class="section">
+                <div class="section-title">1. Functional Dependency (FD)</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Definition:</strong> A functional dependency is a relationship where one attribute uniquely determines another attribute in a relation.
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example:</strong><br>
+                        Roll_No → Name<br>
+                        (If we know Roll_No, we know Name)
+                    </div>
+                    
+                    <div class="subsection-title">Types of FDs</div>
+                    
+                    <p><strong>1. Trivial FD</strong></p>
+                    <div class="step-box">
+                        FD A → B is trivial if B is already part of A.<br>
+                        <strong>Example:</strong> {Roll, Name} → Name
+                    </div>
+                    
+                    <p><strong>2. Non-Trivial FD</strong></p>
+                    <div class="step-box">
+                        FD A → B is non-trivial if B is not part of A.<br>
+                        <strong>Example:</strong> Roll → Dept
+                    </div>
+                    
+                    <p><strong>3. Full Functional Dependency (FFD)</strong></p>
+                    <div class="step-box">
+                        If non-key attribute depends on entire composite key, not just part.<br>
+                        <strong>Example:</strong> (Roll, Subject) → Marks<br>
+                        Marks depends on both Roll AND Subject.
+                    </div>
+                    
+                    <p><strong>4. Partial Dependency</strong></p>
+                    <div class="step-box">
+                        When non-key attribute depends on part of composite key, not whole.<br>
+                        <strong>Example:</strong> Roll → Student_Name<br>
+                        <strong>Removed in:</strong> 2NF
+                    </div>
+                    
+                    <p><strong>5. Transitive Dependency (TD)</strong></p>
+                    <div class="step-box">
+                        If A → B and B → C then A → C<br>
+                        <strong>Example:</strong> Student_ID → Dept, Dept → HOD<br>
+                        Therefore Student_ID → HOD<br>
+                        <strong>Removed in:</strong> 3NF
+                    </div>
+                    
+                    <p><strong>6. Multi-Valued Dependency (MVD)</strong></p>
+                    <div class="step-box">
+                        One attribute determines multiple independent values of another.<br>
+                        <strong>Notation:</strong> A →→ B<br>
+                        <strong>Example:</strong> Student(ID) →→ Phone_Number
+                    </div>
+                    
+                    <p><strong>7. Join Dependency (JD)</strong></p>
+                    <div class="step-box">
+                        A relation can be decomposed into multiple tables and re-joined without loss.<br>
+                        <strong>Example:</strong> R(ABCD) into AB, BC, CD and rejoined back.
+                    </div>
                 </div>
             </div>
-            <div class="status-row">
-                <span class="status-label">Modules Ready</span>
-                <span class="status-value">12 / 16</span>
+
+            <div class="section">
+                <div class="section-title">2. Decomposition</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Definition:</strong> Dividing a large relation into smaller relations.
+                    </div>
+                    
+                    <p><strong>Lossless Decomposition:</strong> No information lost. Natural join gives original table.</p>
+                    <p><strong>Lossy Decomposition:</strong> Causes missing/extra tuples. Undesirable.</p>
+                </div>
             </div>
-            <div class="status-row">
-                <span class="status-label">ETA</span>
-                <span class="status-value">COMING SOON™</span>
+
+            <div class="section">
+                <div class="section-title">3. Normalization</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Definition:</strong> Process of organizing data to remove redundancy, avoid anomalies, and improve consistency.
+                    </div>
+                    
+                    <div class="subsection-title">Problems Removed</div>
+                    <div class="threat-box">
+                        • Insertion anomaly<br>
+                        • Update anomaly<br>
+                        • Deletion anomaly
+                    </div>
+                    
+                    <div class="subsection-title">Normal Forms</div>
+                    
+                    <p><strong>1. First Normal Form (1NF)</strong></p>
+                    <div class="step-box">
+                        • All values are atomic (no multivalued fields)<br>
+                        • No repeating groups<br>
+                        <strong>Example (Not 1NF):</strong> Phone = {9876, 2345}
+                    </div>
+                    
+                    <p><strong>2. Second Normal Form (2NF)</strong></p>
+                    <div class="step-box">
+                        • Already in 1NF<br>
+                        • No partial dependency<br>
+                        <strong>Used for:</strong> Tables with composite primary keys
+                    </div>
+                    
+                    <p><strong>3. Third Normal Form (3NF)</strong></p>
+                    <div class="step-box">
+                        • Already in 2NF<br>
+                        • No transitive dependency
+                    </div>
+                    
+                    <p><strong>4. BCNF (Boyce-Codd Normal Form)</strong></p>
+                    <div class="step-box">
+                        For every FD A → B, A must be a super key.<br>
+                        More strict than 3NF.
+                    </div>
+                    
+                    <p><strong>5. Denormalization</strong></p>
+                    <div class="step-box">
+                        Intentional introduction of redundancy to improve read performance.<br>
+                        <strong>Used in:</strong> Data Warehousing, Reporting, Analytics
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- CHAPTER 2.2 -->
+            <div class="chapter-title" id="ch2">📘 Chapter 2.2 — Database Security</div>
+
+            <div class="section">
+                <div class="section-title">1. Database Security</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Definition:</strong> Protecting database from unauthorized access, misuse, data corruption, and loss.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">2. Threats to Database</div>
+                <div class="content">
+                    <div class="threat-box">
+                        <strong>1. Unauthorized Access:</strong> Hackers/users accessing restricted data<br><br>
+                        <strong>2. SQL Injection:</strong> Malicious SQL inserted into input fields<br><br>
+                        <strong>3. Data Leakage:</strong> Sensitive data exposed unintentionally<br><br>
+                        <strong>4. Malware & Viruses:</strong> Entering through applications<br><br>
+                        <strong>5. Privilege Misuse:</strong> Employees accessing more data than allowed<br><br>
+                        <strong>6. System Failure:</strong> Server crashes causing data loss<br><br>
+                        <strong>7. Data Corruption:</strong> Due to bugs or hardware failure
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">3. Counter Measures (Security Techniques)</div>
+                <div class="content">
+                    <div class="advantage-box">
+                        <strong>1. Authentication:</strong> Username, password, biometrics, OTP<br><br>
+                        <strong>2. Authorization:</strong> Roles and privileges like SELECT, UPDATE<br><br>
+                        <strong>3. Encryption:</strong> Converting data into unreadable form<br><br>
+                        <strong>4. Backup & Recovery:</strong> Regular backups to avoid data loss<br><br>
+                        <strong>5. Firewalls:</strong> Blocking unauthorized network traffic<br><br>
+                        <strong>6. Anti-malware tools:</strong> Protect systems from virus attacks<br><br>
+                        <strong>7. Auditing & Logging:</strong> Tracking user activities<br><br>
+                        <strong>8. Views:</strong> Showing only limited data to specific users
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- CHAPTER 2.3 -->
+            <div class="chapter-title" id="ch3">📘 Chapter 2.3 — Control Structures, Cursors & Views</div>
+
+            <div class="section">
+                <div class="section-title">1. Control Structures</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Definition:</strong> Allow conditional and iterative execution inside PL/SQL programs.
+                    </div>
+                    
+                    <div class="subsection-title">1. Conditional Control</div>
+                    <p><strong>IF Statement:</strong></p>
+                    <div class="code-box">
+                        IF condition THEN<br>
+                        &nbsp;&nbsp;&nbsp;statements;<br>
+                        END IF;
+                    </div>
+                    
+                    <p><strong>IF-ELSE Statement</strong></p>
+                    <p><strong>ELSIF Ladder</strong></p>
+                    <p><strong>CASE Statement:</strong> Used for multiple conditions</p>
+                    
+                    <div class="subsection-title">2. Iterative / Loop Control</div>
+                    
+                    <p><strong>LOOP:</strong> Executes repeatedly until condition is met</p>
+                    <div class="code-box">
+                        LOOP<br>
+                        &nbsp;&nbsp;&nbsp;EXIT WHEN condition;<br>
+                        END LOOP;
+                    </div>
+                    
+                    <p><strong>WHILE LOOP</strong></p>
+                    <p><strong>FOR LOOP</strong></p>
+                    
+                    <div class="subsection-title">3. Sequential Control</div>
+                    <p>Statements executed in sequence:</p>
+                    <div class="point">• Assignments</div>
+                    <div class="point">• SQL commands</div>
+                    <div class="point">• Procedure calls</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">2. Cursors</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Definition:</strong> A pointer used to fetch query results row-by-row.
+                    </div>
+                    
+                    <div class="subsection-title">Types of Cursors</div>
+                    <p><strong>1. Implicit Cursor:</strong> Created automatically by Oracle</p>
+                    <p><strong>2. Explicit Cursor:</strong> Created manually by programmer</p>
+                    
+                    <div class="subsection-title">Steps in Explicit Cursor</div>
+                    <div class="step-box">
+                        1. Declare<br>
+                        2. Open<br>
+                        3. Fetch<br>
+                        4. Close
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">3. Views</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Definition:</strong> A virtual table created from one or more tables using SELECT query.
+                    </div>
+                    
+                    <div class="subsection-title">Features of Views</div>
+                    <div class="advantage-box">
+                        • Does NOT store data physically<br>
+                        • Provides security<br>
+                        • Simplifies queries<br>
+                        • Shows limited/required data only
+                    </div>
+                    
+                    <div class="subsection-title">Example</div>
+                    <div class="code-box">
+                        CREATE VIEW StuView AS<br>
+                        SELECT Roll, Name FROM Student;
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="print-btn">
+                <button class="btn toc-btn" id="topBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️ Top</button>
+                <button class="btn dark-mode-btn" id="darkModeBtn2" onclick="document.getElementById('darkModeBtn').click()">🌙 Toggle</button>
             </div>
         </div>
-
-        <!-- Buttons -->
-        <div class="btn-container">
-            <a href="/notes" class="holo-btn">
-                <span>←</span>
-                <span>BACK TO NOTES</span>
-            </a>
-            <a href="/" class="holo-btn">
-                <span>🏠</span>
-                <span>HOME</span>
-            </a>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <div class="footer">
-        Engineered by <a href="https://ankushraj.dev" target="_blank">Ankush Raj</a> • © 2026 ankushraj.dev
     </div>
 
     <script>
-        // Matrix Effect
-        const canvas = document.getElementById('matrix');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const chars = '01アイウエオカキクケコ';
-        const fontSize = 14;
-        const columns = canvas.width / fontSize;
-        const drops = Array(Math.floor(columns)).fill(1);
-
-        function drawMatrix() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#00ff88';
-            ctx.font = fontSize + 'px monospace';
-
-            for (let i = 0; i < drops.length; i++) {
-                const text = chars[Math.floor(Math.random() * chars.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
-            }
+        // Dark Mode Toggle
+        const darkModeBtn = document.getElementById('darkModeBtn');
+        const darkModeBtn2 = document.getElementById('darkModeBtn2');
+        const isDarkMode = localStorage.getItem('darkMode') === 'true';
+        
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+            darkModeBtn.textContent = '☀️ Light';
+            darkModeBtn2.textContent = '☀️ Light';
         }
-
-        setInterval(drawMatrix, 50);
-
-        // Create Particles
-        const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 20; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.setProperty('--dx', (Math.random() * 200 - 100) + 'px');
-            particle.style.setProperty('--dy', (Math.random() * 200 - 100) + 'px');
-            particle.style.animationDelay = Math.random() * 10 + 's';
-            particlesContainer.appendChild(particle);
+        
+        darkModeBtn.addEventListener('click', toggleDarkMode);
+        darkModeBtn2.addEventListener('click', toggleDarkMode);
+        
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+            darkModeBtn.textContent = isDark ? '☀️ Light' : '🌙 Dark';
+            darkModeBtn2.textContent = isDark ? '☀️ Light' : '🌙 Dark';
         }
-
-        // Auto-detect Unit Number
-        const urlPath = window.location.pathname;
-        const unitMatch = urlPath.match(/unit(\d+)/i);
-        if (unitMatch) {
-            const unitNumber = unitMatch[1];
-            document.getElementById('unitTitle').textContent = `UNIT ${unitNumber}`;
-            document.title = `Unit ${unitNumber} Loading | Engineering Protocol`;
-        }
-
-        // Random Glitch
-        setInterval(() => {
-            const title = document.getElementById('unitTitle');
-            if (Math.random() > 0.93) {
-                const original = title.textContent;
-                title.textContent = original.split('').map(c => 
-                    Math.random() > 0.7 ? String.fromCharCode(33 + Math.random() * 94) : c
-                ).join('');
-                setTimeout(() => title.textContent = original, 80);
-            }
-        }, 2000);
-
-        // Resize Handler
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        
+        // TOC Toggle
+        const tocBtn = document.getElementById('tocBtn');
+        const tocPanel = document.getElementById('tocPanel');
+        const overlay = document.getElementById('overlay');
+        
+        tocBtn.addEventListener('click', () => {
+            tocPanel.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+        
+        overlay.addEventListener('click', () => {
+            tocPanel.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+        
+        // Build TOC
+        const chapters = [
+            { title: 'Chapter 2.1 - FD & Normalization', id: 'ch1' },
+            { title: 'Chapter 2.2 - Database Security', id: 'ch2' },
+            { title: 'Chapter 2.3 - Control Structures', id: 'ch3' }
+        ];
+        
+        const tocList = document.getElementById('tocList');
+        chapters.forEach(ch => {
+            const li = document.createElement('li');
+            li.textContent = ch.title;
+            li.onclick = () => {
+                document.getElementById(ch.id).scrollIntoView({ behavior: 'smooth' });
+                tocPanel.classList.remove('active');
+                overlay.classList.remove('active');
+            };
+            tocList.appendChild(li);
         });
     </script>
 </body>
