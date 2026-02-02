@@ -3,632 +3,2352 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unit Loading | Engineering Protocol</title>
+    <title>Software Engineering - Unit 1 | ankushraj.dev</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
+        :root {
+            --primary: #3b82f6;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text: #333;
+            --text-light: #6b7280;
+            --bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --border: #e5e7eb;
+            --code-bg: #f3f4f6;
+        }
+        
+        body.dark-mode {
+            --text: #f0f0f0;
+            --text-light: #9ca3af;
+            --bg: #111827;
+            --card-bg: #1f2937;
+            --border: #374151;
+            --code-bg: #374151;
+        }
+        
         body {
-            font-family: 'Courier New', monospace;
-            background: #000000;
-            color: #00ff88;
-            overflow: hidden;
-            height: 100vh;
-            position: relative;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
         }
-
-        /* Animated Background */
-        .bg-container {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
+        
+        /* Print Styles */
+        @media print {
+            @page {
+                margin: 15mm 10mm 12mm 10mm;
+                size: A4;
+            }
+            
+            body {
+                font-size: 13px;
+                line-height: 1.45;
+            }
+            
+            body::before {
+                content: "ankushraj.dev";
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(-45deg);
+                font-size: 70px;
+                font-weight: 200;
+                color: rgba(0, 0, 0, 0.04);
+                z-index: -1;
+            }
+            
+            .header-controls, .tabs-container, .toc-panel, .overlay {
+                display: none !important;
+            }
         }
-
-        /* Matrix Canvas */
-        #matrix {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0.15;
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 12px 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-
-        /* 3D Grid */
-        .grid-3d {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            perspective: 800px;
-        }
-
-        .grid-plane {
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            top: 60%;
-            left: 50%;
-            transform: translate(-50%, 0) rotateX(70deg);
-            background-image: 
-                linear-gradient(rgba(0, 255, 136, 0.15) 2px, transparent 2px),
-                linear-gradient(90deg, rgba(0, 255, 136, 0.15) 2px, transparent 2px);
-            background-size: 60px 60px;
-            animation: gridFlow 8s linear infinite;
-        }
-
-        @keyframes gridFlow {
-            from { transform: translate(-50%, 0) rotateX(70deg) translateY(0); }
-            to { transform: translate(-50%, 0) rotateX(70deg) translateY(60px); }
-        }
-
-        /* Floating Particles */
-        .particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #00ff88;
-            border-radius: 50%;
-            box-shadow: 0 0 15px #00ff88;
-            animation: float 10s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0); opacity: 0; }
-            10%, 90% { opacity: 1; }
-            50% { transform: translate(var(--dx), var(--dy)); }
-        }
-
-        /* Scan Lines */
-        .scanline {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(0, 255, 136, 0.03) 2px,
-                rgba(0, 255, 136, 0.03) 4px
-            );
-            pointer-events: none;
-            animation: scanMove 8s linear infinite;
-        }
-
-        @keyframes scanMove {
-            from { transform: translateY(0); }
-            to { transform: translateY(20px); }
-        }
-
-        /* Glowing Orbs */
-        .orb {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.4;
-        }
-
-        .orb1 {
-            background: radial-gradient(circle, #00ff88 0%, transparent 70%);
-            top: -200px;
-            left: -200px;
-            animation: orbFloat1 8s ease-in-out infinite;
-        }
-
-        .orb2 {
-            background: radial-gradient(circle, #00ffff 0%, transparent 70%);
-            bottom: -200px;
-            right: -200px;
-            animation: orbFloat2 8s ease-in-out infinite;
-        }
-
-        @keyframes orbFloat1 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(50px, 30px) scale(1.1); }
-        }
-
-        @keyframes orbFloat2 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(-50px, -30px) scale(1.1); }
-        }
-
-        /* Main Content */
-        .container {
-            position: relative;
-            z-index: 10;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+        
+        .header-title {
             text-align: center;
         }
-
-        /* 3D Rotating Logo/Icon */
-        .unit-icon {
-            width: 150px;
-            height: 150px;
-            margin: 0 auto 30px;
-            position: relative;
-            animation: iconFloat 3s ease-in-out infinite;
+        
+        .header-title h1 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 4px;
         }
-
-        @keyframes iconFloat {
-            0%, 100% { transform: translateY(0) rotateY(0deg); }
-            50% { transform: translateY(-20px) rotateY(180deg); }
+        
+        .header-title p {
+            font-size: 14px;
+            opacity: 0.9;
         }
-
-        .icon-ring {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: 3px solid #00ff88;
-            border-radius: 50%;
-            animation: ringPulse 2s ease-in-out infinite;
+        
+        .header-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 12px;
         }
-
-        .icon-ring:nth-child(2) {
-            animation-delay: 0.5s;
-            border-color: #00ffff;
+        
+        .btn {
+            flex: 1;
+            max-width: 150px;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
         }
-
-        .icon-ring:nth-child(3) {
-            animation-delay: 1s;
-            border-color: #ffff00;
+        
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-2px);
         }
-
-        @keyframes ringPulse {
-            0%, 100% { transform: scale(0.8); opacity: 0.3; }
-            50% { transform: scale(1.2); opacity: 0.8; }
+        
+        /* Tabs */
+        .tabs-container {
+            background: var(--card-bg);
+            border-bottom: 2px solid var(--border);
+            display: flex;
         }
-
-        .icon-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 60px;
-            animation: iconSpin 4s linear infinite;
+        
+        .tab {
+            flex: 1;
+            padding: 16px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            color: var(--text-light);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
         }
-
-        @keyframes iconSpin {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            background: rgba(59, 130, 246, 0.05);
         }
-
-        /* Glitch Title */
-        .title {
-            font-size: 72px;
-            font-weight: 900;
-            color: #00ff88;
-            text-transform: uppercase;
-            letter-spacing: 10px;
-            margin: 20px 0;
-            text-shadow: 
-                0 0 30px #00ff88,
-                0 0 60px #00ff88,
-                3px 3px 0 #ff00ff,
-                -3px -3px 0 #00ffff;
-            animation: glitchAnim 4s ease-in-out infinite;
+        
+        /* TOC Panel */
+        .toc-panel {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 85%;
+            max-width: 320px;
+            height: 100vh;
+            background: var(--card-bg);
+            z-index: 1000;
+            overflow-y: auto;
+            box-shadow: 4px 0 12px rgba(0,0,0,0.2);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
         }
-
-        @keyframes glitchAnim {
-            0%, 90%, 100% {
-                transform: skew(0deg);
-                text-shadow: 
-                    0 0 30px #00ff88,
-                    0 0 60px #00ff88;
-            }
-            92%, 96% {
-                transform: skew(-3deg);
-                text-shadow: 
-                    -5px 0 30px #ff00ff,
-                    5px 0 30px #00ffff,
-                    0 0 60px #00ff88;
-            }
+        
+        .toc-panel.active {
+            display: block;
+            transform: translateX(0);
         }
-
-        .subtitle {
-            font-size: 20px;
-            color: #00ffff;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            margin-bottom: 40px;
-            text-shadow: 0 0 20px #00ffff;
-        }
-
-        /* Holographic Status Card */
-        .status-card {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 255, 255, 0.1) 100%);
-            border: 2px solid #00ff88;
-            border-radius: 15px;
-            padding: 25px 40px;
-            max-width: 600px;
-            margin: 0 auto 40px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 
-                0 0 40px rgba(0, 255, 136, 0.4),
-                inset 0 0 40px rgba(0, 255, 136, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        .status-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(0, 255, 136, 0.1), transparent);
-            animation: cardShine 4s linear infinite;
-        }
-
-        @keyframes cardShine {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .status-row {
+        
+        .toc-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 700;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.3);
-            position: relative;
-            z-index: 1;
         }
-
-        .status-row:last-child {
-            border-bottom: none;
-        }
-
-        .status-label {
-            font-size: 14px;
-            color: #00ffff;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .status-value {
-            font-size: 14px;
-            color: #00ff88;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            background: #00ff88;
+        
+        .toc-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            box-shadow: 0 0 15px #00ff88;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.3); opacity: 0.7; }
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            margin: 15px 0;
-            position: relative;
-            z-index: 1;
-        }
-
-        .progress-bar {
-            height: 8px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid #00ff88;
-        }
-
-        .progress-fill {
-            height: 100%;
-            width: 75%;
-            background: linear-gradient(90deg, #00ff88, #00ffff);
-            box-shadow: 0 0 20px #00ff88;
-            animation: progressPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes progressPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        /* Action Buttons */
-        .btn-container {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .holo-btn {
-            padding: 15px 40px;
-            background: transparent;
-            border: 2px solid #00ff88;
-            color: #00ff88;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            font-size: 18px;
             cursor: pointer;
-            border-radius: 8px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-flex;
+        }
+        
+        .toc-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .toc-list li {
+            padding: 14px 16px;
+            font-size: 13px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .toc-list li:hover {
+            background: var(--bg);
+            color: var(--primary);
+            padding-left: 24px;
+        }
+        
+        /* Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+        
+        .overlay.active {
+            display: block;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 12px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .chapter-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: white;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            margin-left: -12px;
+            margin-right: -12px;
+            display: flex;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
         }
-
-        .holo-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.4), transparent);
-            transition: left 0.5s;
+        
+        .section {
+            margin-bottom: 24px;
         }
-
-        .holo-btn:hover::before {
-            left: 100%;
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid var(--primary);
         }
-
-        .holo-btn:hover {
-            background: rgba(0, 255, 136, 0.15);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 40px rgba(0, 255, 136, 0.6);
-            border-color: #00ffff;
-            color: #00ffff;
+        
+        .subsection-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+            margin-top: 12px;
+            margin-bottom: 6px;
         }
-
-        .holo-btn:active {
-            transform: translateY(0);
+        
+        .content p {
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.65;
         }
-
-        /* Footer */
-        .footer {
-            position: fixed;
-            bottom: 20px;
-            width: 100%;
+        
+        /* Content Boxes */
+        .definition-box, .code-box, .advantage-box, .threat-box, 
+        .step-box, .example-box, .mindmap-box, .note-box {
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 13px;
+            line-height: 1.65;
+        }
+        
+        .definition-box {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .code-box {
+            background: var(--code-bg);
+            border-left: 4px solid #6b7280;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        
+        .advantage-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+        }
+        
+        .threat-box {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+        }
+        
+        .step-box {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid var(--warning);
+        }
+        
+        .example-box {
+            background: rgba(139, 92, 246, 0.1);
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .mindmap-box {
+            background: rgba(139, 92, 246, 0.05);
+            border: 2px dashed var(--secondary);
             text-align: center;
-            font-size: 11px;
-            color: rgba(0, 255, 136, 0.5);
-            z-index: 10;
+            padding: 20px;
         }
-
-        .footer a {
-            color: #00ff88;
-            text-decoration: none;
+        
+        .note-box {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid var(--warning);
+        }
+        
+        .point {
+            margin-left: 18px;
+            margin-bottom: 6px;
+            font-size: 13px;
+            position: relative;
+        }
+        
+        .point::before {
+            content: "•";
+            position: absolute;
+            left: -14px;
+            color: var(--primary);
             font-weight: 700;
         }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .title {
-                font-size: 42px;
-                letter-spacing: 5px;
-            }
-
-            .subtitle {
-                font-size: 14px;
-                letter-spacing: 3px;
-            }
-
-            .unit-icon {
-                width: 100px;
-                height: 100px;
-            }
-
-            .icon-center {
-                font-size: 40px;
-            }
-
-            .status-card {
-                padding: 20px;
-            }
-
-            .status-label,
-            .status-value {
-                font-size: 12px;
-            }
-
-            .holo-btn {
-                padding: 12px 25px;
-                font-size: 12px;
-            }
+        
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            margin: 24px 0;
         }
-
-        @media (max-height: 700px) {
-            .unit-icon {
-                width: 100px;
-                height: 100px;
-                margin-bottom: 20px;
-            }
-
-            .title {
-                font-size: 48px;
-                margin: 15px 0;
-            }
-
-            .subtitle {
-                font-size: 16px;
-                margin-bottom: 25px;
-            }
-
-            .status-card {
-                padding: 20px 30px;
-                margin-bottom: 25px;
-            }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 16px;
+            background: var(--card-bg);
+            border-top: 2px solid var(--border);
+            margin-top: 32px;
+        }
+        
+        .footer-credit {
+            font-size: 14px;
+            color: var(--text);
+            font-weight: 600;
+        }
+        
+        .footer-credit strong {
+            color: var(--primary);
+        }
+        
+        .footer-note {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+        
+        /* Responsive */
+        @media (min-width: 768px) {
+            .container { padding: 16px; }
+            .header { padding: 14px 20px; }
+            .header-title h1 { font-size: 28px; }
+            .chapter-title { font-size: 20px; padding: 16px 20px; }
+            .section-title { font-size: 18px; }
+            .content p { font-size: 15px; }
         }
     </style>
 </head>
 <body>
-    <!-- Background -->
-    <div class="bg-container">
-        <canvas id="matrix"></canvas>
-        <div class="grid-3d">
-            <div class="grid-plane"></div>
+    <!-- TOC Panel -->
+    <div class="toc-panel" id="tocPanel">
+        <div class="toc-header">
+            <span>📚 Chapters</span>
+            <button class="toc-close" onclick="closeTOC()">×</button>
         </div>
-        <div class="particles" id="particles"></div>
-        <div class="scanline"></div>
-        <div class="orb orb1"></div>
-        <div class="orb orb2"></div>
+        <ul class="toc-list" id="tocList"></ul>
     </div>
-
-    <!-- Main Content -->
-    <div class="container">
-        <!-- 3D Icon -->
-        <div class="unit-icon">
-            <div class="icon-ring"></div>
-            <div class="icon-ring"></div>
-            <div class="icon-ring"></div>
-            <div class="icon-center">⚙️</div>
+    
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="closeTOC()"></div>
+    
+    <!-- Header -->
+    <div class="header">
+        <div class="header-title">
+            <h1>Software Engineering</h1>
+            <p>Unit 1 - Introduction & Requirements</p>
         </div>
-
-        <!-- Title -->
-        <div class="title" id="unitTitle">LOADING</div>
-        <div class="subtitle">ENGINEERING PROTOCOL</div>
-
-        <!-- Status Card -->
-        <div class="status-card">
-            <div class="status-row">
-                <span class="status-label">Status</span>
-                <span class="status-value">
-                    <span class="status-dot"></span>
-                    COMPILING
-                </span>
+        
+        <div class="header-controls">
+            <button class="btn" onclick="openTOC()">
+                <span>📑</span><span>Chapters</span>
+            </button>
+            <button class="btn" id="darkModeBtn" onclick="toggleDarkMode()">
+                <span>🌙</span><span>Dark</span>
+            </button>
+            <button class="btn" onclick="window.print()">
+                <span>📥</span><span>PDF</span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Tabs -->
+    <div class="tabs-container">
+        <div class="tab active" onclick="switchTab('full')">📖 Full Notes</div>
+        <div class="tab" onclick="switchTab('lastmin')">⚡ Last Min Notes</div>
+    </div>
+    
+    <!-- Content -->
+    <div class="container">
+        <!-- FULL NOTES TAB -->
+        <div class="tab-content active" id="fullNotesTab">
+            
+            <!-- CHAPTER 1: INTRODUCTION -->
+            <div class="chapter-title" id="ch1">
+                <span>🎯</span>
+                <span>Chapter 1 — Introduction to Software Engineering</span>
             </div>
-            <div class="status-row">
-                <span class="status-label">Progress</span>
-                <span class="status-value">75%</span>
-            </div>
-            <div class="progress-container">
-                <div class="progress-bar">
-                    <div class="progress-fill"></div>
+            
+            <!-- Mind Map -->
+            <div class="section">
+                <div class="mindmap-box">
+                    <strong style="color: var(--secondary); font-size: 16px;">📊 SOFTWARE ENGINEERING - MIND MAP</strong>
+                    <div style="margin-top: 15px; text-align: left; max-width: 700px; margin-left: auto; margin-right: auto;">
+                        <div class="point">Software → Collection of programs + documentation</div>
+                        <div class="point">Software Engineering → Systematic approach to develop quality software</div>
+                        <div class="point">Need → Handle complexity, quality, cost, time management</div>
+                        <div class="point">Program vs Product → Product = Tested + Documented + Maintainable</div>
+                        <div class="point">SDLC → Phases: Planning → Analysis → Design → Implementation → Testing → Maintenance</div>
+                        <div class="point">Models → Waterfall, Iterative, Prototype, Spiral, Agile, V-Model</div>
+                    </div>
                 </div>
             </div>
-            <div class="status-row">
-                <span class="status-label">Modules Ready</span>
-                <span class="status-value">12 / 16</span>
+            
+            <!-- Section 1: What is Software -->
+            <div class="section">
+                <div class="section-title">1. What is Software?</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Definition:</strong><br>
+                        Software is a collection of computer programs, procedures, documentation, and data that performs specific tasks on a computer system.
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Real-life Example:</strong><br>
+                        Think of software like recipes in a cookbook:<br>
+                        • <strong>Programs:</strong> Step-by-step cooking instructions<br>
+                        • <strong>Documentation:</strong> Ingredient list, tips, photos<br>
+                        • <strong>Data:</strong> Measurements, cooking times<br><br>
+                        Just as recipes guide you to make food, software guides the computer to perform tasks!
+                    </div>
+                    
+                    <div class="subsection-title">Components of Software:</div>
+                    <div class="step-box">
+                        <strong>1. Programs:</strong> Set of instructions (code) that tell computer what to do<br>
+                        <strong>2. Documentation:</strong> User manuals, technical guides, help files<br>
+                        <strong>3. Data:</strong> Information processed by programs<br>
+                        <strong>4. Procedures:</strong> Rules and guidelines for using the software
+                    </div>
+                    
+                    <div class="subsection-title">Types of Software:</div>
+                    <div class="code-box"><strong>1. System Software:</strong>
+Controls hardware and provides platform for applications
+Examples: Windows, Linux, macOS, Android
+
+<strong>2. Application Software:</strong>
+Performs specific tasks for users
+Examples: MS Office, Photoshop, Chrome, WhatsApp
+
+<strong>3. Utility Software:</strong>
+Maintains and protects system
+Examples: Antivirus, File compressor, Disk cleaner</div>
+                    
+                    <div class="note-box">
+                        <strong>Key Point:</strong> Software is intangible (cannot touch), unlike hardware (keyboard, monitor). But software controls hardware to perform tasks!
+                    </div>
+                </div>
             </div>
-            <div class="status-row">
-                <span class="status-label">ETA</span>
-                <span class="status-value">COMING SOON™</span>
+            
+            <!-- Section 2: What is Software Engineering -->
+            <div class="section">
+                <div class="section-title">2. What is Software Engineering?</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Definition:</strong><br>
+                        Software Engineering is a systematic, disciplined, and quantifiable approach to the development, operation, and maintenance of software. It applies engineering principles to software development.
+                    </div>
+                    
+                    <p><strong>In Simple Words:</strong> Software Engineering is the process of designing, creating, testing, and maintaining software using structured methods and best practices.</p>
+                    
+                    <div class="example-box">
+                        <strong>Analogy - Building a House:</strong><br>
+                        <strong>Without Engineering:</strong> Just start building randomly<br>
+                        → Walls might collapse, no proper rooms, wasted materials<br><br>
+                        
+                        <strong>With Engineering:</strong> Follow systematic approach<br>
+                        → Plan blueprint → Check foundation → Build systematically → Test strength<br>
+                        → Result: Strong, safe, well-designed house<br><br>
+                        
+                        <strong>Similarly in Software:</strong><br>
+                        Without SE: Buggy, unmaintainable, poor quality code<br>
+                        With SE: Reliable, maintainable, high-quality software
+                    </div>
+                    
+                    <div class="subsection-title">Goals of Software Engineering:</div>
+                    <div class="advantage-box">
+                        ✓ <strong>Quality:</strong> Develop defect-free, reliable software<br>
+                        ✓ <strong>Cost-Effective:</strong> Minimize development and maintenance cost<br>
+                        ✓ <strong>Time Management:</strong> Deliver on schedule<br>
+                        ✓ <strong>Maintainability:</strong> Easy to update and fix<br>
+                        ✓ <strong>Scalability:</strong> Handle growing user base<br>
+                        ✓ <strong>User Satisfaction:</strong> Meet user needs and expectations
+                    </div>
+                </div>
             </div>
-        </div>
+            
+            <!-- Section 3: Need of Software Engineering -->
+            <div class="section">
+                <div class="section-title">3. Need of Software Engineering</div>
+                <div class="content">
+                    <div class="step-box">
+                        <strong>Why do we need Software Engineering?</strong><br>
+                        As software systems became larger and more complex, traditional programming methods failed. Software Engineering was needed to solve these problems:
+                    </div>
+                    
+                    <div class="subsection-title">1. Handle Complexity:</div>
+                    <div class="example-box">
+                        <strong>Problem:</strong> Modern software has millions of lines of code<br>
+                        <strong>Example:</strong> Windows 10 has ~50 million lines of code<br>
+                        <strong>Solution:</strong> SE provides methods to break complex systems into manageable modules
+                    </div>
+                    
+                    <div class="subsection-title">2. Ensure Quality:</div>
+                    <div class="example-box">
+                        <strong>Problem:</strong> Buggy software causes crashes, data loss, security issues<br>
+                        <strong>Example:</strong> A banking app bug could lose customer money<br>
+                        <strong>Solution:</strong> SE uses testing, quality assurance, and standards
+                    </div>
+                    
+                    <div class="subsection-title">3. Cost Management:</div>
+                    <div class="example-box">
+                        <strong>Problem:</strong> Poor planning leads to budget overruns<br>
+                        <strong>Fact:</strong> 64% of software projects exceed budget<br>
+                        <strong>Solution:</strong> SE provides cost estimation and resource planning
+                    </div>
+                    
+                    <div class="subsection-title">4. Time Management:</div>
+                    <div class="example-box">
+                        <strong>Problem:</strong> Projects miss deadlines, delayed releases<br>
+                        <strong>Example:</strong> Game delays cost millions in lost revenue<br>
+                        <strong>Solution:</strong> SE uses project management and scheduling techniques
+                    </div>
+                    
+                    <div class="subsection-title">5. Team Collaboration:</div>
+                    <div class="example-box">
+                        <strong>Problem:</strong> Large projects need multiple developers working together<br>
+                        <strong>Challenge:</strong> Code conflicts, miscommunication<br>
+                        <strong>Solution:</strong> SE provides version control, documentation, and team processes
+                    </div>
+                    
+                    <div class="subsection-title">6. Maintenance:</div>
+                    <div class="example-box">
+                        <strong>Problem:</strong> 60-70% of software cost is maintenance<br>
+                        <strong>Challenge:</strong> Understanding old code, adding features, fixing bugs<br>
+                        <strong>Solution:</strong> SE emphasizes documentation and clean code practices
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>The Software Crisis (1960s-1970s):</strong><br>
+                        Projects failed massively: Late delivery, over budget, low quality, didn't meet requirements.<br>
+                        This led to the birth of Software Engineering as a discipline in 1968.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Program vs Product -->
+            <div class="section">
+                <div class="section-title">4. Difference Between Program and Product</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Program:</strong> A set of instructions written to solve a specific problem.<br>
+                        <strong>Product:</strong> A well-tested, documented, and complete software solution ready for end users.
+                    </div>
+                    
+                    <div class="code-box"><strong>Comparison Table:</strong>
 
-        <!-- Buttons -->
-        <div class="btn-container">
-            <a href="/notes" class="holo-btn">
-                <span>←</span>
-                <span>BACK TO NOTES</span>
-            </a>
-            <a href="/" class="holo-btn">
-                <span>🏠</span>
-                <span>HOME</span>
-            </a>
-        </div>
-    </div>
+Aspect          | Program                | Product
+--------------- | ---------------------- | ----------------------
+Purpose         | Solve specific problem | Meet user needs
+User            | Developer/Small group  | General public
+Documentation   | Minimal or none        | Complete & detailed
+Testing         | Basic/Informal         | Rigorous & systematic
+Maintenance     | Not considered         | Long-term support
+Quality         | May have bugs          | High quality expected
+Cost            | Low                    | High
+Lifespan        | Short-term             | Long-term
+Example         | College assignment     | Microsoft Word</code></div>
+                    
+                    <div class="example-box">
+                        <strong>Example - Calculator:</strong><br><br>
+                        
+                        <strong>Program (Calculator in Python):</strong><br>
+                        • Written in 30 minutes<br>
+                        • Does basic addition/subtraction<br>
+                        • Works on developer's computer<br>
+                        • No error handling<br>
+                        • No documentation<br>
+                        • Just the code file<br><br>
+                        
+                        <strong>Product (Windows Calculator):</strong><br>
+                        • Developed over months by team<br>
+                        • Multiple operations, scientific mode, history<br>
+                        • Works on all Windows versions<br>
+                        • Handles all errors gracefully<br>
+                        • Complete user manual, help section<br>
+                        • Installer, updates, support<br>
+                        • Tested on thousands of scenarios
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>Key Takeaway:</strong> A program becomes a product when it's:<br>
+                        ✓ Thoroughly tested<br>
+                        ✓ Well documented<br>
+                        ✓ User-friendly<br>
+                        ✓ Maintainable<br>
+                        ✓ Reliable and robust
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 5: SDLC Basics -->
+            <div class="section">
+                <div class="section-title">5. Software Development Life Cycle (SDLC)</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>What is SDLC?</strong><br>
+                        Software Development Life Cycle (SDLC) is a systematic process used by software industry to design, develop, test, and deploy high-quality software. It defines phases/stages through which software passes from conception to retirement.
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Real-life Analogy - Building a Car:</strong><br>
+                        1. Planning: What type of car? Features? Budget?<br>
+                        2. Design: Create blueprints, interior/exterior design<br>
+                        3. Manufacturing: Build the car in factory<br>
+                        4. Testing: Safety tests, performance tests<br>
+                        5. Launch: Deliver to showrooms<br>
+                        6. Maintenance: Service centers, spare parts<br><br>
+                        Similarly, software goes through systematic phases!
+                    </div>
+                    
+                    <div class="subsection-title">SDLC Phases:</div>
+                    
+                    <div class="step-box">
+                        <strong>Phase 1: Planning (Feasibility Study)</strong><br>
+                        • Define project scope<br>
+                        • Identify stakeholders<br>
+                        • Estimate cost, time, resources<br>
+                        • Check if project is feasible (technical, economic, operational)<br>
+                        <strong>Output:</strong> Project plan, feasibility report
+                    </div>
+                    
+                    <div class="step-box">
+                        <strong>Phase 2: Requirement Analysis</strong><br>
+                        • Gather user requirements<br>
+                        • Understand what software should do<br>
+                        • Document functional and non-functional requirements<br>
+                        • Create Software Requirement Specification (SRS)<br>
+                        <strong>Output:</strong> SRS document
+                    </div>
+                    
+                    <div class="step-box">
+                        <strong>Phase 3: Design</strong><br>
+                        • Create system architecture<br>
+                        • Design database schema<br>
+                        • Design user interface (UI/UX)<br>
+                        • Plan modules and their interactions<br>
+                        <strong>Output:</strong> Design documents, diagrams
+                    </div>
+                    
+                    <div class="step-box">
+                        <strong>Phase 4: Implementation (Coding)</strong><br>
+                        • Write actual code<br>
+                        • Follow coding standards<br>
+                        • Develop modules<br>
+                        • Integrate modules<br>
+                        <strong>Output:</strong> Source code
+                    </div>
+                    
+                    <div class="step-box">
+                        <strong>Phase 5: Testing</strong><br>
+                        • Find and fix bugs<br>
+                        • Unit testing, integration testing, system testing<br>
+                        • Verify software meets requirements<br>
+                        • Performance and security testing<br>
+                        <strong>Output:</strong> Test reports, bug-free software
+                    </div>
+                    
+                    <div class="step-box">
+                        <strong>Phase 6: Deployment</strong><br>
+                        • Install software in production environment<br>
+                        • User training<br>
+                        • Data migration (if needed)<br>
+                        • Go live!<br>
+                        <strong>Output:</strong> Working software for users
+                    </div>
+                    
+                    <div class="step-box">
+                        <strong>Phase 7: Maintenance</strong><br>
+                        • Fix bugs reported by users<br>
+                        • Add new features<br>
+                        • Adapt to new environments<br>
+                        • Performance optimization<br>
+                        <strong>Output:</strong> Updated software versions
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>Important:</strong> Maintenance is the longest and most expensive phase, often lasting years!
+                    </div>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            <!-- Section 6: SDLC Models -->
+            <div class="section">
+                <div class="section-title">6. SDLC Models (Life Cycle Models)</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>What are SDLC Models?</strong><br>
+                        SDLC Models are frameworks that define the process, activities, and tasks involved in software development. Different models suit different types of projects.
+                    </div>
+                    
+                    <p><strong>Why Different Models?</strong> Different projects have different requirements - some need quick delivery, others need high reliability. Each model offers a different approach to organize the development process.</p>
+                </div>
+            </div>
+            
+            <!-- Waterfall Model -->
+            <div class="section">
+                <div class="section-title">7. Waterfall Model</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Waterfall Model:</strong><br>
+                        The Waterfall Model is a sequential software development approach where each phase must be completed before the next phase begins. Like a waterfall, progress flows downward through phases.
+                    </div>
+                    
+                    <div class="code-box"><strong>Waterfall Model Phases:</strong>
 
-    <!-- Footer -->
-    <div class="footer">
-        Engineered by <a href="https://ankushraj.dev" target="_blank">Ankush Raj</a> • © 2026 ankushraj.dev
-    </div>
+Phase 1: Requirements Analysis
+         ↓
+Phase 2: System Design
+         ↓
+Phase 3: Implementation (Coding)
+         ↓
+Phase 4: Testing
+         ↓
+Phase 5: Deployment
+         ↓
+Phase 6: Maintenance
 
-    <script>
-        // Matrix Effect
-        const canvas = document.getElementById('matrix');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+<strong>Key Feature:</strong> NO going back to previous phase!</code></div>
+                    
+                    <div class="example-box">
+                        <strong>Real-life Example - Assembly Line:</strong><br>
+                        Think of a car assembly line:<br>
+                        1. Design the car → 2. Build chassis → 3. Install engine → 4. Paint → 5. Quality check<br>
+                        Each step happens in order. You can't paint before installing the engine!<br><br>
+                        Similarly, in Waterfall, you complete requirements before design, design before coding, etc.
+                    </div>
+                    
+                    <div class="step-box">
+                        <strong>Detailed Phases:</strong><br><br>
+                        <strong>1. Requirement Gathering & Analysis:</strong><br>
+                        • Collect all requirements from client<br>
+                        • Document everything in SRS<br>
+                        • No changes allowed after this phase<br><br>
+                        
+                        <strong>2. System Design:</strong><br>
+                        • Create architecture design<br>
+                        • Database design, UI design<br>
+                        • Module design<br><br>
+                        
+                        <strong>3. Implementation:</strong><br>
+                        • Write code based on design<br>
+                        • Develop all modules<br><br>
+                        
+                        <strong>4. Testing:</strong><br>
+                        • Test entire system<br>
+                        • Fix bugs<br><br>
+                        
+                        <strong>5. Deployment:</strong><br>
+                        • Release to production<br>
+                        • Install at client site<br><br>
+                        
+                        <strong>6. Maintenance:</strong><br>
+                        • Fix issues, updates
+                    </step-box>
+                    
+                    <div class="advantage-box">
+                        <strong>Advantages:</strong><br>
+                        ✓ Simple and easy to understand<br>
+                        ✓ Well-defined phases with clear milestones<br>
+                        ✓ Easy to manage (each phase has deliverables)<br>
+                        ✓ Works well for small projects with clear requirements<br>
+                        ✓ Good documentation at each phase
+                    </div>
+                    
+                    <div class="threat-box">
+                        <strong>Disadvantages:</strong><br>
+                        ✗ No flexibility - cannot go back to previous phase<br>
+                        ✗ Difficult to accommodate changing requirements<br>
+                        ✗ Working software available only at the end<br>
+                        ✗ High risk if requirements are not clear initially<br>
+                        ✗ Not suitable for large, complex projects<br>
+                        ✗ Customer sees product only after completion
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>When to Use Waterfall Model:</strong><br>
+                        • Requirements are clear and fixed<br>
+                        • Small projects<br>
+                        • Technology is well understood<br>
+                        • Example: Payroll system for small company
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Iterative Waterfall Model -->
+            <div class="section">
+                <div class="section-title">8. Iterative Waterfall Model</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Iterative Waterfall Model:</strong><br>
+                        An improved version of Waterfall that allows feedback and revision. You can go back to the previous phase if needed.
+                    </div>
+                    
+                    <div class="code-box"><strong>Iterative Waterfall Flow:</strong>
 
-        const chars = '01アイウエオカキクケコ';
-        const fontSize = 14;
-        const columns = canvas.width / fontSize;
-        const drops = Array(Math.floor(columns)).fill(1);
+Requirements ←─┐
+     ↓         │
+Design    ←─┐  │
+     ↓      │  │
+Implementation ←─┤
+     ↓         │
+Testing       │
+     ↓         │
+Deployment ───┘
+     ↓
+Maintenance
 
-        function drawMatrix() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#00ff88';
-            ctx.font = fontSize + 'px monospace';
+<strong>Key Difference:</strong> Feedback arrows allow going back!</code></div>
+                    
+                    <div class="example-box">
+                        <strong>Example:</strong><br>
+                        During testing phase, if a design flaw is found, you can go back to design phase, fix it, then continue. This was not possible in classic Waterfall.
+                    </div>
+                    
+                    <div class="advantage-box">
+                        <strong>Advantages:</strong><br>
+                        ✓ Feedback and corrections possible<br>
+                        ✓ Errors caught early can be fixed<br>
+                        ✓ More flexible than Waterfall<br>
+                        ✓ Reduces risk
+                    </div>
+                    
+                    <div class="threat-box">
+                        <strong>Disadvantages:</strong><br>
+                        ✗ Still sequential in nature<br>
+                        ✗ Can become costly if many iterations<br>
+                        ✗ Working software still comes late
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Prototype Model -->
+            <div class="section">
+                <div class="section-title">9. Prototype Model</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Prototype Model:</strong><br>
+                        A working model (prototype) of the software is built early to understand requirements better. Based on user feedback, the actual software is developed.
+                    </div>
+                    
+                    <div class="code-box"><strong>Prototype Model Steps:</strong>
 
-            for (let i = 0; i < drops.length; i++) {
-                const text = chars[Math.floor(Math.random() * chars.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
-            }
-        }
+Step 1: Gather initial requirements
+         ↓
+Step 2: Build quick prototype
+         ↓
+Step 3: User evaluates prototype
+         ↓
+Step 4: Refine requirements
+         ↓
+    ┌────────────┐
+    │  Satisfied? │
+    └────┬───┬────┘
+    NO   │   │ YES
+    ←────┘   ↓
+         Develop actual software
+         ↓
+         Test & Deploy</code></div>
+                    
+                    <div class="example-box">
+                        <strong>Real-life Example - House Model:</strong><br>
+                        Before building a house, architect shows you a miniature model:<br>
+                        • You see the layout, design<br>
+                        • Give feedback: "I want bigger windows"<br>
+                        • Architect updates the model<br>
+                        • Once approved, actual construction begins<br><br>
+                        Similarly, prototype gives users early preview of software!
+                    </div>
+                    
+                    <div class="subsection-title">Types of Prototyping:</div>
+                    <div class="step-box">
+                        <strong>1. Throwaway/Rapid Prototype:</strong><br>
+                        • Quick, rough prototype<br>
+                        • Used only to understand requirements<br>
+                        • Discarded after feedback<br>
+                        • Actual software built from scratch<br><br>
+                        
+                        <strong>2. Evolutionary Prototype:</strong><br>
+                        • Initial prototype is continuously refined<br>
+                        • Each version adds more features<br>
+                        • Final prototype becomes actual software
+                    </div>
+                    
+                    <div class="advantage-box">
+                        <strong>Advantages:</strong><br>
+                        ✓ User involvement from early stage<br>
+                        ✓ Better understanding of requirements<br>
+                        ✓ Reduces risk of building wrong product<br>
+                        ✓ Missing functionality identified early<br>
+                        ✓ Users get early feel of the system
+                    </div>
+                    
+                    <div class="threat-box">
+                        <strong>Disadvantages:</strong><br>
+                        ✗ Time-consuming to build prototypes<br>
+                        ✗ Users may think prototype is final product<br>
+                        ✗ Can lead to scope creep (endless changes)<br>
+                        ✗ May require skilled developers
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>When to Use Prototype Model:</strong><br>
+                        • Requirements are unclear or changing<br>
+                        • New technology being used<br>
+                        • User interface is complex<br>
+                        • Example: New web application with unique UI
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Evolutionary Model -->
+            <div class="section">
+                <div class="section-title">10. Evolutionary Model</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Evolutionary Model:</strong><br>
+                        Software is developed in increments (versions). Initial version has core features, then new features are added in subsequent versions based on user feedback.
+                    </div>
+                    
+                    <div class="code-box"><strong>Evolutionary Development:</strong>
 
-        setInterval(drawMatrix, 50);
+Version 1.0: Core features only
+     ↓
+User Feedback
+     ↓
+Version 1.5: Core + Some new features
+     ↓
+User Feedback
+     ↓
+Version 2.0: More features added
+     ↓
+... continues evolving
 
-        // Create Particles
-        const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 20; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.setProperty('--dx', (Math.random() * 200 - 100) + 'px');
-            particle.style.setProperty('--dy', (Math.random() * 200 - 100) + 'px');
-            particle.style.animationDelay = Math.random() * 10 + 's';
-            particlesContainer.appendChild(particle);
-        }
+<strong>Example:</strong>
+WhatsApp:
+v1.0 → Just messaging
+v2.0 → Voice calls added
+v3.0 → Video calls added
+v4.0 → Status feature added</code></div>
+                    
+                    <div class="example-box">
+                        <strong>Real-life Example - Video Game Updates:</strong><br>
+                        • Initial release: Basic game with main story<br>
+                        • Update 1: New characters, weapons<br>
+                        • Update 2: Multiplayer mode<br>
+                        • Update 3: New maps, challenges<br><br>
+                        Game keeps evolving based on player feedback!
+                    </div>
+                    
+                    <div class="advantage-box">
+                        <strong>Advantages:</strong><br>
+                        ✓ Users get working software quickly<br>
+                        ✓ Adapts to changing requirements<br>
+                        ✓ Continuous user feedback improves quality<br>
+                        ✓ Risk is spread across versions<br>
+                        ✓ Core functionality delivered early
+                    </div>
+                    
+                    <div class="threat-box">
+                        <strong>Disadvantages:</strong><br>
+                        ✗ May lack proper documentation<br>
+                        ✗ Architecture may become messy over time<br>
+                        ✗ Difficult to plan long-term<br>
+                        ✗ May require more management effort
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Spiral Model -->
+            <div class="section">
+                <div class="section-title">11. Spiral Model</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Spiral Model:</strong><br>
+                        Combines iterative development with systematic aspects of Waterfall. It focuses heavily on risk analysis. The project passes through the same phases repeatedly in spirals.
+                    </div>
+                    
+                    <div class="code-box"><strong>Spiral Model - Four Quadrants:</strong>
 
-        // Auto-detect Unit Number
-        const urlPath = window.location.pathname;
-        const unitMatch = urlPath.match(/unit(\d+)/i);
-        if (unitMatch) {
-            const unitNumber = unitMatch[1];
-            document.getElementById('unitTitle').textContent = `UNIT ${unitNumber}`;
-            document.title = `Unit ${unitNumber} Loading | Engineering Protocol`;
-        }
+Each Spiral has 4 phases:
 
-        // Random Glitch
-        setInterval(() => {
-            const title = document.getElementById('unitTitle');
-            if (Math.random() > 0.93) {
-                const original = title.textContent;
-                title.textContent = original.split('').map(c => 
-                    Math.random() > 0.7 ? String.fromCharCode(33 + Math.random() * 94) : c
-                ).join('');
-                setTimeout(() => title.textContent = original, 80);
-            }
-        }, 2000);
+Quadrant 1: Planning (Objective Setting)
+• Identify objectives
+• Alternative solutions
+• Constraints
 
-        // Resize Handler
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-    </script>
-</body>
-</html>
+Quadrant 2: Risk Analysis
+• Identify risks
+• Evaluate alternatives
+• Resolve risks (may build prototype)
+
+Quadrant 3: Engineering (Development & Testing)
+• Develop product
+• Testing
+
+Quadrant 4: Evaluation (Customer Review)
+• Customer evaluates
+• Plan next iteration
+
+Then next spiral begins...</code></div>
+                    
+                    <div class="example-box">
+                        <strong>Visual Representation:</strong><br>
+                        Imagine a spiral staircase:<br>
+                        • You keep going in circles, but each circle is at a higher level<br>
+                        • Each circle = one complete iteration<br>
+                        • With each iteration, the software becomes more complete<br>
+                        • Risk analysis happens at every level
+                    </example-box>
+                    
+                    <div class="example-box">
+                        <strong>Real-world Example - NASA Software:</strong><br>
+                        When developing spacecraft software:<br>
+                        • <strong>Spiral 1:</strong> Basic flight system (high risk - analyze thoroughly)<br>
+                        • <strong>Spiral 2:</strong> Add navigation (risks identified and mitigated)<br>
+                        • <strong>Spiral 3:</strong> Add communication (lower risk now)<br>
+                        • <strong>Spiral 4:</strong> Add life support systems<br><br>
+                        Risk analysis at each stage ensures safety!
+                    </div>
+                    
+                    <div class="advantage-box">
+                        <strong>Advantages:</strong><br>
+                        ✓ High emphasis on risk analysis<br>
+                        ✓ Good for large, complex, high-risk projects<br>
+                        ✓ Flexible - can accommodate changes<br>
+                        ✓ Customer feedback at each spiral<br>
+                        ✓ Working software produced early<br>
+                        ✓ Risks identified and resolved early
+                    </div>
+                    
+                    <div class="threat-box">
+                        <strong>Disadvantages:</strong><br>
+                        ✗ Complex and expensive<br>
+                        ✗ Requires expertise in risk analysis<br>
+                        ✗ Not suitable for small projects<br>
+                        ✗ Time-consuming<br>
+                        ✗ Success depends on risk analysis phase
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>When to Use Spiral Model:</strong><br>
+                        • Large, expensive, complex projects<br>
+                        • High-risk projects<br>
+                        • Requirements are complex and unclear<br>
+                        • Example: Military software, Aerospace systems, Banking systems
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Agile Model -->
+            <div class="section">
+                <div class="section-title">12. Agile Model</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Agile Model:</strong><br>
+                        Agile is an iterative and incremental approach that emphasizes flexibility, customer collaboration, and rapid delivery of working software. Development happens in short cycles called "Sprints" (typically 2-4 weeks).
+                    </div>
+                    
+                    <div class="code-box"><strong>Agile Development Cycle:</strong>
+
+Sprint (2-4 weeks):
+┌─────────────────────────┐
+│ 1. Plan features        │
+│ 2. Design               │
+│ 3. Develop              │
+│ 4. Test                 │
+│ 5. Review & Demo        │
+│ 6. Get Feedback         │
+└─────────────────────────┘
+         ↓
+    Next Sprint
+         ↓
+Working software delivered every sprint!
+
+<strong>Popular Agile Frameworks:</strong>
+• Scrum
+• Kanban
+• Extreme Programming (XP)</code></div>
+                    
+                    <div class="example-box">
+                        <strong>Real-life Example - Restaurant Kitchen:</strong><br>
+                        Traditional (Waterfall): Take all orders, cook everything, serve everything at once<br>
+                        → Customers wait long, food gets cold<br><br>
+                        
+                        Agile (Modern Kitchen): <br>
+                        • Take one order → Cook → Serve immediately<br>
+                        • Take next order → Cook → Serve<br>
+                        • Get feedback instantly → Adjust next dish<br>
+                        → Customers get hot food quickly, can give immediate feedback!
+                    </div>
+                    
+                    <div class="subsection-title">Agile Principles:</div>
+                    <div class="step-box">
+                        1. <strong>Customer satisfaction:</strong> Deliver working software frequently<br>
+                        2. <strong>Welcome changes:</strong> Even late in development<br>
+                        3. <strong>Deliver frequently:</strong> Every 2-4 weeks<br>
+                        4. <strong>Collaboration:</strong> Business people and developers work daily<br>
+                        5. <strong>Trust:</strong> Build projects around motivated individuals<br>
+                        6. <strong>Face-to-face:</strong> Best communication is in person<br>
+                        7. <strong>Working software:</strong> Primary measure of progress<br>
+                        8. <strong>Sustainable pace:</strong> Maintain constant development speed<br>
+                        9. <strong>Technical excellence:</strong> Focus on good design<br>
+                        10. <strong>Simplicity:</strong> Maximize work not done<br>
+                        11. <strong>Self-organizing teams:</strong> Teams make decisions<br>
+                        12. <strong>Regular reflection:</strong> Team reflects and adjusts
+                    </step-box>
+                    
+                    <div class="advantage-box">
+                        <strong>Advantages:</strong><br>
+                        ✓ Quick delivery of working software<br>
+                        ✓ Highly flexible to changes<br>
+                        ✓ Customer involved throughout<br>
+                        ✓ Minimal documentation (more focus on code)<br>
+                        ✓ Face-to-face communication<br>
+                        ✓ Suitable for uncertain requirements<br>
+                        ✓ Continuous testing and improvement
+                    </div>
+                    
+                    <div class="threat-box">
+                        <strong>Disadvantages:</strong><br>
+                        ✗ Less predictability (hard to estimate cost/time)<br>
+                        ✗ Requires experienced team<br>
+                        ✗ Lack of documentation can be problematic<br>
+                        ✗ Needs active customer involvement<br>
+                        ✗ Not suitable for fixed-price contracts<br>
+                        ✗ Can be chaotic without discipline
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>When to Use Agile:</strong><br>
+                        • Requirements change frequently<br>
+                        • Need quick market release<br>
+                        • Customer available for collaboration<br>
+                        • Example: Mobile apps, Web applications, Startups
+                    </div>
+                </div>
+            </div>
+            
+            <!-- V-Model -->
+            <div class="section">
+                <div class="section-title">13. V-Model (Verification & Validation)</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>V-Model:</strong><br>
+                        V-Model is an extension of Waterfall where testing activities are planned parallel to development activities. It's called V-Model because of its V-shaped diagram showing the relationship between development and testing phases.
+                    </div>
+                    
+                    <div class="code-box"><strong>V-Model Diagram:</strong>
+
+VERIFICATION (Left Side)     VALIDATION (Right Side)
+
+Requirements ────────────────→ Acceptance Testing
+     ↓                                ↑
+System Design ───────────────→ System Testing
+     ↓                                ↑
+Architecture Design ─────────→ Integration Testing
+     ↓                                ↑
+Module Design ───────────────→ Unit Testing
+     ↓                                ↑
+       ┌─────────────────┐
+       │ IMPLEMENTATION  │
+       │    (Coding)     │
+       └─────────────────┘
+
+<strong>Key Point:</strong> Each development phase has corresponding test phase!</code></div>
+                    
+                    <div class="example-box">
+                        <strong>How V-Model Works:</strong><br><br>
+                        
+                        <strong>Left Side (Verification - "Are we building it right?"):</strong><br>
+                        • Requirements → Plan Acceptance Testing<br>
+                        • System Design → Plan System Testing<br>
+                        • Architecture → Plan Integration Testing<br>
+                        • Module Design → Plan Unit Testing<br><br>
+                        
+                        <strong>Bottom:</strong><br>
+                        • Actual Coding happens<br><br>
+                        
+                        <strong>Right Side (Validation - "Are we building the right thing?"):</strong><br>
+                        • Unit Testing → Test individual modules<br>
+                        • Integration Testing → Test module interactions<br>
+                        • System Testing → Test entire system<br>
+                        • Acceptance Testing → User acceptance
+                    </div>
+                    
+                    <div class="advantage-box">
+                        <strong>Advantages:</strong><br>
+                        ✓ Testing is planned from the beginning<br>
+                        ✓ Defects found early<br>
+                        ✓ Clear and well-defined phases<br>
+                        ✓ Works well for small to medium projects<br>
+                        ✓ Higher success rate than Waterfall<br>
+                        ✓ Good for systems requiring high reliability
+                    </div>
+                    
+                    <div class="threat-box">
+                        <strong>Disadvantages:</strong><br>
+                        ✗ Rigid like Waterfall (not flexible)<br>
+                        ✗ Cannot handle changing requirements<br>
+                        ✗ No early prototypes<br>
+                        ✗ Not suitable for complex projects<br>
+                        ✗ Software available only after complete development
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>When to Use V-Model:</strong><br>
+                        • Requirements are clear and fixed<br>
+                        • Project is small to medium size<br>
+                        • Need high reliability (medical, embedded systems)<br>
+                        • Example: Medical devices, Automotive software
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Comparison -->
+            <div class="section">
+                <div class="section-title">14. SDLC Models Comparison</div>
+                <div class="content">
+                    <div class="code-box"><strong>Quick Comparison Table:</strong>
+
+Model         | Flexibility | Risk    | Cost    | Best For
+------------- | ----------- | ------- | ------- | --------
+Waterfall     | Low         | High    | Low     | Small, clear requirements
+Iterative     | Medium      | Medium  | Medium  | Medium projects
+Prototype     | High        | Low     | High    | Unclear requirements
+Evolutionary  | High        | Low     | High    | Evolving features
+Spiral        | High        | Low     | High    | Large, risky projects
+Agile         | Very High   | Low     | Medium  | Changing requirements
+V-Model       | Low         | Medium  | Medium  | High reliability needed</code></div>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            <!-- CHAPTER 2: SOFTWARE REQUIREMENTS -->
+            <div class="chapter-title" id="ch2">
+                <span>📋</span>
+                <span>Chapter 2 — Software Requirements</span>
+            </div>
+            
+            <!-- Section 1: Requirement Analysis -->
+            <div class="section">
+                <div class="section-title">1. Requirement Analysis</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>What is Requirement Analysis?</strong><br>
+                        Requirement Analysis is the process of gathering, analyzing, documenting, and validating the needs and expectations of stakeholders for a software system. It answers "WHAT the system should do" (not HOW).
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Real-life Example - Building a House:</strong><br>
+                        Before construction:<br>
+                        • How many rooms? → 3 bedrooms, 2 bathrooms<br>
+                        • What facilities? → Kitchen, garage, garden<br>
+                        • What style? → Modern, minimalist<br>
+                        • Budget? → ₹50 lakh<br><br>
+                        These are REQUIREMENTS! Same way, software needs clear requirements before development.
+                    </div>
+                    
+                    <div class="subsection-title">Types of Requirements:</div>
+                    
+                    <div class="step-box">
+                        <strong>1. Functional Requirements:</strong><br>
+                        What the system MUST DO<br><br>
+                        <strong>Example - Online Shopping App:</strong><br>
+                        • User can browse products<br>
+                        • User can add items to cart<br>
+                        • User can make payment<br>
+                        • System sends order confirmation email<br>
+                        • Admin can add/remove products
+                    </div>
+                    
+                    <div class="step-box">
+                        <strong>2. Non-Functional Requirements:</strong><br>
+                        HOW WELL the system performs<br><br>
+                        <strong>Example - Online Shopping App:</strong><br>
+                        • Performance: Page loads in < 2 seconds<br>
+                        • Security: User data encrypted<br>
+                        • Availability: System up 99.9% time<br>
+                        • Usability: Easy to navigate<br>
+                        • Scalability: Handle 10,000 concurrent users
+                    </div>
+                    
+                    <div class="subsection-title">Steps in Requirement Analysis:</div>
+                    <div class="code-box"><strong>Step-by-Step Process:</strong>
+
+Step 1: Requirement Elicitation (Gathering)
+• Interview stakeholders
+• Conduct surveys
+• Observe current system
+• Study documents
+• Brainstorming sessions
+
+Step 2: Requirement Analysis
+• Identify conflicts
+• Prioritize requirements (Must-have, Nice-to-have)
+• Check feasibility
+• Remove ambiguities
+
+Step 3: Requirement Documentation
+• Write in SRS document
+• Create diagrams (Use Cases, Data Flow)
+• Get stakeholder approval
+
+Step 4: Requirement Validation
+• Review with stakeholders
+• Check completeness
+• Check consistency
+• Check realism</code></div>
+                    
+                    <div class="note-box">
+                        <strong>Important:</strong> 60-70% of software failures are due to poor requirements! Getting requirements right is crucial.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Analysis Principles -->
+            <div class="section">
+                <div class="section-title">2. Analysis Principles</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Analysis Principles:</strong><br>
+                        These are fundamental guidelines that should be followed during requirement analysis to ensure quality and completeness.
+                    </div>
+                    
+                    <div class="step-box">
+                        <strong>1. Information Domain Principle:</strong><br>
+                        Understand the data that flows in and out of the system<br>
+                        • Input data<br>
+                        • Output data<br>
+                        • Data stored<br>
+                        • Data processed
+                    </div>
+                    
+                    <div class="step-box">
+                        <strong>2. Functional Principle:</strong><br>
+                        Define what functions the system performs<br>
+                        • Break system into functions<br>
+                        • Each function should have single purpose<br>
+                        • Functions should be independent
+                    </div>
+                    
+                    <div class="step-box">
+                        <strong>3. Behavioral Principle:</strong><br>
+                        Understand how system behaves in different scenarios<br>
+                        • Normal behavior<br>
+                        • Error conditions<br>
+                        • State changes
+                    </div>
+                    
+                    <div class="step-box">
+                        <strong>4. Partition Principle:</strong><br>
+                        Divide complex system into smaller, manageable parts<br>
+                        • Divide and conquer approach<br>
+                        • Each part easier to understand<br>
+                        • Reduces complexity
+                    </div>
+                    
+                    <div class="step-box">
+                        <strong>5. Essential and Implementation Views:</strong><br>
+                        • <strong>Essential View:</strong> WHAT system does (requirements)<br>
+                        • <strong>Implementation View:</strong> HOW system does it (design)<br>
+                        During analysis, focus on WHAT, not HOW!
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example - ATM System:</strong><br>
+                        <strong>Information Domain:</strong> Card number, PIN, account balance<br>
+                        <strong>Functional:</strong> Withdraw cash, check balance, deposit<br>
+                        <strong>Behavioral:</strong> What happens if wrong PIN? If insufficient balance?<br>
+                        <strong>Partition:</strong> Authentication module, Transaction module, Display module
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Software Prototyping -->
+            <div class="section">
+                <div class="section-title">3. Software Prototyping</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Software Prototyping:</strong><br>
+                        Building a working model of software to help understand and refine requirements. It's a "quick and dirty" version to get user feedback early.
+                    </div>
+                    
+                    <div class="subsection-title">Purpose of Prototyping:</div>
+                    <div class="advantage-box">
+                        ✓ Validate requirements early<br>
+                        ✓ Clarify unclear requirements<br>
+                        ✓ Get user feedback before full development<br>
+                        ✓ Reduce risk of building wrong product<br>
+                        ✓ Improve communication with users<br>
+                        ✓ Test technical feasibility
+                    </div>
+                    
+                    <div class="subsection-title">Prototyping Tools:</div>
+                    <div class="example-box">
+                        <strong>Common Tools:</strong><br>
+                        • Figma, Adobe XD (UI/UX prototypes)<br>
+                        • Balsamiq (Wireframes)<br>
+                        • InVision (Interactive prototypes)<br>
+                        • PowerPoint (Quick mockups)<br>
+                        • HTML/CSS (Web prototypes)
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>Remember:</strong> Prototype ≠ Final Product. It's just for understanding requirements, not production-ready code!
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Specification -->
+            <div class="section">
+                <div class="section-title">4. Specification</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Specification:</strong><br>
+                        A detailed description of the software system to be developed. It precisely defines what the system should do, its constraints, and quality attributes.
+                    </div>
+                    
+                    <div class="subsection-title">Why Specification is Important:</div>
+                    <div class="step-box">
+                        • <strong>For Developers:</strong> Blueprint to build the system<br>
+                        • <strong>For Testers:</strong> Basis for test cases<br>
+                        • <strong>For Clients:</strong> Agreement on what will be delivered<br>
+                        • <strong>For Management:</strong> Project planning and cost estimation<br>
+                        • <strong>For Maintenance:</strong> Understanding system for future updates
+                    </step-box>
+                    
+                    <div class="subsection-title">Characteristics of Good Specification:</div>
+                    <div class="advantage-box">
+                        ✓ <strong>Complete:</strong> All requirements covered<br>
+                        ✓ <strong>Consistent:</strong> No contradictions<br>
+                        ✓ <strong>Unambiguous:</strong> Clear, single interpretation<br>
+                        ✓ <strong>Verifiable:</strong> Can be tested<br>
+                        ✓ <strong>Modifiable:</strong> Easy to update<br>
+                        ✓ <strong>Traceable:</strong> Each requirement can be tracked<br>
+                        ✓ <strong>Ranked:</strong> Prioritized (critical vs nice-to-have)
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 5: SRS -->
+            <div class="section">
+                <div class="section-title">5. Software Requirement Specification (SRS)</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>SRS Document:</strong><br>
+                        Software Requirement Specification (SRS) is a comprehensive document that describes the complete behavior of the system to be developed. It's the foundation of the software project.
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Think of SRS as:</strong><br>
+                        A contract between client and developer. It clearly states:<br>
+                        • What will be built<br>
+                        • How it should behave<br>
+                        • Performance expectations<br>
+                        • Constraints and limitations
+                    </div>
+                    
+                    <div class="subsection-title">Characteristics of Good SRS:</div>
+                    <div class="code-box"><strong>1. Correct:</strong>
+Every requirement accurately represents customer needs
+
+<strong>2. Unambiguous:</strong>
+Each requirement has only ONE interpretation
+Bad: "System should be fast"
+Good: "System response time < 2 seconds"
+
+<strong>3. Complete:</strong>
+All requirements are documented
+Nothing is "obvious" or assumed
+
+<strong>4. Consistent:</strong>
+No conflicting requirements
+Example of conflict: "System must be simple" AND "System must have advanced features"
+
+<strong>5. Ranked (Prioritized):</strong>
+Essential/Desirable/Optional
+Must-have vs Nice-to-have
+
+<strong>6. Verifiable:</strong>
+Can be tested/measured
+Bad: "System should be user-friendly"
+Good: "User can complete checkout in 3 clicks"
+
+<strong>7. Modifiable:</strong>
+Easy to update when requirements change
+Proper structure and indexing
+
+<strong>8. Traceable:</strong>
+Each requirement has unique ID
+Can trace from requirement → design → code → test</code></div>
+                    
+                    <div class="subsection-title">Components of SRS:</div>
+                    <div class="step-box">
+                        <strong>1. Introduction:</strong><br>
+                        • Purpose of document<br>
+                        • Scope of software<br>
+                        • Definitions, acronyms, abbreviations<br>
+                        • References<br>
+                        • Overview of document<br><br>
+                        
+                        <strong>2. Overall Description:</strong><br>
+                        • Product perspective (how it fits with other systems)<br>
+                        • Product functions (high-level)<br>
+                        • User characteristics<br>
+                        • Constraints (technical, regulatory)<br>
+                        • Assumptions and dependencies<br><br>
+                        
+                        <strong>3. Specific Requirements:</strong><br>
+                        • Functional requirements (detailed)<br>
+                        • External interface requirements (UI, hardware, software, communication)<br>
+                        • Performance requirements<br>
+                        • Database requirements<br>
+                        • Design constraints<br>
+                        • Quality attributes (reliability, security, maintainability)<br><br>
+                        
+                        <strong>4. Appendices:</strong><br>
+                        • Diagrams (Use Case, Data Flow, ER diagrams)<br>
+                        • Sample inputs/outputs<br>
+                        • Data dictionary<br>
+                        • Index
+                    </step-box>
+                    
+                    <div class="note-box">
+                        <strong>IEEE Standard 830:</strong> International standard for writing SRS documents. Provides template and guidelines.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 6: Data Modelling -->
+            <div class="section">
+                <div class="section-title">6. Data Modelling</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Data Modelling:</strong><br>
+                        Data modelling is the process of defining data structures, their relationships, and constraints. It shows what data the system stores and how different data elements relate to each other.
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Real-life Example - Library System:</strong><br>
+                        <strong>Entities (Data):</strong><br>
+                        • Book (Title, Author, ISBN, Copies)<br>
+                        • Member (Name, ID, Phone, Address)<br>
+                        • Loan (Loan Date, Return Date, Fine)<br><br>
+                        
+                        <strong>Relationships:</strong><br>
+                        • Member BORROWS Book<br>
+                        • Book HAS Author<br>
+                        • Loan RECORDS borrowing
+                    </example-box>
+                    
+                    <div class="subsection-title">Entity-Relationship (ER) Model:</div>
+                    <div class="definition-box">
+                        <strong>ER Model:</strong> Most popular data modelling technique. Uses entities, attributes, and relationships.
+                    </div>
+                    
+                    <div class="code-box"><strong>ER Model Components:</strong>
+
+1. Entity: Real-world object
+   Example: Student, Course, Employee
+   Represented by: Rectangle
+
+2. Attribute: Property of entity
+   Example: Student has Name, Roll No, Age
+   Represented by: Oval
+
+3. Relationship: Association between entities
+   Example: Student ENROLLS IN Course
+   Represented by: Diamond
+
+4. Cardinality: Number of instances
+   • One-to-One (1:1)
+   • One-to-Many (1:N)
+   • Many-to-Many (M:N)</code></div>
+                    
+                    <div class="example-box">
+                        <strong>Example - University System:</strong><br>
+                        <strong>Entities:</strong><br>
+                        • Student (StudentID, Name, Email, DOB)<br>
+                        • Course (CourseID, CourseName, Credits)<br>
+                        • Professor (ProfessorID, Name, Department)<br><br>
+                        
+                        <strong>Relationships:</strong><br>
+                        • Student ENROLLS IN Course (Many-to-Many)<br>
+                        • Professor TEACHES Course (One-to-Many)<br>
+                        • Student HAS Advisor (Many-to-One)
+                    </example-box>
+                    
+                    <div class="note-box">
+                        <strong>Why Data Modelling?</strong><br>
+                        • Understand data requirements clearly<br>
+                        • Design database structure<br>
+                        • Identify redundancy and inconsistency<br>
+                        • Communication tool between stakeholders
+                    </note-box>
+                </div>
+            </div>
+            
+            <!-- Section 7: Functional Modelling -->
+            <div class="section">
+                <div class="section-title">7. Functional Modelling and Information Flow</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Functional Modelling:</strong><br>
+                        Functional modelling describes WHAT the system does - the functions/processes and how data flows through them. It focuses on transforming inputs into outputs.
+                    </div>
+                    
+                    <div class="subsection-title">Data Flow Diagram (DFD):</div>
+                    <div class="definition-box">
+                        <strong>DFD:</strong> Graphical representation showing how data flows through a system, what processes transform the data, and where data is stored.
+                    </div>
+                    
+                    <div class="code-box"><strong>DFD Components:</strong>
+
+1. Process (Function/Transformation)
+   Symbol: Circle/Bubble
+   Example: Calculate Total, Validate Login
+   
+2. Data Flow (Movement of data)
+   Symbol: Arrow
+   Example: User credentials →
+
+3. Data Store (Storage)
+   Symbol: Two parallel lines
+   Example: Database, File
+   
+4. External Entity (Source/Destination)
+   Symbol: Rectangle
+   Example: User, Admin, External System</code></div>
+                    
+                    <div class="subsection-title">DFD Levels:</div>
+                    <div class="step-box">
+                        <strong>Level 0 (Context Diagram):</strong><br>
+                        • Highest level, most abstract<br>
+                        • Shows system as single process<br>
+                        • Shows external entities<br>
+                        • Shows major data flows<br><br>
+                        
+                        <strong>Level 1 DFD:</strong><br>
+                        • Breaks Level 0 into major processes<br>
+                        • Shows main functions of system<br>
+                        • More detailed than Context Diagram<br><br>
+                        
+                        <strong>Level 2 DFD:</strong><br>
+                        • Further breaks down Level 1 processes<br>
+                        • Very detailed<br>
+                        • Shows sub-functions
+                    </step-box>
+                    
+                    <div class="example-box">
+                        <strong>Example - Online Shopping DFD (Level 0):</strong><br>
+                        <code>
+                        Customer → [Online Shopping System] → Order Details<br>
+                        Customer ← [Online Shopping System] ← Product Info<br>
+                        Admin → [Online Shopping System] → Inventory Update<br>
+                        </code><br><br>
+                        
+                        <strong>Level 1 DFD:</strong><br>
+                        <code>
+                        Customer → Browse Products → Product Database<br>
+                        Customer → Add to Cart → Cart Database<br>
+                        Customer → Checkout → Order Database<br>
+                        Customer → Make Payment → Payment Gateway<br>
+                        Admin → Manage Inventory → Product Database<br>
+                        </code>
+                    </example-box>
+                    
+                    <div class="subsection-title">Information Flow:</div>
+                    <div class="definition-box">
+                        <strong>Information Flow:</strong> The path that information takes through a system from input to output.
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example - ATM Withdrawal:</strong><br>
+                        1. Customer inserts card → Card data flows to system<br>
+                        2. Enter PIN → PIN flows to validation process<br>
+                        3. Validation process → Checks against database<br>
+                        4. Enter amount → Amount flows to balance check process<br>
+                        5. Balance check → Queries account database<br>
+                        6. Dispense cash → Updates database<br>
+                        7. Receipt → Information flows to printer<br><br>
+                        This shows complete information flow through ATM system!
+                    </example-box>
+                    
+                    <div class="note-box">
+                        <strong>Purpose of Functional Modelling:</strong><br>
+                        • Understand system processes<br>
+                        • Identify data transformations<br>
+                        • Find data dependencies<br>
+                        • Basis for system design<br>
+                        • Communication with stakeholders
+                    </note-box>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            <!-- Section 8: Behavioral Modelling -->
+            <div class="section">
+                <div class="section-title">8. Behavioral Modelling</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Behavioral Modelling:</strong><br>
+                        Behavioral modelling describes HOW the system behaves in response to events. It shows the dynamic behavior of the system - how it changes state over time and reacts to different inputs/events.
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Real-life Example - Traffic Light:</strong><br>
+                        <strong>States:</strong> Red, Yellow, Green<br>
+                        <strong>Events:</strong> Timer expires<br>
+                        <strong>Behavior:</strong><br>
+                        • When Red and timer expires → Change to Green<br>
+                        • When Green and timer expires → Change to Yellow<br>
+                        • When Yellow and timer expires → Change to Red<br><br>
+                        This describes BEHAVIOR - how system changes state!
+                    </div>
+                    
+                    <div class="subsection-title">State Transition Diagram (STD):</div>
+                    <div class="definition-box">
+                        <strong>State Transition Diagram:</strong> Visual representation showing different states of a system and transitions between them based on events/conditions.
+                    </div>
+                    
+                    <div class="code-box"><strong>STD Components:</strong>
+
+1. State: A condition or situation during object's life
+   Symbol: Rounded rectangle
+   Example: Logged In, Processing, Completed
+
+2. Transition: Change from one state to another
+   Symbol: Arrow
+   Example: Submit button clicked →
+
+3. Event: Trigger that causes transition
+   Example: Button click, Timer expires, Data received
+
+4. Action: Activity performed during transition
+   Example: Validate credentials, Send email
+
+5. Initial State: Starting point
+   Symbol: Filled circle
+
+6. Final State: End point
+   Symbol: Circle with inner filled circle</code></div>
+                    
+                    <div class="example-box">
+                        <strong>Example - ATM Machine States:</strong><br>
+                        <code>
+                        [Start] → Idle State<br>
+                        ↓ (Card Inserted)<br>
+                        Card Reading State<br>
+                        ↓ (Card Valid)<br>
+                        PIN Entry State<br>
+                        ↓ (Correct PIN)<br>
+                        Menu Display State<br>
+                        ↓ (Select Withdrawal)<br>
+                        Amount Entry State<br>
+                        ↓ (Amount Valid & Sufficient Balance)<br>
+                        Cash Dispensing State<br>
+                        ↓ (Cash Dispensed)<br>
+                        Receipt Printing State<br>
+                        ↓ (Receipt Printed)<br>
+                        [End] → Return to Idle<br><br>
+                        
+                        <strong>Error States:</strong><br>
+                        • Wrong PIN → PIN Entry (max 3 attempts)<br>
+                        • Insufficient Balance → Menu Display<br>
+                        • Card Invalid → Eject Card → Idle
+                        </code>
+                    </example-box>
+                    
+                    <div class="example-box">
+                        <strong>Example - Online Order States:</strong><br>
+                        1. <strong>Order Placed</strong> (Initial)<br>
+                        2. Event: Payment Confirmed → <strong>Order Confirmed</strong><br>
+                        3. Event: Item Packed → <strong>Ready to Ship</strong><br>
+                        4. Event: Picked by Courier → <strong>In Transit</strong><br>
+                        5. Event: Reached Destination → <strong>Out for Delivery</strong><br>
+                        6. Event: Customer Received → <strong>Delivered</strong> (Final)<br><br>
+                        
+                        <strong>Alternate Flows:</strong><br>
+                        • From any state: Cancel Order → <strong>Cancelled</strong><br>
+                        • From Out for Delivery: Customer Not Home → <strong>Return to Hub</strong>
+                    </example-box>
+                    
+                    <div class="note-box">
+                        <strong>When to Use Behavioral Modelling:</strong><br>
+                        • System has multiple states<br>
+                        • System behavior depends on history/sequence<br>
+                        • Complex event-driven systems<br>
+                        • Examples: Embedded systems, Protocol handlers, UI flows
+                    </note-box>
+                </div>
+            </div>
+            
+            <!-- Section 9: Structural Modelling -->
+            <div class="section">
+                <div class="section-title">9. Mechanics of Structural Modelling</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Structural Modelling:</strong><br>
+                        Structural modelling focuses on the static structure of the system - what components exist, how they are organized, and how they relate to each other. It shows the "architecture" of the system.
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Analogy - Building Blueprint:</strong><br>
+                        Structural model is like architectural blueprint showing:<br>
+                        • Rooms and their layout (Components)<br>
+                        • How rooms connect (Relationships)<br>
+                        • Walls, doors, windows (Structure)<br><br>
+                        Similarly, software structural model shows components and their connections.
+                    </example-box>
+                    
+                    <div class="subsection-title">Structure Chart:</div>
+                    <div class="definition-box">
+                        <strong>Structure Chart:</strong> Hierarchical diagram showing how system is broken down into modules and how modules interact.
+                    </div>
+                    
+                    <div class="code-box"><strong>Structure Chart Components:</strong>
+
+1. Module: A program unit that performs specific function
+   Symbol: Rectangle with name
+   Example: Validate User, Calculate Total
+
+2. Module Call: One module calling another
+   Symbol: Arrow pointing downward
+   
+3. Data Couple: Data passed between modules
+   Symbol: Arrow with hollow circle
+   Example: username, password
+   
+4. Control Couple: Control information passed
+   Symbol: Arrow with filled circle
+   Example: flag, status
+
+5. Library Module: Reusable module
+   Symbol: Rectangle with vertical lines on sides</code></div>
+                    
+                    <div class="example-box">
+                        <strong>Example - Online Shopping Structure Chart:</strong><br>
+                        <code>
+                                Main System<br>
+                                    |<br>
+                    ┌───────────┼───────────┐<br>
+                    |           |           |<br>
+                User Mgmt   Product Mgmt  Order Mgmt<br>
+                    |           |           |<br>
+            ┌───┬───┐   ┌───┬───┐   ┌───┬───┐<br>
+            |   |   |   |   |   |   |   |   |<br>
+          Login Reg Prof Browse Add Cart Checkout Pay Track<br>
+                        </code><br>
+                        Each box is a module, arrows show module calls.
+                    </example-box>
+                    
+                    <div class="subsection-title">Principles of Good Structure:</div>
+                    <div class="advantage-box">
+                        <strong>1. Modularity:</strong> Break system into independent modules<br><br>
+                        
+                        <strong>2. Coupling (Should be Low):</strong><br>
+                        Coupling = Degree of interdependence between modules<br>
+                        • Low coupling = Good (modules are independent)<br>
+                        • High coupling = Bad (changing one affects others)<br><br>
+                        
+                        <strong>3. Cohesion (Should be High):</strong><br>
+                        Cohesion = Degree to which module's elements belong together<br>
+                        • High cohesion = Good (module does one thing well)<br>
+                        • Low cohesion = Bad (module does unrelated things)<br><br>
+                        
+                        <strong>Goal:</strong> High Cohesion + Low Coupling = Good Design
+                    </advantage-box>
+                    
+                    <div class="example-box">
+                        <strong>Example - Cohesion:</strong><br>
+                        <strong>Low Cohesion (Bad):</strong><br>
+                        Module "Utilities" that does:<br>
+                        • Calculate discount<br>
+                        • Send email<br>
+                        • Validate phone number<br>
+                        → Unrelated functions!<br><br>
+                        
+                        <strong>High Cohesion (Good):</strong><br>
+                        Module "EmailService" that only:<br>
+                        • Send email<br>
+                        • Format email<br>
+                        • Validate email address<br>
+                        → All related to email!
+                    </example-box>
+                    
+                    <div class="example-box">
+                        <strong>Example - Coupling:</strong><br>
+                        <strong>High Coupling (Bad):</strong><br>
+                        Module A directly accesses Module B's internal data<br>
+                        → If B changes, A breaks!<br><br>
+                        
+                        <strong>Low Coupling (Good):</strong><br>
+                        Module A calls Module B through well-defined interface<br>
+                        → B's internal changes don't affect A
+                    </example-box>
+                </div>
+            </div>
+            
+            <!-- Section 10: Data Dictionary -->
+            <div class="section">
+                <div class="section-title">10. Data Dictionary</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Data Dictionary:</strong><br>
+                        A data dictionary is a centralized repository that contains definitions and descriptions of all data elements used in the system. It's like a "glossary" for data.
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Think of it as:</strong><br>
+                        A dictionary defines words → "Apple: A round fruit, typically red or green"<br>
+                        Data dictionary defines data → "CustomerID: Unique 10-digit number identifying customer"
+                    </example-box>
+                    
+                    <div class="subsection-title">Purpose of Data Dictionary:</div>
+                    <div class="advantage-box">
+                        ✓ <strong>Consistency:</strong> Everyone uses same definitions<br>
+                        ✓ <strong>Communication:</strong> Clear understanding among team<br>
+                        ✓ <strong>Documentation:</strong> Reference for developers<br>
+                        ✓ <strong>Maintenance:</strong> Easy to update and track changes<br>
+                        ✓ <strong>Quality:</strong> Reduces ambiguity and errors
+                    </advantage-box>
+                    
+                    <div class="subsection-title">Components of Data Dictionary Entry:</div>
+                    <div class="code-box"><strong>For each data element, document:</strong>
+
+1. Name: Unique identifier
+   Example: CustomerID
+
+2. Description: What it represents
+   Example: Unique identifier for each customer
+
+3. Data Type: Type of data
+   Example: Integer, String, Date, Boolean
+
+4. Size/Length: Maximum length
+   Example: 10 digits, 50 characters
+
+5. Format: Pattern/structure
+   Example: XXX-XXX-XXXX for phone
+
+6. Range: Valid values
+   Example: Age between 18-100
+
+7. Default Value: Initial value if not specified
+   Example: Status = "Active"
+
+8. Constraints: Rules/restrictions
+   Example: NOT NULL, UNIQUE
+
+9. Source: Where data comes from
+   Example: User input, Database, API
+
+10. Usage: Where/how it's used
+    Example: Used in Login module, Order processing</code></div>
+                    
+                    <div class="example-box">
+                        <strong>Example - Student Management System Data Dictionary:</strong><br><br>
+                        
+                        <strong>Data Element: StudentID</strong><br>
+                        • Description: Unique identifier for student<br>
+                        • Data Type: Integer<br>
+                        • Length: 8 digits<br>
+                        • Format: YYYYNNNN (Year + Sequential number)<br>
+                        • Range: 20240001 to 20249999<br>
+                        • Default: Auto-generated<br>
+                        • Constraints: NOT NULL, PRIMARY KEY, UNIQUE<br>
+                        • Source: System-generated on registration<br>
+                        • Usage: Used in Enrollment, Grades, Attendance modules<br><br>
+                        
+                        <strong>Data Element: StudentName</strong><br>
+                        • Description: Full name of student<br>
+                        • Data Type: String<br>
+                        • Length: 100 characters<br>
+                        • Format: First Name + Last Name<br>
+                        • Default: NULL<br>
+                        • Constraints: NOT NULL, Alphabets only<br>
+                        • Source: User input during registration<br>
+                        • Usage: Display on ID card, reports, certificates<br><br>
+                        
+                        <strong>Data Element: DateOfBirth</strong><br>
+                        • Description: Student's birth date<br>
+                        • Data Type: Date<br>
+                        • Format: DD-MM-YYYY<br>
+                        • Range: 01-01-2000 to 01-01-2010<br>
+                        • Constraints: NOT NULL, Must be 18+ years<br>
+                        • Source: User input with verification<br>
+                        • Usage: Age calculation, eligibility verification
+                    </example-box>
+                    
+                    <div class="subsection-title">Data Dictionary Notation:</div>
+                    <div class="code-box"><strong>Common Symbols Used:</strong>
+
+= : is composed of
++ : and (concatenation)
+[ ] : select one option
+{ } : repetition (0 or more times)
+( ) : optional
+| : or (alternative)
+
+<strong>Examples:</strong>
+
+Address = Street + City + State + Zipcode
+
+PhoneNumber = AreaCode + LocalNumber
+
+Name = FirstName + [MiddleName] + LastName
+       (MiddleName is optional)
+
+Order = {OrderItem}
+        (Order contains multiple OrderItems)
+
+Payment = CreditCard | DebitCard | Cash
+          (Select one payment method)</code></div>
+                    
+                    <div class="note-box">
+                        <strong>Best Practices:</strong><br>
+                        • Keep it up-to-date<br>
+                        • Use consistent naming conventions<br>
+                        • Include all data elements (even small ones)<br>
+                        • Review regularly with team<br>
+                        • Version control for tracking changes
+                    </note-box>
+                </div>
+            </div>
+            
+            <!-- CHAPTER 3: Object Oriented Design - START -->
+            <div class="chapter-title" id="ch3">
+                <span>🎨</span>
+                <span>Chapter 3 — Function and Object Oriented Design</span>
+            </div>
+            
+            <!-- Section 1: Structured Analysis -->
+            <div class="section">
+                <div class="section-title">1. Structured Analysis</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Structured Analysis:</strong><br>
+                        Structured analysis is a traditional approach that breaks down complex systems into smaller, manageable parts using functional decomposition. It focuses on processes/functions and data flows.
+                    </div>
+                    
+                    <div class="subsection-title">Key Characteristics:</div>
+                    <div class="step-box">
+                        • <strong>Top-Down Approach:</strong> Start with high-level view, break down into details<br>
+                        • <strong>Functional Decomposition:</strong> System divided based on functions<br>
+                        • <strong>Process-Oriented:</strong> Focus on "what system does" (processes)<br>
+                        • <strong>Tools Used:</strong> DFD, Structure Charts, Data Dictionary
+                    </step-box>
+                    
+                    <div class="subsection-title">Structured vs Object-Oriented:</div>
+                    <div class="code-box"><strong>Comparison:</strong>
+
+Aspect          | Structured              | Object-Oriented
+--------------- | ----------------------- | -----------------------
+Focus           | Functions/Processes     | Objects/Entities
+Approach        | Top-Down               | Bottom-Up
+Decomposition   | Functional             | Object-based
+Data & Function | Separate               | Combined (Encapsulation)
+Reusability     | Limited                | High (Inheritance)
+Maintenance     | Difficult              | Easier
+Example Tool    | DFD, Structure Chart   | UML Diagrams
+Best For        | Small systems          | Large, complex systems</code></div>
+                    
+                    <div class="example-box">
+                        <strong>Example - Library System:</strong><br><br>
+                        
+                        <strong>Structured Approach:</strong><br>
+                        Focus on functions:<br>
+                        • IssueBook()<br>
+                        • ReturnBook()<br>
+                        • SearchBook()<br>
+                        • AddMember()<br>
+                        → Functions are separate, data flows between them<br><br>
+                        
+                        <strong>Object-Oriented Approach:</strong><br>
+                        Focus on objects:<br>
+                        • Book (has properties: title, author; methods: display, update)<br>
+                        • Member (has properties: name, ID; methods: borrow, return)<br>
+                        • Library (manages books and members)<br>
+                        → Objects contain both data and functions together
+                    </example-box>
+                </div>
+            </div>
+            
+            <!-- Section 2: Data Flow Diagrams (Detailed) -->
+            <div class="section">
+                <div class="section-title">2. Data Flow Diagrams (DFD) - Detailed</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Data Flow Diagram (DFD):</strong><br>
+                        A graphical representation showing how data moves through a system, what processes transform it, and where it's stored.
+                    </div>
+                    
+                    <div class="subsection-title">DFD Rules:</div>
+                    <div class="step-box">
+                        <strong>1. Naming Conventions:</strong><br>
+                        • Process: Verb + Noun (e.g., "Validate User", "Calculate Total")<br>
+                        • Data Flow: Noun (e.g., "Order Details", "Customer Info")<br>
+                        • Data Store: Plural noun (e.g., "Customers", "Orders")<br>
+                        • External Entity: Noun (e.g., "Customer", "Admin")<br><br>
+                        
+                        <strong>2. Balancing:</strong><br>
+                        • Inputs/outputs of parent process = Combined inputs/outputs of child processes<br>
+                        • Maintain consistency across levels<br><br>
+                        
+                        <strong>3. Process Numbers:</strong><br>
+                        • Level 0: Single process (entire system)<br>
+                        • Level 1: 1.0, 2.0, 3.0...<br>
+                        • Level 2: 1.1, 1.2, 1.3...<br><br>
+                        
+                        <strong>4. Common Mistakes to Avoid:</strong><br>
+                        • No process between external entity and data store<br>
+                        • Data store without input or output<br>
+                        • Unlabeled data flows
+                    </step-box>
+                    
+                    <div class="example-box">
+                        <strong>Complete Example - Library Management System:</strong><br><br>
+                        
+                        <strong>Level 0 (Context Diagram):</strong><br>
+                        <code>
+                        Member → [Library System] → Book Details<br>
+                        Member ← [Library System] ← Receipt<br>
+                        Librarian → [Library System] → Book Updates<br>
+                        </code><br><br>
+                        
+                        <strong>Level 1 DFD:</strong><br>
+                        <code>
+                        Member → 1.0 Search Books → Books DB<br>
+                        Member → 2.0 Issue Book → Issue Records DB<br>
+                        Member → 3.0 Return Book → Issue Records DB<br>
+                        Librarian → 4.0 Manage Books → Books DB<br>
+                        Librarian → 5.0 Manage Members → Members DB<br><br>
+                        
+                        Process Details:<br>
+                        1.0: Search Books (Query → Results)<br>
+                        2.0: Issue Book (Member ID, Book ID → Update Issue Records)<br>
+                        3.0: Return Book (Issue ID → Calculate Fine, Update Records)<br>
+                        4.0: Manage Books (Add/Update/Delete Book Info)<br>
+                        5.0: Manage Members (Add/Update Member Info)<br>
+                        </code><br><br>
+                        
+                        <strong>Level 2 DFD (Expanding Process 2.0 - Issue Book):</strong><br>
+                        <code>
+                        2.1: Verify Member (Check if member exists & active)<br>
+                        2.2: Check Book Availability (Check if book available)<br>
+                        2.3: Create Issue Record (Generate issue ID, due date)<br>
+                        2.4: Update Book Status (Mark as issued)<br>
+                        2.5: Generate Receipt (Print receipt for member)<br>
+                        </code>
+                    </example-box>
+                    
+                    <div class="note-box">
+                        <strong>Tips for Drawing Good DFDs:</strong><br>
+                        • Start with Context Diagram (big picture)<br>
+                        • Gradually decompose into more detailed levels<br>
+                        • Keep it simple and readable<br>
+                        • Validate with stakeholders<br>
+                        • Use consistent naming
+                    </note-box>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            <!-- Section 3: Basic Object Orientation Concepts -->
+            <div class="section">
+                <div class="section-title">3. Basic Object Orientation Concepts</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Object-Oriented Approach:</strong><br>
+                        Object-Oriented Programming (OOP) organizes software design around objects (real-world entities) rather than functions. Objects contain both data (attributes) and behavior (methods).
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Real-world Example - Car:</strong><br>
+                        <strong>Object:</strong> Your car<br>
+                        <strong>Attributes:</strong> Color, Model, Speed<br>
+                        <strong>Methods:</strong> start(), accelerate(), brake()<br><br>
+                        The car is an object with properties and actions!
+                    </div>
+                    
+                    <div class="subsection-title">Core OOP Concepts:</div>
+                    
+                    <div class="step-box">
+                        <strong>1. Class & Object:</strong><br>
+                        • <strong>Class:</strong> Blueprint/template<br>
+                        • <strong>Object:</strong> Instance of class<br><br>
+                        Example: Student (class) → Raj, Priya (objects)
+                    </step-box>
+                    
+                    <div class="step-box">
+                        <strong>2. Encapsulation:</strong><br>
+                        Bundling data and methods together, hiding internal details.<br><br>
+                        Example: ATM - You withdraw money but don't see cash counting mechanism
+                    </step-box>
+                    
+                    <div class="step-box">
+                        <strong>3. Inheritance:</strong><br>
+                        Child class acquires properties of parent class.<br><br>
+                        Example: Vehicle (parent) → Car, Bike (children inherit color, speed)
+                    </step-box>
+                    
+                    <div class="step-box">
+                        <strong>4. Polymorphism:</strong><br>
+                        Same method, different behavior.<br><br>
+                        Example: area() → for square, rectangle, circle (different logic)
+                    </step-box>
+                    
+                    <div class="step-box">
+                        <strong>5. Abstraction:</strong><br>
+                        Hiding complexity, showing only essentials.<br><br>
+                        Example: Driving car - you use steering/pedals, don't know engine internals
+                    </step-box>
+                </div>
+            </div>
+            
+            <!-- Section 4: UML -->
+            <div class="section">
+                <div class="section-title">4. Unified Modelling Language (UML)</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>UML:</strong> Standardized visual language for modeling software systems using diagrams.
+                    </div>
+                    
+                    <div class="code-box"><strong>UML Diagram Types:</strong>
+
+Structural (Static):
+• Class Diagram
+• Object Diagram
+• Component Diagram
+
+Behavioral (Dynamic):
+• Use Case Diagram
+• Activity Diagram
+• State Diagram
+• Sequence Diagram</code></div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Use Case -->
+            <div class="section">
+                <div class="section-title">5. Use Case Model & Diagram</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Use Case:</strong> Describes how user (actor) interacts with system to achieve goal.
+                    </div>
+                    
+                    <div class="code-box"><strong>Components:</strong>
+
+• Actor: Stick figure (User, Admin)
+• Use Case: Oval (Login, Place Order)
+• Include: <<include>> (mandatory)
+• Extend: <<extend>> (optional)
+
+Example: Checkout <<include>> Login
+         Checkout <<extend>> Apply Coupon</code></div>
+                </div>
+            </div>
+            
+            <!-- Section 6: Class Diagrams -->
+            <div class="section">
+                <div class="section-title">6. Class Diagrams</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Class Diagram:</strong> Shows classes, attributes, methods, and relationships.
+                    </div>
+                    
+                    <div class="code-box"><strong>Relationships:</strong>
+
+Association: Student ─── Course
+Aggregation: Department ◇─── Student (weak)
+Composition: House ◆─── Room (strong)
+Inheritance: Vehicle △─── Car
+Dependency: Order ---→ Payment (uses)</code></div>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
