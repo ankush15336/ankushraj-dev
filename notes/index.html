@@ -3,533 +3,473 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Study Notes - Ankush Raj</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Study Notes | ankushraj.dev</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
-            background: #000000;
-            min-height: 100vh;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            overflow-x: hidden;
+            background: #0a0e27;
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
         }
-
-        /* Background */
-        .grid-background {
+        
+        /* Animated Background */
+        .bg-animation {
             position: fixed;
+            width: 100%;
+            height: 100%;
             top: 0;
             left: 0;
+            z-index: -1;
+            overflow: hidden;
+            background: #0a0e27;
+        }
+        
+        .grid-bg {
+            position: absolute;
             width: 100%;
             height: 100%;
             background-image: 
-                linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+                linear-gradient(rgba(88, 101, 242, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(88, 101, 242, 0.03) 1px, transparent 1px);
             background-size: 50px 50px;
-            animation: gridMove 30s linear infinite;
-            z-index: 0;
+            animation: gridMove 20s linear infinite;
         }
-
+        
         @keyframes gridMove {
-            0% { transform: translateY(0) translateX(0); }
-            100% { transform: translateY(100px) translateX(100px); }
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
         }
-
-        .orb {
-            position: fixed;
+        
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .shape {
+            position: absolute;
+            opacity: 0.03;
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            background: #5865f2;
             border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.3;
-            animation: orbFloat 25s ease-in-out infinite;
-            z-index: 1;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
         }
-
-        .orb1 {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, #3b82f6 0%, transparent 70%);
-            top: -200px;
-            left: -200px;
+        
+        .shape:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            background: #7289da;
+            border-radius: 30%;
+            top: 60%;
+            right: 10%;
+            animation-delay: 5s;
         }
-
-        .orb2 {
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);
-            bottom: -175px;
-            right: -175px;
-            animation-delay: -12s;
+        
+        .shape:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            background: #99aab5;
+            border-radius: 20%;
+            bottom: 10%;
+            left: 50%;
+            animation-delay: 10s;
         }
-
-        @keyframes orbFloat {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(100px, -50px) scale(1.1); }
-            50% { transform: translate(30px, 80px) scale(0.9); }
-            75% { transform: translate(-80px, 30px) scale(1.05); }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(180deg); }
         }
-
-        .content {
-            position: relative;
-            z-index: 10;
-            min-height: 100vh;
-            padding: 40px 20px;
+        
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px 40px;
         }
-
-        /* Gradient Text */
-        .gradient-text {
-            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #ec4899 100%);
+        
+        /* Header Title */
+        .header-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .header-title h1 {
+            font-size: 56px;
+            font-weight: 900;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+        }
+        
+        .header-title h1 .study {
+            color: #ffffff;
+        }
+        
+        .header-title h1 .notes {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
+        
+        .header-title p {
+            font-size: 18px;
+            color: #8b92a8;
+            font-weight: 400;
+        }
+        
         /* Subjects Grid */
         .subjects-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            max-width: 1100px;
-            margin: 0 auto;
-            margin-top: 50px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
         }
-
-        @media (min-width: 768px) {
-            .subjects-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 25px;
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .subjects-grid {
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 30px;
-            }
-        }
-
-        /* Subject Card */
+        
         .subject-card {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
-            padding: 25px 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            padding: 30px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
-        }
-
-        @media (min-width: 768px) {
-            .subject-card {
-                padding: 30px 20px;
-            }
-        }
-
-        .subject-card:active {
-            transform: scale(0.95);
-        }
-
-        .subject-card:hover:not(.active) {
-            transform: translateY(-5px);
-            border-color: rgba(59, 130, 246, 0.5);
-            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.3);
-        }
-
-        .subject-card.active {
-            border-color: rgba(59, 130, 246, 0.7);
-            box-shadow: 0 20px 50px rgba(59, 130, 246, 0.4);
-        }
-
-        .subject-icon {
-            font-size: 45px;
-            margin-bottom: 12px;
-            display: block;
-            animation: bounce 2s ease-in-out infinite;
-        }
-
-        @media (min-width: 768px) {
-            .subject-icon {
-                font-size: 55px;
-                margin-bottom: 15px;
-            }
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        .subject-name {
-            color: white;
-            font-weight: 700;
-            font-size: 17px;
-            margin-bottom: 4px;
-        }
-
-        @media (min-width: 768px) {
-            .subject-name {
-                font-size: 19px;
-            }
-        }
-
-        .subject-desc {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 12px;
-        }
-
-        @media (min-width: 768px) {
-            .subject-desc {
-                font-size: 13px;
-            }
-        }
-
-        /* Units Box */
-        .units-box {
-            max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease, opacity 0.3s ease;
-            opacity: 0;
+            backdrop-filter: blur(10px);
         }
-
-        .units-box.show {
-            max-height: 400px;
-            opacity: 1;
-        }
-
-        .units-inner {
-            padding-top: 20px;
-            border-top: 2px solid rgba(59, 130, 246, 0.3);
-            margin-top: 15px;
-        }
-
-        /* Units Container - 2 columns grid */
-        .units-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            max-width: 200px;
-            margin: 0 auto;
-        }
-
-        @media (min-width: 768px) {
-            .units-container {
-                gap: 15px;
-                max-width: 220px;
-            }
-        }
-
-        .unit-btn:nth-child(3) {
-            grid-column: 1 / -1;
-        }
-
-        .unit-btn {
+        
+        .subject-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 70px;
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            border-radius: 16px;
+            height: 3px;
+            background: var(--card-gradient);
+        }
+        
+        .subject-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Subject Header (Icon + Title horizontal) */
+        .subject-header {
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--card-gradient);
+            border-radius: 14px;
+            display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
-            opacity: 0;
-            transform: scale(0.5);
+            font-size: 32px;
+            flex-shrink: 0;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
-
-        @media (min-width: 768px) {
-            .unit-btn {
-                height: 85px;
-            }
-        }
-
-        .units-box.show .unit-btn {
-            animation: popIn 0.4s ease forwards;
-        }
-
-        .units-box.show .unit-btn:nth-child(1) { animation-delay: 0.1s; }
-        .units-box.show .unit-btn:nth-child(2) { animation-delay: 0.2s; }
-        .units-box.show .unit-btn:nth-child(3) { animation-delay: 0.3s; }
-
-        @keyframes popIn {
-            from {
-                opacity: 0;
-                transform: scale(0.5);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .unit-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.6);
-        }
-
-        .unit-btn:active {
-            transform: scale(0.95);
-        }
-
-        .unit-number {
-            font-size: 28px;
+        
+        .subject-info h3 {
+            font-size: 24px;
             font-weight: 800;
-            color: white;
-            line-height: 1;
-            margin-bottom: 3px;
+            margin-bottom: 4px;
+            color: #ffffff;
         }
-
-        @media (min-width: 768px) {
-            .unit-number {
-                font-size: 34px;
-            }
+        
+        .subject-info .subtitle {
+            font-size: 13px;
+            color: #8b92a8;
+            font-weight: 500;
         }
-
-        .unit-label {
-            font-size: 10px;
+        
+        /* Units List */
+        .units-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .unit-badge {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 14px;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.9);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        @media (min-width: 768px) {
-            .unit-label {
-                font-size: 11px;
+        
+        .unit-badge:hover {
+            background: var(--card-gradient);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Color Schemes */
+        .subject-card:nth-child(1) { --card-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .subject-card:nth-child(2) { --card-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .subject-card:nth-child(3) { --card-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .subject-card:nth-child(4) { --card-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .subject-card:nth-child(5) { --card-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .subject-card:nth-child(6) { --card-gradient: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+        .subject-card:nth-child(7) { --card-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+        .subject-card:nth-child(8) { --card-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+        .subject-card:nth-child(9) { --card-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+        }
+        
+        .footer p {
+            color: #8b92a8;
+            font-size: 14px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 700;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 16px;
             }
-        }
-
-        /* Card Animation */
-        .subject-card {
-            opacity: 0;
-            animation: fadeInUp 0.6s ease forwards;
-        }
-
-        .subject-card:nth-child(1) { animation-delay: 0.1s; }
-        .subject-card:nth-child(2) { animation-delay: 0.2s; }
-        .subject-card:nth-child(3) { animation-delay: 0.3s; }
-        .subject-card:nth-child(4) { animation-delay: 0.4s; }
-        .subject-card:nth-child(5) { animation-delay: 0.5s; }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
+            
+            .header-title h1 {
+                font-size: 42px;
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            
+            .header-title p {
+                font-size: 16px;
+            }
+            
+            .subjects-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .subject-header {
+                gap: 12px;
+            }
+            
+            .card-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 28px;
+            }
+            
+            .subject-info h3 {
+                font-size: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="grid-background"></div>
-    <div class="orb orb1"></div>
-    <div class="orb orb2"></div>
-
-    <div class="content">
-        <!-- Title -->
-        <div class="text-center mb-8">
-            <h1 class="text-5xl md:text-7xl font-black text-white mb-4">
-                Study <span class="gradient-text">Notes</span>
-            </h1>
-            <p class="text-gray-400 text-base md:text-lg">Tap a subject to explore units</p>
-        </div>
-
-        <!-- Subjects Grid -->
-        <div class="subjects-grid">
-            <!-- DAA -->
-            <div class="subject-card" data-subject="daa">
-                <div class="card-content">
-                    <span class="subject-icon">📊</span>
-                    <div class="subject-name">DAA</div>
-                    <div class="subject-desc">Algorithms</div>
-                </div>
-                
-                <div class="units-box">
-                    <div class="units-inner">
-                        <div class="units-container">
-                            <div class="unit-btn" data-subject="daa" data-unit="1">
-                                <div class="unit-number">1</div>
-                                <div class="unit-label">Unit</div>
-                            </div>
-                            <div class="unit-btn" data-subject="daa" data-unit="2">
-                                <div class="unit-number">2</div>
-                                <div class="unit-label">Unit</div>
-                            </div>
-                            <div class="unit-btn" data-subject="daa" data-unit="3">
-                                <div class="unit-number">3</div>
-                                <div class="unit-label">Unit</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Aptitude -->
-            <div class="subject-card" data-subject="aptitude">
-                <div class="card-content">
-                    <span class="subject-icon">🧮</span>
-                    <div class="subject-name">Aptitude</div>
-                    <div class="subject-desc">Reasoning</div>
-                </div>
-                
-                <div class="units-box">
-                    <div class="units-inner">
-                        <div class="units-container">
-                            <div class="unit-btn" data-subject="aptitude" data-unit="1">
-                                <div class="unit-number">1</div>
-                                <div class="unit-label">Unit</div>
-                            </div>
-                            <div class="unit-btn" data-subject="aptitude" data-unit="2">
-                                <div class="unit-number">2</div>
-                                <div class="unit-label">Unit</div>
-                            </div>
-                            <div class="unit-btn" data-subject="aptitude" data-unit="3">
-                                <div class="unit-number">3</div>
-                                <div class="unit-label">Unit</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Java -->
-            <div class="subject-card" data-subject="java">
-                <div class="card-content">
-                    <span class="subject-icon">☕</span>
-                    <div class="subject-name">Java</div>
-                    <div class="subject-desc">OOP Concepts</div>
-                </div>
-                
-                <div class="units-box">
-                    <div class="units-inner">
-                        <div class="units-container">
-                            <div class="unit-btn" data-subject="java" data-unit="1">
-                                <div class="unit-number">1</div>
-                                <div class="unit-label">Unit</div>
-                            </div>
-                            <div class="unit-btn" data-subject="java" data-unit="2">
-                                <div class="unit-number">2</div>
-                                <div class="unit-label">Unit</div>
-                            </div>
-                            <div class="unit-btn" data-subject="java" data-unit="3">
-                                <div class="unit-number">3</div>
-                                <div class="unit-label">Unit</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Operating System -->
-            <div class="subject-card" data-subject="os">
-                <div class="card-content">
-                    <span class="subject-icon">💻</span>
-                    <div class="subject-name">Operating System</div>
-                    <div class="subject-desc">Process & Memory</div>
-                </div>
-                
-                <div class="units-box">
-                    <div class="units-inner">
-                        <div class="units-container">
-                            <div class="unit-btn" data-subject="os" data-unit="1">
-                                <div class="unit-number">1</div>
-                                <div class="unit-label">Unit</div>
-                            </div>
-                            <div class="unit-btn" data-subject="os" data-unit="2">
-                                <div class="unit-number">2</div>
-                                <div class="unit-label">Unit</div>
-                            </div>
-                            <div class="unit-btn" data-subject="os" data-unit="3">
-                                <div class="unit-number">3</div>
-                                <div class="unit-label">Unit</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Software Engineering -->
-            <div class="subject-card" data-subject="se">
-                <div class="card-content">
-                    <span class="subject-icon">⚙️</span>
-                    <div class="subject-name">Software Engg</div>
-                    <div class="subject-desc">SDLC & Testing</div>
-                </div>
-                
-                <div class="units-box">
-                    <div class="units-inner">
-                        <div class="units-container">
-                            <div class="unit-btn" data-subject="se" data-unit="1">
-                                <div class="unit-number">1</div>
-                                <div class="unit-label">Unit</div>
-                            </div>
-                            <div class="unit-btn" data-subject="se" data-unit="2">
-                                <div class="unit-number">2</div>
-                                <div class="unit-label">Unit</div>
-                            </div>
-                            <div class="unit-btn" data-subject="se" data-unit="3">
-                                <div class="unit-number">3</div>
-                                <div class="unit-label">Unit</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="grid-bg"></div>
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
         </div>
     </div>
-
-    <script>
-        // FIXED JavaScript - Only one card opens at a time
-        const subjectCards = document.querySelectorAll('.subject-card');
-
-        subjectCards.forEach(card => {
-            // Only add click listener to card-content, not the whole card
-            const cardContent = card.querySelector('.card-content');
+    
+    <!-- Main Container -->
+    <div class="container">
+        
+        <!-- Header Title -->
+        <div class="header-title">
+            <h1>
+                <span class="study">Study</span> <span class="notes">Notes</span>
+            </h1>
+            <p>Tap a subject to explore units</p>
+        </div>
+        
+        <!-- Subjects Grid -->
+        <div class="subjects-grid">
             
-            cardContent.addEventListener('click', function(e) {
-                const parentCard = this.closest('.subject-card');
-                const unitsBox = parentCard.querySelector('.units-box');
-                const isActive = parentCard.classList.contains('active');
-
-                // Close ALL cards first
-                subjectCards.forEach(c => {
-                    c.classList.remove('active');
-                    const box = c.querySelector('.units-box');
-                    box.classList.remove('show');
-                    // Reset animation
-                    const btns = box.querySelectorAll('.unit-btn');
-                    btns.forEach(btn => {
-                        btn.style.animation = 'none';
-                        setTimeout(() => btn.style.animation = '', 10);
-                    });
-                });
-
-                // If wasn't active, open it
-                if (!isActive) {
-                    parentCard.classList.add('active');
-                    unitsBox.classList.add('show');
-                }
-            });
-        });
-
-        // Unit button clicks
-        document.querySelectorAll('.unit-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const subject = this.dataset.subject;
-                const unit = this.dataset.unit;
-                window.location.href = `/notes/${subject}/unit${unit}`;
-            });
-        });
-    </script>
+            <!-- DAA -->
+            <div class="subject-card">
+                <div class="subject-header">
+                    <div class="card-icon">📊</div>
+                    <div class="subject-info">
+                        <h3>DAA</h3>
+                        <p class="subtitle">Algorithms</p>
+                    </div>
+                </div>
+                <div class="units-list">
+                    <a href="/notes/daa/unit1" class="unit-badge">Unit 1</a>
+                    <a href="#" class="unit-badge">Unit 2</a>
+                    <a href="#" class="unit-badge">Unit 3</a>
+                </div>
+            </div>
+            
+            <!-- Aptitude -->
+            <div class="subject-card">
+                <div class="subject-header">
+                    <div class="card-icon">🧮</div>
+                    <div class="subject-info">
+                        <h3>Aptitude</h3>
+                        <p class="subtitle">Reasoning</p>
+                    </div>
+                </div>
+                <div class="units-list">
+                    <a href="#" class="unit-badge">Unit 1</a>
+                    <a href="#" class="unit-badge">Unit 2</a>
+                    <a href="#" class="unit-badge">Unit 3</a>
+                </div>
+            </div>
+            
+            <!-- Java -->
+            <div class="subject-card">
+                <div class="subject-header">
+                    <div class="card-icon">☕</div>
+                    <div class="subject-info">
+                        <h3>Java</h3>
+                        <p class="subtitle">OOP Concepts</p>
+                    </div>
+                </div>
+                <div class="units-list">
+                    <a href="/notes/java/unit1" class="unit-badge">Unit 1</a>
+                    <a href="#" class="unit-badge">Unit 2</a>
+                    <a href="#" class="unit-badge">Unit 3</a>
+                </div>
+            </div>
+            
+            <!-- Operating System -->
+            <div class="subject-card">
+                <div class="subject-header">
+                    <div class="card-icon">💻</div>
+                    <div class="subject-info">
+                        <h3>Operating System</h3>
+                        <p class="subtitle">Process & Memory</p>
+                    </div>
+                </div>
+                <div class="units-list">
+                    <a href="/notes/os/unit1" class="unit-badge">Unit 1</a>
+                    <a href="#" class="unit-badge">Unit 2</a>
+                    <a href="#" class="unit-badge">Unit 3</a>
+                </div>
+            </div>
+            
+            <!-- Software Engineering -->
+            <div class="subject-card">
+                <div class="subject-header">
+                    <div class="card-icon">⚙️</div>
+                    <div class="subject-info">
+                        <h3>Software Engg</h3>
+                        <p class="subtitle">SDLC & Models</p>
+                    </div>
+                </div>
+                <div class="units-list">
+                    <a href="#" class="unit-badge">Unit 1</a>
+                    <a href="#" class="unit-badge">Unit 2</a>
+                    <a href="#" class="unit-badge">Unit 3</a>
+                </div>
+            </div>
+            
+            <!-- COA -->
+            <div class="subject-card">
+                <div class="subject-header">
+                    <div class="card-icon">🔧</div>
+                    <div class="subject-info">
+                        <h3>COA</h3>
+                        <p class="subtitle">Architecture</p>
+                    </div>
+                </div>
+                <div class="units-list">
+                    <a href="#" class="unit-badge">Unit 1</a>
+                    <a href="#" class="unit-badge">Unit 2</a>
+                    <a href="#" class="unit-badge">Unit 3</a>
+                </div>
+            </div>
+            
+            <!-- Discrete Mathematics -->
+            <div class="subject-card">
+                <div class="subject-header">
+                    <div class="card-icon">📐</div>
+                    <div class="subject-info">
+                        <h3>Discrete Maths</h3>
+                        <p class="subtitle">Logic & Sets</p>
+                    </div>
+                </div>
+                <div class="units-list">
+                    <a href="#" class="unit-badge">Unit 1</a>
+                    <a href="#" class="unit-badge">Unit 2</a>
+                    <a href="#" class="unit-badge">Unit 3</a>
+                </div>
+            </div>
+            
+            <!-- DBMS -->
+            <div class="subject-card">
+                <div class="subject-header">
+                    <div class="card-icon">🗄️</div>
+                    <div class="subject-info">
+                        <h3>DBMS</h3>
+                        <p class="subtitle">Database Systems</p>
+                    </div>
+                </div>
+                <div class="units-list">
+                    <a href="#" class="unit-badge">Unit 1</a>
+                    <a href="#" class="unit-badge">Unit 2</a>
+                    <a href="#" class="unit-badge">Unit 3</a>
+                </div>
+            </div>
+            
+            <!-- ADSA -->
+            <div class="subject-card">
+                <div class="subject-header">
+                    <div class="card-icon">🔬</div>
+                    <div class="subject-info">
+                        <h3>ADSA</h3>
+                        <p class="subtitle">Advanced DS</p>
+                    </div>
+                </div>
+                <div class="units-list">
+                    <a href="#" class="unit-badge">Unit 1</a>
+                    <a href="#" class="unit-badge">Unit 2</a>
+                    <a href="#" class="unit-badge">Unit 3</a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+        <p>Made with 💙 by <a href="https://ankushraj.dev" target="_blank">Ankush Raj</a></p>
+        <p style="font-size: 12px; margin-top: 8px;">© 2026 ankushraj.dev</p>
+    </div>
+    
 </body>
 </html>
