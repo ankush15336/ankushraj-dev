@@ -46,6 +46,11 @@
         .point { margin-left: 18px; margin-bottom: 6px; font-size: 13px; position: relative; }
         .point::before { content: "•"; position: absolute; left: -14px; color: var(--primary); font-weight: 700; }
         .divider { height: 2px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 24px 0; }
+        .footer { text-align: center; padding: 18px 12px 28px; margin-top: 24px; color: var(--text-light); border-top: 1px solid var(--border); }
+        .footer-credit { font-weight: 700; margin-bottom: 4px; color: var(--text); }
+        .footer-note { font-size: 12px; }
+        .footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
+        .footer a:hover { text-decoration: underline; }
         @media (min-width: 768px) { .container { padding: 16px; } .header { padding: 14px 20px; } .header-title h1 { font-size: 28px; } .chapter-title { font-size: 20px; padding: 16px 20px; } .section-title { font-size: 18px; } .content p { font-size: 15px; } }
     </style>
 </head>
@@ -94,7 +99,7 @@
 <strong>8:</strong> Last 3 digits divisible by 8
 <strong>9:</strong> Sum of digits divisible by 9
 <strong>10:</strong> Last digit is 0
-<strong>11:</strong> (Sum of odd positions - Sum of even positions) ÷ 11</code></div>
+<strong>11:</strong> (Sum of odd positions - Sum of even positions) ÷ 11</div>
                     
                     <div class="subsection-title">Examples:</div>
                     <div class="example-box">
@@ -198,7 +203,7 @@
                     </div>
                     
                     <div class="code-box">Common φ(n):
-φ(10) = 4, φ(12) = 4, φ(100) = 40</code></div>
+φ(10) = 4, φ(12) = 4, φ(100) = 40</div>
                 </div>
             </div>
             
@@ -267,7 +272,7 @@ Wilson's:  (p-1)! ≡ -1 (mod p)  [p prime]
 WHEN TO USE:
 • Large power + prime divisor → Fermat's
 • Large power + composite → Euler's
-• Factorial + prime → Wilson's</code></div>
+• Factorial + prime → Wilson's</div>
                 </div>
             </div>
             
@@ -463,7 +468,7 @@ WHEN TO USE:
                         ⌊25/125⌋ = 0 (stop)<br><br>
                         
                         Total zeros = 5 + 1 = 6 ✓
-                    </example-box>
+                    </div>
                     
                     <div class="example-box">
                         <strong>Example 2:</strong> Number of zeros in 100!<br><br>
@@ -507,7 +512,7 @@ WHEN TO USE:
                         
                         Highest power = 3 + 1 = 4<br>
                         So 3⁴ divides 10! ✓
-                    </example-box>
+                    </div>
                     
                     <div class="example-box">
                         <strong>Example 2:</strong> Highest power of 2 in 20!<br><br>
@@ -520,7 +525,7 @@ WHEN TO USE:
                         
                         Highest power = 10 + 5 + 2 + 1 = 18<br>
                         So 2¹⁸ divides 20! ✓
-                    </example-box>
+                    </div>
                     
                     <div class="subsection-title">For Composite Numbers:</div>
                     <div class="step-box">
@@ -596,7 +601,7 @@ FACTORIAL FORMULAS:
 
 Zeros in n! = ⌊n/5⌋ + ⌊n/25⌋ + ⌊n/125⌋ + ...
 
-Highest power of p in n! = ⌊n/p⌋ + ⌊n/p²⌋ + ⌊n/p³⌋ + ...</code></div>
+Highest power of p in n! = ⌊n/p⌋ + ⌊n/p²⌋ + ⌊n/p³⌋ + ...</div>
                 </div>
             </div>
             
@@ -653,7 +658,7 @@ Digit | Powers              | Cycle | Cyclicity
 6     | 6, 6, 6, 6...       | 6     | 1
 7     | 7, 9, 3, 1, 7...    | 7,9,3,1 | 4
 8     | 8, 4, 2, 6, 8...    | 8,4,2,6 | 4
-9     | 9, 1, 9, 1...       | 9,1   | 2</code></div>
+9     | 9, 1, 9, 1...       | 9,1   | 2</div>
                     
                     <div class="trick-box">
                         <strong>💡 REMEMBER:</strong><br>
@@ -781,7 +786,7 @@ Digit | Powers              | Cycle | Cyclicity
                         = ... + 1200 + 1<br>
                         = ... + 1201<br>
                         Last two digits = 01 ✓
-                    </example-box>
+                    </div>
                     
                     <div class="subsection-title">Method 2: Pattern Recognition</div>
                     <div class="trick-box">
@@ -842,7 +847,7 @@ Digit | Powers              | Cycle | Cyclicity
                         Cycle of 3: 3, 9, 7, 1<br>
                         4th position = 1<br>
                         <strong>Answer: 1</strong> ✓
-                    </example-box>
+                    </div>
                     
                     <div class="example-box">
                         <strong>Example 2:</strong> Unit digit of 7^(6^5)<br><br>
@@ -854,7 +859,7 @@ Digit | Powers              | Cycle | Cyclicity
                         Step 2: Use 4th position in cycle of 7<br>
                         Cycle of 7: 7, 9, 3, 1<br>
                         <strong>Answer: 1</strong> ✓
-                    </example-box>
+                    </div>
                 </div>
             </div>
             
@@ -926,7 +931,7 @@ QUICK TIPS:
 • Any number^even ending in 5 → Last digit = 25
 • Any odd number^4 → Last digit = 1
 • Power of 2: Pattern repeats every 20
-• Power of 3: Pattern repeats every 20</code></div>
+• Power of 3: Pattern repeats every 20</div>
                 </div>
             </div>
             
@@ -979,7 +984,7 @@ QUICK TIPS:
                         <strong>Property 3:</strong> Multiplying/Dividing by negative number<br>
                         If a > b and c < 0, then a × c < b × c (sign reverses)<br>
                         If a > b and c < 0, then a ÷ c < b ÷ c (sign reverses)
-                    </formula-box>
+                    </div>
                     
                     <div class="example-box">
                         <strong>Example:</strong><br>
@@ -1096,7 +1101,7 @@ QUICK TIPS:
                         <strong>M</strong> - Multiplication ×<br>
                         <strong>A</strong> - Addition +<br>
                         <strong>S</strong> - Subtraction -
-                    </formula-box>
+                    </div>
                     
                     <div class="example-box">
                         <strong>Example:</strong> 10 + 5 × 3 - 4 ÷ 2<br><br>
@@ -1128,7 +1133,7 @@ QUICK TIPS:
                         (12 @ 8) = 12 + 8 = 20<br>
                         (10 # 4) = 10 - 4 = 6<br>
                         20 $ 6 = 20 × 6 = 120 ✓
-                    </example-box>
+                    </div>
                     
                     <div class="example-box">
                         <strong>Type 2: Find Missing Operation</strong><br><br>
@@ -1141,7 +1146,7 @@ QUICK TIPS:
                         5 × 3 - 2 = 15 - 2 = 13 ✓<br><br>
                         
                         <strong>Answer:</strong> 5 × 3 - 2 = 13
-                    </example-box>
+                    </div>
                     
                     <div class="example-box">
                         <strong>Type 3: Make Equation True</strong><br><br>
@@ -1154,7 +1159,7 @@ QUICK TIPS:
                         8 × 4 ÷ 2 = 16 ✗<br><br>
                         
                         <strong>Answer:</strong> 8 + 4 - 2 = 10
-                    </example-box>
+                    </div>
                 </div>
             </div>
             
@@ -1261,7 +1266,7 @@ STRATEGY:
 1. Decode all symbols first
 2. Follow BODMAS
 3. Solve step by step
-4. Check your answer</code></div>
+4. Check your answer</div>
                 </div>
             </div>
             
@@ -1417,7 +1422,7 @@ SUCCESSIVE:
 d₁ + d₂ - (d₁×d₂)/100
 
 DISHONEST:
-Profit % = [(1000-x)/x] × 100</code></div>
+Profit % = [(1000-x)/x] × 100</div>
                 </div>
             </div>
             
@@ -1568,7 +1573,7 @@ Profit % = [(1000-x)/x] × 100</code></div>
                     <div class="subsection-title">A. Ranking from One End:</div>
                     <div class="formula-box">
                         <strong>Total = Rank from one end + Rank from other end - 1</strong>
-                    </formula-box>
+                    </div>
                     
                     <div class="example-box">
                         <strong>Ex 1:</strong> A is 7th from left, 12th from right. Total?<br>
@@ -1581,7 +1586,7 @@ Profit % = [(1000-x)/x] × 100</code></div>
                     <div class="subsection-title">B. Persons Between Two:</div>
                     <div class="formula-box">
                         <strong>Between = |Rank₁ - Rank₂| - 1</strong>
-                    </formula-box>
+                    </div>
                     
                     <div class="example-box">
                         <strong>Ex:</strong> A is 5th, B is 12th. How many between?<br>
@@ -1592,7 +1597,7 @@ Profit % = [(1000-x)/x] × 100</code></div>
                     <div class="example-box">
                         <strong>Ex:</strong> A is 10th. After 3 new join at top, new rank?<br>
                         New rank = 10 + 3 = 13th ✓
-                    </example-box>
+                    </div>
                 </div>
             </div>
             
@@ -1646,7 +1651,7 @@ PRIME NUMBERS:
 2, 3, 5, 7, 11, 13, 17, 19, 23, 29...
 
 FIBONACCI:
-1, 1, 2, 3, 5, 8, 13, 21, 34, 55...</code></div>
+1, 1, 2, 3, 5, 8, 13, 21, 34, 55...</div>
                 </div>
             </div>
             
@@ -1786,6 +1791,7 @@ FIBONACCI:
             
         </div>
         
+        </div>
         <!-- LAST MIN NOTES TAB -->
         <div class="tab-content" id="lastMinTab">
             <div class="chapter-title">
@@ -1811,7 +1817,7 @@ FIBONACCI:
 9: Sum divisible by 9
 11: (Odd places - Even places) divisible by 11
 
-1001 = 7 × 11 × 13</code></div>
+1001 = 7 × 11 × 13</div>
                 </div>
             </div>
             
@@ -1823,7 +1829,7 @@ FIBONACCI:
 Euler: a^φ(n) ≡ 1 (mod n)
 Wilson: (p-1)! ≡ -1 (mod p) [p prime]
 
-φ(10) = 4, φ(100) = 40, φ(1000) = 400</code></div>
+φ(10) = 4, φ(100) = 40, φ(1000) = 400</div>
                 </div>
             </div>
             
@@ -1838,7 +1844,7 @@ Sum = [(p₁^(a+1)-1)/(p₁-1)] × ...
 Product = N^(k/2)
 
 Zeros in n! = ⌊n/5⌋ + ⌊n/25⌋ + ...
-Power of p in n! = ⌊n/p⌋ + ⌊n/p²⌋ + ...</code></div>
+Power of p in n! = ⌊n/p⌋ + ⌊n/p²⌋ + ...</div>
                 </div>
             </div>
             
@@ -1855,7 +1861,7 @@ Power of p in n! = ⌊n/p⌋ + ⌊n/p²⌋ + ...</code></div>
 7: 7,9,3,1
 8: 8,4,2,6
 
-Divide power by cyclicity, use remainder</code></div>
+Divide power by cyclicity, use remainder</div>
                 </div>
             </div>
             
@@ -1871,7 +1877,7 @@ BODMAS:
 3. Division
 4. Multiplication
 5. Addition
-6. Subtraction</code></div>
+6. Subtraction</div>
                 </div>
             </div>
             
@@ -1887,7 +1893,7 @@ SP = MP × (100-D%)/100
 
 Successive: d₁ + d₂ - (d₁×d₂)/100
 
-Dishonest: [(1000-x)/x] × 100</code></div>
+Dishonest: [(1000-x)/x] × 100</div>
                 </div>
             </div>
             
@@ -1900,7 +1906,7 @@ Dishonest: [(1000-x)/x] × 100</code></div>
 Letters: A=1, B=2... Z=26
 
 Ranking: Total = Left + Right - 1
-Between = |Rank₁ - Rank₂| - 1</code></div>
+Between = |Rank₁ - Rank₂| - 1</div>
                 </div>
             </div>
             
@@ -1912,7 +1918,7 @@ Between = |Rank₁ - Rank₂| - 1</code></div>
 
 Weighted: (w₁v₁ + w₂v₂...)/(w₁+w₂...)
 
-All increase by x → Avg increases by x</code></div>
+All increase by x → Avg increases by x</div>
                 </div>
             </div>
             
@@ -1928,7 +1934,7 @@ Primes: 2,3,5,7,11,13,17,19,23,29,31,37
 20% = 1/5
 25% = 1/4
 33.33% = 1/3
-50% = 1/2</code></div>
+50% = 1/2</div>
                 </div>
             </div>
             
@@ -1953,7 +1959,7 @@ Primes: 2,3,5,7,11,13,17,19,23,29,31,37
                         ✓ Use approximation when possible<br>
                         ✓ Check if answer makes sense<br>
                         ✓ Practice mental math daily
-                    </trick-box>
+                    </div>
                 </div>
             </div>
             
@@ -1997,7 +2003,12 @@ Primes: 2,3,5,7,11,13,17,19,23,29,31,37
     <script>
         // Dark Mode Toggle
         const darkModeBtn = document.getElementById('darkModeBtn');
-        const isDarkMode = localStorage.getItem('darkMode') === 'true';
+        let isDarkMode = false;
+        try {
+            isDarkMode = localStorage.getItem('darkMode') === 'true';
+        } catch (err) {
+            isDarkMode = false;
+        }
         
         if (isDarkMode) {
             document.body.classList.add('dark-mode');
@@ -2007,12 +2018,17 @@ Primes: 2,3,5,7,11,13,17,19,23,29,31,37
         function toggleDarkMode() {
             document.body.classList.toggle('dark-mode');
             const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('darkMode', isDark);
+            try {
+                localStorage.setItem('darkMode', isDark);
+            } catch (err) {
+                // Ignore storage errors (blocked in some contexts)
+            }
             updateDarkModeBtn(isDark);
         }
         
         function updateDarkModeBtn(isDark) {
             const btn = document.getElementById('darkModeBtn');
+            if (!btn) return;
             btn.innerHTML = isDark 
                 ? '<span>☀️</span><span>Light</span>' 
                 : '<span>🌙</span><span>Dark</span>';
