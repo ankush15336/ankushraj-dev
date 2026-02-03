@@ -733,3 +733,1307 @@
             </div>
             
             <div class="divider"></div>
+            <!-- CHAPTER 1.2: REMAINDERS -->
+            <div class="chapter-title" id="ch2">
+                <span>➗</span>
+                <span>Chapter 1.2 — Remainders</span>
+            </div>
+            
+            <!-- Section 1: Concept of Remainders -->
+            <div class="section">
+                <div class="section-title">1. Concept of Positive and Negative Remainders</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Remainder:</strong><br>
+                        Dividend = Divisor × Quotient + Remainder
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Positive Remainder:</strong> 23 ÷ 5 = 4 R 3<br>
+                        <strong>Negative Remainder:</strong> 23 = 5 × 5 - 2 (R = -2)
+                    </div>
+                    
+                    <div class="trick-box">
+                        <strong>💡 TRICK:</strong> Negative remainder = Divisor - Positive remainder<br>
+                        Use when remainder > divisor/2 for easier calculations
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Fermat's Theorem -->
+            <div class="section">
+                <div class="section-title">2. Fermat's Little Theorem</div>
+                <div class="content">
+                    <div class="formula-box">
+                        <strong>FERMAT'S THEOREM:</strong><br>
+                        If p is PRIME and a is not divisible by p:<br>
+                        <strong>a^(p-1) ≡ 1 (mod p)</strong>
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 1:</strong> 2^10 ÷ 11<br>
+                        p=11 (prime), a=2<br>
+                        2^(11-1) ≡ 1 (mod 11)<br>
+                        <strong>Remainder = 1</strong> ✓<br><br>
+                        
+                        <strong>Example 2:</strong> 5^40 ÷ 41<br>
+                        5^40 ≡ 1 (mod 41)<br>
+                        <strong>Remainder = 1</strong> ✓<br><br>
+                        
+                        <strong>Example 3:</strong> 3^40 ÷ 7<br>
+                        3^6 ≡ 1 (mod 7)<br>
+                        3^40 = (3^6)^6 × 3^4<br>
+                        = 1 × 81 mod 7 = 4<br>
+                        <strong>Remainder = 4</strong> ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Euler's Theorem -->
+            <div class="section">
+                <div class="section-title">3. Euler's Theorem</div>
+                <div class="content">
+                    <div class="formula-box">
+                        <strong>EULER'S TOTIENT φ(n):</strong><br>
+                        Count of numbers coprime with n<br><br>
+                        
+                        • Prime p: φ(p) = p-1<br>
+                        • Two primes: φ(p×q) = (p-1)(q-1)<br><br>
+                        
+                        <strong>EULER'S THEOREM:</strong><br>
+                        If gcd(a,n)=1: <strong>a^φ(n) ≡ 1 (mod n)</strong>
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 1:</strong> Find φ(10)<br>
+                        10 = 2×5<br>
+                        φ(10) = (2-1)(5-1) = 4<br><br>
+                        
+                        <strong>Example 2:</strong> 7^40 ÷ 10<br>
+                        φ(10) = 4<br>
+                        7^4 ≡ 1 (mod 10)<br>
+                        7^40 = (7^4)^10 ≡ 1<br>
+                        <strong>Remainder = 1</strong> ✓
+                    </div>
+                    
+                    <div class="code-box">Common φ(n):
+φ(10) = 4, φ(12) = 4, φ(100) = 40</code></div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Wilson's Theorem -->
+            <div class="section">
+                <div class="section-title">4. Wilson's Theorem</div>
+                <div class="content">
+                    <div class="formula-box">
+                        <strong>WILSON'S THEOREM:</strong><br>
+                        If p is PRIME:<br>
+                        <strong>(p-1)! ≡ -1 (mod p)</strong><br>
+                        Or: (p-1)! ÷ p gives remainder (p-1)
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 1:</strong> 6! ÷ 7<br>
+                        p=7 (prime)<br>
+                        6! ≡ -1 ≡ 6 (mod 7)<br>
+                        <strong>Remainder = 6</strong> ✓<br><br>
+                        
+                        <strong>Example 2:</strong> 10! ÷ 11<br>
+                        <strong>Remainder = 10</strong> ✓<br><br>
+                        
+                        <strong>Example 3:</strong> 12! ÷ 13<br>
+                        <strong>Remainder = 12</strong> ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Practice Problems -->
+            <div class="section">
+                <div class="section-title">5. Miscellaneous Problems & Data Sufficiency</div>
+                <div class="content">
+                    <div class="example-box">
+                        <strong>Problem 1:</strong> Last digit of 3^1000?<br>
+                        Last digit = 3^1000 mod 10<br>
+                        φ(10) = 4, so 3^4 ≡ 1 (mod 10)<br>
+                        3^1000 = (3^4)^250 ≡ 1<br>
+                        <strong>Answer: 1</strong> ✓<br><br>
+                        
+                        <strong>Problem 2:</strong> 2^100 ÷ 7<br>
+                        2^6 ≡ 1 (mod 7)<br>
+                        100 = 6×16 + 4<br>
+                        2^100 = (2^6)^16 × 2^4 ≡ 16 ≡ 2 (mod 7)<br>
+                        <strong>Answer: 2</strong> ✓
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>Data Sufficiency Tip:</strong><br>
+                        If n = kd + r (where d is divisor), then remainder is r<br>
+                        Example: n = 15k + 3, then n mod 5 = 3
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Reference -->
+            <div class="section">
+                <div class="section-title">6. Quick Reference</div>
+                <div class="content">
+                    <div class="code-box">THEOREM SUMMARY:
+
+Fermat's:  a^(p-1) ≡ 1 (mod p)  [p prime]
+Euler's:   a^φ(n) ≡ 1 (mod n)   [gcd(a,n)=1]
+Wilson's:  (p-1)! ≡ -1 (mod p)  [p prime]
+
+WHEN TO USE:
+• Large power + prime divisor → Fermat's
+• Large power + composite → Euler's
+• Factorial + prime → Wilson's</code></div>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            <!-- CHAPTER 1.3: FACTORS & FACTORIALS -->
+            <div class="chapter-title" id="ch3">
+                <span>🔢</span>
+                <span>Chapter 1.3 — Factors & Factorials</span>
+            </div>
+            
+            <!-- Section 1: Concept of Factors -->
+            <div class="section">
+                <div class="section-title">1. Concept of Factors</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Factor:</strong> A number that divides another number completely (remainder = 0)<br><br>
+                        
+                        If a divides b completely, then a is a factor of b
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example:</strong> Factors of 12<br>
+                        12 = 1×12, 2×6, 3×4<br>
+                        Factors: 1, 2, 3, 4, 6, 12 (6 factors)
+                    </div>
+                    
+                    <div class="subsection-title">Prime Factorization:</div>
+                    <div class="formula-box">
+                        <strong>Every number can be expressed as product of prime numbers</strong><br><br>
+                        
+                        If N = p₁^a × p₂^b × p₃^c × ...<br>
+                        (where p₁, p₂, p₃ are prime numbers)
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example:</strong><br>
+                        60 = 2² × 3¹ × 5¹<br>
+                        360 = 2³ × 3² × 5¹<br>
+                        1000 = 2³ × 5³
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Number of Factors -->
+            <div class="section">
+                <div class="section-title">2. Number of Factors</div>
+                <div class="content">
+                    <div class="formula-box">
+                        <strong>FORMULA:</strong><br><br>
+                        
+                        If N = p₁^a × p₂^b × p₃^c<br><br>
+                        
+                        <strong>Number of factors = (a+1) × (b+1) × (c+1)</strong>
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 1:</strong> Find number of factors of 60<br><br>
+                        
+                        60 = 2² × 3¹ × 5¹<br>
+                        Number of factors = (2+1) × (1+1) × (1+1)<br>
+                        = 3 × 2 × 2 = 12 factors ✓<br><br>
+                        
+                        Factors: 1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 2:</strong> Find number of factors of 360<br><br>
+                        
+                        360 = 2³ × 3² × 5¹<br>
+                        Number of factors = (3+1) × (2+1) × (1+1)<br>
+                        = 4 × 3 × 2 = 24 factors ✓
+                    </div>
+                    
+                    <div class="subsection-title">Special Cases:</div>
+                    <div class="trick-box">
+                        <strong>💡 Number of Even Factors:</strong><br>
+                        If N = 2^a × (odd part), then<br>
+                        Even factors = a × (factors of odd part)<br><br>
+                        
+                        <strong>💡 Number of Odd Factors:</strong><br>
+                        Find factors of odd part only<br><br>
+                        
+                        <strong>Example:</strong> 60 = 2² × 15<br>
+                        Odd factors = factors of 15 = (1+1)×(1+1) = 4<br>
+                        (Factors: 1, 3, 5, 15)
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Sum of Factors -->
+            <div class="section">
+                <div class="section-title">3. Sum of Factors</div>
+                <div class="content">
+                    <div class="formula-box">
+                        <strong>FORMULA:</strong><br><br>
+                        
+                        If N = p₁^a × p₂^b × p₃^c<br><br>
+                        
+                        <strong>Sum of factors = [(p₁^(a+1) - 1)/(p₁-1)] × [(p₂^(b+1) - 1)/(p₂-1)] × [(p₃^(c+1) - 1)/(p₃-1)]</strong>
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example:</strong> Find sum of factors of 12<br><br>
+                        
+                        12 = 2² × 3¹<br><br>
+                        
+                        Sum = [(2³ - 1)/(2-1)] × [(3² - 1)/(3-1)]<br>
+                        = [(8-1)/1] × [(9-1)/2]<br>
+                        = 7 × 4 = 28 ✓<br><br>
+                        
+                        Verification: 1+2+3+4+6+12 = 28 ✓
+                    </div>
+                    
+                    <div class="trick-box">
+                        <strong>💡 Sum of Proper Divisors:</strong><br>
+                        (All factors except number itself)<br>
+                        Sum of proper divisors = Sum of all factors - N
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Product of Factors -->
+            <div class="section">
+                <div class="section-title">4. Product of Factors</div>
+                <div class="content">
+                    <div class="formula-box">
+                        <strong>FORMULA:</strong><br><br>
+                        
+                        If N has k factors, then<br><br>
+                        
+                        <strong>Product of all factors = N^(k/2)</strong><br><br>
+                        
+                        where k = number of factors
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example:</strong> Find product of factors of 12<br><br>
+                        
+                        12 = 2² × 3¹<br>
+                        Number of factors = 3 × 2 = 6<br><br>
+                        
+                        Product = 12^(6/2) = 12³ = 1728 ✓<br><br>
+                        
+                        Verification: 1×2×3×4×6×12 = 1728 ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Factorials -->
+            <div class="section">
+                <div class="section-title">5. Concept of Factorials</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Factorial (n!):</strong> Product of all positive integers from 1 to n<br><br>
+                        
+                        n! = n × (n-1) × (n-2) × ... × 3 × 2 × 1
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Examples:</strong><br>
+                        5! = 5 × 4 × 3 × 2 × 1 = 120<br>
+                        6! = 6 × 5 × 4 × 3 × 2 × 1 = 720<br>
+                        7! = 7 × 6! = 7 × 720 = 5040<br><br>
+                        
+                        <strong>Special:</strong> 0! = 1, 1! = 1
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 6: Number of Zeros in Factorial -->
+            <div class="section">
+                <div class="section-title">6. Number of Zeros in Product/Factorial</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Concept:</strong> Trailing zeros come from 10 = 2 × 5<br>
+                        Since 2s are abundant, count number of 5s in prime factorization
+                    </div>
+                    
+                    <div class="formula-box">
+                        <strong>FORMULA for n!:</strong><br><br>
+                        
+                        Number of zeros = ⌊n/5⌋ + ⌊n/25⌋ + ⌊n/125⌋ + ⌊n/625⌋ + ...<br><br>
+                        
+                        (Keep dividing by powers of 5 until quotient becomes 0)
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 1:</strong> Number of zeros in 25!<br><br>
+                        
+                        ⌊25/5⌋ = 5<br>
+                        ⌊25/25⌋ = 1<br>
+                        ⌊25/125⌋ = 0 (stop)<br><br>
+                        
+                        Total zeros = 5 + 1 = 6 ✓
+                    </example-box>
+                    
+                    <div class="example-box">
+                        <strong>Example 2:</strong> Number of zeros in 100!<br><br>
+                        
+                        ⌊100/5⌋ = 20<br>
+                        ⌊100/25⌋ = 4<br>
+                        ⌊100/125⌋ = 0<br><br>
+                        
+                        Total zeros = 20 + 4 = 24 ✓
+                    </div>
+                    
+                    <div class="trick-box">
+                        <strong>💡 QUICK TRICK:</strong><br>
+                        For number of zeros in product of consecutive numbers (not factorial):<br>
+                        Count pairs of (2,5), (4,5), (6,10), etc.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 7: Maximum Power in Factorial -->
+            <div class="section">
+                <div class="section-title">7. Finding Maximum Power in Factorial</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Question Type:</strong> Find highest power of a prime p that divides n!
+                    </div>
+                    
+                    <div class="formula-box">
+                        <strong>FORMULA:</strong><br><br>
+                        
+                        Highest power of prime p in n! =<br>
+                        ⌊n/p⌋ + ⌊n/p²⌋ + ⌊n/p³⌋ + ⌊n/p⁴⌋ + ...
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 1:</strong> Highest power of 3 in 10!<br><br>
+                        
+                        ⌊10/3⌋ = 3<br>
+                        ⌊10/9⌋ = 1<br>
+                        ⌊10/27⌋ = 0<br><br>
+                        
+                        Highest power = 3 + 1 = 4<br>
+                        So 3⁴ divides 10! ✓
+                    </example-box>
+                    
+                    <div class="example-box">
+                        <strong>Example 2:</strong> Highest power of 2 in 20!<br><br>
+                        
+                        ⌊20/2⌋ = 10<br>
+                        ⌊20/4⌋ = 5<br>
+                        ⌊20/8⌋ = 2<br>
+                        ⌊20/16⌋ = 1<br>
+                        ⌊20/32⌋ = 0<br><br>
+                        
+                        Highest power = 10 + 5 + 2 + 1 = 18<br>
+                        So 2¹⁸ divides 20! ✓
+                    </example-box>
+                    
+                    <div class="subsection-title">For Composite Numbers:</div>
+                    <div class="step-box">
+                        <strong>Steps:</strong><br>
+                        1. Find prime factorization of composite number<br>
+                        2. Find highest power of each prime in n!<br>
+                        3. Divide by powers in composite number<br>
+                        4. Take minimum
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example:</strong> Highest power of 12 in 15!<br><br>
+                        
+                        12 = 2² × 3¹<br><br>
+                        
+                        Power of 2 in 15!:<br>
+                        ⌊15/2⌋ + ⌊15/4⌋ + ⌊15/8⌋ = 7 + 3 + 1 = 11<br>
+                        Available pairs of 2² = 11/2 = 5<br><br>
+                        
+                        Power of 3 in 15!:<br>
+                        ⌊15/3⌋ + ⌊15/9⌋ = 5 + 1 = 6<br>
+                        Available 3¹ = 6<br><br>
+                        
+                        Minimum(5, 6) = 5<br>
+                        Highest power of 12 = 5 ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Practice Problems -->
+            <div class="section">
+                <div class="section-title">8. Practice Problems</div>
+                <div class="content">
+                    <div class="example-box">
+                        <strong>Problem 1:</strong> How many factors does 144 have?<br><br>
+                        
+                        144 = 2⁴ × 3²<br>
+                        Factors = (4+1) × (2+1) = 5 × 3 = 15 ✓
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Problem 2:</strong> Number of zeros in 50!<br><br>
+                        
+                        ⌊50/5⌋ + ⌊50/25⌋ + ⌊50/125⌋<br>
+                        = 10 + 2 + 0 = 12 zeros ✓
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Problem 3:</strong> Highest power of 7 in 50!<br><br>
+                        
+                        ⌊50/7⌋ + ⌊50/49⌋<br>
+                        = 7 + 1 = 8<br>
+                        7⁸ divides 50! ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Reference -->
+            <div class="section">
+                <div class="section-title">9. Quick Formula Sheet</div>
+                <div class="content">
+                    <div class="code-box">FACTORS FORMULAS:
+
+If N = p₁^a × p₂^b × p₃^c
+
+Number of factors = (a+1)(b+1)(c+1)
+
+Sum of factors = [(p₁^(a+1)-1)/(p₁-1)] × [(p₂^(b+1)-1)/(p₂-1)] × ...
+
+Product of factors = N^(k/2) where k = number of factors
+
+FACTORIAL FORMULAS:
+
+Zeros in n! = ⌊n/5⌋ + ⌊n/25⌋ + ⌊n/125⌋ + ...
+
+Highest power of p in n! = ⌊n/p⌋ + ⌊n/p²⌋ + ⌊n/p³⌋ + ...</code></div>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            <!-- CHAPTER 1.4: UNIT DIGIT AND LAST TWO DIGITS -->
+            <div class="chapter-title" id="ch4">
+                <span>🔟</span>
+                <span>Chapter 1.4 — Unit Digit and Last Two Digits</span>
+            </div>
+            
+            <!-- Section 1: Concept of Unit Digit -->
+            <div class="section">
+                <div class="section-title">1. Concept of Unit Digit</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Unit Digit:</strong> The rightmost digit (ones place) of a number<br><br>
+                        
+                        Also called: Last digit or Units place
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Examples:</strong><br>
+                        • Unit digit of 2583 = 3<br>
+                        • Unit digit of 45678 = 8<br>
+                        • Unit digit of 1000 = 0
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>Finding unit digit = Finding remainder when divided by 10</strong><br>
+                        Example: 2583 ÷ 10 → Remainder = 3 (unit digit)
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Cyclicity Method -->
+            <div class="section">
+                <div class="section-title">2. Cyclicity of Digits</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Cyclicity:</strong> Pattern in which unit digits repeat for successive powers of a number
+                    </div>
+                    
+                    <div class="code-box"><strong>CYCLICITY TABLE:</strong>
+
+Digit | Powers              | Cycle | Cyclicity
+----- | ------------------- | ----- | ---------
+0     | 0, 0, 0, 0...       | 0     | 1
+1     | 1, 1, 1, 1...       | 1     | 1
+2     | 2, 4, 8, 6, 2...    | 2,4,8,6 | 4
+3     | 3, 9, 7, 1, 3...    | 3,9,7,1 | 4
+4     | 4, 6, 4, 6...       | 4,6   | 2
+5     | 5, 5, 5, 5...       | 5     | 1
+6     | 6, 6, 6, 6...       | 6     | 1
+7     | 7, 9, 3, 1, 7...    | 7,9,3,1 | 4
+8     | 8, 4, 2, 6, 8...    | 8,4,2,6 | 4
+9     | 9, 1, 9, 1...       | 9,1   | 2</code></div>
+                    
+                    <div class="trick-box">
+                        <strong>💡 REMEMBER:</strong><br>
+                        • 0, 1, 5, 6 → Always same (cyclicity 1)<br>
+                        • 4, 9 → Alternates (cyclicity 2)<br>
+                        • 2, 3, 7, 8 → Cycle of 4 (cyclicity 4)
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Unit Digit of Powers -->
+            <div class="section">
+                <div class="section-title">3. Finding Unit Digit of Powers</div>
+                <div class="content">
+                    <div class="formula-box">
+                        <strong>METHOD:</strong><br>
+                        1. Find cyclicity of base's unit digit<br>
+                        2. Divide power by cyclicity<br>
+                        3. Use remainder to find position in cycle<br>
+                        4. If remainder = 0, use last element of cycle
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 1:</strong> Unit digit of 2^37<br><br>
+                        
+                        Unit digit of base = 2<br>
+                        Cycle of 2: 2, 4, 8, 6 (cyclicity = 4)<br><br>
+                        
+                        37 ÷ 4 → Remainder = 1<br>
+                        Position 1 in cycle = 2<br>
+                        <strong>Answer: 2</strong> ✓
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 2:</strong> Unit digit of 3^125<br><br>
+                        
+                        Unit digit of base = 3<br>
+                        Cycle of 3: 3, 9, 7, 1 (cyclicity = 4)<br><br>
+                        
+                        125 ÷ 4 → Remainder = 1<br>
+                        Position 1 in cycle = 3<br>
+                        <strong>Answer: 3</strong> ✓
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 3:</strong> Unit digit of 7^100<br><br>
+                        
+                        Unit digit of base = 7<br>
+                        Cycle of 7: 7, 9, 3, 1 (cyclicity = 4)<br><br>
+                        
+                        100 ÷ 4 → Remainder = 0<br>
+                        When remainder = 0, take last element = 1<br>
+                        <strong>Answer: 1</strong> ✓
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 4:</strong> Unit digit of 234^567<br><br>
+                        
+                        Unit digit of base = 4<br>
+                        Cycle of 4: 4, 6 (cyclicity = 2)<br><br>
+                        
+                        567 ÷ 2 → Remainder = 1<br>
+                        Position 1 in cycle = 4<br>
+                        <strong>Answer: 4</strong> ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Unit Digit of Products -->
+            <div class="section">
+                <div class="section-title">4. Unit Digit of Products/Sums</div>
+                <div class="content">
+                    <div class="formula-box">
+                        <strong>RULE:</strong><br>
+                        Unit digit of product = Unit digit of (product of unit digits)
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 1:</strong> Unit digit of (23 × 45 × 67)<br><br>
+                        
+                        Unit digits: 3 × 5 × 7<br>
+                        = 15 × 7<br>
+                        = 105<br>
+                        Unit digit = 5 ✓
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 2:</strong> Unit digit of (2^5 × 3^7 × 5^3)<br><br>
+                        
+                        Unit digit of 2^5: 5 ÷ 4 → R=1 → 2<br>
+                        Unit digit of 3^7: 7 ÷ 4 → R=3 → 7<br>
+                        Unit digit of 5^3: Always 5<br><br>
+                        
+                        Product: 2 × 7 × 5 = 70<br>
+                        <strong>Answer: 0</strong> ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Last Two Digits -->
+            <div class="section">
+                <div class="section-title">5. Finding Last Two Digits</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Last Two Digits:</strong> Rightmost two digits (tens and ones place)<br><br>
+                        
+                        Last two digits = Remainder when divided by 100
+                    </div>
+                    
+                    <div class="subsection-title">Method 1: Using Binomial Theorem</div>
+                    <div class="formula-box">
+                        <strong>For numbers ending in 1, 3, 7, 9:</strong><br>
+                        Express as (multiple of 10 ± small number)^n
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example:</strong> Last two digits of 17^20<br><br>
+                        
+                        17 = (20 - 3)<br>
+                        17^20 = (20 - 3)^20<br><br>
+                        
+                        Using binomial, we need only last two terms:<br>
+                        ... + 20C19 × 20¹ × 3¹ + 20C20 × 3^0<br>
+                        = ... + 20 × 20 × 3 + 1<br>
+                        = ... + 1200 + 1<br>
+                        = ... + 1201<br>
+                        Last two digits = 01 ✓
+                    </example-box>
+                    
+                    <div class="subsection-title">Method 2: Pattern Recognition</div>
+                    <div class="trick-box">
+                        <strong>💡 SHORTCUT for Powers of 2:</strong><br><br>
+                        
+                        2^10 = 1024 → Last two digits = 24<br>
+                        2^20 = (2^10)^2 → 24^2 = 576 → 76<br><br>
+                        
+                        Pattern repeats every 20 powers
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 1:</strong> Last two digits of 2^50<br><br>
+                        
+                        50 = 2×20 + 10<br>
+                        Last two digits of 2^10 = 24<br>
+                        <strong>Answer: 24</strong> ✓
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 2:</strong> Last two digits of 3^100<br><br>
+                        
+                        Using Euler's theorem:<br>
+                        φ(100) = 40<br>
+                        3^40 ≡ 1 (mod 100)<br>
+                        3^100 = (3^40)^2 × 3^20<br>
+                        = 1 × 3^20<br><br>
+                        
+                        Calculate 3^20 mod 100:<br>
+                        3^10 = 59049 → Last two = 49<br>
+                        3^20 = 49^2 = 2401<br>
+                        <strong>Answer: 01</strong> ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 6: Higher Powers of Natural Numbers -->
+            <div class="section">
+                <div class="section-title">6. Unit Digit of Higher Powers</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Tower/Tetration:</strong> Finding unit digit of expressions like 2^(3^4)
+                    </div>
+                    
+                    <div class="formula-box">
+                        <strong>METHOD:</strong><br>
+                        Work from top to bottom, simplifying the power using cyclicity
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 1:</strong> Unit digit of 3^(4^5)<br><br>
+                        
+                        Step 1: Find 4^5 mod 4 (cyclicity of 3)<br>
+                        4 ≡ 0 (mod 4)<br>
+                        So 4^5 ≡ 0 (mod 4)<br><br>
+                        
+                        Step 2: When power ≡ 0 (mod 4), use 4th position<br>
+                        Cycle of 3: 3, 9, 7, 1<br>
+                        4th position = 1<br>
+                        <strong>Answer: 1</strong> ✓
+                    </example-box>
+                    
+                    <div class="example-box">
+                        <strong>Example 2:</strong> Unit digit of 7^(6^5)<br><br>
+                        
+                        Step 1: Find 6^5 mod 4 (cyclicity of 7)<br>
+                        6 ≡ 2 (mod 4)<br>
+                        6^5 = (2^5) mod 4 = 32 mod 4 = 0<br><br>
+                        
+                        Step 2: Use 4th position in cycle of 7<br>
+                        Cycle of 7: 7, 9, 3, 1<br>
+                        <strong>Answer: 1</strong> ✓
+                    </example-box>
+                </div>
+            </div>
+            
+            <!-- Practice Problems -->
+            <div class="section">
+                <div class="section-title">7. Practice Problems</div>
+                <div class="content">
+                    <div class="example-box">
+                        <strong>Problem 1:</strong> Unit digit of 8^123<br><br>
+                        
+                        Cycle of 8: 8, 4, 2, 6 (cyclicity 4)<br>
+                        123 ÷ 4 → R = 3<br>
+                        Position 3 = 2<br>
+                        <strong>Answer: 2</strong> ✓
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Problem 2:</strong> Unit digit of (13^15 × 17^19)<br><br>
+                        
+                        Unit digit of 13^15:<br>
+                        Cycle of 3: 3,9,7,1<br>
+                        15 ÷ 4 → R = 3 → 7<br><br>
+                        
+                        Unit digit of 17^19:<br>
+                        Cycle of 7: 7,9,3,1<br>
+                        19 ÷ 4 → R = 3 → 3<br><br>
+                        
+                        Product: 7 × 3 = 21<br>
+                        <strong>Answer: 1</strong> ✓
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Problem 3:</strong> Last two digits of 23^45<br><br>
+                        
+                        23 = (20 + 3)<br>
+                        Use pattern or Euler's theorem<br>
+                        φ(100) = 40<br>
+                        45 = 40 + 5<br>
+                        23^45 = 23^40 × 23^5 ≡ 1 × 23^5<br>
+                        Calculate 23^5 mod 100<br>
+                        <strong>Answer: 07</strong> ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Reference -->
+            <div class="section">
+                <div class="section-title">8. Quick Reference</div>
+                <div class="content">
+                    <div class="code-box">CYCLICITY PATTERNS:
+
+Always Same (Cyclicity 1):
+0 → 0
+1 → 1
+5 → 5
+6 → 6
+
+Alternates (Cyclicity 2):
+4 → 4, 6
+9 → 9, 1
+
+Cycle of 4:
+2 → 2, 4, 8, 6
+3 → 3, 9, 7, 1
+7 → 7, 9, 3, 1
+8 → 8, 4, 2, 6
+
+QUICK TIPS:
+• Any number^even ending in 5 → Last digit = 25
+• Any odd number^4 → Last digit = 1
+• Power of 2: Pattern repeats every 20
+• Power of 3: Pattern repeats every 20</code></div>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            <!-- CHAPTER 1.5: INEQUALITY & SYMBOPERATION -->
+            <div class="chapter-title" id="ch5">
+                <span>⚖️</span>
+                <span>Chapter 1.5 — Inequality & Symboperation</span>
+            </div>
+            
+            <!-- Section 1: Concept of Inequalities -->
+            <div class="section">
+                <div class="section-title">1. Concept of Inequalities</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Inequality:</strong> Mathematical statement showing relationship between two expressions that are not equal<br><br>
+                        
+                        <strong>Symbols:</strong><br>
+                        > : Greater than<br>
+                        < : Less than<br>
+                        ≥ : Greater than or equal to<br>
+                        ≤ : Less than or equal to<br>
+                        ≠ : Not equal to
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Examples:</strong><br>
+                        • 5 > 3 (5 is greater than 3)<br>
+                        • x < 10 (x is less than 10)<br>
+                        • y ≥ 0 (y is greater than or equal to 0)<br>
+                        • a + b ≤ 100 (sum is at most 100)
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Properties of Inequalities -->
+            <div class="section">
+                <div class="section-title">2. Properties of Inequalities</div>
+                <div class="content">
+                    <div class="formula-box">
+                        <strong>Property 1:</strong> Adding/Subtracting same number<br>
+                        If a > b, then a + c > b + c<br>
+                        If a > b, then a - c > b - c<br><br>
+                        
+                        <strong>Property 2:</strong> Multiplying/Dividing by positive number<br>
+                        If a > b and c > 0, then a × c > b × c<br>
+                        If a > b and c > 0, then a ÷ c > b ÷ c<br><br>
+                        
+                        <strong>Property 3:</strong> Multiplying/Dividing by negative number<br>
+                        If a > b and c < 0, then a × c < b × c (sign reverses)<br>
+                        If a > b and c < 0, then a ÷ c < b ÷ c (sign reverses)
+                    </formula-box>
+                    
+                    <div class="example-box">
+                        <strong>Example:</strong><br>
+                        If x > 5<br>
+                        Add 3: x + 3 > 5 + 3 → x + 3 > 8 ✓<br>
+                        Multiply by 2: 2x > 10 ✓<br>
+                        Multiply by -1: -x < -5 (sign reverses) ✓
+                    </div>
+                    
+                    <div class="trick-box">
+                        <strong>💡 REMEMBER:</strong><br>
+                        When multiplying/dividing by NEGATIVE number → FLIP the inequality sign!
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Solving Inequalities -->
+            <div class="section">
+                <div class="section-title">3. Solving Linear Inequalities</div>
+                <div class="content">
+                    <div class="formula-box">
+                        <strong>METHOD:</strong><br>
+                        1. Isolate variable on one side<br>
+                        2. Perform same operations on both sides<br>
+                        3. Remember to flip sign if multiplying/dividing by negative
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 1:</strong> Solve 2x + 3 > 11<br><br>
+                        
+                        2x + 3 > 11<br>
+                        2x > 11 - 3<br>
+                        2x > 8<br>
+                        x > 4 ✓
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 2:</strong> Solve -3x ≤ 12<br><br>
+                        
+                        -3x ≤ 12<br>
+                        Divide by -3 (flip sign!)<br>
+                        x ≥ -4 ✓
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 3:</strong> Solve 5 - 2x < 15<br><br>
+                        
+                        5 - 2x < 15<br>
+                        -2x < 15 - 5<br>
+                        -2x < 10<br>
+                        Divide by -2 (flip sign!)<br>
+                        x > -5 ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Coded Inequalities -->
+            <div class="section">
+                <div class="section-title">4. Coded Inequalities (Passage Based)</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Coded Inequality:</strong> Inequalities represented by symbols (like @, #, $, %, &) instead of standard symbols
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example Question:</strong><br><br>
+                        
+                        <strong>Given Code:</strong><br>
+                        A @ B means A > B<br>
+                        A # B means A < B<br>
+                        A $ B means A ≥ B<br>
+                        A % B means A ≤ B<br>
+                        A & B means A = B<br><br>
+                        
+                        <strong>Statement:</strong> P @ Q, Q $ R, R # S<br>
+                        <strong>Question:</strong> Which is true?<br><br>
+                        
+                        <strong>Solution:</strong><br>
+                        P @ Q → P > Q<br>
+                        Q $ R → Q ≥ R<br>
+                        R # S → R < S<br><br>
+                        
+                        Combining: P > Q ≥ R < S<br>
+                        <strong>Conclusion:</strong> P > R ✓, but cannot compare P and S
+                    </div>
+                    
+                    <div class="trick-box">
+                        <strong>💡 QUICK APPROACH:</strong><br>
+                        1. Decode all symbols first<br>
+                        2. Write in sequence<br>
+                        3. Check each option systematically<br>
+                        4. Look for direct comparisons
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Symboperation -->
+            <div class="section">
+                <div class="section-title">5. Symboperation (Basic Operations)</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Symboperation:</strong> Problems where mathematical operations (+, -, ×, ÷) are replaced by symbols<br><br>
+                        
+                        Need to decode the pattern and solve
+                    </div>
+                    
+                    <div class="subsection-title">BODMAS Rule:</div>
+                    <div class="formula-box">
+                        <strong>Order of Operations:</strong><br><br>
+                        
+                        <strong>B</strong> - Brackets ( )<br>
+                        <strong>O</strong> - Orders (powers, roots)<br>
+                        <strong>D</strong> - Division ÷<br>
+                        <strong>M</strong> - Multiplication ×<br>
+                        <strong>A</strong> - Addition +<br>
+                        <strong>S</strong> - Subtraction -
+                    </formula-box>
+                    
+                    <div class="example-box">
+                        <strong>Example:</strong> 10 + 5 × 3 - 4 ÷ 2<br><br>
+                        
+                        Step 1: Multiplication → 5 × 3 = 15<br>
+                        Step 2: Division → 4 ÷ 2 = 2<br>
+                        Step 3: Addition → 10 + 15 = 25<br>
+                        Step 4: Subtraction → 25 - 2 = 23 ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 6: Converting Symbols -->
+            <div class="section">
+                <div class="section-title">6. Symbol Substitution Problems</div>
+                <div class="content">
+                    <div class="example-box">
+                        <strong>Type 1: Given Code</strong><br><br>
+                        
+                        <strong>Code:</strong><br>
+                        A @ B = A + B<br>
+                        A # B = A - B<br>
+                        A $ B = A × B<br>
+                        A % B = A ÷ B<br><br>
+                        
+                        <strong>Question:</strong> Find value of (12 @ 8) $ (10 # 4)<br><br>
+                        
+                        <strong>Solution:</strong><br>
+                        (12 @ 8) = 12 + 8 = 20<br>
+                        (10 # 4) = 10 - 4 = 6<br>
+                        20 $ 6 = 20 × 6 = 120 ✓
+                    </example-box>
+                    
+                    <div class="example-box">
+                        <strong>Type 2: Find Missing Operation</strong><br><br>
+                        
+                        <strong>Question:</strong> If 5 ? 3 ? 2 = 13, find the operations<br><br>
+                        
+                        <strong>Try combinations:</strong><br>
+                        5 + 3 + 2 = 10 ✗<br>
+                        5 + 3 × 2 = 5 + 6 = 11 ✗<br>
+                        5 × 3 - 2 = 15 - 2 = 13 ✓<br><br>
+                        
+                        <strong>Answer:</strong> 5 × 3 - 2 = 13
+                    </example-box>
+                    
+                    <div class="example-box">
+                        <strong>Type 3: Make Equation True</strong><br><br>
+                        
+                        <strong>Question:</strong> Make true: 8 _ 4 _ 2 = 10<br><br>
+                        
+                        <strong>Try:</strong><br>
+                        8 + 4 - 2 = 10 ✓<br>
+                        8 - 4 + 6 ✗ (but 6 not available)<br>
+                        8 × 4 ÷ 2 = 16 ✗<br><br>
+                        
+                        <strong>Answer:</strong> 8 + 4 - 2 = 10
+                    </example-box>
+                </div>
+            </div>
+            
+            <!-- Section 7: Practice Problems -->
+            <div class="section">
+                <div class="section-title">7. Mixed Practice Problems</div>
+                <div class="content">
+                    <div class="example-box">
+                        <strong>Problem 1 (Inequality):</strong><br>
+                        If 3x - 5 ≤ 10, find maximum integer value of x<br><br>
+                        
+                        3x - 5 ≤ 10<br>
+                        3x ≤ 15<br>
+                        x ≤ 5<br>
+                        <strong>Answer: 5</strong> ✓
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Problem 2 (Coded Inequality):</strong><br><br>
+                        
+                        <strong>Code:</strong> P > Q, Q = R, R < S<br>
+                        <strong>Question:</strong> Is P > S?<br><br>
+                        
+                        P > Q = R < S<br>
+                        P > R and R < S<br>
+                        Cannot determine relation between P and S<br>
+                        <strong>Answer: Cannot say</strong>
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Problem 3 (Symboperation):</strong><br><br>
+                        
+                        If @ means +, # means -, $ means ×<br>
+                        Find: (8 @ 4) $ (6 # 2)<br><br>
+                        
+                        (8 + 4) × (6 - 2)<br>
+                        = 12 × 4<br>
+                        = 48 ✓
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Problem 4 (BODMAS):</strong><br>
+                        Solve: 20 - 5 + 3 × 4 ÷ 2<br><br>
+                        
+                        Step 1: 3 × 4 = 12<br>
+                        Step 2: 12 ÷ 2 = 6<br>
+                        Step 3: 20 - 5 = 15<br>
+                        Step 4: 15 + 6 = 21 ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 8: Common Mistakes -->
+            <div class="section">
+                <div class="section-title">8. Common Mistakes to Avoid</div>
+                <div class="content">
+                    <div class="threat-box">
+                        <strong>⚠️ WATCH OUT:</strong><br><br>
+                        
+                        <strong>Mistake 1:</strong> Forgetting to flip inequality sign<br>
+                        -2x > 6 → x > -3 ✗ (Wrong!)<br>
+                        -2x > 6 → x < -3 ✓ (Correct - flip sign)<br><br>
+                        
+                        <strong>Mistake 2:</strong> Wrong BODMAS order<br>
+                        5 + 3 × 2 = 16 ✗ (Wrong! Did addition first)<br>
+                        5 + 3 × 2 = 5 + 6 = 11 ✓ (Correct - multiply first)<br><br>
+                        
+                        <strong>Mistake 3:</strong> Mixing up symbols<br>
+                        Always decode first, then solve<br><br>
+                        
+                        <strong>Mistake 4:</strong> In coded inequalities<br>
+                        Not checking if comparison is possible<br>
+                        A > B, C < D doesn't mean A > C
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Reference -->
+            <div class="section">
+                <div class="section-title">9. Quick Reference Guide</div>
+                <div class="content">
+                    <div class="code-box">INEQUALITY RULES:
+
+Add/Subtract: No change in sign
+Multiply/Divide by positive: No change
+Multiply/Divide by negative: FLIP SIGN
+
+BODMAS ORDER:
+1. Brackets ( )
+2. Orders (powers ^)
+3. Division ÷
+4. Multiplication ×
+5. Addition +
+6. Subtraction -
+
+COMMON SYMBOLS:
+@ = Addition
+# = Subtraction
+$ = Multiplication
+% = Division
+& = Equal to
+
+STRATEGY:
+1. Decode all symbols first
+2. Follow BODMAS
+3. Solve step by step
+4. Check your answer</code></div>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            <!-- CHAPTER 1.6: PROFIT AND LOSS -->
+            <div class="chapter-title" id="ch6">
+                <span>💰</span>
+                <span>Chapter 1.6 — Profit and Loss</span>
+            </div>
+            
+            <!-- Section 1: Basic Concepts -->
+            <div class="section">
+                <div class="section-title">1. Basic Concepts</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Cost Price (CP):</strong> Price at which article is purchased<br>
+                        <strong>Selling Price (SP):</strong> Price at which article is sold<br>
+                        <strong>Marked Price (MP):</strong> Price printed on article<br><br>
+                        
+                        <strong>Profit:</strong> When SP > CP → Profit = SP - CP<br>
+                        <strong>Loss:</strong> When SP < CP → Loss = CP - SP
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example:</strong> Pen bought for ₹80, sold for ₹100<br>
+                        Profit = 100 - 80 = ₹20
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Profit/Loss Percent -->
+            <div class="section">
+                <div class="section-title">2. Profit and Loss Percentage</div>
+                <div class="content">
+                    <div class="formula-box">
+                        <strong>Profit % = (Profit/CP) × 100</strong><br>
+                        <strong>Loss % = (Loss/CP) × 100</strong><br><br>
+                        
+                        <strong>SP = CP × (100+P%)/100</strong> [Profit]<br>
+                        <strong>SP = CP × (100-L%)/100</strong> [Loss]<br><br>
+                        
+                        <strong>CP = (SP × 100)/(100+P%)</strong><br>
+                        <strong>CP = (SP × 100)/(100-L%)</strong>
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Ex 1:</strong> CP=₹500, SP=₹600. Profit %?<br>
+                        Profit = 100, Profit % = (100/500)×100 = 20% ✓<br><br>
+                        
+                        <strong>Ex 2:</strong> CP=₹800, Loss=10%. SP?<br>
+                        SP = 800 × 0.9 = ₹720 ✓<br><br>
+                        
+                        <strong>Ex 3:</strong> SP=₹900, Profit=20%. CP?<br>
+                        CP = (900×100)/120 = ₹750 ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Dishonest Shopkeeper -->
+            <div class="section">
+                <div class="section-title">3. Dishonest Shopkeeper</div>
+                <div class="content">
+                    <div class="formula-box">
+                        <strong>Profit % = [(1000-x)/x] × 100</strong><br>
+                        (x = false weight in grams)
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Ex:</strong> Uses 900g instead of 1kg at CP<br>
+                        Profit % = [(1000-900)/900]×100 = 11.11% ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Discount -->
+            <div class="section">
+                <div class="section-title">4. Discount</div>
+                <div class="content">
+                    <div class="formula-box">
+                        <strong>Discount % = (Discount/MP) × 100</strong><br>
+                        <strong>SP = MP × (100-D%)/100</strong>
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Ex:</strong> MP=₹1000, Discount=20%<br>
+                        SP = 1000 × 0.8 = ₹800 ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Successive Discounts -->
+            <div class="section">
+                <div class="section-title">5. Successive Discounts</div>
+                <div class="content">
+                    <div class="formula-box">
+                        <strong>Single = d₁ + d₂ - (d₁×d₂)/100</strong>
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Ex:</strong> 20% and 10%<br>
+                        Single = 20+10-(20×10)/100 = 28% ✓
+                    </div>
+                    
+                    <div class="trick-box">
+                        <strong>💡 Quick:</strong> 0.8 × 0.9 = 0.72 → Discount = 28%
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 6: MP + Discount + Profit -->
+            <div class="section">
+                <div class="section-title">6. Marked Price with Profit</div>
+                <div class="content">
+                    <div class="example-box">
+                        <strong>Ex:</strong> CP=₹500, MP 40% above, sold at 20% discount<br><br>
+                        
+                        MP = 500 × 1.4 = ₹700<br>
+                        SP = 700 × 0.8 = ₹560<br>
+                        Profit % = (60/500)×100 = 12% ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Practice -->
+            <div class="section">
+                <div class="section-title">7. Practice Problems</div>
+                <div class="content">
+                    <div class="example-box">
+                        <strong>P1:</strong> Two successive discounts 25% and 20%<br>
+                        Single = 25+20-(25×20)/100 = 40% ✓<br><br>
+                        
+                        <strong>P2:</strong> Dishonest gains 20% using false weight<br>
+                        20 = [(1000-x)/x]×100<br>
+                        x = 833.33 gm ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Reference -->
+            <div class="section">
+                <div class="section-title">8. Formula Sheet</div>
+                <div class="content">
+                    <div class="code-box">PROFIT/LOSS:
+Profit % = (Profit/CP) × 100
+SP = CP × (100±%)/100
+
+DISCOUNT:
+Discount % = (Discount/MP) × 100
+SP = MP × (100-D%)/100
+
+SUCCESSIVE:
+d₁ + d₂ - (d₁×d₂)/100
+
+DISHONEST:
+Profit % = [(1000-x)/x] × 100</code></div>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
