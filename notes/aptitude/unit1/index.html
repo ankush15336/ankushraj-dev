@@ -5,734 +5,115 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aptitude - Unit 1 | ankushraj.dev</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        :root {
-            --primary: #3b82f6;
-            --secondary: #8b5cf6;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --text: #333;
-            --text-light: #6b7280;
-            --bg: #f5f7fa;
-            --card-bg: #ffffff;
-            --border: #e5e7eb;
-            --code-bg: #f3f4f6;
-        }
-        
-        body.dark-mode {
-            --text: #f0f0f0;
-            --text-light: #9ca3af;
-            --bg: #111827;
-            --card-bg: #1f2937;
-            --border: #374151;
-            --code-bg: #374151;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            transition: background 0.3s, color 0.3s;
-        }
-        
-        /* Print Styles */
-        @media print {
-            @page {
-                margin: 15mm 10mm 12mm 10mm;
-                size: A4;
-            }
-            
-            body {
-                font-size: 13px;
-                line-height: 1.45;
-            }
-            
-            body::before {
-                content: "ankushraj.dev";
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%) rotate(-45deg);
-                font-size: 70px;
-                font-weight: 200;
-                color: rgba(0, 0, 0, 0.04);
-                z-index: -1;
-            }
-            
-            .header-controls, .tabs-container, .toc-panel, .overlay {
-                display: none !important;
-            }
-        }
-        
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            padding: 12px 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        
-        .header-title {
-            text-align: center;
-        }
-        
-        .header-title h1 {
-            font-size: 24px;
-            font-weight: 800;
-            margin-bottom: 4px;
-        }
-        
-        .header-title p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-        
-        .header-controls {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 12px;
-        }
-        
-        .btn {
-            flex: 1;
-            max-width: 150px;
-            padding: 10px 16px;
-            border: none;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.25);
-            color: white;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-        
-        .btn:hover {
-            background: rgba(255, 255, 255, 0.35);
-            transform: translateY(-2px);
-        }
-        
-        /* Tabs */
-        .tabs-container {
-            background: var(--card-bg);
-            border-bottom: 2px solid var(--border);
-            display: flex;
-        }
-        
-        .tab {
-            flex: 1;
-            padding: 16px;
-            text-align: center;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            color: var(--text-light);
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
-        }
-        
-        .tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-            background: rgba(59, 130, 246, 0.05);
-        }
-        
-        /* TOC Panel */
-        .toc-panel {
-            display: none;
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 85%;
-            max-width: 320px;
-            height: 100vh;
-            background: var(--card-bg);
-            z-index: 1000;
-            overflow-y: auto;
-            box-shadow: 4px 0 12px rgba(0,0,0,0.2);
-            transform: translateX(-100%);
-            transition: transform 0.3s ease;
-        }
-        
-        .toc-panel.active {
-            display: block;
-            transform: translateX(0);
-        }
-        
-        .toc-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            padding: 16px;
-            font-size: 16px;
-            font-weight: 700;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .toc-close {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            font-size: 18px;
-            cursor: pointer;
-        }
-        
-        .toc-list {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .toc-list li {
-            padding: 14px 16px;
-            font-size: 13px;
-            border-bottom: 1px solid var(--border);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .toc-list li:hover {
-            background: var(--bg);
-            color: var(--primary);
-            padding-left: 24px;
-        }
-        
-        /* Overlay */
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 999;
-        }
-        
-        .overlay.active {
-            display: block;
-        }
-        
-        /* Container */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 12px;
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.4s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .chapter-title {
-            font-size: 18px;
-            font-weight: 800;
-            color: white;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            padding: 14px 16px;
-            margin-bottom: 16px;
-            margin-left: -12px;
-            margin-right: -12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .section {
-            margin-bottom: 24px;
-        }
-        
-        .section-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 10px;
-            padding-bottom: 6px;
-            border-bottom: 2px solid var(--primary);
-        }
-        
-        .subsection-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text);
-            margin-top: 12px;
-            margin-bottom: 6px;
-        }
-        
-        .content p {
-            margin-bottom: 10px;
-            font-size: 14px;
-            line-height: 1.65;
-        }
-        
-        /* Content Boxes */
-        .definition-box, .code-box, .advantage-box, .threat-box, 
-        .step-box, .example-box, .mindmap-box, .note-box, .formula-box, .trick-box {
-            padding: 12px;
-            border-radius: 8px;
-            margin: 10px 0;
-            font-size: 13px;
-            line-height: 1.65;
-        }
-        
-        .definition-box {
-            background: rgba(59, 130, 246, 0.1);
-            border-left: 4px solid var(--primary);
-        }
-        
-        .code-box {
-            background: var(--code-bg);
-            border-left: 4px solid #6b7280;
-            font-family: 'Courier New', monospace;
-            overflow-x: auto;
-            white-space: pre-wrap;
-        }
-        
-        .advantage-box {
-            background: rgba(16, 185, 129, 0.1);
-            border-left: 4px solid var(--success);
-        }
-        
-        .threat-box {
-            background: rgba(239, 68, 68, 0.1);
-            border-left: 4px solid var(--danger);
-        }
-        
-        .step-box {
-            background: rgba(245, 158, 11, 0.1);
-            border-left: 4px solid var(--warning);
-        }
-        
-        .example-box {
-            background: rgba(139, 92, 246, 0.1);
-            border-left: 4px solid var(--secondary);
-        }
-        
-        .mindmap-box {
-            background: rgba(139, 92, 246, 0.05);
-            border: 2px dashed var(--secondary);
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .note-box {
-            background: rgba(245, 158, 11, 0.1);
-            border-left: 4px solid var(--warning);
-        }
-        
-        .formula-box {
-            background: rgba(139, 92, 246, 0.1);
-            border-left: 4px solid var(--secondary);
-            font-family: 'Courier New', monospace;
-        }
-        
-        .trick-box {
-            background: rgba(16, 185, 129, 0.1);
-            border-left: 4px solid var(--success);
-        }
-        
-        .point {
-            margin-left: 18px;
-            margin-bottom: 6px;
-            font-size: 13px;
-            position: relative;
-        }
-        
-        .point::before {
-            content: "•";
-            position: absolute;
-            left: -14px;
-            color: var(--primary);
-            font-weight: 700;
-        }
-        
-        .divider {
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--border), transparent);
-            margin: 24px 0;
-        }
-        
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 16px;
-            background: var(--card-bg);
-            border-top: 2px solid var(--border);
-            margin-top: 32px;
-        }
-        
-        .footer-credit {
-            font-size: 14px;
-            color: var(--text);
-            font-weight: 600;
-        }
-        
-        .footer-credit strong {
-            color: var(--primary);
-        }
-        
-        .footer-note {
-            font-size: 11px;
-            color: var(--text-light);
-            margin-top: 4px;
-        }
-        
-        /* Responsive */
-        @media (min-width: 768px) {
-            .container { padding: 16px; }
-            .header { padding: 14px 20px; }
-            .header-title h1 { font-size: 28px; }
-            .chapter-title { font-size: 20px; padding: 16px 20px; }
-            .section-title { font-size: 18px; }
-            .content p { font-size: 15px; }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #3b82f6; --secondary: #8b5cf6; --success: #10b981; --warning: #f59e0b; --danger: #ef4444; --text: #333; --text-light: #6b7280; --bg: #f5f7fa; --card-bg: #ffffff; --border: #e5e7eb; --code-bg: #f3f4f6; }
+        body.dark-mode { --text: #f0f0f0; --text-light: #9ca3af; --bg: #111827; --card-bg: #1f2937; --border: #374151; --code-bg: #374151; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; transition: background 0.3s, color 0.3s; }
+        @media print { @page { margin: 15mm 10mm 12mm 10mm; size: A4; } body { font-size: 13px; line-height: 1.45; } body::before { content: "ankushraj.dev"; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); font-size: 70px; font-weight: 200; color: rgba(0, 0, 0, 0.04); z-index: -1; } .header-controls, .tabs-container, .toc-panel, .overlay { display: none !important; } }
+        .header { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; padding: 12px 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .header-title { text-align: center; } .header-title h1 { font-size: 24px; font-weight: 800; margin-bottom: 4px; } .header-title p { font-size: 14px; opacity: 0.9; }
+        .header-controls { display: flex; gap: 10px; justify-content: center; margin-top: 12px; }
+        .btn { flex: 1; max-width: 150px; padding: 10px 16px; border: none; border-radius: 10px; background: rgba(255, 255, 255, 0.25); color: white; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .btn:hover { background: rgba(255, 255, 255, 0.35); transform: translateY(-2px); }
+        .tabs-container { background: var(--card-bg); border-bottom: 2px solid var(--border); display: flex; }
+        .tab { flex: 1; padding: 16px; text-align: center; font-weight: 600; font-size: 14px; cursor: pointer; color: var(--text-light); border-bottom: 3px solid transparent; transition: all 0.3s; }
+        .tab.active { color: var(--primary); border-bottom-color: var(--primary); background: rgba(59, 130, 246, 0.05); }
+        .toc-panel { display: none; position: fixed; left: 0; top: 0; width: 85%; max-width: 320px; height: 100vh; background: var(--card-bg); z-index: 1000; overflow-y: auto; box-shadow: 4px 0 12px rgba(0,0,0,0.2); transform: translateX(-100%); transition: transform 0.3s ease; }
+        .toc-panel.active { display: block; transform: translateX(0); }
+        .toc-header { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; padding: 16px; font-size: 16px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .toc-close { background: rgba(255, 255, 255, 0.2); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; font-size: 18px; cursor: pointer; }
+        .toc-list { list-style: none; padding: 0; }
+        .toc-list li { padding: 14px 16px; font-size: 13px; border-bottom: 1px solid var(--border); cursor: pointer; transition: all 0.2s; }
+        .toc-list li:hover { background: var(--bg); color: var(--primary); padding-left: 24px; }
+        .overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; }
+        .overlay.active { display: block; }
+        .container { max-width: 900px; margin: 0 auto; padding: 12px; }
+        .tab-content { display: none; } .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .chapter-title { font-size: 18px; font-weight: 800; color: white; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); padding: 14px 16px; margin-bottom: 16px; margin-left: -12px; margin-right: -12px; display: flex; align-items: center; gap: 10px; }
+        .section { margin-bottom: 24px; }
+        .section-title { font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 2px solid var(--primary); }
+        .subsection-title { font-size: 14px; font-weight: 700; color: var(--text); margin-top: 12px; margin-bottom: 6px; }
+        .content p { margin-bottom: 10px; font-size: 14px; line-height: 1.65; }
+        .definition-box, .code-box, .advantage-box, .threat-box, .step-box, .example-box, .mindmap-box, .note-box, .formula-box, .trick-box { padding: 12px; border-radius: 8px; margin: 10px 0; font-size: 13px; line-height: 1.65; }
+        .definition-box { background: rgba(59, 130, 246, 0.1); border-left: 4px solid var(--primary); }
+        .code-box { background: var(--code-bg); border-left: 4px solid #6b7280; font-family: 'Courier New', monospace; overflow-x: auto; white-space: pre-wrap; }
+        .example-box { background: rgba(139, 92, 246, 0.1); border-left: 4px solid var(--secondary); }
+        .mindmap-box { background: rgba(139, 92, 246, 0.05); border: 2px dashed var(--secondary); text-align: center; padding: 20px; }
+        .note-box { background: rgba(245, 158, 11, 0.1); border-left: 4px solid var(--warning); }
+        .formula-box { background: rgba(139, 92, 246, 0.1); border-left: 4px solid var(--secondary); font-family: 'Courier New', monospace; }
+        .trick-box { background: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--success); }
+        .point { margin-left: 18px; margin-bottom: 6px; font-size: 13px; position: relative; }
+        .point::before { content: "•"; position: absolute; left: -14px; color: var(--primary); font-weight: 700; }
+        .divider { height: 2px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 24px 0; }
+        @media (min-width: 768px) { .container { padding: 16px; } .header { padding: 14px 20px; } .header-title h1 { font-size: 28px; } .chapter-title { font-size: 20px; padding: 16px 20px; } .section-title { font-size: 18px; } .content p { font-size: 15px; } }
     </style>
 </head>
 <body>
-    <!-- TOC Panel -->
     <div class="toc-panel" id="tocPanel">
-        <div class="toc-header">
-            <span>📚 Chapters</span>
-            <button class="toc-close" onclick="closeTOC()">×</button>
-        </div>
+        <div class="toc-header"><span>📚 Chapters</span><button class="toc-close" onclick="closeTOC()">×</button></div>
         <ul class="toc-list" id="tocList"></ul>
     </div>
-    
-    <!-- Overlay -->
     <div class="overlay" id="overlay" onclick="closeTOC()"></div>
-    
-    <!-- Header -->
     <div class="header">
-        <div class="header-title">
-            <h1>Aptitude & Reasoning</h1>
-            <p>Unit 1 - Number System & Arithmetic</p>
-        </div>
-        
+        <div class="header-title"><h1>Aptitude & Reasoning</h1><p>Unit 1 - Number System & Arithmetic</p></div>
         <div class="header-controls">
-            <button class="btn" onclick="openTOC()">
-                <span>📑</span><span>Chapters</span>
-            </button>
-            <button class="btn" id="darkModeBtn" onclick="toggleDarkMode()">
-                <span>🌙</span><span>Dark</span>
-            </button>
-            <button class="btn" onclick="window.print()">
-                <span>📥</span><span>PDF</span>
-            </button>
+            <button class="btn" onclick="openTOC()"><span>📑</span><span>Chapters</span></button>
+            <button class="btn" id="darkModeBtn" onclick="toggleDarkMode()"><span>🌙</span><span>Dark</span></button>
+            <button class="btn" onclick="window.print()"><span>📥</span><span>PDF</span></button>
         </div>
     </div>
-    
-    <!-- Tabs -->
     <div class="tabs-container">
         <div class="tab active" onclick="switchTab('full')">📖 Full Notes</div>
         <div class="tab" onclick="switchTab('lastmin')">⚡ Quick Tricks</div>
     </div>
-    
-    <!-- Content -->
     <div class="container">
-        <!-- FULL NOTES TAB -->
         <div class="tab-content active" id="fullNotesTab">
+            <div class="chapter-title" id="ch1"><span>🔢</span><span>Chapter 1.1 — Divisibility Rules</span></div>
             
-            <!-- CHAPTER 1.1: DIVISIBILITY RULES -->
-            <div class="chapter-title" id="ch1">
-                <span>🔢</span>
-                <span>Chapter 1.1 — Divisibility Rules</span>
-            </div>
-            
-            <!-- Mind Map -->
             <div class="section">
                 <div class="mindmap-box">
-                    <strong style="color: var(--secondary); font-size: 16px;">📊 DIVISIBILITY RULES - MIND MAP</strong>
+                    <strong style="color: var(--secondary); font-size: 16px;">📊 DIVISIBILITY RULES</strong>
                     <div style="margin-top: 15px; text-align: left; max-width: 700px; margin-left: auto; margin-right: auto;">
-                        <div class="point">Divisibility by 2: Last digit even (0,2,4,6,8)</div>
-                        <div class="point">Divisibility by 3: Sum of digits divisible by 3</div>
-                        <div class="point">Divisibility by 4: Last 2 digits divisible by 4</div>
-                        <div class="point">Divisibility by 7: Special method (multiply, subtract)</div>
-                        <div class="point">Divisibility by 9: Sum of digits divisible by 9</div>
-                        <div class="point">Divisibility by 11: (Sum odd places - Sum even places) divisible by 11</div>
-                        <div class="point">Composite Numbers: Divisible by 1001 = 7 × 11 × 13</div>
+                        <div class="point">2: Last digit even | 3: Sum ÷ 3 | 4: Last 2 digits ÷ 4</div>
+                        <div class="point">7: Special method | 8: Last 3 digits ÷ 8 | 9: Sum ÷ 9</div>
+                        <div class="point">11: (Odd - Even) ÷ 11 | 1001 = 7 × 11 × 13</div>
                     </div>
                 </div>
             </div>
             
-            <!-- Section 1: Divisibility by 2 -->
             <div class="section">
-                <div class="section-title">1. Divisibility Rule of 2</div>
+                <div class="section-title">All Divisibility Rules</div>
                 <div class="content">
-                    <div class="formula-box">
-                        <strong>RULE:</strong><br>
-                        A number is divisible by 2 if its last digit is even (0, 2, 4, 6, 8)
-                    </div>
+                    <div class="code-box"><strong>2:</strong> Last digit even (0,2,4,6,8)
+<strong>3:</strong> Sum of digits divisible by 3
+<strong>4:</strong> Last 2 digits divisible by 4
+<strong>5:</strong> Last digit 0 or 5
+<strong>6:</strong> Divisible by both 2 AND 3
+<strong>7:</strong> Remove last digit, double it, subtract from remaining
+<strong>8:</strong> Last 3 digits divisible by 8
+<strong>9:</strong> Sum of digits divisible by 9
+<strong>10:</strong> Last digit is 0
+<strong>11:</strong> (Sum of odd positions - Sum of even positions) ÷ 11</code></div>
                     
+                    <div class="subsection-title">Examples:</div>
                     <div class="example-box">
-                        <strong>Examples:</strong><br>
-                        • 124 → Last digit = 4 (even) → Divisible by 2 ✓<br>
-                        • 357 → Last digit = 7 (odd) → NOT divisible by 2 ✗<br>
-                        • 8980 → Last digit = 0 (even) → Divisible by 2 ✓
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Section 2: Divisibility by 3 -->
-            <div class="section">
-                <div class="section-title">2. Divisibility Rule of 3</div>
-                <div class="content">
-                    <div class="formula-box">
-                        <strong>RULE:</strong><br>
-                        A number is divisible by 3 if the SUM of its digits is divisible by 3
+                        <strong>Rule 3:</strong> 132 → 1+3+2=6 → 6÷3 ✓<br>
+                        <strong>Rule 7:</strong> 133 → 13-(3×2)=7 → 7÷7 ✓<br>
+                        <strong>Rule 11:</strong> 4587 → (7+5)-(8+4)=0 ✓
                     </div>
                     
-                    <div class="example-box">
-                        <strong>Example 1:</strong> Is 132 divisible by 3?<br>
-                        Sum of digits = 1 + 3 + 2 = 6<br>
-                        6 is divisible by 3 → Yes, 132 is divisible by 3 ✓<br><br>
-                        
-                        <strong>Example 2:</strong> Is 2574 divisible by 3?<br>
-                        Sum of digits = 2 + 5 + 7 + 4 = 18<br>
-                        18 is divisible by 3 → Yes, 2574 is divisible by 3 ✓<br><br>
-                        
-                        <strong>Example 3:</strong> Is 247 divisible by 3?<br>
-                        Sum of digits = 2 + 4 + 7 = 13<br>
-                        13 is NOT divisible by 3 → No, 247 is NOT divisible by 3 ✗
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Section 3: Divisibility by 4 -->
-            <div class="section">
-                <div class="section-title">3. Divisibility Rule of 4</div>
-                <div class="content">
-                    <div class="formula-box">
-                        <strong>RULE:</strong><br>
-                        A number is divisible by 4 if its LAST TWO DIGITS form a number divisible by 4
-                    </div>
-                    
-                    <div class="example-box">
-                        <strong>Example 1:</strong> Is 3216 divisible by 4?<br>
-                        Last two digits = 16<br>
-                        16 ÷ 4 = 4 → Yes, divisible by 4 ✓<br><br>
-                        
-                        <strong>Example 2:</strong> Is 7524 divisible by 4?<br>
-                        Last two digits = 24<br>
-                        24 ÷ 4 = 6 → Yes, divisible by 4 ✓<br><br>
-                        
-                        <strong>Example 3:</strong> Is 1234 divisible by 4?<br>
-                        Last two digits = 34<br>
-                        34 ÷ 4 = 8.5 → No, NOT divisible by 4 ✗
-                    </div>
-                    
+                    <div class="subsection-title">Composite Numbers:</div>
                     <div class="trick-box">
-                        <strong>💡 QUICK TRICK:</strong><br>
-                        Numbers ending in 00, 04, 08, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68, 72, 76, 80, 84, 88, 92, 96 are divisible by 4
+                        <strong>6 = 2×3:</strong> Check both 2 AND 3<br>
+                        <strong>12 = 3×4:</strong> Check both 3 AND 4<br>
+                        <strong>15 = 3×5:</strong> Check both 3 AND 5<br><br>
+                        <strong>💡 Key Fact:</strong> 1001 = 7 × 11 × 13
                     </div>
                 </div>
             </div>
-            
-            <!-- Section 4: Divisibility by 7 -->
-            <div class="section">
-                <div class="section-title">4. Divisibility Rule of 7</div>
-                <div class="content">
-                    <div class="formula-box">
-                        <strong>RULE:</strong><br>
-                        1. Remove last digit<br>
-                        2. Double it<br>
-                        3. Subtract from remaining number<br>
-                        4. If result is divisible by 7, original number is divisible by 7
-                    </div>
-                    
-                    <div class="example-box">
-                        <strong>Example 1:</strong> Is 133 divisible by 7?<br>
-                        Step 1: Remove last digit → 13 | 3<br>
-                        Step 2: Double last digit → 3 × 2 = 6<br>
-                        Step 3: Subtract → 13 - 6 = 7<br>
-                        Step 4: 7 is divisible by 7 → Yes, 133 is divisible by 7 ✓<br><br>
-                        
-                        <strong>Example 2:</strong> Is 343 divisible by 7?<br>
-                        Step 1: Remove last digit → 34 | 3<br>
-                        Step 2: Double last digit → 3 × 2 = 6<br>
-                        Step 3: Subtract → 34 - 6 = 28<br>
-                        Step 4: 28 is divisible by 7 → Yes, 343 is divisible by 7 ✓<br><br>
-                        
-                        <strong>Example 3:</strong> Is 125 divisible by 7?<br>
-                        Step 1: Remove last digit → 12 | 5<br>
-                        Step 2: Double last digit → 5 × 2 = 10<br>
-                        Step 3: Subtract → 12 - 10 = 2<br>
-                        Step 4: 2 is NOT divisible by 7 → No, 125 is NOT divisible by 7 ✗
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Section 5: Divisibility by 8 -->
-            <div class="section">
-                <div class="section-title">5. Divisibility Rule of 8</div>
-                <div class="content">
-                    <div class="formula-box">
-                        <strong>RULE:</strong><br>
-                        A number is divisible by 8 if its LAST THREE DIGITS form a number divisible by 8
-                    </div>
-                    
-                    <div class="example-box">
-                        <strong>Example 1:</strong> Is 4120 divisible by 8?<br>
-                        Last three digits = 120<br>
-                        120 ÷ 8 = 15 → Yes, divisible by 8 ✓<br><br>
-                        
-                        <strong>Example 2:</strong> Is 91256 divisible by 8?<br>
-                        Last three digits = 256<br>
-                        256 ÷ 8 = 32 → Yes, divisible by 8 ✓<br><br>
-                        
-                        <strong>Example 3:</strong> Is 5678 divisible by 8?<br>
-                        Last three digits = 678<br>
-                        678 ÷ 8 = 84.75 → No, NOT divisible by 8 ✗
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Section 6: Divisibility by 9 -->
-            <div class="section">
-                <div class="section-title">6. Divisibility Rule of 9</div>
-                <div class="content">
-                    <div class="formula-box">
-                        <strong>RULE:</strong><br>
-                        A number is divisible by 9 if the SUM of its digits is divisible by 9
-                    </div>
-                    
-                    <div class="example-box">
-                        <strong>Example 1:</strong> Is 729 divisible by 9?<br>
-                        Sum of digits = 7 + 2 + 9 = 18<br>
-                        18 is divisible by 9 → Yes, 729 is divisible by 9 ✓<br><br>
-                        
-                        <strong>Example 2:</strong> Is 4563 divisible by 9?<br>
-                        Sum of digits = 4 + 5 + 6 + 3 = 18<br>
-                        18 is divisible by 9 → Yes, 4563 is divisible by 9 ✓<br><br>
-                        
-                        <strong>Example 3:</strong> Is 234 divisible by 9?<br>
-                        Sum of digits = 2 + 3 + 4 = 9<br>
-                        9 is divisible by 9 → Yes, 234 is divisible by 9 ✓
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Section 7: Divisibility by 11 -->
-            <div class="section">
-                <div class="section-title">7. Divisibility Rule of 11</div>
-                <div class="content">
-                    <div class="formula-box">
-                        <strong>RULE:</strong><br>
-                        1. Sum of digits at ODD places (1st, 3rd, 5th from right)<br>
-                        2. Sum of digits at EVEN places (2nd, 4th, 6th from right)<br>
-                        3. Find difference (Odd - Even)<br>
-                        4. If difference is 0 or divisible by 11 → number is divisible by 11
-                    </div>
-                    
-                    <div class="example-box">
-                        <strong>Example 1:</strong> Is 121 divisible by 11?<br>
-                        Number: 1 2 1<br>
-                        Positions from right: 3rd 2nd 1st<br>
-                        Odd places (1st, 3rd): 1 + 1 = 2<br>
-                        Even places (2nd): 2<br>
-                        Difference: 2 - 2 = 0<br>
-                        0 is divisible by 11 → Yes, 121 is divisible by 11 ✓<br><br>
-                        
-                        <strong>Example 2:</strong> Is 4587 divisible by 11?<br>
-                        Number: 4 5 8 7<br>
-                        Positions: 4th 3rd 2nd 1st<br>
-                        Odd places (1st, 3rd): 7 + 5 = 12<br>
-                        Even places (2nd, 4th): 8 + 4 = 12<br>
-                        Difference: 12 - 12 = 0<br>
-                        0 is divisible by 11 → Yes, 4587 is divisible by 11 ✓<br><br>
-                        
-                        <strong>Example 3:</strong> Is 7249 divisible by 11?<br>
-                        Number: 7 2 4 9<br>
-                        Odd places: 9 + 2 = 11<br>
-                        Even places: 4 + 7 = 11<br>
-                        Difference: 11 - 11 = 0<br>
-                        Yes, divisible by 11 ✓
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Section 8: Divisibility by Composite Numbers -->
-            <div class="section">
-                <div class="section-title">8. Divisibility by Composite Numbers</div>
-                <div class="content">
-                    <div class="definition-box">
-                        <strong>Composite Number:</strong><br>
-                        A number that can be formed by multiplying smaller numbers together.
-                    </div>
-                    
-                    <div class="subsection-title">Divisibility by 6:</div>
-                    <div class="formula-box">
-                        <strong>RULE:</strong> Number should be divisible by BOTH 2 AND 3<br>
-                        6 = 2 × 3
-                    </div>
-                    
-                    <div class="example-box">
-                        <strong>Example:</strong> Is 252 divisible by 6?<br>
-                        Check for 2: Last digit = 2 (even) → Divisible by 2 ✓<br>
-                        Check for 3: Sum = 2+5+2 = 9 → Divisible by 3 ✓<br>
-                        → Yes, 252 is divisible by 6 ✓
-                    </div>
-                    
-                    <div class="subsection-title">Divisibility by 12:</div>
-                    <div class="formula-box">
-                        <strong>RULE:</strong> Number should be divisible by BOTH 3 AND 4<br>
-                        12 = 3 × 4
-                    </div>
-                    
-                    <div class="subsection-title">Divisibility by 15:</div>
-                    <div class="formula-box">
-                        <strong>RULE:</strong> Number should be divisible by BOTH 3 AND 5<br>
-                        15 = 3 × 5
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Section 9: Divisibility by 1001 -->
-            <div class="section">
-                <div class="section-title">9. Divisibility by 1001 (Factors of 1001)</div>
-                <div class="content">
-                    <div class="formula-box">
-                        <strong>KEY FACT:</strong><br>
-                        1001 = 7 × 11 × 13
-                    </div>
-                    
-                    <div class="note-box">
-                        <strong>Important Property:</strong><br>
-                        If a number is divisible by 1001, it is also divisible by 7, 11, AND 13<br><br>
-                        
-                        <strong>Example:</strong><br>
-                        • 1001 is divisible by 7, 11, and 13<br>
-                        • 2002 = 2 × 1001 → divisible by 7, 11, and 13<br>
-                        • 3003 = 3 × 1001 → divisible by 7, 11, and 13
-                    </div>
-                </div>
-            </div>
-            
             <div class="divider"></div>
+            
             <!-- CHAPTER 1.2: REMAINDERS -->
             <div class="chapter-title" id="ch2">
                 <span>➗</span>
@@ -891,6 +272,7 @@ WHEN TO USE:
             </div>
             
             <div class="divider"></div>
+            
             <!-- CHAPTER 1.3: FACTORS & FACTORIALS -->
             <div class="chapter-title" id="ch3">
                 <span>🔢</span>
@@ -1219,6 +601,7 @@ Highest power of p in n! = ⌊n/p⌋ + ⌊n/p²⌋ + ⌊n/p³⌋ + ...</code></d
             </div>
             
             <div class="divider"></div>
+            
             <!-- CHAPTER 1.4: UNIT DIGIT AND LAST TWO DIGITS -->
             <div class="chapter-title" id="ch4">
                 <span>🔟</span>
@@ -1548,6 +931,7 @@ QUICK TIPS:
             </div>
             
             <div class="divider"></div>
+            
             <!-- CHAPTER 1.5: INEQUALITY & SYMBOPERATION -->
             <div class="chapter-title" id="ch5">
                 <span>⚖️</span>
@@ -1882,6 +1266,7 @@ STRATEGY:
             </div>
             
             <div class="divider"></div>
+            
             <!-- CHAPTER 1.6: PROFIT AND LOSS -->
             <div class="chapter-title" id="ch6">
                 <span>💰</span>
@@ -2037,3 +1422,659 @@ Profit % = [(1000-x)/x] × 100</code></div>
             </div>
             
             <div class="divider"></div>
+            
+            <!-- CHAPTER 1.7: LETTER AND NUMBER SERIES, RANKING -->
+            <div class="chapter-title" id="ch7">
+                <span>🔢</span>
+                <span>Chapter 1.7 — Series & Ranking</span>
+            </div>
+            
+            <!-- Section 1: Number Series Patterns -->
+            <div class="section">
+                <div class="section-title">1. Number Series - Common Patterns</div>
+                <div class="content">
+                    <div class="subsection-title">A. Addition/Subtraction Series:</div>
+                    <div class="example-box">
+                        <strong>Pattern:</strong> Add/subtract constant number<br><br>
+                        
+                        <strong>Ex 1:</strong> 2, 5, 8, 11, 14, ?<br>
+                        Pattern: +3 each time<br>
+                        Answer: 17 ✓<br><br>
+                        
+                        <strong>Ex 2:</strong> 100, 95, 90, 85, ?<br>
+                        Pattern: -5 each time<br>
+                        Answer: 80 ✓
+                    </div>
+                    
+                    <div class="subsection-title">B. Multiplication/Division Series:</div>
+                    <div class="example-box">
+                        <strong>Ex 1:</strong> 2, 6, 18, 54, ?<br>
+                        Pattern: ×3 each time<br>
+                        Answer: 162 ✓<br><br>
+                        
+                        <strong>Ex 2:</strong> 1000, 500, 250, 125, ?<br>
+                        Pattern: ÷2 each time<br>
+                        Answer: 62.5 ✓
+                    </div>
+                    
+                    <div class="subsection-title">C. Square/Cube Series:</div>
+                    <div class="example-box">
+                        <strong>Ex 1:</strong> 1, 4, 9, 16, 25, ?<br>
+                        Pattern: 1², 2², 3², 4², 5², 6²<br>
+                        Answer: 36 ✓<br><br>
+                        
+                        <strong>Ex 2:</strong> 1, 8, 27, 64, ?<br>
+                        Pattern: 1³, 2³, 3³, 4³, 5³<br>
+                        Answer: 125 ✓
+                    </div>
+                    
+                    <div class="subsection-title">D. Prime Number Series:</div>
+                    <div class="example-box">
+                        <strong>Ex:</strong> 2, 3, 5, 7, 11, 13, ?<br>
+                        Pattern: Prime numbers<br>
+                        Answer: 17 ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Advanced Patterns -->
+            <div class="section">
+                <div class="section-title">2. Advanced Number Patterns</div>
+                <div class="content">
+                    <div class="subsection-title">A. Alternate Series:</div>
+                    <div class="example-box">
+                        <strong>Ex:</strong> 2, 5, 4, 7, 6, 9, ?<br>
+                        Two patterns:<br>
+                        Odd positions: 2, 4, 6 (+2)<br>
+                        Even positions: 5, 7, 9 (+2)<br>
+                        Answer: 8 ✓
+                    </div>
+                    
+                    <div class="subsection-title">B. Fibonacci-type Series:</div>
+                    <div class="example-box">
+                        <strong>Ex:</strong> 1, 1, 2, 3, 5, 8, ?<br>
+                        Pattern: Each = sum of previous two<br>
+                        Answer: 13 ✓
+                    </div>
+                    
+                    <div class="subsection-title">C. Difference of Differences:</div>
+                    <div class="example-box">
+                        <strong>Ex:</strong> 2, 3, 5, 8, 12, 17, ?<br>
+                        Differences: 1, 2, 3, 4, 5, 6<br>
+                        Answer: 17 + 6 = 23 ✓
+                    </div>
+                    
+                    <div class="subsection-title">D. Mixed Operations:</div>
+                    <div class="example-box">
+                        <strong>Ex:</strong> 3, 6, 11, 18, 27, ?<br>
+                        Differences: 3, 5, 7, 9, 11<br>
+                        Answer: 27 + 11 = 38 ✓
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Section 3: Letter Series -->
+            <div class="section">
+                <div class="section-title">3. Letter Series</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Concept:</strong> Letters follow alphabetical positions<br>
+                        A=1, B=2, C=3, D=4, E=5... Z=26
+                    </div>
+                    
+                    <div class="subsection-title">A. Simple Skip Pattern:</div>
+                    <div class="example-box">
+                        <strong>Ex 1:</strong> A, C, E, G, ?<br>
+                        Pattern: Skip 1 letter<br>
+                        Answer: I ✓<br><br>
+                        
+                        <strong>Ex 2:</strong> B, E, H, K, ?<br>
+                        Pattern: Skip 2 letters (+3 positions)<br>
+                        Answer: N ✓
+                    </div>
+                    
+                    <div class="subsection-title">B. Reverse Pattern:</div>
+                    <div class="example-box">
+                        <strong>Ex:</strong> Z, Y, X, W, ?<br>
+                        Pattern: Backward sequence<br>
+                        Answer: V ✓
+                    </div>
+                    
+                    <div class="subsection-title">C. Alternate Pattern:</div>
+                    <div class="example-box">
+                        <strong>Ex:</strong> A, C, B, D, C, E, ?<br>
+                        Two series:<br>
+                        Odd: A, B, C, D<br>
+                        Even: C, D, E, F<br>
+                        Answer: D ✓
+                    </div>
+                    
+                    <div class="trick-box">
+                        <strong>💡 QUICK TIP:</strong><br>
+                        Write positions: A=1, B=2, C=3...<br>
+                        Find pattern in numbers, convert back to letters
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Ranking from One End -->
+            <div class="section">
+                <div class="section-title">4. Ranking Problems</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Ranking:</strong> Position of a person/object in a sequence
+                    </div>
+                    
+                    <div class="subsection-title">A. Ranking from One End:</div>
+                    <div class="formula-box">
+                        <strong>Total = Rank from one end + Rank from other end - 1</strong>
+                    </formula-box>
+                    
+                    <div class="example-box">
+                        <strong>Ex 1:</strong> A is 7th from left, 12th from right. Total?<br>
+                        Total = 7 + 12 - 1 = 18 ✓<br><br>
+                        
+                        <strong>Ex 2:</strong> In 25 students, B is 10th from top. Rank from bottom?<br>
+                        Rank from bottom = 25 - 10 + 1 = 16 ✓
+                    </div>
+                    
+                    <div class="subsection-title">B. Persons Between Two:</div>
+                    <div class="formula-box">
+                        <strong>Between = |Rank₁ - Rank₂| - 1</strong>
+                    </formula-box>
+                    
+                    <div class="example-box">
+                        <strong>Ex:</strong> A is 5th, B is 12th. How many between?<br>
+                        Between = 12 - 5 - 1 = 6 ✓
+                    </div>
+                    
+                    <div class="subsection-title">C. Finding Position After Change:</div>
+                    <div class="example-box">
+                        <strong>Ex:</strong> A is 10th. After 3 new join at top, new rank?<br>
+                        New rank = 10 + 3 = 13th ✓
+                    </example-box>
+                </div>
+            </div>
+            
+            <!-- Section 5: Practice Problems -->
+            <div class="section">
+                <div class="section-title">5. Mixed Practice</div>
+                <div class="content">
+                    <div class="example-box">
+                        <strong>P1:</strong> Find missing: 5, 10, 20, 40, ?<br>
+                        Pattern: ×2<br>
+                        Answer: 80 ✓<br><br>
+                        
+                        <strong>P2:</strong> Find missing: 3, 9, 27, 81, ?<br>
+                        Pattern: ×3<br>
+                        Answer: 243 ✓<br><br>
+                        
+                        <strong>P3:</strong> Letter series: A, D, G, J, ?<br>
+                        Pattern: +3 positions<br>
+                        Answer: M ✓<br><br>
+                        
+                        <strong>P4:</strong> Find wrong: 2, 6, 12, 20, 30, 42, 56<br>
+                        Pattern: 1×2, 2×3, 3×4, 4×5, 5×6, 6×7, 7×8<br>
+                        All correct ✓<br><br>
+                        
+                        <strong>P5:</strong> Ranking: 30 students, A is 12th from top<br>
+                        Rank from bottom = 30-12+1 = 19th ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 6: Common Series Formulas -->
+            <div class="section">
+                <div class="section-title">6. Commonly Used Series</div>
+                <div class="content">
+                    <div class="code-box">NATURAL NUMBERS:
+1, 2, 3, 4, 5, 6, 7...
+
+EVEN NUMBERS:
+2, 4, 6, 8, 10, 12...
+
+ODD NUMBERS:
+1, 3, 5, 7, 9, 11...
+
+SQUARES:
+1, 4, 9, 16, 25, 36, 49, 64, 81, 100...
+
+CUBES:
+1, 8, 27, 64, 125, 216, 343, 512...
+
+PRIME NUMBERS:
+2, 3, 5, 7, 11, 13, 17, 19, 23, 29...
+
+FIBONACCI:
+1, 1, 2, 3, 5, 8, 13, 21, 34, 55...</code></div>
+                </div>
+            </div>
+            
+            <!-- Quick Tips -->
+            <div class="section">
+                <div class="section-title">7. Quick Solving Tips</div>
+                <div class="content">
+                    <div class="trick-box">
+                        <strong>💡 STRATEGY:</strong><br><br>
+                        
+                        <strong>For Number Series:</strong><br>
+                        1. Check differences between terms<br>
+                        2. Check ratios (×, ÷)<br>
+                        3. Check if squares/cubes<br>
+                        4. Look for alternate patterns<br>
+                        5. Check difference of differences<br><br>
+                        
+                        <strong>For Letter Series:</strong><br>
+                        1. Convert to numbers (A=1, B=2...)<br>
+                        2. Find numeric pattern<br>
+                        3. Convert back to letters<br><br>
+                        
+                        <strong>For Ranking:</strong><br>
+                        1. Draw diagram if confused<br>
+                        2. Remember: Total = Left + Right - 1<br>
+                        3. Between = Difference - 1
+                    </div>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <!-- CHAPTER 1.8: ADVANCED AVERAGE & WEIGHTED AVERAGE -->
+            <div class="chapter-title" id="ch8">
+                <span>📊</span>
+                <span>Chapter 1.8 — Average & Weighted Average</span>
+            </div>
+            
+            <!-- Section 1: Basic Average -->
+            <div class="section">
+                <div class="section-title">1. Concept of Average</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Average:</strong> Sum of all values divided by number of values<br><br>
+                        
+                        <strong>Average = Sum of all values / Total number of values</strong>
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Ex:</strong> Find average of 10, 20, 30, 40, 50<br>
+                        Sum = 150, Count = 5<br>
+                        Average = 150/5 = 30 ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Addition/Removal Problems -->
+            <div class="section">
+                <div class="section-title">2. Average with Addition/Removal</div>
+                <div class="content">
+                    <div class="formula-box">
+                        <strong>When one item added:</strong><br>
+                        New Sum = Old Sum + New Item<br><br>
+                        
+                        <strong>When one item removed:</strong><br>
+                        New Sum = Old Sum - Removed Item
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Ex:</strong> Average of 5 numbers is 20. One number 25 added. New average?<br><br>
+                        
+                        Old Sum = 5 × 20 = 100<br>
+                        New Sum = 100 + 25 = 125<br>
+                        New Average = 125/6 = 20.83 ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Weighted Average -->
+            <div class="section">
+                <div class="section-title">3. Weighted Average</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Weighted Average:</strong> Average where some values have more importance (weight) than others
+                    </div>
+                    
+                    <div class="formula-box">
+                        <strong>Weighted Average = (w₁×v₁ + w₂×v₂ + w₃×v₃...) / (w₁ + w₂ + w₃...)</strong><br><br>
+                        
+                        Where: w = weight, v = value
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Ex:</strong> Class A (30 students, avg 70), Class B (20 students, avg 80). Overall average?<br><br>
+                        
+                        Weighted Avg = (30×70 + 20×80)/(30+20)<br>
+                        = (2100 + 1600)/50<br>
+                        = 3700/50 = 74 ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Average Increase/Decrease -->
+            <div class="section">
+                <div class="section-title">4. Average Change Problems</div>
+                <div class="content">
+                    <div class="example-box">
+                        <strong>Ex:</strong> Average of 10 numbers is 50. If each increased by 5, new average?<br><br>
+                        
+                        Each increased by 5 → Average also increases by 5<br>
+                        New Average = 50 + 5 = 55 ✓
+                    </div>
+                    
+                    <div class="trick-box">
+                        <strong>💡 RULE:</strong><br>
+                        If all values increase/decrease by x → Average increases/decreases by x
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Practice Problems -->
+            <div class="section">
+                <div class="section-title">5. Practice Problems</div>
+                <div class="content">
+                    <div class="example-box">
+                        <strong>P1:</strong> Average of 6 numbers is 30. One number 40 removed. New average?<br>
+                        Old Sum = 6×30 = 180<br>
+                        New Sum = 180-40 = 140<br>
+                        New Avg = 140/5 = 28 ✓<br><br>
+                        
+                        <strong>P2:</strong> Average age of 40 students is 15. Teacher's age 40. New average?<br>
+                        Total = 40×15 + 40 = 640<br>
+                        New Avg = 640/41 = 15.6 years ✓
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- LAST MIN NOTES TAB -->
+        <div class="tab-content" id="lastMinTab">
+            <div class="chapter-title">
+                <span>⚡</span>
+                <span>Quick Tricks - Last Minute Revision</span>
+            </div>
+            
+            <div class="section">
+                <div class="note-box">
+                    <strong>📌 How to Use:</strong> Quick revision of all formulas and tricks before exam!
+                </div>
+            </div>
+            
+            <!-- Divisibility -->
+            <div class="section">
+                <div class="section-title">🔢 Divisibility Rules</div>
+                <div class="content">
+                    <div class="code-box">2: Last digit even
+3: Sum divisible by 3
+4: Last 2 digits divisible by 4
+7: Remove last, double, subtract
+8: Last 3 digits divisible by 8
+9: Sum divisible by 9
+11: (Odd places - Even places) divisible by 11
+
+1001 = 7 × 11 × 13</code></div>
+                </div>
+            </div>
+            
+            <!-- Remainders -->
+            <div class="section">
+                <div class="section-title">➗ Remainder Theorems</div>
+                <div class="content">
+                    <div class="code-box">Fermat: a^(p-1) ≡ 1 (mod p) [p prime]
+Euler: a^φ(n) ≡ 1 (mod n)
+Wilson: (p-1)! ≡ -1 (mod p) [p prime]
+
+φ(10) = 4, φ(100) = 40, φ(1000) = 400</code></div>
+                </div>
+            </div>
+            
+            <!-- Factors -->
+            <div class="section">
+                <div class="section-title">🔢 Factors & Factorials</div>
+                <div class="content">
+                    <div class="code-box">If N = p₁^a × p₂^b × p₃^c
+
+Factors = (a+1)(b+1)(c+1)
+Sum = [(p₁^(a+1)-1)/(p₁-1)] × ...
+Product = N^(k/2)
+
+Zeros in n! = ⌊n/5⌋ + ⌊n/25⌋ + ...
+Power of p in n! = ⌊n/p⌋ + ⌊n/p²⌋ + ...</code></div>
+                </div>
+            </div>
+            
+            <!-- Unit Digit -->
+            <div class="section">
+                <div class="section-title">🔟 Unit Digit Cyclicity</div>
+                <div class="content">
+                    <div class="code-box">0,1,5,6 → Always same (cycle 1)
+4,9 → Alternates (cycle 2)
+2,3,7,8 → Cycle of 4
+
+2: 2,4,8,6
+3: 3,9,7,1
+7: 7,9,3,1
+8: 8,4,2,6
+
+Divide power by cyclicity, use remainder</code></div>
+                </div>
+            </div>
+            
+            <!-- Inequality -->
+            <div class="section">
+                <div class="section-title">⚖️ Inequality & BODMAS</div>
+                <div class="content">
+                    <div class="code-box">Multiply/Divide by negative → FLIP sign
+
+BODMAS:
+1. Brackets
+2. Orders (powers)
+3. Division
+4. Multiplication
+5. Addition
+6. Subtraction</code></div>
+                </div>
+            </div>
+            
+            <!-- Profit Loss -->
+            <div class="section">
+                <div class="section-title">💰 Profit & Loss</div>
+                <div class="content">
+                    <div class="code-box">Profit% = (Profit/CP) × 100
+SP = CP × (100±%)/100
+
+Discount% = (Discount/MP) × 100
+SP = MP × (100-D%)/100
+
+Successive: d₁ + d₂ - (d₁×d₂)/100
+
+Dishonest: [(1000-x)/x] × 100</code></div>
+                </div>
+            </div>
+            
+            <!-- Series -->
+            <div class="section">
+                <div class="section-title">🔢 Series & Ranking</div>
+                <div class="content">
+                    <div class="code-box">Check: Differences, Ratios, Squares, Cubes
+
+Letters: A=1, B=2... Z=26
+
+Ranking: Total = Left + Right - 1
+Between = |Rank₁ - Rank₂| - 1</code></div>
+                </div>
+            </div>
+            
+            <!-- Average -->
+            <div class="section">
+                <div class="section-title">📊 Average</div>
+                <div class="content">
+                    <div class="code-box">Average = Sum/Count
+
+Weighted: (w₁v₁ + w₂v₂...)/(w₁+w₂...)
+
+All increase by x → Avg increases by x</code></div>
+                </div>
+            </div>
+            
+            <!-- Important Numbers -->
+            <div class="section">
+                <div class="section-title">📝 Important to Remember</div>
+                <div class="content">
+                    <div class="code-box">Squares: 1,4,9,16,25,36,49,64,81,100,121,144
+Cubes: 1,8,27,64,125,216,343,512
+Primes: 2,3,5,7,11,13,17,19,23,29,31,37
+
+10% = 1/10
+20% = 1/5
+25% = 1/4
+33.33% = 1/3
+50% = 1/2</code></div>
+                </div>
+            </div>
+            
+            <!-- Exam Tips -->
+            <div class="section">
+                <div class="section-title">💡 Exam Strategy</div>
+                <div class="content">
+                    <div class="trick-box">
+                        <strong>Time Management:</strong><br>
+                        • Easy questions first<br>
+                        • Don't get stuck on one<br>
+                        • 30-45 seconds per question<br><br>
+                        
+                        <strong>Common Mistakes:</strong><br>
+                        ✗ Forgetting to flip inequality sign<br>
+                        ✗ Wrong BODMAS order<br>
+                        ✗ Using wrong formula<br>
+                        ✗ Calculation errors<br><br>
+                        
+                        <strong>Pro Tips:</strong><br>
+                        ✓ Eliminate obviously wrong options<br>
+                        ✓ Use approximation when possible<br>
+                        ✓ Check if answer makes sense<br>
+                        ✓ Practice mental math daily
+                    </trick-box>
+                </div>
+            </div>
+            
+            <!-- Final Message -->
+            <div class="section">
+                <div class="section-title">🌟 All the Best!</div>
+                <div class="content">
+                    <div class="note-box" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%); border-left: 4px solid var(--success);">
+                        <strong>You're Ready! 🎯</strong><br><br>
+                        
+                        You've covered all 8 chapters:<br>
+                        ✓ Divisibility Rules<br>
+                        ✓ Remainders (Fermat, Euler, Wilson)<br>
+                        ✓ Factors & Factorials<br>
+                        ✓ Unit Digit & Last Two Digits<br>
+                        ✓ Inequality & Symboperation<br>
+                        ✓ Profit and Loss<br>
+                        ✓ Series & Ranking<br>
+                        ✓ Average & Weighted Average<br><br>
+                        
+                        <strong>Remember:</strong> Practice is key! Solve as many problems as possible.<br>
+                        Speed + Accuracy = Success! 💪🚀
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-credit">
+            Made with 💙 by <strong>Ankush Raj</strong>
+        </div>
+        <p class="footer-note">
+            © 2026 <a href="https://ankushraj.dev" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600;">ankushraj.dev</a> - All Rights Reserved
+        </p>
+    </div>
+    
+    <script>
+        // Dark Mode Toggle
+        const darkModeBtn = document.getElementById('darkModeBtn');
+        const isDarkMode = localStorage.getItem('darkMode') === 'true';
+        
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+            updateDarkModeBtn(true);
+        }
+        
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+            updateDarkModeBtn(isDark);
+        }
+        
+        function updateDarkModeBtn(isDark) {
+            const btn = document.getElementById('darkModeBtn');
+            btn.innerHTML = isDark 
+                ? '<span>☀️</span><span>Light</span>' 
+                : '<span>🌙</span><span>Dark</span>';
+        }
+        
+        // TOC Toggle
+        function openTOC() {
+            document.getElementById('tocPanel').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+        }
+        
+        function closeTOC() {
+            document.getElementById('tocPanel').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
+        
+        // Tab Switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            if (tabName === 'full') {
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.getElementById('fullNotesTab').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab')[1].classList.add('active');
+                document.getElementById('lastMinTab').classList.add('active');
+            }
+            
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+        
+        // Build TOC
+        const chapters = [
+            { title: 'Divisibility Rules', id: 'ch1' },
+            { title: 'Remainders', id: 'ch2' },
+            { title: 'Factors & Factorials', id: 'ch3' },
+            { title: 'Unit Digit', id: 'ch4' },
+            { title: 'Inequality', id: 'ch5' },
+            { title: 'Profit & Loss', id: 'ch6' },
+            { title: 'Series & Ranking', id: 'ch7' },
+            { title: 'Average', id: 'ch8' }
+        ];
+        
+        const tocList = document.getElementById('tocList');
+        chapters.forEach((ch, index) => {
+            const li = document.createElement('li');
+            li.innerHTML = `<span style="color: var(--primary); font-weight: 700;">${index + 1}.</span> ${ch.title}`;
+            li.onclick = () => {
+                const element = document.getElementById(ch.id);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+                closeTOC();
+            };
+            tocList.appendChild(li);
+        });
+    </script>
+</body>
+</html>
