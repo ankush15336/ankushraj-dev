@@ -3,632 +3,733 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unit Loading | Engineering Protocol</title>
+    <title>Aptitude - Unit 1 | ankushraj.dev</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
+        :root {
+            --primary: #3b82f6;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text: #333;
+            --text-light: #6b7280;
+            --bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --border: #e5e7eb;
+            --code-bg: #f3f4f6;
+        }
+        
+        body.dark-mode {
+            --text: #f0f0f0;
+            --text-light: #9ca3af;
+            --bg: #111827;
+            --card-bg: #1f2937;
+            --border: #374151;
+            --code-bg: #374151;
+        }
+        
         body {
-            font-family: 'Courier New', monospace;
-            background: #000000;
-            color: #00ff88;
-            overflow: hidden;
-            height: 100vh;
-            position: relative;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
         }
-
-        /* Animated Background */
-        .bg-container {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
+        
+        /* Print Styles */
+        @media print {
+            @page {
+                margin: 15mm 10mm 12mm 10mm;
+                size: A4;
+            }
+            
+            body {
+                font-size: 13px;
+                line-height: 1.45;
+            }
+            
+            body::before {
+                content: "ankushraj.dev";
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(-45deg);
+                font-size: 70px;
+                font-weight: 200;
+                color: rgba(0, 0, 0, 0.04);
+                z-index: -1;
+            }
+            
+            .header-controls, .tabs-container, .toc-panel, .overlay {
+                display: none !important;
+            }
         }
-
-        /* Matrix Canvas */
-        #matrix {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0.15;
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 12px 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-
-        /* 3D Grid */
-        .grid-3d {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            perspective: 800px;
-        }
-
-        .grid-plane {
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            top: 60%;
-            left: 50%;
-            transform: translate(-50%, 0) rotateX(70deg);
-            background-image: 
-                linear-gradient(rgba(0, 255, 136, 0.15) 2px, transparent 2px),
-                linear-gradient(90deg, rgba(0, 255, 136, 0.15) 2px, transparent 2px);
-            background-size: 60px 60px;
-            animation: gridFlow 8s linear infinite;
-        }
-
-        @keyframes gridFlow {
-            from { transform: translate(-50%, 0) rotateX(70deg) translateY(0); }
-            to { transform: translate(-50%, 0) rotateX(70deg) translateY(60px); }
-        }
-
-        /* Floating Particles */
-        .particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #00ff88;
-            border-radius: 50%;
-            box-shadow: 0 0 15px #00ff88;
-            animation: float 10s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0); opacity: 0; }
-            10%, 90% { opacity: 1; }
-            50% { transform: translate(var(--dx), var(--dy)); }
-        }
-
-        /* Scan Lines */
-        .scanline {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(0, 255, 136, 0.03) 2px,
-                rgba(0, 255, 136, 0.03) 4px
-            );
-            pointer-events: none;
-            animation: scanMove 8s linear infinite;
-        }
-
-        @keyframes scanMove {
-            from { transform: translateY(0); }
-            to { transform: translateY(20px); }
-        }
-
-        /* Glowing Orbs */
-        .orb {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.4;
-        }
-
-        .orb1 {
-            background: radial-gradient(circle, #00ff88 0%, transparent 70%);
-            top: -200px;
-            left: -200px;
-            animation: orbFloat1 8s ease-in-out infinite;
-        }
-
-        .orb2 {
-            background: radial-gradient(circle, #00ffff 0%, transparent 70%);
-            bottom: -200px;
-            right: -200px;
-            animation: orbFloat2 8s ease-in-out infinite;
-        }
-
-        @keyframes orbFloat1 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(50px, 30px) scale(1.1); }
-        }
-
-        @keyframes orbFloat2 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(-50px, -30px) scale(1.1); }
-        }
-
-        /* Main Content */
-        .container {
-            position: relative;
-            z-index: 10;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+        
+        .header-title {
             text-align: center;
         }
-
-        /* 3D Rotating Logo/Icon */
-        .unit-icon {
-            width: 150px;
-            height: 150px;
-            margin: 0 auto 30px;
-            position: relative;
-            animation: iconFloat 3s ease-in-out infinite;
+        
+        .header-title h1 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 4px;
         }
-
-        @keyframes iconFloat {
-            0%, 100% { transform: translateY(0) rotateY(0deg); }
-            50% { transform: translateY(-20px) rotateY(180deg); }
+        
+        .header-title p {
+            font-size: 14px;
+            opacity: 0.9;
         }
-
-        .icon-ring {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: 3px solid #00ff88;
-            border-radius: 50%;
-            animation: ringPulse 2s ease-in-out infinite;
+        
+        .header-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 12px;
         }
-
-        .icon-ring:nth-child(2) {
-            animation-delay: 0.5s;
-            border-color: #00ffff;
+        
+        .btn {
+            flex: 1;
+            max-width: 150px;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
         }
-
-        .icon-ring:nth-child(3) {
-            animation-delay: 1s;
-            border-color: #ffff00;
+        
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-2px);
         }
-
-        @keyframes ringPulse {
-            0%, 100% { transform: scale(0.8); opacity: 0.3; }
-            50% { transform: scale(1.2); opacity: 0.8; }
+        
+        /* Tabs */
+        .tabs-container {
+            background: var(--card-bg);
+            border-bottom: 2px solid var(--border);
+            display: flex;
         }
-
-        .icon-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 60px;
-            animation: iconSpin 4s linear infinite;
+        
+        .tab {
+            flex: 1;
+            padding: 16px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            color: var(--text-light);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
         }
-
-        @keyframes iconSpin {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            background: rgba(59, 130, 246, 0.05);
         }
-
-        /* Glitch Title */
-        .title {
-            font-size: 72px;
-            font-weight: 900;
-            color: #00ff88;
-            text-transform: uppercase;
-            letter-spacing: 10px;
-            margin: 20px 0;
-            text-shadow: 
-                0 0 30px #00ff88,
-                0 0 60px #00ff88,
-                3px 3px 0 #ff00ff,
-                -3px -3px 0 #00ffff;
-            animation: glitchAnim 4s ease-in-out infinite;
+        
+        /* TOC Panel */
+        .toc-panel {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 85%;
+            max-width: 320px;
+            height: 100vh;
+            background: var(--card-bg);
+            z-index: 1000;
+            overflow-y: auto;
+            box-shadow: 4px 0 12px rgba(0,0,0,0.2);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
         }
-
-        @keyframes glitchAnim {
-            0%, 90%, 100% {
-                transform: skew(0deg);
-                text-shadow: 
-                    0 0 30px #00ff88,
-                    0 0 60px #00ff88;
-            }
-            92%, 96% {
-                transform: skew(-3deg);
-                text-shadow: 
-                    -5px 0 30px #ff00ff,
-                    5px 0 30px #00ffff,
-                    0 0 60px #00ff88;
-            }
+        
+        .toc-panel.active {
+            display: block;
+            transform: translateX(0);
         }
-
-        .subtitle {
-            font-size: 20px;
-            color: #00ffff;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            margin-bottom: 40px;
-            text-shadow: 0 0 20px #00ffff;
-        }
-
-        /* Holographic Status Card */
-        .status-card {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 255, 255, 0.1) 100%);
-            border: 2px solid #00ff88;
-            border-radius: 15px;
-            padding: 25px 40px;
-            max-width: 600px;
-            margin: 0 auto 40px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 
-                0 0 40px rgba(0, 255, 136, 0.4),
-                inset 0 0 40px rgba(0, 255, 136, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        .status-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(0, 255, 136, 0.1), transparent);
-            animation: cardShine 4s linear infinite;
-        }
-
-        @keyframes cardShine {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .status-row {
+        
+        .toc-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 700;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.3);
-            position: relative;
-            z-index: 1;
         }
-
-        .status-row:last-child {
-            border-bottom: none;
-        }
-
-        .status-label {
-            font-size: 14px;
-            color: #00ffff;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .status-value {
-            font-size: 14px;
-            color: #00ff88;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            background: #00ff88;
+        
+        .toc-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            box-shadow: 0 0 15px #00ff88;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.3); opacity: 0.7; }
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            margin: 15px 0;
-            position: relative;
-            z-index: 1;
-        }
-
-        .progress-bar {
-            height: 8px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid #00ff88;
-        }
-
-        .progress-fill {
-            height: 100%;
-            width: 75%;
-            background: linear-gradient(90deg, #00ff88, #00ffff);
-            box-shadow: 0 0 20px #00ff88;
-            animation: progressPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes progressPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        /* Action Buttons */
-        .btn-container {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .holo-btn {
-            padding: 15px 40px;
-            background: transparent;
-            border: 2px solid #00ff88;
-            color: #00ff88;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            font-size: 18px;
             cursor: pointer;
-            border-radius: 8px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-flex;
+        }
+        
+        .toc-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .toc-list li {
+            padding: 14px 16px;
+            font-size: 13px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .toc-list li:hover {
+            background: var(--bg);
+            color: var(--primary);
+            padding-left: 24px;
+        }
+        
+        /* Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+        
+        .overlay.active {
+            display: block;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 12px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .chapter-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: white;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            margin-left: -12px;
+            margin-right: -12px;
+            display: flex;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
         }
-
-        .holo-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.4), transparent);
-            transition: left 0.5s;
+        
+        .section {
+            margin-bottom: 24px;
         }
-
-        .holo-btn:hover::before {
-            left: 100%;
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid var(--primary);
         }
-
-        .holo-btn:hover {
-            background: rgba(0, 255, 136, 0.15);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 40px rgba(0, 255, 136, 0.6);
-            border-color: #00ffff;
-            color: #00ffff;
+        
+        .subsection-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+            margin-top: 12px;
+            margin-bottom: 6px;
         }
-
-        .holo-btn:active {
-            transform: translateY(0);
+        
+        .content p {
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.65;
         }
-
-        /* Footer */
-        .footer {
-            position: fixed;
-            bottom: 20px;
-            width: 100%;
+        
+        /* Content Boxes */
+        .definition-box, .code-box, .advantage-box, .threat-box, 
+        .step-box, .example-box, .mindmap-box, .note-box, .formula-box, .trick-box {
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 13px;
+            line-height: 1.65;
+        }
+        
+        .definition-box {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .code-box {
+            background: var(--code-bg);
+            border-left: 4px solid #6b7280;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        
+        .advantage-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+        }
+        
+        .threat-box {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+        }
+        
+        .step-box {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid var(--warning);
+        }
+        
+        .example-box {
+            background: rgba(139, 92, 246, 0.1);
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .mindmap-box {
+            background: rgba(139, 92, 246, 0.05);
+            border: 2px dashed var(--secondary);
             text-align: center;
-            font-size: 11px;
-            color: rgba(0, 255, 136, 0.5);
-            z-index: 10;
+            padding: 20px;
         }
-
-        .footer a {
-            color: #00ff88;
-            text-decoration: none;
+        
+        .note-box {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid var(--warning);
+        }
+        
+        .formula-box {
+            background: rgba(139, 92, 246, 0.1);
+            border-left: 4px solid var(--secondary);
+            font-family: 'Courier New', monospace;
+        }
+        
+        .trick-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+        }
+        
+        .point {
+            margin-left: 18px;
+            margin-bottom: 6px;
+            font-size: 13px;
+            position: relative;
+        }
+        
+        .point::before {
+            content: "•";
+            position: absolute;
+            left: -14px;
+            color: var(--primary);
             font-weight: 700;
         }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .title {
-                font-size: 42px;
-                letter-spacing: 5px;
-            }
-
-            .subtitle {
-                font-size: 14px;
-                letter-spacing: 3px;
-            }
-
-            .unit-icon {
-                width: 100px;
-                height: 100px;
-            }
-
-            .icon-center {
-                font-size: 40px;
-            }
-
-            .status-card {
-                padding: 20px;
-            }
-
-            .status-label,
-            .status-value {
-                font-size: 12px;
-            }
-
-            .holo-btn {
-                padding: 12px 25px;
-                font-size: 12px;
-            }
+        
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            margin: 24px 0;
         }
-
-        @media (max-height: 700px) {
-            .unit-icon {
-                width: 100px;
-                height: 100px;
-                margin-bottom: 20px;
-            }
-
-            .title {
-                font-size: 48px;
-                margin: 15px 0;
-            }
-
-            .subtitle {
-                font-size: 16px;
-                margin-bottom: 25px;
-            }
-
-            .status-card {
-                padding: 20px 30px;
-                margin-bottom: 25px;
-            }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 16px;
+            background: var(--card-bg);
+            border-top: 2px solid var(--border);
+            margin-top: 32px;
+        }
+        
+        .footer-credit {
+            font-size: 14px;
+            color: var(--text);
+            font-weight: 600;
+        }
+        
+        .footer-credit strong {
+            color: var(--primary);
+        }
+        
+        .footer-note {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+        
+        /* Responsive */
+        @media (min-width: 768px) {
+            .container { padding: 16px; }
+            .header { padding: 14px 20px; }
+            .header-title h1 { font-size: 28px; }
+            .chapter-title { font-size: 20px; padding: 16px 20px; }
+            .section-title { font-size: 18px; }
+            .content p { font-size: 15px; }
         }
     </style>
 </head>
 <body>
-    <!-- Background -->
-    <div class="bg-container">
-        <canvas id="matrix"></canvas>
-        <div class="grid-3d">
-            <div class="grid-plane"></div>
+    <!-- TOC Panel -->
+    <div class="toc-panel" id="tocPanel">
+        <div class="toc-header">
+            <span>📚 Chapters</span>
+            <button class="toc-close" onclick="closeTOC()">×</button>
         </div>
-        <div class="particles" id="particles"></div>
-        <div class="scanline"></div>
-        <div class="orb orb1"></div>
-        <div class="orb orb2"></div>
+        <ul class="toc-list" id="tocList"></ul>
     </div>
-
-    <!-- Main Content -->
-    <div class="container">
-        <!-- 3D Icon -->
-        <div class="unit-icon">
-            <div class="icon-ring"></div>
-            <div class="icon-ring"></div>
-            <div class="icon-ring"></div>
-            <div class="icon-center">⚙️</div>
+    
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="closeTOC()"></div>
+    
+    <!-- Header -->
+    <div class="header">
+        <div class="header-title">
+            <h1>Aptitude & Reasoning</h1>
+            <p>Unit 1 - Number System & Arithmetic</p>
         </div>
-
-        <!-- Title -->
-        <div class="title" id="unitTitle">LOADING</div>
-        <div class="subtitle">ENGINEERING PROTOCOL</div>
-
-        <!-- Status Card -->
-        <div class="status-card">
-            <div class="status-row">
-                <span class="status-label">Status</span>
-                <span class="status-value">
-                    <span class="status-dot"></span>
-                    COMPILING
-                </span>
+        
+        <div class="header-controls">
+            <button class="btn" onclick="openTOC()">
+                <span>📑</span><span>Chapters</span>
+            </button>
+            <button class="btn" id="darkModeBtn" onclick="toggleDarkMode()">
+                <span>🌙</span><span>Dark</span>
+            </button>
+            <button class="btn" onclick="window.print()">
+                <span>📥</span><span>PDF</span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Tabs -->
+    <div class="tabs-container">
+        <div class="tab active" onclick="switchTab('full')">📖 Full Notes</div>
+        <div class="tab" onclick="switchTab('lastmin')">⚡ Quick Tricks</div>
+    </div>
+    
+    <!-- Content -->
+    <div class="container">
+        <!-- FULL NOTES TAB -->
+        <div class="tab-content active" id="fullNotesTab">
+            
+            <!-- CHAPTER 1.1: DIVISIBILITY RULES -->
+            <div class="chapter-title" id="ch1">
+                <span>🔢</span>
+                <span>Chapter 1.1 — Divisibility Rules</span>
             </div>
-            <div class="status-row">
-                <span class="status-label">Progress</span>
-                <span class="status-value">75%</span>
-            </div>
-            <div class="progress-container">
-                <div class="progress-bar">
-                    <div class="progress-fill"></div>
+            
+            <!-- Mind Map -->
+            <div class="section">
+                <div class="mindmap-box">
+                    <strong style="color: var(--secondary); font-size: 16px;">📊 DIVISIBILITY RULES - MIND MAP</strong>
+                    <div style="margin-top: 15px; text-align: left; max-width: 700px; margin-left: auto; margin-right: auto;">
+                        <div class="point">Divisibility by 2: Last digit even (0,2,4,6,8)</div>
+                        <div class="point">Divisibility by 3: Sum of digits divisible by 3</div>
+                        <div class="point">Divisibility by 4: Last 2 digits divisible by 4</div>
+                        <div class="point">Divisibility by 7: Special method (multiply, subtract)</div>
+                        <div class="point">Divisibility by 9: Sum of digits divisible by 9</div>
+                        <div class="point">Divisibility by 11: (Sum odd places - Sum even places) divisible by 11</div>
+                        <div class="point">Composite Numbers: Divisible by 1001 = 7 × 11 × 13</div>
+                    </div>
                 </div>
             </div>
-            <div class="status-row">
-                <span class="status-label">Modules Ready</span>
-                <span class="status-value">12 / 16</span>
+            
+            <!-- Section 1: Divisibility by 2 -->
+            <div class="section">
+                <div class="section-title">1. Divisibility Rule of 2</div>
+                <div class="content">
+                    <div class="formula-box">
+                        <strong>RULE:</strong><br>
+                        A number is divisible by 2 if its last digit is even (0, 2, 4, 6, 8)
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Examples:</strong><br>
+                        • 124 → Last digit = 4 (even) → Divisible by 2 ✓<br>
+                        • 357 → Last digit = 7 (odd) → NOT divisible by 2 ✗<br>
+                        • 8980 → Last digit = 0 (even) → Divisible by 2 ✓
+                    </div>
+                </div>
             </div>
-            <div class="status-row">
-                <span class="status-label">ETA</span>
-                <span class="status-value">COMING SOON™</span>
+            
+            <!-- Section 2: Divisibility by 3 -->
+            <div class="section">
+                <div class="section-title">2. Divisibility Rule of 3</div>
+                <div class="content">
+                    <div class="formula-box">
+                        <strong>RULE:</strong><br>
+                        A number is divisible by 3 if the SUM of its digits is divisible by 3
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 1:</strong> Is 132 divisible by 3?<br>
+                        Sum of digits = 1 + 3 + 2 = 6<br>
+                        6 is divisible by 3 → Yes, 132 is divisible by 3 ✓<br><br>
+                        
+                        <strong>Example 2:</strong> Is 2574 divisible by 3?<br>
+                        Sum of digits = 2 + 5 + 7 + 4 = 18<br>
+                        18 is divisible by 3 → Yes, 2574 is divisible by 3 ✓<br><br>
+                        
+                        <strong>Example 3:</strong> Is 247 divisible by 3?<br>
+                        Sum of digits = 2 + 4 + 7 = 13<br>
+                        13 is NOT divisible by 3 → No, 247 is NOT divisible by 3 ✗
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <!-- Buttons -->
-        <div class="btn-container">
-            <a href="/notes" class="holo-btn">
-                <span>←</span>
-                <span>BACK TO NOTES</span>
-            </a>
-            <a href="/" class="holo-btn">
-                <span>🏠</span>
-                <span>HOME</span>
-            </a>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <div class="footer">
-        Engineered by <a href="https://ankushraj.dev" target="_blank">Ankush Raj</a> • © 2026 ankushraj.dev
-    </div>
-
-    <script>
-        // Matrix Effect
-        const canvas = document.getElementById('matrix');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const chars = '01アイウエオカキクケコ';
-        const fontSize = 14;
-        const columns = canvas.width / fontSize;
-        const drops = Array(Math.floor(columns)).fill(1);
-
-        function drawMatrix() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#00ff88';
-            ctx.font = fontSize + 'px monospace';
-
-            for (let i = 0; i < drops.length; i++) {
-                const text = chars[Math.floor(Math.random() * chars.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
-            }
-        }
-
-        setInterval(drawMatrix, 50);
-
-        // Create Particles
-        const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 20; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.setProperty('--dx', (Math.random() * 200 - 100) + 'px');
-            particle.style.setProperty('--dy', (Math.random() * 200 - 100) + 'px');
-            particle.style.animationDelay = Math.random() * 10 + 's';
-            particlesContainer.appendChild(particle);
-        }
-
-        // Auto-detect Unit Number
-        const urlPath = window.location.pathname;
-        const unitMatch = urlPath.match(/unit(\d+)/i);
-        if (unitMatch) {
-            const unitNumber = unitMatch[1];
-            document.getElementById('unitTitle').textContent = `UNIT ${unitNumber}`;
-            document.title = `Unit ${unitNumber} Loading | Engineering Protocol`;
-        }
-
-        // Random Glitch
-        setInterval(() => {
-            const title = document.getElementById('unitTitle');
-            if (Math.random() > 0.93) {
-                const original = title.textContent;
-                title.textContent = original.split('').map(c => 
-                    Math.random() > 0.7 ? String.fromCharCode(33 + Math.random() * 94) : c
-                ).join('');
-                setTimeout(() => title.textContent = original, 80);
-            }
-        }, 2000);
-
-        // Resize Handler
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-    </script>
-</body>
-</html>
+            
+            <!-- Section 3: Divisibility by 4 -->
+            <div class="section">
+                <div class="section-title">3. Divisibility Rule of 4</div>
+                <div class="content">
+                    <div class="formula-box">
+                        <strong>RULE:</strong><br>
+                        A number is divisible by 4 if its LAST TWO DIGITS form a number divisible by 4
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 1:</strong> Is 3216 divisible by 4?<br>
+                        Last two digits = 16<br>
+                        16 ÷ 4 = 4 → Yes, divisible by 4 ✓<br><br>
+                        
+                        <strong>Example 2:</strong> Is 7524 divisible by 4?<br>
+                        Last two digits = 24<br>
+                        24 ÷ 4 = 6 → Yes, divisible by 4 ✓<br><br>
+                        
+                        <strong>Example 3:</strong> Is 1234 divisible by 4?<br>
+                        Last two digits = 34<br>
+                        34 ÷ 4 = 8.5 → No, NOT divisible by 4 ✗
+                    </div>
+                    
+                    <div class="trick-box">
+                        <strong>💡 QUICK TRICK:</strong><br>
+                        Numbers ending in 00, 04, 08, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68, 72, 76, 80, 84, 88, 92, 96 are divisible by 4
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Divisibility by 7 -->
+            <div class="section">
+                <div class="section-title">4. Divisibility Rule of 7</div>
+                <div class="content">
+                    <div class="formula-box">
+                        <strong>RULE:</strong><br>
+                        1. Remove last digit<br>
+                        2. Double it<br>
+                        3. Subtract from remaining number<br>
+                        4. If result is divisible by 7, original number is divisible by 7
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 1:</strong> Is 133 divisible by 7?<br>
+                        Step 1: Remove last digit → 13 | 3<br>
+                        Step 2: Double last digit → 3 × 2 = 6<br>
+                        Step 3: Subtract → 13 - 6 = 7<br>
+                        Step 4: 7 is divisible by 7 → Yes, 133 is divisible by 7 ✓<br><br>
+                        
+                        <strong>Example 2:</strong> Is 343 divisible by 7?<br>
+                        Step 1: Remove last digit → 34 | 3<br>
+                        Step 2: Double last digit → 3 × 2 = 6<br>
+                        Step 3: Subtract → 34 - 6 = 28<br>
+                        Step 4: 28 is divisible by 7 → Yes, 343 is divisible by 7 ✓<br><br>
+                        
+                        <strong>Example 3:</strong> Is 125 divisible by 7?<br>
+                        Step 1: Remove last digit → 12 | 5<br>
+                        Step 2: Double last digit → 5 × 2 = 10<br>
+                        Step 3: Subtract → 12 - 10 = 2<br>
+                        Step 4: 2 is NOT divisible by 7 → No, 125 is NOT divisible by 7 ✗
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Divisibility by 8 -->
+            <div class="section">
+                <div class="section-title">5. Divisibility Rule of 8</div>
+                <div class="content">
+                    <div class="formula-box">
+                        <strong>RULE:</strong><br>
+                        A number is divisible by 8 if its LAST THREE DIGITS form a number divisible by 8
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 1:</strong> Is 4120 divisible by 8?<br>
+                        Last three digits = 120<br>
+                        120 ÷ 8 = 15 → Yes, divisible by 8 ✓<br><br>
+                        
+                        <strong>Example 2:</strong> Is 91256 divisible by 8?<br>
+                        Last three digits = 256<br>
+                        256 ÷ 8 = 32 → Yes, divisible by 8 ✓<br><br>
+                        
+                        <strong>Example 3:</strong> Is 5678 divisible by 8?<br>
+                        Last three digits = 678<br>
+                        678 ÷ 8 = 84.75 → No, NOT divisible by 8 ✗
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 6: Divisibility by 9 -->
+            <div class="section">
+                <div class="section-title">6. Divisibility Rule of 9</div>
+                <div class="content">
+                    <div class="formula-box">
+                        <strong>RULE:</strong><br>
+                        A number is divisible by 9 if the SUM of its digits is divisible by 9
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 1:</strong> Is 729 divisible by 9?<br>
+                        Sum of digits = 7 + 2 + 9 = 18<br>
+                        18 is divisible by 9 → Yes, 729 is divisible by 9 ✓<br><br>
+                        
+                        <strong>Example 2:</strong> Is 4563 divisible by 9?<br>
+                        Sum of digits = 4 + 5 + 6 + 3 = 18<br>
+                        18 is divisible by 9 → Yes, 4563 is divisible by 9 ✓<br><br>
+                        
+                        <strong>Example 3:</strong> Is 234 divisible by 9?<br>
+                        Sum of digits = 2 + 3 + 4 = 9<br>
+                        9 is divisible by 9 → Yes, 234 is divisible by 9 ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 7: Divisibility by 11 -->
+            <div class="section">
+                <div class="section-title">7. Divisibility Rule of 11</div>
+                <div class="content">
+                    <div class="formula-box">
+                        <strong>RULE:</strong><br>
+                        1. Sum of digits at ODD places (1st, 3rd, 5th from right)<br>
+                        2. Sum of digits at EVEN places (2nd, 4th, 6th from right)<br>
+                        3. Find difference (Odd - Even)<br>
+                        4. If difference is 0 or divisible by 11 → number is divisible by 11
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example 1:</strong> Is 121 divisible by 11?<br>
+                        Number: 1 2 1<br>
+                        Positions from right: 3rd 2nd 1st<br>
+                        Odd places (1st, 3rd): 1 + 1 = 2<br>
+                        Even places (2nd): 2<br>
+                        Difference: 2 - 2 = 0<br>
+                        0 is divisible by 11 → Yes, 121 is divisible by 11 ✓<br><br>
+                        
+                        <strong>Example 2:</strong> Is 4587 divisible by 11?<br>
+                        Number: 4 5 8 7<br>
+                        Positions: 4th 3rd 2nd 1st<br>
+                        Odd places (1st, 3rd): 7 + 5 = 12<br>
+                        Even places (2nd, 4th): 8 + 4 = 12<br>
+                        Difference: 12 - 12 = 0<br>
+                        0 is divisible by 11 → Yes, 4587 is divisible by 11 ✓<br><br>
+                        
+                        <strong>Example 3:</strong> Is 7249 divisible by 11?<br>
+                        Number: 7 2 4 9<br>
+                        Odd places: 9 + 2 = 11<br>
+                        Even places: 4 + 7 = 11<br>
+                        Difference: 11 - 11 = 0<br>
+                        Yes, divisible by 11 ✓
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 8: Divisibility by Composite Numbers -->
+            <div class="section">
+                <div class="section-title">8. Divisibility by Composite Numbers</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Composite Number:</strong><br>
+                        A number that can be formed by multiplying smaller numbers together.
+                    </div>
+                    
+                    <div class="subsection-title">Divisibility by 6:</div>
+                    <div class="formula-box">
+                        <strong>RULE:</strong> Number should be divisible by BOTH 2 AND 3<br>
+                        6 = 2 × 3
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Example:</strong> Is 252 divisible by 6?<br>
+                        Check for 2: Last digit = 2 (even) → Divisible by 2 ✓<br>
+                        Check for 3: Sum = 2+5+2 = 9 → Divisible by 3 ✓<br>
+                        → Yes, 252 is divisible by 6 ✓
+                    </div>
+                    
+                    <div class="subsection-title">Divisibility by 12:</div>
+                    <div class="formula-box">
+                        <strong>RULE:</strong> Number should be divisible by BOTH 3 AND 4<br>
+                        12 = 3 × 4
+                    </div>
+                    
+                    <div class="subsection-title">Divisibility by 15:</div>
+                    <div class="formula-box">
+                        <strong>RULE:</strong> Number should be divisible by BOTH 3 AND 5<br>
+                        15 = 3 × 5
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 9: Divisibility by 1001 -->
+            <div class="section">
+                <div class="section-title">9. Divisibility by 1001 (Factors of 1001)</div>
+                <div class="content">
+                    <div class="formula-box">
+                        <strong>KEY FACT:</strong><br>
+                        1001 = 7 × 11 × 13
+                    </div>
+                    
+                    <div class="note-box">
+                        <strong>Important Property:</strong><br>
+                        If a number is divisible by 1001, it is also divisible by 7, 11, AND 13<br><br>
+                        
+                        <strong>Example:</strong><br>
+                        • 1001 is divisible by 7, 11, and 13<br>
+                        • 2002 = 2 × 1001 → divisible by 7, 11, and 13<br>
+                        • 3003 = 3 × 1001 → divisible by 7, 11, and 13
+                    </div>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
