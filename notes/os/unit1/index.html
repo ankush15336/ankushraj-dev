@@ -396,6 +396,157 @@
             color: var(--text-light);
             margin-top: 4px;
         }
+/* ===============================
+   IMAGE CONTAINER
+================================ */
+
+.image-container{
+    width: 100%;
+    max-width: 1000px;
+    margin: 25px auto;
+    padding: 10px;
+}
+
+
+/* ===============================
+   IMAGE CARD DESIGN
+================================ */
+
+.glow-image-card{
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+
+/* ===============================
+   IMAGE RESPONSIVE
+================================ */
+
+.glow-image-card img{
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 18px;
+}
+
+
+/* ===============================
+   GLOW BORDER EFFECT
+================================ */
+
+.glow-image-card::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 18px;
+    padding: 2px;
+    background: linear-gradient(45deg,#00e5ff,#7c4dff,#ff4081);
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.5;
+    transition: 0.4s ease;
+}
+
+
+/* ===============================
+   SOFT SHADOW
+================================ */
+
+.glow-image-card{
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+
+/* ===============================
+   DESKTOP HOVER EFFECT
+================================ */
+
+@media (hover:hover){
+
+.glow-image-card:hover{
+    transform: scale(1.02);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+}
+
+.glow-image-card:hover::before{
+    opacity: 1;
+}
+
+}
+
+
+/* ===============================
+   MOBILE TAP EFFECT
+================================ */
+
+.glow-image-card:active{
+    transform: scale(0.98);
+}
+
+
+/* ===============================
+   IMAGE CAPTION
+================================ */
+
+.image-caption{
+    text-align: center;
+    font-size: 15px;
+    color: #9ccfff;
+    margin-top: 8px;
+    opacity: 0.9;
+}
+
+
+/* ===============================
+   TABLET OPTIMIZATION
+================================ */
+
+@media (max-width: 1024px){
+
+.image-container{
+    padding: 8px;
+}
+
+}
+
+
+/* ===============================
+   MOBILE OPTIMIZATION
+================================ */
+
+@media (max-width: 600px){
+
+.image-container{
+    margin: 18px auto;
+    padding: 5px;
+}
+
+.image-caption{
+    font-size: 14px;
+}
+
+}
+
+
+/* ===============================
+   EXTRA SMALL DEVICES
+================================ */
+
+@media (max-width: 400px){
+
+.image-caption{
+    font-size: 13px;
+}
+
+}
+
+
         
         /* Responsive */
         @media (min-width: 768px) {
@@ -477,6 +628,7 @@
             <div class="section">
                 <div class="section-title">1. Introduction to Operating Systems</div>
                 <div class="content">
+                    <div class="image-container">
                     <div class="definition-box">
                         <strong>Operating System (OS):</strong><br>
                         An Operating System is system software that acts as an intermediary between computer hardware and user applications. It manages hardware resources and provides services to application programs.
@@ -771,13 +923,15 @@
             <div class="section">
                 <div class="section-title">7. Types of System Calls</div>
                 <div class="content">
-                    <div class="code-box"><strong>5 Categories:</strong>
+                    <div class="image-container">
+                        <div class="glow-image-card">
+                        <img src="\notes\os\image\5 categories.png" alt="Notes Image">
+                        </div>
+                         <div class="image-caption">📊 Types of System Calls</div>
+                         </div>
+                         </div>
 
-1. Process Control: fork(), exit(), wait(), exec()
-2. File Management: open(), read(), write(), close()
-3. Device Management: read(), write(), ioctl()
-4. Information Maintenance: getpid(), time(), date()
-5. Communication: send(), receive(), pipe(), socket()</div>
+
                 </div>
             </div>
             
@@ -836,21 +990,13 @@
                     </div>
                     
                     <div class="subsection-title">Components of a Process:</div>
-                    <div class="code-box"><strong>Process Memory Layout:</strong>
-
-┌─────────────────┐  ← High Address
-│  Stack          │  Function calls, local variables
-│  ↓ (grows down) │  
-├─────────────────┤
-│  (free space)   │
-├─────────────────┤
-│  ↑ (grows up)   │
-│  Heap           │  Dynamic memory (malloc)
-├─────────────────┤
-│  Data           │  Global/static variables
-├─────────────────┤
-│  Text           │  Program code (instructions)
-└─────────────────┘  ← Low Address</div>
+                    <div class="image-container">
+                        <div class="glow-image-card">
+                        <img src="\notes\os\image\process memory layout.png" alt="Notes Image">
+                        </div>
+                         <div class="image-caption">📊 Process Memory Layout</div>
+                         </div>
+                         </div>
                     
                     <div class="step-box">
                         <strong>1. Text Section (Code):</strong><br>
@@ -891,25 +1037,12 @@
                     </div>
                     
                     <div class="subsection-title">Information in PCB:</div>
-                    <div class="code-box"><strong>PCB Structure:</strong>
-
-┌─────────────────────────────┐
-│ Process ID (PID): 1234      │
-├─────────────────────────────┤
-│ Process State: Running      │
-├─────────────────────────────┤
-│ Program Counter: 0x4A3B     │
-├─────────────────────────────┤
-│ CPU Registers: AX, BX, CX...│
-├─────────────────────────────┤
-│ Priority: 5                 │
-├─────────────────────────────┤
-│ Memory Limits: 0x1000-0x5000│
-├─────────────────────────────┤
-│ List of Open Files: file1.txt│
-├─────────────────────────────┤
-│ Accounting Info: CPU time   │
-└─────────────────────────────┘</div>
+                    <div class="glow-image-card">
+                        <img src="\notes\os\image\pcb structure.png" alt="Notes Image">
+                        </div>
+                         <div class="image-caption">📊 PCB Structure</div>
+                         </div>
+                         </div>
                     
                     <div class="step-box">
                         <strong>1. Process ID (PID):</strong><br>
@@ -959,34 +1092,12 @@
                         A process changes state during its execution. There are 5 main states a process can be in.
                     </div>
                     
-                    <div class="code-box"><strong>Process State Diagram:</strong>
-
-        ┌───────┐
-        │  NEW  │  Process created
-        └───┬───┘
-            │ admitted
-            ↓
-        ┌────────┐  scheduler dispatch  ┌─────────┐
-        │ READY  │ ──────────────────→  │ RUNNING │
-        └────────┘                       └────┬────┘
-            ↑                                 │
-            │ I/O or event completion         │ interrupt
-            │                                 ↓
-            │                            ┌────────┐
-            └────────────────────────────│ READY  │
-                                         └────────┘
-                                              │
-                                              │ I/O or event wait
-                                              ↓
-                                         ┌─────────┐
-                                         │ WAITING │
-                                         └─────────┘
-                                              │
-                                              │ exit
-                                              ↓
-                                         ┌────────────┐
-                                         │ TERMINATED │
-                                         └────────────┘</div>
+                    <div class="glow-image-card">
+                        <img src="\notes\os\image\process state diagram.png" alt="Notes Image">
+                        </div>
+                         <div class="image-caption">📊 Process State Diagram</div>
+                         </div>
+                         </div>
                     
                     <div class="subsection-title">1. New State:</div>
                     <div class="example-box">
@@ -1201,36 +1312,12 @@ Typically takes 1-10 microseconds</div>
                     </div>
                     
                     <div class="subsection-title">Process vs Thread:</div>
-                    <div class="code-box"><strong>Comparison:</strong>
-
-Aspect          | Process              | Thread
---------------- | -------------------- | --------------------
-Definition      | Heavy-weight         | Light-weight
-Resources       | Own memory space     | Share process memory
-Creation time   | Slow                 | Fast
-Context switch  | Expensive            | Cheap
-Communication   | IPC needed           | Direct (shared memory)
-Isolation       | Isolated             | Not isolated
-Example         | Chrome (entire app)  | One tab in Chrome
-
-<strong>Memory Layout:</strong>
-
-Process A                    Process B
-┌──────────────┐            ┌──────────────┐
-│ Thread 1     │            │ Thread 1     │
-│ Thread 2     │            │              │
-│ Thread 3     │            │              │
-├──────────────┤            ├──────────────┤
-│ Shared:      │            │ Shared:      │
-│ - Code       │            │ - Code       │
-│ - Data       │            │ - Data       │
-│ - Heap       │            │ - Heap       │
-└──────────────┘            └──────────────┘
-
-Each thread has:            Each thread has:
-- Own stack                 - Own stack
-- Own registers             - Own registers
-- Own program counter       - Own program counter</div>
+                    <div class="glow-image-card">
+                        <img src="\notes\os\image\comparison thread vs process.png" alt="Notes Image">
+                        </div>
+                         <div class="image-caption">📊 Process vs Thread</div>
+                         </div>
+                         </div>
                     
                     <div class="subsection-title">Benefits of Threads:</div>
                     <div class="advantage-box">
@@ -1422,17 +1509,12 @@ Each thread has:            Each thread has:
                         <strong>Examples:</strong> Round Robin, SRTF, Priority (preemptive)
                     </div>
                     
-                    <div class="code-box"><strong>Comparison:</strong>
-
-Aspect          | Non-Preemptive       | Preemptive
---------------- | -------------------- | --------------------
-CPU Release     | Voluntary            | Forced
-Interruption    | No                   | Yes
-Response Time   | Poor                 | Good
-Overhead        | Low                  | High
-Complexity      | Simple               | Complex
-Fairness        | Less fair            | More fair
-Use Case        | Batch systems        | Time-sharing systems</div>
+                     <div class="glow-image-card">
+                        <img src="\notes\os\image\comparison preemptive vs non preemptive.png" alt="Notes Image">
+                        </div>
+                         <div class="image-caption">📊 Preemptive vs Non-Preemptive Scheduling</div>
+                         </div>
+                         </div>
                 </div>
             </div>
             
@@ -1526,15 +1608,12 @@ Use Case        | Batch systems        | Time-sharing systems</div>
                         Response time is till FIRST response, waiting time is TOTAL waiting
                     </div>
                     
-                    <div class="code-box"><strong>Summary of Criteria:</strong>
-
-Criteria         | What it measures           | Goal
----------------- | -------------------------- | --------
-CPU Utilization  | % time CPU is busy         | Maximize
-Throughput       | Processes completed/time   | Maximize
-Turnaround Time  | Submission to completion   | Minimize
-Waiting Time     | Time in ready queue        | Minimize
-Response Time    | Till first response        | Minimize</div>
+                    <div class="glow-image-card">
+                        <img src="\notes\os\image\summary of criteria.png" alt="Notes Image">
+                        </div>
+                         <div class="image-caption">📊 Summary of Scheduling Criteria</div>
+                         </div>
+                         </div>
                     
                     <div class="note-box">
                         <strong>Important:</strong><br>
@@ -1570,25 +1649,12 @@ Response Time    | Till first response        | Minimize</div>
                         • Scheduler picks from head of queue
                     </div>
                     
-                    <div class="code-box"><strong>Example:</strong>
-
-Process | Arrival Time | Burst Time
-------- | ------------ | ----------
-P1      | 0            | 24
-P2      | 1            | 3
-P3      | 2            | 3
-
-<strong>Gantt Chart:</strong>
-|  P1  |  P2  |  P3  |
-0     24    27    30
-
-<strong>Calculations:</strong>
-P1: Waiting Time = 0,  Turnaround = 24
-P2: Waiting Time = 23, Turnaround = 26
-P3: Waiting Time = 25, Turnaround = 28
-
-Average Waiting Time = (0+23+25)/3 = 16 ms
-Average Turnaround = (24+26+28)/3 = 26 ms</div>
+                     <div class="glow-image-card">
+                        <img src="\notes\os\image\example.png" alt="Notes Image">
+                        </div>
+                         <div class="image-caption">📊 Example of FCFS Scheduling</div>
+                         </div>
+                         </div>
                     
                     <div class="advantage-box">
                         <strong>Advantages:</strong><br>
@@ -1614,29 +1680,12 @@ Average Turnaround = (24+26+28)/3 = 26 ms</div>
                         <strong>SJF:</strong> Process with smallest burst time gets CPU first. Can be preemptive or non-preemptive. Optimal algorithm (gives minimum average waiting time).
                     </div>
                     
-                    <div class="code-box"><strong>Non-Preemptive SJF Example:</strong>
-
-Process | Arrival Time | Burst Time
-------- | ------------ | ----------
-P1      | 0            | 7
-P2      | 2            | 4
-P3      | 4            | 1
-P4      | 5            | 4
-
-<strong>Execution Order:</strong> P1 → P3 → P2 → P4
-(P1 starts first, then pick shortest)
-
-<strong>Gantt Chart:</strong>
-|  P1  | P3 |  P2  |  P4  |
-0     7    8     12    16
-
-<strong>Calculations:</strong>
-P1: Waiting = 0,  Turnaround = 7
-P3: Waiting = 3,  Turnaround = 4
-P2: Waiting = 6,  Turnaround = 10
-P4: Waiting = 7,  Turnaround = 11
-
-Average Waiting Time = (0+6+3+7)/4 = 4 ms</div>
+                    <div class="glow-image-card">
+                        <img src="\notes\os\image\non-preemptive spj strf example.png" alt="Notes Image">
+                        </div>
+                         <div class="image-caption">📊 Example of Non-Preemptive SJF Scheduling</div>
+                         </div>
+                         </div>
                     
                     <div class="advantage-box">
                         <strong>Advantages:</strong><br>
@@ -1657,28 +1706,12 @@ Average Waiting Time = (0+6+3+7)/4 = 4 ms</div>
                         <strong>SRTF:</strong> Preemptive version of SJF. If new process arrives with shorter remaining time than current process, CPU switches to new process.
                     </div>
                     
-                    <div class="code-box"><strong>Preemptive SJF (SRTF) Example:</strong>
-
-Process | Arrival Time | Burst Time
-------- | ------------ | ----------
-P1      | 0            | 8
-P2      | 1            | 4
-P3      | 2            | 9
-P4      | 3            | 5
-
-<strong>Time 0:</strong> P1 starts (only process)
-<strong>Time 1:</strong> P2 arrives (BT=4 < remaining P1=7) → Switch to P2
-<strong>Time 2:</strong> P3 arrives (BT=9 > remaining P2=3) → Continue P2
-<strong>Time 3:</strong> P4 arrives (BT=5 > remaining P2=2) → Continue P2
-<strong>Time 5:</strong> P2 done, P4 shortest (BT=5) → P4 runs
-<strong>Time 10:</strong> P4 done, P1 remaining (BT=7) → P1 runs
-<strong>Time 17:</strong> P1 done, P3 runs
-
-<strong>Gantt Chart:</strong>
-| P1 | P2  | P4  | P1  | P3     |
-0   1    5    10   17   26
-
-<strong>Average Waiting Time:</strong> Better than non-preemptive SJF</div>
+                    <div class="glow-image-card">
+                        <img src="\notes\os\image\preemptive spj (srtf).png" alt="Notes Image">
+                        </div>
+                         <div class="image-caption">📊 Example of Preemptive SJF (SRTF) Scheduling</div>
+                         </div>
+                         </div>
                     
                     <div class="subsection-title">4. Priority Scheduling:</div>
                     <div class="definition-box">
@@ -1693,22 +1726,12 @@ P4      | 3            | 5
                         <strong>Real-life Example:</strong> Emergency room - Critical patients (high priority) treated before minor injuries (low priority)
                     </div>
                     
-                    <div class="code-box"><strong>Non-Preemptive Priority Example:</strong>
-
-Process | Arrival | Burst | Priority
-------- | ------- | ----- | --------
-P1      | 0       | 10    | 3
-P2      | 1       | 1     | 1 (Highest)
-P3      | 2       | 2     | 4
-P4      | 3       | 1     | 5
-P5      | 4       | 5     | 2
-
-<strong>Execution Order:</strong> P1 → P2 → P5 → P3 → P4
-(P1 starts, then by priority)
-
-<strong>Gantt Chart:</strong>
-| P1  | P2 | P5  | P3 | P4 |
-0    10   11   16   18  19</div>
+                     <div class="glow-image-card">
+                        <img src="\notes\os\image\non-preemptive priority example.png" alt="Notes Image">
+                        </div>
+                         <div class="image-caption">📊 Example of Non-Preemptive Priority Scheduling</div>
+                         </div>
+                         </div>
                     
                     <div class="threat-box">
                         <strong>Major Problem - Starvation:</strong><br>
@@ -1730,34 +1753,12 @@ P5      | 4       | 5     | 2
                         <strong>Time Quantum (q):</strong> Fixed time slice (typically 10-100 milliseconds)
                     </div>
                     
-                    <div class="code-box"><strong>Round Robin Example (Time Quantum = 4):</strong>
-
-Process | Arrival Time | Burst Time
-------- | ------------ | ----------
-P1      | 0            | 24
-P2      | 0            | 3
-P3      | 0            | 3
-
-<strong>Execution:</strong>
-Time 0-4:   P1 runs (remaining = 20)
-Time 4-7:   P2 runs (remaining = 0, done!)
-Time 7-10:  P3 runs (remaining = 0, done!)
-Time 10-14: P1 runs (remaining = 16)
-Time 14-18: P1 runs (remaining = 12)
-Time 18-22: P1 runs (remaining = 8)
-Time 22-26: P1 runs (remaining = 4)
-Time 26-30: P1 runs (remaining = 0, done!)
-
-<strong>Gantt Chart:</strong>
-| P1 | P2 | P3 | P1 | P1 | P1 | P1 | P1 |
-0   4    7   10  14  18  22  26  30
-
-<strong>Calculations:</strong>
-P1: Waiting = 6,  Turnaround = 30
-P2: Waiting = 4,  Turnaround = 7
-P3: Waiting = 7,  Turnaround = 10
-
-Average Waiting Time = (6+4+7)/3 = 5.67 ms</div>
+                    <div class="glow-image-card">
+                        <img src="\notes\os\image\round robin example.png" alt="Notes Image">
+                        </div>
+                         <div class="image-caption">📊 Example of Round Robin Scheduling</div>
+                         </div>
+                         </div>
                     
                     <div class="advantage-box">
                         <strong>Advantages:</strong><br>
@@ -1786,24 +1787,12 @@ Average Waiting Time = (6+4+7)/3 = 5.67 ms</div>
                         <strong>Multilevel Queue:</strong> Ready queue divided into multiple queues based on process characteristics. Each queue has its own scheduling algorithm.
                     </div>
                     
-                    <div class="code-box"><strong>Multilevel Queue Structure:</strong>
-
-┌──────────────────────────┐
-│ System Processes (Q1)    │ ← Highest Priority
-│ Algorithm: FCFS          │
-├──────────────────────────┤
-│ Interactive (Q2)         │
-│ Algorithm: Round Robin   │
-├──────────────────────────┤
-│ Batch Processes (Q3)     │ ← Lowest Priority
-│ Algorithm: FCFS          │
-└──────────────────────────┘
-
-<strong>Rules:</strong>
-• Process permanently assigned to one queue
-• Queue Q1 has priority over Q2, Q2 over Q3
-• Q2 runs only if Q1 is empty
-• Q3 runs only if Q1 and Q2 are empty</div>
+                     <div class="glow-image-card">
+                        <img src="\notes\os\image\multilevel queue structure.png" alt="Notes Image">
+                        </div>
+                         <div class="image-caption">📊 Multilevel Queue Scheduling</div>
+                         </div>
+                         </div>
                     
                     <div class="example-box">
                         <strong>Example Categories:</strong><br>
@@ -1830,24 +1819,12 @@ Average Waiting Time = (6+4+7)/3 = 5.67 ms</div>
             <div class="section">
                 <div class="section-title">10. Scheduling Algorithms Comparison</div>
                 <div class="content">
-                    <div class="code-box"><strong>Complete Comparison:</strong>
-
-Algorithm    | Preemptive | Avg WT  | Starvation | Overhead
------------- | ---------- | ------- | ---------- | --------
-FCFS         | No         | High    | No         | Low
-SJF          | No         | Minimum | Yes        | Low
-SRTF         | Yes        | Low     | Yes        | Medium
-Priority     | Both       | Medium  | Yes        | Medium
-Round Robin  | Yes        | High    | No         | High
-Multilevel Q | Yes        | Medium  | Yes        | Low
-
-<strong>Best Use Cases:</strong>
-
-FCFS        → Batch systems, simple scenarios
-SJF/SRTF    → When burst time known, minimize WT
-Priority    → Real-time systems, critical tasks
-Round Robin → Time-sharing, interactive systems
-Multilevel  → Systems with different process types</div>
+                    <div class="glow-image-card">
+                        <img src="\notes\os\image\complete comarison.png" alt="Notes Image">
+                        </div>
+                         <div class="image-caption">📊 Complete Comparison of Scheduling Algorithms</div>
+                         </div>
+                         </div>
                     
                     <div class="note-box">
                         <strong>Key Takeaways:</strong><br>
@@ -1922,15 +1899,12 @@ Multilevel  → Systems with different process types</div>
                         ✗ Overhead for small messages
                     </div>
                     
-                    <div class="code-box"><strong>Comparison:</strong>
-
-Aspect          | Shared Memory    | Message Passing
---------------- | ---------------- | ----------------
-Speed           | Fast             | Slower
-Implementation  | Complex          | Easier
-Synchronization | Manual needed    | OS handles
-Use case        | Large data       | Small messages
-Location        | Same machine     | Can be distributed</div>
+                   <div class="glow-image-card">
+                        <img src="\notes\os\image\comparison.png" alt="Notes Image">
+                        </div>
+                         <div class="image-caption">📊 Comparison </div>
+                         </div>
+                         </div>
                 </div>
             </div>
             
@@ -1953,39 +1927,12 @@ Location        | Same machine     | Can be distributed</div>
                         You don't go to restaurant yourself - phone call handles everything!
                     </div>
                     
-                    <div class="code-box"><strong>How RPC Works:</strong>
-
-Client Machine              Server Machine
-┌──────────────┐           ┌──────────────┐
-│ Client calls │           │              │
-│ add(5, 3)    │           │              │
-└──────┬───────┘           │              │
-       │                   │              │
-       ↓                   │              │
-┌──────────────┐           │              │
-│ Client Stub  │           │              │
-│ (packs args) │           │              │
-└──────┬───────┘           │              │
-       │                   │              │
-       │  Network          │              │
-       └──────────────────→│              │
-                           ↓              │
-                    ┌──────────────┐     │
-                    │ Server Stub  │     │
-                    │ (unpacks)    │     │
-                    └──────┬───────┘     │
-                           ↓              │
-                    ┌──────────────┐     │
-                    │ Execute      │     │
-                    │ add(5,3)=8   │     │
-                    └──────┬───────┘     │
-                           │              │
-       ┌───────────────────┘              │
-       │  Result = 8                      │
-       ↓                                  │
-┌──────────────┐                         │
-│ Client gets 8│                         │
-└──────────────┘                         └</div>
+                    <div class="glow-image-card">
+                        <img src="\notes\os\image\how rpc works.png" alt="Notes Image">
+                        </div>
+                         <div class="image-caption">📊 How RPC Works </div>
+                         </div>
+                         </div>
                     
                     <div class="note-box">
                         <strong>Key Point:</strong> Client doesn't know the function is executing remotely. RPC makes remote calls look like local calls!
@@ -2083,6 +2030,7 @@ do {
             <div class="section">
                 <div class="section-title">💻 Introduction to OS</div>
                 <div class="content">
+                    
                     <div class="code-box">Operating System = Interface between hardware and applications
 
 <strong>Goals:</strong> Convenience, Efficiency, Resource Management, Security
