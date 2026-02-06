@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,7 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         :root {
             --primary: #3b82f6;
             --secondary: #8b5cf6;
@@ -24,7 +25,7 @@
             --border: #e5e7eb;
             --code-bg: #f3f4f6;
         }
-        
+
         body.dark-mode {
             --text: #f0f0f0;
             --text-light: #9ca3af;
@@ -33,7 +34,7 @@
             --border: #374151;
             --code-bg: #374151;
         }
-        
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg);
@@ -41,19 +42,19 @@
             line-height: 1.6;
             transition: background 0.3s, color 0.3s;
         }
-        
+
         /* Print Styles */
         @media print {
             @page {
                 margin: 15mm 10mm 12mm 10mm;
                 size: A4;
             }
-            
+
             body {
                 font-size: 13px;
                 line-height: 1.45;
             }
-            
+
             body::before {
                 content: "ankushraj.dev";
                 position: fixed;
@@ -65,42 +66,45 @@
                 color: rgba(0, 0, 0, 0.04);
                 z-index: -1;
             }
-            
-            .header-controls, .tabs-container, .toc-panel, .overlay {
+
+            .header-controls,
+            .tabs-container,
+            .toc-panel,
+            .overlay {
                 display: none !important;
             }
         }
-        
+
         /* Header */
         .header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
             padding: 12px 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
-        
+
         .header-title {
             text-align: center;
         }
-        
+
         .header-title h1 {
             font-size: 24px;
             font-weight: 800;
             margin-bottom: 4px;
         }
-        
+
         .header-title p {
             font-size: 14px;
             opacity: 0.9;
         }
-        
+
         .header-controls {
             display: flex;
             gap: 10px;
             justify-content: center;
             margin-top: 12px;
         }
-        
+
         .btn {
             flex: 1;
             max-width: 150px;
@@ -118,19 +122,19 @@
             justify-content: center;
             gap: 6px;
         }
-        
+
         .btn:hover {
             background: rgba(255, 255, 255, 0.35);
             transform: translateY(-2px);
         }
-        
+
         /* Tabs */
         .tabs-container {
             background: var(--card-bg);
             border-bottom: 2px solid var(--border);
             display: flex;
         }
-        
+
         .tab {
             flex: 1;
             padding: 16px;
@@ -142,13 +146,13 @@
             border-bottom: 3px solid transparent;
             transition: all 0.3s;
         }
-        
+
         .tab.active {
             color: var(--primary);
             border-bottom-color: var(--primary);
             background: rgba(59, 130, 246, 0.05);
         }
-        
+
         /* TOC Panel */
         .toc-panel {
             display: none;
@@ -161,16 +165,16 @@
             background: var(--card-bg);
             z-index: 1000;
             overflow-y: auto;
-            box-shadow: 4px 0 12px rgba(0,0,0,0.2);
+            box-shadow: 4px 0 12px rgba(0, 0, 0, 0.2);
             transform: translateX(-100%);
             transition: transform 0.3s ease;
         }
-        
+
         .toc-panel.active {
             display: block;
             transform: translateX(0);
         }
-        
+
         .toc-header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
@@ -181,7 +185,7 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .toc-close {
             background: rgba(255, 255, 255, 0.2);
             border: none;
@@ -192,12 +196,12 @@
             font-size: 18px;
             cursor: pointer;
         }
-        
+
         .toc-list {
             list-style: none;
             padding: 0;
         }
-        
+
         .toc-list li {
             padding: 14px 16px;
             font-size: 13px;
@@ -205,13 +209,13 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        
+
         .toc-list li:hover {
             background: var(--bg);
             color: var(--primary);
             padding-left: 24px;
         }
-        
+
         /* Overlay */
         .overlay {
             display: none;
@@ -220,35 +224,42 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
             z-index: 999;
         }
-        
+
         .overlay.active {
             display: block;
         }
-        
+
         /* Container */
         .container {
             max-width: 900px;
             margin: 0 auto;
             padding: 12px;
         }
-        
+
         .tab-content {
             display: none;
         }
-        
+
         .tab-content.active {
             display: block;
             animation: fadeIn 0.4s ease;
         }
-        
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
+
         .chapter-title {
             font-size: 18px;
             font-weight: 800;
@@ -262,11 +273,11 @@
             align-items: center;
             gap: 10px;
         }
-        
+
         .section {
             margin-bottom: 24px;
         }
-        
+
         .section-title {
             font-size: 16px;
             font-weight: 700;
@@ -275,7 +286,7 @@
             padding-bottom: 6px;
             border-bottom: 2px solid var(--primary);
         }
-        
+
         .subsection-title {
             font-size: 14px;
             font-weight: 700;
@@ -283,28 +294,35 @@
             margin-top: 12px;
             margin-bottom: 6px;
         }
-        
+
         .content p {
             margin-bottom: 10px;
             font-size: 14px;
             line-height: 1.65;
         }
-        
+
         /* Content Boxes */
-        .definition-box, .code-box, .advantage-box, .threat-box, 
-        .step-box, .example-box, .mindmap-box, .note-box, .formula-box {
+        .definition-box,
+        .code-box,
+        .advantage-box,
+        .threat-box,
+        .step-box,
+        .example-box,
+        .mindmap-box,
+        .note-box,
+        .formula-box {
             padding: 12px;
             border-radius: 8px;
             margin: 10px 0;
             font-size: 13px;
             line-height: 1.65;
         }
-        
+
         .definition-box {
             background: rgba(59, 130, 246, 0.1);
             border-left: 4px solid var(--primary);
         }
-        
+
         .code-box {
             background: var(--code-bg);
             border-left: 4px solid #6b7280;
@@ -312,52 +330,52 @@
             overflow-x: auto;
             white-space: pre-wrap;
         }
-        
+
         .advantage-box {
             background: rgba(16, 185, 129, 0.1);
             border-left: 4px solid var(--success);
         }
-        
+
         .threat-box {
             background: rgba(239, 68, 68, 0.1);
             border-left: 4px solid var(--danger);
         }
-        
+
         .step-box {
             background: rgba(245, 158, 11, 0.1);
             border-left: 4px solid var(--warning);
         }
-        
+
         .example-box {
             background: rgba(139, 92, 246, 0.1);
             border-left: 4px solid var(--secondary);
         }
-        
+
         .mindmap-box {
             background: rgba(139, 92, 246, 0.05);
             border: 2px dashed var(--secondary);
             text-align: center;
             padding: 20px;
         }
-        
+
         .note-box {
             background: rgba(245, 158, 11, 0.1);
             border-left: 4px solid var(--warning);
         }
-        
+
         .formula-box {
             background: rgba(139, 92, 246, 0.1);
             border-left: 4px solid var(--secondary);
             font-family: 'Courier New', monospace;
         }
-        
+
         .point {
             margin-left: 18px;
             margin-bottom: 6px;
             font-size: 13px;
             position: relative;
         }
-        
+
         .point::before {
             content: "•";
             position: absolute;
@@ -365,13 +383,13 @@
             color: var(--primary);
             font-weight: 700;
         }
-        
+
         .divider {
             height: 2px;
             background: linear-gradient(90deg, transparent, var(--border), transparent);
             margin: 24px 0;
         }
-        
+
         /* Footer */
         .footer {
             text-align: center;
@@ -380,185 +398,224 @@
             border-top: 2px solid var(--border);
             margin-top: 32px;
         }
-        
+
         .footer-credit {
             font-size: 14px;
             color: var(--text);
             font-weight: 600;
         }
-        
+
         .footer-credit strong {
             color: var(--primary);
         }
-        
+
         .footer-note {
             font-size: 11px;
             color: var(--text-light);
             margin-top: 4px;
         }
-/* ===============================
+
+        /* ===============================
    IMAGE CONTAINER
 ================================ */
 
-.image-container{
-    width: 100%;
-    max-width: 1000px;
-    margin: 25px auto;
-    padding: 10px;
-}
+        .image-container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 25px auto;
+            padding: 10px;
+        }
 
 
-/* ===============================
+        /* ===============================
    IMAGE CARD DESIGN
 ================================ */
 
-.glow-image-card{
-    position: relative;
-    border-radius: 18px;
-    overflow: hidden;
-    transition: 0.3s ease;
-    cursor: pointer;
-}
+        .glow-image-card {
+            position: relative;
+            border-radius: 18px;
+            overflow: hidden;
+            transition: 0.3s ease;
+            cursor: pointer;
+        }
 
 
-/* ===============================
+        /* ===============================
    IMAGE RESPONSIVE
 ================================ */
 
-.glow-image-card img{
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 18px;
-}
+        .glow-image-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 18px;
+        }
 
 
-/* ===============================
+        /* ===============================
    GLOW BORDER EFFECT
 ================================ */
 
-.glow-image-card::before{
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 18px;
-    padding: 2px;
-    background: linear-gradient(45deg,#00e5ff,#7c4dff,#ff4081);
-    -webkit-mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0.5;
-    transition: 0.4s ease;
-}
+        .glow-image-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 18px;
+            padding: 2px;
+            background: linear-gradient(45deg, #00e5ff, #7c4dff, #ff4081);
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.5;
+            transition: 0.4s ease;
+        }
 
 
-/* ===============================
+        /* ===============================
    SOFT SHADOW
 ================================ */
 
-.glow-image-card{
-    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-}
+        .glow-image-card {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
 
 
-/* ===============================
+        /* ===============================
    DESKTOP HOVER EFFECT
 ================================ */
 
-@media (hover:hover){
+        @media (hover:hover) {
 
-.glow-image-card:hover{
-    transform: scale(1.02);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-}
+            .glow-image-card:hover {
+                transform: scale(1.02);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            }
 
-.glow-image-card:hover::before{
-    opacity: 1;
-}
+            .glow-image-card:hover::before {
+                opacity: 1;
+            }
 
-}
+        }
 
 
-/* ===============================
+        /* ===============================
    MOBILE TAP EFFECT
 ================================ */
 
-.glow-image-card:active{
-    transform: scale(0.98);
-}
+        .glow-image-card:active {
+            transform: scale(0.98);
+        }
 
 
-/* ===============================
+        /* ===============================
    IMAGE CAPTION
 ================================ */
 
-.image-caption{
-    text-align: center;
-    font-size: 15px;
-    color: #9ccfff;
-    margin-top: 8px;
-    opacity: 0.9;
-}
+        .image-caption {
+            text-align: center;
+            font-size: 15px;
+            color: #9ccfff;
+            margin-top: 8px;
+            opacity: 0.9;
+        }
 
 
-/* ===============================
+        /* ===============================
    TABLET OPTIMIZATION
 ================================ */
 
-@media (max-width: 1024px){
+        @media (max-width: 1024px) {
 
-.image-container{
-    padding: 8px;
-}
+            .image-container {
+                padding: 8px;
+            }
 
-}
+        }
 
 
-/* ===============================
+        /* ===============================
    MOBILE OPTIMIZATION
 ================================ */
 
-@media (max-width: 600px){
+        @media (max-width: 600px) {
 
-.image-container{
-    margin: 18px auto;
-    padding: 5px;
-}
+            .image-container {
+                margin: 18px auto;
+                padding: 5px;
+            }
 
-.image-caption{
-    font-size: 14px;
-}
+            .image-caption {
+                font-size: 14px;
+            }
 
-}
+        }
 
 
-/* ===============================
+        /* ===============================
    EXTRA SMALL DEVICES
 ================================ */
 
-@media (max-width: 400px){
+        @media (max-width: 400px) {
 
-.image-caption{
-    font-size: 13px;
-}
+            .image-caption {
+                font-size: 13px;
+            }
 
-}
+        }
 
 
-        
+
         /* Responsive */
         @media (min-width: 768px) {
-            .container { padding: 16px; }
-            .header { padding: 14px 20px; }
-            .header-title h1 { font-size: 28px; }
-            .chapter-title { font-size: 20px; padding: 16px 20px; }
-            .section-title { font-size: 18px; }
-            .content p { font-size: 15px; }
+            .container {
+                padding: 16px;
+            }
+
+            .header {
+                padding: 14px 20px;
+            }
+
+            .header-title h1 {
+                font-size: 28px;
+            }
+
+            .chapter-title {
+                font-size: 20px;
+                padding: 16px 20px;
+            }
+
+            .section-title {
+                font-size: 18px;
+            }
+
+            .content p {
+                font-size: 15px;
+            }
+        }
+
+        /* Fix for Last Min Notes Tab */
+        #lastMinTab .code-box {
+            white-space: pre-line;
+            /* Collapses indentation but keeps newlines */
+            font-family: var(--font-family, sans-serif);
+            /* Use normal font, not monospace */
+            line-height: 1.8;
+            border-left-color: var(--warning);
+            /* Optional: distinct look */
+            background: #fffbeb;
+            /* Optional: warmer background for notes */
+            color: #333;
+        }
+
+        #lastMinTab .code-box strong {
+            color: #d97706;
+            /* Match warning color scheme */
         }
     </style>
 </head>
+
 <body>
     <!-- TOC Panel -->
     <div class="toc-panel" id="tocPanel">
@@ -568,17 +625,17 @@
         </div>
         <ul class="toc-list" id="tocList"></ul>
     </div>
-    
+
     <!-- Overlay -->
     <div class="overlay" id="overlay" onclick="closeTOC()"></div>
-    
+
     <!-- Header -->
     <div class="header">
         <div class="header-title">
             <h1>Operating System</h1>
             <p>Unit 1 - Introduction & Process Management</p>
         </div>
-        
+
         <div class="header-controls">
             <button class="btn" onclick="openTOC()">
                 <span>📑</span><span>Chapters</span>
@@ -591,30 +648,32 @@
             </button>
         </div>
     </div>
-    
+
     <!-- Tabs -->
     <div class="tabs-container">
         <div class="tab active" onclick="switchTab('full')">📖 Full Notes</div>
         <div class="tab" onclick="switchTab('lastmin')">⚡ Last Min Notes</div>
     </div>
-    
+
     <!-- Content -->
     <div class="container">
         <!-- FULL NOTES TAB -->
         <div class="tab-content active" id="fullNotesTab">
-            
+
             <!-- CHAPTER 1: INTRODUCTION TO OS -->
             <div class="chapter-title" id="ch1">
                 <span>💻</span>
                 <span>Chapter 1 — Introduction to Operating System</span>
             </div>
-            
+
             <!-- Mind Map -->
             <div class="section">
                 <div class="mindmap-box">
                     <strong style="color: var(--secondary); font-size: 16px;">📊 OPERATING SYSTEM - MIND MAP</strong>
-                    <div style="margin-top: 15px; text-align: left; max-width: 700px; margin-left: auto; margin-right: auto;">
-                        <div class="point">OS → Software that manages hardware and provides services to applications</div>
+                    <div
+                        style="margin-top: 15px; text-align: left; max-width: 700px; margin-left: auto; margin-right: auto;">
+                        <div class="point">OS → Software that manages hardware and provides services to applications
+                        </div>
                         <div class="point">Structure → Monolithic, Layered, Microkernel, Modular</div>
                         <div class="point">Functions → Process, Memory, File, I/O, Security Management</div>
                         <div class="point">Types → Batch, Time-sharing, Real-time, Distributed, Mobile</div>
@@ -623,325 +682,340 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Section 1: What is OS -->
             <div class="section">
                 <div class="section-title">1. Introduction to Operating Systems</div>
                 <div class="content">
                     <div class="image-container">
-                    <div class="definition-box">
-                        <strong>Operating System (OS):</strong><br>
-                        An Operating System is system software that acts as an intermediary between computer hardware and user applications. It manages hardware resources and provides services to application programs.
-                    </div>
-                    
-                    <div class="example-box">
-                        <strong>Real-life Example - Restaurant Manager:</strong><br>
-                        Think of OS like a restaurant manager:<br>
-                        • <strong>Customers (Users/Applications)</strong> want food<br>
-                        • <strong>Kitchen (Hardware)</strong> cooks the food<br>
-                        • <strong>Manager (OS)</strong> takes orders, assigns tasks to chefs, manages kitchen equipment, ensures everything runs smoothly<br><br>
-                        Just like manager coordinates between customers and kitchen, OS coordinates between applications and hardware!
-                    </div>
-                    
-                    <div class="subsection-title">Goals of Operating System:</div>
-                    <div class="advantage-box">
-                        <strong>1. Convenience:</strong> Make computer easy to use (GUI, commands)<br>
-                        <strong>2. Efficiency:</strong> Use hardware resources efficiently<br>
-                        <strong>3. Resource Management:</strong> Manage CPU, memory, storage, I/O devices<br>
-                        <strong>4. Security:</strong> Protect data and prevent unauthorized access<br>
-                        <strong>5. Reliability:</strong> Ensure system works correctly without failures
-                    </div>
-                    
-                    <div class="subsection-title">Components of Computer System:</div>
-                    <div class="code-box"><strong>4 Components:</strong>
-
-1. Hardware (Bottom Layer)
-   CPU, Memory, Disk, I/O devices
-   
-2. Operating System (Middle Layer)
-   Controls hardware, provides services
-   
-3. Application Programs (Upper Layer)
-   Word processors, browsers, games
-   
-4. Users (Top Layer)
-   People, other computers, machines</div>
-                    
-                    <div class="note-box">
-                        <strong>Key Point:</strong> OS is the only program that runs at all times on the computer (called the <strong>kernel</strong>). Everything else is either a system program or application program.
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Section 2: OS Structure -->
-            <div class="section">
-                <div class="section-title">2. Operating System Structure</div>
-                <div class="content">
-                    <div class="definition-box">
-                        <strong>OS Structure:</strong><br>
-                        The way an operating system organizes its components and how they interact with each other.
-                    </div>
-                    
-                    <div class="subsection-title">Types of OS Structures:</div>
-                    
-                    <div class="step-box">
-                        <strong>1. Monolithic Structure:</strong><br>
-                        All OS services run in kernel mode as a single large program.<br><br>
-                        <strong>Characteristics:</strong><br>
-                        • No structure - everything in one big program<br>
-                        • All functions have access to all data<br>
-                        • Fast (no overhead of communication)<br><br>
-                        <strong>Example:</strong> MS-DOS, Early UNIX<br><br>
-                        <strong>Advantages:</strong> ✓ Fast, ✓ Simple<br>
-                        <strong>Disadvantages:</strong> ✗ Hard to maintain, ✗ One bug crashes entire system
-                    </div>
-                    
-                    <div class="step-box">
-                        <strong>2. Layered Structure:</strong><br>
-                        OS divided into layers, each layer uses services of layer below it.<br><br>
-                        <strong>Layers (Bottom to Top):</strong><br>
-                        Layer 0: Hardware<br>
-                        Layer 1: CPU Scheduling<br>
-                        Layer 2: Memory Management<br>
-                        Layer 3: I/O Management<br>
-                        Layer 4: User Programs<br><br>
-                        <strong>Example:</strong> THE OS, Windows NT<br><br>
-                        <strong>Advantages:</strong> ✓ Easy to debug (layer by layer), ✓ Modular<br>
-                        <strong>Disadvantages:</strong> ✗ Slow (many layers), ✗ Hard to define layers
-                    </div>
-                    
-                    <div class="step-box">
-                        <strong>3. Microkernel Structure:</strong><br>
-                        Only essential services in kernel, rest run as user processes.<br><br>
-                        <strong>Kernel Contains:</strong><br>
-                        • Minimal process management<br>
-                        • Memory management<br>
-                        • Inter-process communication (IPC)<br><br>
-                        <strong>User Space Contains:</strong><br>
-                        • File system<br>
-                        • Device drivers<br>
-                        • Network protocols<br><br>
-                        <strong>Example:</strong> Mach, QNX, Minix<br><br>
-                        <strong>Advantages:</strong> ✓ Reliable (less code in kernel), ✓ Easy to extend<br>
-                        <strong>Disadvantages:</strong> ✗ Slower (frequent message passing)
-                    </div>
-                    
-                    <div class="step-box">
-                        <strong>4. Modular Structure (Loadable Kernel Modules):</strong><br>
-                        Modern approach - kernel has core components, others loaded as modules.<br><br>
-                        <strong>How it works:</strong><br>
-                        • Core kernel is small<br>
-                        • Modules loaded dynamically when needed<br>
-                        • Each module talks to core via defined interfaces<br><br>
-                        <strong>Example:</strong> Linux, Solaris<br><br>
-                        <strong>Advantages:</strong> ✓ Flexible, ✓ Efficient, ✓ Easy to add features<br>
-                        <strong>Best of both:</strong> Speed of monolithic + modularity of layers
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Section 3: Main Functions -->
-            <div class="section">
-                <div class="section-title">3. Main Functions of Operating System</div>
-                <div class="content">
-                    <div class="subsection-title">1. Process Management:</div>
-                    <div class="example-box">
-                        <strong>What is Process Management?</strong><br>
-                        Managing programs that are currently running (processes).<br><br>
-                        <strong>OS Responsibilities:</strong><br>
-                        • Create and delete processes<br>
-                        • Suspend and resume processes<br>
-                        • Provide mechanisms for process synchronization<br>
-                        • Provide mechanisms for process communication<br>
-                        • Handle deadlocks<br><br>
-                        <strong>Example:</strong> When you open Chrome, Word, and Spotify together, OS manages all three processes, decides which gets CPU time, and ensures they don't interfere with each other.
-                    </div>
-                    
-                    <div class="subsection-title">2. Memory Management:</div>
-                    <div class="example-box">
-                        <strong>What is Memory Management?</strong><br>
-                        Managing computer's RAM (main memory).<br><br>
-                        <strong>OS Responsibilities:</strong><br>
-                        • Keep track of which memory is used and by whom<br>
-                        • Decide which processes to load in memory<br>
-                        • Allocate and deallocate memory<br>
-                        • Prevent processes from accessing each other's memory<br><br>
-                        <strong>Example:</strong> If you have 8GB RAM and run programs needing 10GB, OS uses virtual memory (hard disk space) to manage the extra 2GB.
-                    </div>
-                    
-                    <div class="subsection-title">3. File Management:</div>
-                    <div class="example-box">
-                        <strong>What is File Management?</strong><br>
-                        Managing files and directories on storage devices.<br><br>
-                        <strong>OS Responsibilities:</strong><br>
-                        • Create and delete files and directories<br>
-                        • Provide operations on files (read, write, append)<br>
-                        • Map files to disk storage<br>
-                        • Backup files<br>
-                        • Provide file permissions and security<br><br>
-                        <strong>Example:</strong> When you save a document, OS decides where on the hard disk to store it, updates directory structure, and manages file permissions.
-                    </div>
-                    
-                    <div class="subsection-title">4. I/O Device Management:</div>
-                    <div class="example-box">
-                        <strong>What is I/O Management?</strong><br>
-                        Managing input/output devices (keyboard, mouse, printer, etc.)<br><br>
-                        <strong>OS Responsibilities:</strong><br>
-                        • Provide device drivers<br>
-                        • Buffer and cache data<br>
-                        • Handle I/O operations<br>
-                        • Manage device queues<br><br>
-                        <strong>Example:</strong> When you print a document, OS uses printer driver to communicate with printer, manages print queue if multiple documents are waiting.
-                    </div>
-                    
-                    <div class="subsection-title">5. Security and Protection:</div>
-                    <div class="example-box">
-                        <strong>What is Security?</strong><br>
-                        Protecting system from unauthorized access and threats.<br><br>
-                        <strong>OS Responsibilities:</strong><br>
-                        • User authentication (passwords, biometrics)<br>
-                        • Access control (file permissions)<br>
-                        • Protect processes from each other<br>
-                        • Defend against viruses and malware<br><br>
-                        <strong>Example:</strong> Login password, file permissions (who can read/write/execute), preventing one user from accessing another user's files.
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Section 4: Characteristics -->
-            <div class="section">
-                <div class="section-title">4. Characteristics of Operating System</div>
-                <div class="content">
-                    <div class="advantage-box">
-                        <strong>1. Resource Manager:</strong><br>
-                        OS manages all hardware resources (CPU, memory, I/O devices) efficiently.<br><br>
-                        
-                        <strong>2. Interface Provider:</strong><br>
-                        Provides user-friendly interface (GUI or Command Line) to interact with computer.<br><br>
-                        
-                        <strong>3. Multitasking:</strong><br>
-                        Run multiple programs simultaneously.<br>
-                        Example: Listen to music while browsing and typing document.<br><br>
-                        
-                        <strong>4. Multiprogramming:</strong><br>
-                        Keep multiple programs in memory and execute them by switching.<br><br>
-                        
-                        <strong>5. Time Sharing:</strong><br>
-                        Multiple users can use the system simultaneously.<br>
-                        Example: Multiple users logged into a server.<br><br>
-                        
-                        <strong>6. Error Handling:</strong><br>
-                        Detect and handle errors (hardware failure, division by zero, etc.)<br><br>
-                        
-                        <strong>7. Memory Protection:</strong><br>
-                        Prevent processes from accessing memory they shouldn't.<br><br>
-                        
-                        <strong>8. Job Scheduling:</strong><br>
-                        Decide which process runs when and for how long.
-                    </div>
-                </div>
-            </div>
-            
-            <div class="divider"></div>
-            
-            <!-- Section 5: Types of OS -->
-            <div class="section">
-                <div class="section-title">5. Types of Operating Systems</div>
-                <div class="content">
-                    <div class="subsection-title">1. Batch Operating System:</div>
-                    <div class="example-box">
-                        <strong>Batch OS:</strong> Jobs grouped and executed without user interaction<br><br>
-                        
-                        <strong>Real-life Example:</strong> Bank processes all checks in one batch at night<br><br>
-                        
-                        <strong>Advantages:</strong> ✓ High throughput ✓ Less CPU idle time<br>
-                        <strong>Disadvantages:</strong> ✗ No interaction ✗ Long waiting
-                    </div>
-                    
-                    <div class="subsection-title">2. Time-Sharing OS (Multitasking):</div>
-                    <div class="example-box">
-                        <strong>Time-Sharing:</strong> Multiple users share CPU by time slicing<br><br>
-                        
-                        <strong>How:</strong> CPU gives small time to each process, switches rapidly<br><br>
-                        
-                        <strong>Examples:</strong> Windows, Linux, macOS<br><br>
-                        
-                        <strong>Advantages:</strong> ✓ Multiple users ✓ Quick response<br>
-                        <strong>Disadvantages:</strong> ✗ Context switching overhead
-                    </div>
-                    
-                    <div class="subsection-title">3. Real-Time OS (RTOS):</div>
-                    <div class="step-box">
-                        <strong>Hard Real-Time:</strong> Deadline must be met (Airbag, Pacemaker)<br>
-                        <strong>Soft Real-Time:</strong> Deadline can be missed occasionally (Video streaming)<br><br>
-                        
-                        <strong>Advantages:</strong> ✓ Guaranteed response ✓ High reliability<br>
-                        <strong>Disadvantages:</strong> ✗ Complex ✗ Expensive
-                    </div>
-                    
-                    <div class="subsection-title">4. Distributed OS:</div>
-                    <div class="example-box">
-                        <strong>Distributed:</strong> Multiple computers appear as one system<br><br>
-                        
-                        <strong>Example:</strong> Google servers working together<br><br>
-                        
-                        <strong>Advantages:</strong> ✓ Reliability ✓ Scalability<br>
-                        <strong>Disadvantages:</strong> ✗ Complex ✗ Security
-                    </div>
-                    
-                    <div class="subsection-title">5. Mobile OS:</div>
-                    <div class="example-box">
-                        <strong>Mobile:</strong> OS for smartphones/tablets<br>
-                        <strong>Examples:</strong> Android, iOS<br>
-                        <strong>Features:</strong> Touch interface, Battery optimization
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Section 6: System Calls -->
-            <div class="section">
-                <div class="section-title">6. System Calls</div>
-                <div class="content">
-                    <div class="definition-box">
-                        <strong>System Call:</strong> Interface between user program and OS kernel. Programs request OS services through system calls.
-                    </div>
-                    
-                    <div class="code-box"><strong>How System Call Works:</strong>
-
-1. User Program → Calls library function
-2. Mode Switch → User mode to Kernel mode
-3. OS Kernel → Executes service
-4. Return Result → Back to user program
-5. Mode Switch → Kernel mode to User mode
-
-<strong>User Mode:</strong> Limited privileges, cannot access hardware
-<strong>Kernel Mode:</strong> Full privileges, can access everything</div>
-                </div>
-            </div>
-            
-            <!-- Section 7: Types of System Calls -->
-            <div class="section">
-                <div class="section-title">7. Types of System Calls</div>
-                <div class="content">
-                    <div class="image-container">
-                        <div class="glow-image-card">
-                        <img src="\notes\os\image\5 categories.png" alt="Notes Image">
+                        <div class="definition-box">
+                            <strong>Operating System (OS):</strong><br>
+                            An Operating System is system software that acts as an intermediary between computer
+                            hardware and user applications. It manages hardware resources and provides services to
+                            application programs.
                         </div>
-                         <div class="image-caption">📊 Types of System Calls</div>
-                         </div>
-                         </div>
+
+                        <div class="example-box">
+                            <strong>Real-life Example - Restaurant Manager:</strong><br>
+                            Think of OS like a restaurant manager:<br>
+                            • <strong>Customers (Users/Applications)</strong> want food<br>
+                            • <strong>Kitchen (Hardware)</strong> cooks the food<br>
+                            • <strong>Manager (OS)</strong> takes orders, assigns tasks to chefs, manages kitchen
+                            equipment, ensures everything runs smoothly<br><br>
+                            Just like manager coordinates between customers and kitchen, OS coordinates between
+                            applications and hardware!
+                        </div>
+
+                        <div class="subsection-title">Goals of Operating System:</div>
+                        <div class="advantage-box">
+                            <strong>1. Convenience:</strong> Make computer easy to use (GUI, commands)<br>
+                            <strong>2. Efficiency:</strong> Use hardware resources efficiently<br>
+                            <strong>3. Resource Management:</strong> Manage CPU, memory, storage, I/O devices<br>
+                            <strong>4. Security:</strong> Protect data and prevent unauthorized access<br>
+                            <strong>5. Reliability:</strong> Ensure system works correctly without failures
+                        </div>
+
+                        <div class="subsection-title">Components of Computer System:</div>
+                        <div class="code-box"><strong>4 Components:</strong>
+
+                            1. Hardware (Bottom Layer)
+                            CPU, Memory, Disk, I/O devices
+
+                            2. Operating System (Middle Layer)
+                            Controls hardware, provides services
+
+                            3. Application Programs (Upper Layer)
+                            Word processors, browsers, games
+
+                            4. Users (Top Layer)
+                            People, other computers, machines</div>
+
+                        <div class="note-box">
+                            <strong>Key Point:</strong> OS is the only program that runs at all times on the computer
+                            (called the <strong>kernel</strong>). Everything else is either a system program or
+                            application program.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: OS Structure -->
+                <div class="section">
+                    <div class="section-title">2. Operating System Structure</div>
+                    <div class="content">
+                        <div class="definition-box">
+                            <strong>OS Structure:</strong><br>
+                            The way an operating system organizes its components and how they interact with each other.
+                        </div>
+
+                        <div class="subsection-title">Types of OS Structures:</div>
+
+                        <div class="step-box">
+                            <strong>1. Monolithic Structure:</strong><br>
+                            All OS services run in kernel mode as a single large program.<br><br>
+                            <strong>Characteristics:</strong><br>
+                            • No structure - everything in one big program<br>
+                            • All functions have access to all data<br>
+                            • Fast (no overhead of communication)<br><br>
+                            <strong>Example:</strong> MS-DOS, Early UNIX<br><br>
+                            <strong>Advantages:</strong> ✓ Fast, ✓ Simple<br>
+                            <strong>Disadvantages:</strong> ✗ Hard to maintain, ✗ One bug crashes entire system
+                        </div>
+
+                        <div class="step-box">
+                            <strong>2. Layered Structure:</strong><br>
+                            OS divided into layers, each layer uses services of layer below it.<br><br>
+                            <strong>Layers (Bottom to Top):</strong><br>
+                            Layer 0: Hardware<br>
+                            Layer 1: CPU Scheduling<br>
+                            Layer 2: Memory Management<br>
+                            Layer 3: I/O Management<br>
+                            Layer 4: User Programs<br><br>
+                            <strong>Example:</strong> THE OS, Windows NT<br><br>
+                            <strong>Advantages:</strong> ✓ Easy to debug (layer by layer), ✓ Modular<br>
+                            <strong>Disadvantages:</strong> ✗ Slow (many layers), ✗ Hard to define layers
+                        </div>
+
+                        <div class="step-box">
+                            <strong>3. Microkernel Structure:</strong><br>
+                            Only essential services in kernel, rest run as user processes.<br><br>
+                            <strong>Kernel Contains:</strong><br>
+                            • Minimal process management<br>
+                            • Memory management<br>
+                            • Inter-process communication (IPC)<br><br>
+                            <strong>User Space Contains:</strong><br>
+                            • File system<br>
+                            • Device drivers<br>
+                            • Network protocols<br><br>
+                            <strong>Example:</strong> Mach, QNX, Minix<br><br>
+                            <strong>Advantages:</strong> ✓ Reliable (less code in kernel), ✓ Easy to extend<br>
+                            <strong>Disadvantages:</strong> ✗ Slower (frequent message passing)
+                        </div>
+
+                        <div class="step-box">
+                            <strong>4. Modular Structure (Loadable Kernel Modules):</strong><br>
+                            Modern approach - kernel has core components, others loaded as modules.<br><br>
+                            <strong>How it works:</strong><br>
+                            • Core kernel is small<br>
+                            • Modules loaded dynamically when needed<br>
+                            • Each module talks to core via defined interfaces<br><br>
+                            <strong>Example:</strong> Linux, Solaris<br><br>
+                            <strong>Advantages:</strong> ✓ Flexible, ✓ Efficient, ✓ Easy to add features<br>
+                            <strong>Best of both:</strong> Speed of monolithic + modularity of layers
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Main Functions -->
+                <div class="section">
+                    <div class="section-title">3. Main Functions of Operating System</div>
+                    <div class="content">
+                        <div class="subsection-title">1. Process Management:</div>
+                        <div class="example-box">
+                            <strong>What is Process Management?</strong><br>
+                            Managing programs that are currently running (processes).<br><br>
+                            <strong>OS Responsibilities:</strong><br>
+                            • Create and delete processes<br>
+                            • Suspend and resume processes<br>
+                            • Provide mechanisms for process synchronization<br>
+                            • Provide mechanisms for process communication<br>
+                            • Handle deadlocks<br><br>
+                            <strong>Example:</strong> When you open Chrome, Word, and Spotify together, OS manages all
+                            three processes, decides which gets CPU time, and ensures they don't interfere with each
+                            other.
+                        </div>
+
+                        <div class="subsection-title">2. Memory Management:</div>
+                        <div class="example-box">
+                            <strong>What is Memory Management?</strong><br>
+                            Managing computer's RAM (main memory).<br><br>
+                            <strong>OS Responsibilities:</strong><br>
+                            • Keep track of which memory is used and by whom<br>
+                            • Decide which processes to load in memory<br>
+                            • Allocate and deallocate memory<br>
+                            • Prevent processes from accessing each other's memory<br><br>
+                            <strong>Example:</strong> If you have 8GB RAM and run programs needing 10GB, OS uses virtual
+                            memory (hard disk space) to manage the extra 2GB.
+                        </div>
+
+                        <div class="subsection-title">3. File Management:</div>
+                        <div class="example-box">
+                            <strong>What is File Management?</strong><br>
+                            Managing files and directories on storage devices.<br><br>
+                            <strong>OS Responsibilities:</strong><br>
+                            • Create and delete files and directories<br>
+                            • Provide operations on files (read, write, append)<br>
+                            • Map files to disk storage<br>
+                            • Backup files<br>
+                            • Provide file permissions and security<br><br>
+                            <strong>Example:</strong> When you save a document, OS decides where on the hard disk to
+                            store it, updates directory structure, and manages file permissions.
+                        </div>
+
+                        <div class="subsection-title">4. I/O Device Management:</div>
+                        <div class="example-box">
+                            <strong>What is I/O Management?</strong><br>
+                            Managing input/output devices (keyboard, mouse, printer, etc.)<br><br>
+                            <strong>OS Responsibilities:</strong><br>
+                            • Provide device drivers<br>
+                            • Buffer and cache data<br>
+                            • Handle I/O operations<br>
+                            • Manage device queues<br><br>
+                            <strong>Example:</strong> When you print a document, OS uses printer driver to communicate
+                            with printer, manages print queue if multiple documents are waiting.
+                        </div>
+
+                        <div class="subsection-title">5. Security and Protection:</div>
+                        <div class="example-box">
+                            <strong>What is Security?</strong><br>
+                            Protecting system from unauthorized access and threats.<br><br>
+                            <strong>OS Responsibilities:</strong><br>
+                            • User authentication (passwords, biometrics)<br>
+                            • Access control (file permissions)<br>
+                            • Protect processes from each other<br>
+                            • Defend against viruses and malware<br><br>
+                            <strong>Example:</strong> Login password, file permissions (who can read/write/execute),
+                            preventing one user from accessing another user's files.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Characteristics -->
+                <div class="section">
+                    <div class="section-title">4. Characteristics of Operating System</div>
+                    <div class="content">
+                        <div class="advantage-box">
+                            <strong>1. Resource Manager:</strong><br>
+                            OS manages all hardware resources (CPU, memory, I/O devices) efficiently.<br><br>
+
+                            <strong>2. Interface Provider:</strong><br>
+                            Provides user-friendly interface (GUI or Command Line) to interact with computer.<br><br>
+
+                            <strong>3. Multitasking:</strong><br>
+                            Run multiple programs simultaneously.<br>
+                            Example: Listen to music while browsing and typing document.<br><br>
+
+                            <strong>4. Multiprogramming:</strong><br>
+                            Keep multiple programs in memory and execute them by switching.<br><br>
+
+                            <strong>5. Time Sharing:</strong><br>
+                            Multiple users can use the system simultaneously.<br>
+                            Example: Multiple users logged into a server.<br><br>
+
+                            <strong>6. Error Handling:</strong><br>
+                            Detect and handle errors (hardware failure, division by zero, etc.)<br><br>
+
+                            <strong>7. Memory Protection:</strong><br>
+                            Prevent processes from accessing memory they shouldn't.<br><br>
+
+                            <strong>8. Job Scheduling:</strong><br>
+                            Decide which process runs when and for how long.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Section 5: Types of OS -->
+                <div class="section">
+                    <div class="section-title">5. Types of Operating Systems</div>
+                    <div class="content">
+                        <div class="subsection-title">1. Batch Operating System:</div>
+                        <div class="example-box">
+                            <strong>Batch OS:</strong> Jobs grouped and executed without user interaction<br><br>
+
+                            <strong>Real-life Example:</strong> Bank processes all checks in one batch at night<br><br>
+
+                            <strong>Advantages:</strong> ✓ High throughput ✓ Less CPU idle time<br>
+                            <strong>Disadvantages:</strong> ✗ No interaction ✗ Long waiting
+                        </div>
+
+                        <div class="subsection-title">2. Time-Sharing OS (Multitasking):</div>
+                        <div class="example-box">
+                            <strong>Time-Sharing:</strong> Multiple users share CPU by time slicing<br><br>
+
+                            <strong>How:</strong> CPU gives small time to each process, switches rapidly<br><br>
+
+                            <strong>Examples:</strong> Windows, Linux, macOS<br><br>
+
+                            <strong>Advantages:</strong> ✓ Multiple users ✓ Quick response<br>
+                            <strong>Disadvantages:</strong> ✗ Context switching overhead
+                        </div>
+
+                        <div class="subsection-title">3. Real-Time OS (RTOS):</div>
+                        <div class="step-box">
+                            <strong>Hard Real-Time:</strong> Deadline must be met (Airbag, Pacemaker)<br>
+                            <strong>Soft Real-Time:</strong> Deadline can be missed occasionally (Video
+                            streaming)<br><br>
+
+                            <strong>Advantages:</strong> ✓ Guaranteed response ✓ High reliability<br>
+                            <strong>Disadvantages:</strong> ✗ Complex ✗ Expensive
+                        </div>
+
+                        <div class="subsection-title">4. Distributed OS:</div>
+                        <div class="example-box">
+                            <strong>Distributed:</strong> Multiple computers appear as one system<br><br>
+
+                            <strong>Example:</strong> Google servers working together<br><br>
+
+                            <strong>Advantages:</strong> ✓ Reliability ✓ Scalability<br>
+                            <strong>Disadvantages:</strong> ✗ Complex ✗ Security
+                        </div>
+
+                        <div class="subsection-title">5. Mobile OS:</div>
+                        <div class="example-box">
+                            <strong>Mobile:</strong> OS for smartphones/tablets<br>
+                            <strong>Examples:</strong> Android, iOS<br>
+                            <strong>Features:</strong> Touch interface, Battery optimization
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 6: System Calls -->
+                <div class="section">
+                    <div class="section-title">6. System Calls</div>
+                    <div class="content">
+                        <div class="definition-box">
+                            <strong>System Call:</strong> Interface between user program and OS kernel. Programs request
+                            OS services through system calls.
+                        </div>
+
+                        <div class="code-box"><strong>How System Call Works:</strong>
+
+                            1. User Program → Calls library function
+                            2. Mode Switch → User mode to Kernel mode
+                            3. OS Kernel → Executes service
+                            4. Return Result → Back to user program
+                            5. Mode Switch → Kernel mode to User mode
+
+                            <strong>User Mode:</strong> Limited privileges, cannot access hardware
+                            <strong>Kernel Mode:</strong> Full privileges, can access everything
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 7: Types of System Calls -->
+                <div class="section">
+                    <div class="section-title">7. Types of System Calls</div>
+                    <div class="content">
+                        <div class="image-container">
+                            <div class="glow-image-card">
+                                <img src="\notes\os\image\5 categories.png" alt="Notes Image">
+                            </div>
+                            <div class="image-caption">📊 Types of System Calls</div>
+                        </div>
+                    </div>
 
 
                 </div>
             </div>
-            
+
             <!-- Section 8: System Programs -->
             <div class="section">
                 <div class="section-title">8. System Programs</div>
                 <div class="content">
                     <div class="step-box">
                         <strong>System Programs:</strong> Utilities provided with OS<br><br>
-                        
+
                         <strong>Types:</strong><br>
                         1. File Management (File explorer)<br>
                         2. Status Information (Task Manager)<br>
@@ -953,1387 +1027,1405 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="divider"></div>
-            
+
             <!-- CHAPTER 2: PROCESS MANAGEMENT -->
             <div class="chapter-title" id="ch2">
                 <span>⚙️</span>
                 <span>Chapter 2 — Process Management</span>
             </div>
-            
+
             <!-- Section 1: Process Concept -->
             <div class="section">
                 <div class="section-title">1. Process Concept</div>
                 <div class="content">
                     <div class="definition-box">
                         <strong>Process:</strong><br>
-                        A process is a program in execution. When a program (stored on disk) is loaded into memory and executed, it becomes a process.
+                        A process is a program in execution. When a program (stored on disk) is loaded into memory and
+                        executed, it becomes a process.
                     </div>
-                    
+
                     <div class="example-box">
                         <strong>Program vs Process:</strong><br><br>
-                        
+
                         <strong>Program:</strong><br>
                         • Passive entity (just code stored on disk)<br>
                         • Example: Chrome.exe file on hard disk<br>
                         • Static (doesn't change)<br><br>
-                        
+
                         <strong>Process:</strong><br>
                         • Active entity (program running in memory)<br>
                         • Example: Chrome browser running on your screen<br>
                         • Dynamic (state changes during execution)<br><br>
-                        
+
                         <strong>Analogy:</strong><br>
                         Program = Recipe book (inactive)<br>
                         Process = Cooking using recipe (active)
                     </div>
-                    
+
                     <div class="subsection-title">Components of a Process:</div>
                     <div class="image-container">
                         <div class="glow-image-card">
-                        <img src="\notes\os\image\process memory layout.png" alt="Notes Image">
+                            <img src="\notes\os\image\process memory layout.png" alt="Notes Image">
                         </div>
-                         <div class="image-caption">📊 Process Memory Layout</div>
-                         </div>
-                         </div>
-                    
-                    <div class="step-box">
-                        <strong>1. Text Section (Code):</strong><br>
-                        • Contains executable code (instructions)<br>
-                        • Read-only (cannot be modified)<br><br>
-                        
-                        <strong>2. Data Section:</strong><br>
-                        • Global variables<br>
-                        • Static variables<br><br>
-                        
-                        <strong>3. Heap:</strong><br>
-                        • Dynamically allocated memory<br>
-                        • Grows upward during execution<br>
-                        • Managed by programmer (malloc/free)<br><br>
-                        
-                        <strong>4. Stack:</strong><br>
-                        • Function calls<br>
-                        • Local variables<br>
-                        • Return addresses<br>
-                        • Grows downward during execution
+                        <div class="image-caption">📊 Process Memory Layout</div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Section 2: Process Control Block -->
-            <div class="section">
-                <div class="section-title">2. Process Control Block (PCB)</div>
-                <div class="content">
-                    <div class="definition-box">
-                        <strong>Process Control Block (PCB):</strong><br>
-                        A data structure maintained by OS for every process. Contains all information about the process. Also called Task Control Block (TCB).
-                    </div>
-                    
-                    <div class="example-box">
-                        <strong>Think of PCB as:</strong><br>
-                        Student's report card containing all information: name, roll number, marks, attendance, behavior notes.<br><br>
-                        Similarly, PCB contains everything about a process!
-                    </div>
-                    
-                    <div class="subsection-title">Information in PCB:</div>
-                    <div class="glow-image-card">
-                        <img src="\notes\os\image\pcb structure.png" alt="Notes Image">
-                        </div>
-                         <div class="image-caption">📊 PCB Structure</div>
-                         </div>
-                         </div>
-                    
-                    <div class="step-box">
-                        <strong>1. Process ID (PID):</strong><br>
-                        Unique number identifying the process<br>
-                        Example: Chrome PID = 1234<br><br>
-                        
-                        <strong>2. Process State:</strong><br>
-                        Current state (New, Ready, Running, Waiting, Terminated)<br><br>
-                        
-                        <strong>3. Program Counter:</strong><br>
-                        Address of next instruction to execute<br><br>
-                        
-                        <strong>4. CPU Registers:</strong><br>
-                        Values of all CPU registers (saved during context switch)<br><br>
-                        
-                        <strong>5. CPU Scheduling Information:</strong><br>
-                        • Priority<br>
-                        • Scheduling queue pointers<br><br>
-                        
-                        <strong>6. Memory Management Information:</strong><br>
-                        • Base and limit registers<br>
-                        • Page tables<br><br>
-                        
-                        <strong>7. Accounting Information:</strong><br>
-                        • CPU time used<br>
-                        • Time limits<br>
-                        • Process start time<br><br>
-                        
-                        <strong>8. I/O Status Information:</strong><br>
-                        • List of open files<br>
-                        • I/O devices allocated
-                    </div>
-                    
-                    <div class="note-box">
-                        <strong>Why PCB is Important:</strong><br>
-                        When OS switches from one process to another (context switch), it saves current process state in PCB and loads next process state from its PCB. Without PCB, OS wouldn't know where to resume execution!
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Section 3: Process States -->
-            <div class="section">
-                <div class="section-title">3. Process States</div>
-                <div class="content">
-                    <div class="definition-box">
-                        <strong>Process States:</strong><br>
-                        A process changes state during its execution. There are 5 main states a process can be in.
-                    </div>
-                    
-                    <div class="glow-image-card">
-                        <img src="\notes\os\image\process state diagram.png" alt="Notes Image">
-                        </div>
-                         <div class="image-caption">📊 Process State Diagram</div>
-                         </div>
-                         </div>
-                    
-                    <div class="subsection-title">1. New State:</div>
-                    <div class="example-box">
-                        <strong>New:</strong> Process is being created<br>
-                        • OS is allocating resources<br>
-                        • PCB is being initialized<br>
-                        • Not yet admitted to ready queue<br><br>
-                        
-                        <strong>Example:</strong> You double-click Chrome icon → Process in New state
-                    </div>
-                    
-                    <div class="subsection-title">2. Ready State:</div>
-                    <div class="example-box">
-                        <strong>Ready:</strong> Process is ready to execute, waiting for CPU<br>
-                        • All resources allocated except CPU<br>
-                        • In ready queue<br>
-                        • Waiting for scheduler to assign CPU<br><br>
-                        
-                        <strong>Example:</strong> Multiple students ready to ask teacher a question, waiting for their turn
-                    </div>
-                    
-                    <div class="subsection-title">3. Running State:</div>
-                    <div class="example-box">
-                        <strong>Running:</strong> Process is currently executing on CPU<br>
-                        • Instructions being executed<br>
-                        • Only ONE process can run on one CPU at a time<br><br>
-                        
-                        <strong>Example:</strong> Student currently asking teacher question
-                    </div>
-                    
-                    <div class="subsection-title">4. Waiting State (Blocked):</div>
-                    <div class="example-box">
-                        <strong>Waiting:</strong> Process waiting for some event (I/O completion)<br>
-                        • Cannot execute even if CPU is free<br>
-                        • Waiting for I/O operation to complete<br>
-                        • Or waiting for a signal/event<br><br>
-                        
-                        <strong>Example:</strong> Process waiting for user to click button, or waiting for file to load from disk
-                    </div>
-                    
-                    <div class="subsection-title">5. Terminated State:</div>
-                    <div class="example-box">
-                        <strong>Terminated:</strong> Process has finished execution<br>
-                        • All resources released<br>
-                        • PCB being deleted<br>
-                        • Process removed from system<br><br>
-                        
-                        <strong>Example:</strong> You close Chrome → Process terminates
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Section 4: Process State Transitions -->
-            <div class="section">
-                <div class="section-title">4. Process State Transitions</div>
-                <div class="content">
-                    <div class="subsection-title">State Transitions Explained:</div>
-                    
-                    <div class="step-box">
-                        <strong>1. New → Ready (Admitted):</strong><br>
-                        OS admits process to ready queue<br>
-                        Example: OS decides there's enough memory for new process<br><br>
-                        
-                        <strong>2. Ready → Running (Scheduler Dispatch):</strong><br>
-                        CPU scheduler selects process from ready queue<br>
-                        Example: Your process gets CPU time<br><br>
-                        
-                        <strong>3. Running → Ready (Interrupt):</strong><br>
-                        Process loses CPU (time slice expired or higher priority process arrives)<br>
-                        Example: Timer interrupt - your time is up!<br><br>
-                        
-                        <strong>4. Running → Waiting (I/O or Event Wait):</strong><br>
-                        Process needs I/O operation<br>
-                        Example: Process reading from disk - must wait for disk<br><br>
-                        
-                        <strong>5. Waiting → Ready (I/O Completion):</strong><br>
-                        I/O operation completed, process can run again<br>
-                        Example: File loaded from disk, process ready to continue<br><br>
-                        
-                        <strong>6. Running → Terminated (Exit):</strong><br>
-                        Process completes execution or is killed<br>
-                        Example: Program finishes or crashes
-                    </div>
-                    
-                    <div class="example-box">
-                        <strong>Real-life Example - Downloading a File:</strong><br><br>
-                        
-                        1. <strong>New:</strong> You click download button → Process created<br>
-                        2. <strong>Ready:</strong> Process ready to start download<br>
-                        3. <strong>Running:</strong> Process starts downloading<br>
-                        4. <strong>Waiting:</strong> Waiting for network packets to arrive<br>
-                        5. <strong>Ready:</strong> Data received, ready to save to disk<br>
-                        6. <strong>Running:</strong> Writing data to disk<br>
-                        7. <strong>Terminated:</strong> Download complete!
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Section 5: Process Scheduling -->
-            <div class="section">
-                <div class="section-title">5. Process Scheduling</div>
-                <div class="content">
-                    <div class="definition-box">
-                        <strong>Process Scheduling:</strong><br>
-                        The method by which OS decides which process runs on CPU and for how long. Goal is to maximize CPU utilization and provide fair execution time to all processes.
-                    </div>
-                    
-                    <div class="subsection-title">Scheduling Queues:</div>
-                    <div class="code-box"><strong>Types of Queues:</strong>
 
-1. Job Queue:
-   All processes in the system
-   
-2. Ready Queue:
-   Processes in main memory, ready to execute
-   Waiting for CPU
-   
-3. Device Queue:
-   Processes waiting for I/O device
-   Each device has its own queue
-   
-Example:
-Ready Queue: [P1, P3, P5]  ← Waiting for CPU
-Disk Queue:  [P2, P4]      ← Waiting for disk
-Printer Queue: [P6]        ← Waiting for printer</div>
-                    
-                    <div class="subsection-title">Types of Schedulers:</div>
-                    
-                    <div class="step-box">
-                        <strong>1. Long-Term Scheduler (Job Scheduler):</strong><br>
-                        • Selects which processes to bring into ready queue<br>
-                        • Controls degree of multiprogramming<br>
-                        • Executes less frequently (minutes)<br>
-                        • Decides: New → Ready<br><br>
-                        
-                        <strong>Example:</strong> Decides whether to load new program into memory or not
-                    </div>
-                    
-                    <div class="step-box">
-                        <strong>2. Short-Term Scheduler (CPU Scheduler):</strong><br>
-                        • Selects which process from ready queue gets CPU<br>
-                        • Executes very frequently (milliseconds)<br>
-                        • Must be very fast!<br>
-                        • Decides: Ready → Running<br><br>
-                        
-                        <strong>Example:</strong> Every 10ms, decides which process runs next
-                    </div>
-                    
-                    <div class="step-box">
-                        <strong>3. Medium-Term Scheduler:</strong><br>
-                        • Swaps processes in/out of memory<br>
-                        • Reduces degree of multiprogramming<br>
-                        • Used in swapping<br><br>
-                        
-                        <strong>Example:</strong> Moves inactive process from RAM to disk to free memory
-                    </div>
-                    
-                    <div class="subsection-title">Context Switch:</div>
-                    <div class="definition-box">
-                        <strong>Context Switch:</strong><br>
-                        The process of saving state of current process and loading state of next process.
-                    </div>
-                    
-                    <div class="code-box"><strong>Context Switch Steps:</strong>
+                <div class="step-box">
+                    <strong>1. Text Section (Code):</strong><br>
+                    • Contains executable code (instructions)<br>
+                    • Read-only (cannot be modified)<br><br>
 
-1. Save state of Process A in its PCB
-   - Program counter
-   - CPU registers
-   - Memory maps
-   
-2. Load state of Process B from its PCB
-   - Restore program counter
-   - Restore CPU registers
-   - Restore memory maps
-   
-3. Process B starts running
+                    <strong>2. Data Section:</strong><br>
+                    • Global variables<br>
+                    • Static variables<br><br>
 
-<strong>Time:</strong> Context switch is pure overhead
-No useful work done during switch
-Typically takes 1-10 microseconds</div>
-                    
-                    <div class="note-box">
-                        <strong>Important:</strong> Context switching is expensive! That's why OS tries to minimize it. Too many context switches = system becomes slow.
-                    </div>
-                </div>
-            </div>
-            
-            <div class="divider"></div>
-            
-            <!-- Section 6: Threads -->
-            <div class="section">
-                <div class="section-title">6. Threads</div>
-                <div class="content">
-                    <div class="definition-box">
-                        <strong>Thread:</strong><br>
-                        A thread is a lightweight process - the smallest unit of execution within a process. Multiple threads can exist within a single process, sharing the same resources but executing independently.
-                    </div>
-                    
-                    <div class="example-box">
-                        <strong>Real-life Analogy - Microsoft Word:</strong><br><br>
-                        
-                        <strong>Single Process (Word):</strong><br>
-                        • Main process = Word application<br><br>
-                        
-                        <strong>Multiple Threads within Word:</strong><br>
-                        • Thread 1: Accept your typing<br>
-                        • Thread 2: Check spelling (red underlines)<br>
-                        • Thread 3: Auto-save document<br>
-                        • Thread 4: Display UI<br><br>
-                        
-                        All happening simultaneously within one Word process!
-                    </div>
-                    
-                    <div class="subsection-title">Process vs Thread:</div>
-                    <div class="glow-image-card">
-                        <img src="\notes\os\image\comparison thread vs process.png" alt="Notes Image">
-                        </div>
-                         <div class="image-caption">📊 Process vs Thread</div>
-                         </div>
-                         </div>
-                    
-                    <div class="subsection-title">Benefits of Threads:</div>
-                    <div class="advantage-box">
-                        <strong>1. Responsiveness:</strong><br>
-                        Application remains responsive even if part is blocked<br>
-                        Example: Web browser can download file while you browse other tabs<br><br>
-                        
-                        <strong>2. Resource Sharing:</strong><br>
-                        Threads share memory and resources of process<br>
-                        No need for IPC mechanisms<br>
-                        Easier communication between threads<br><br>
-                        
-                        <strong>3. Economy:</strong><br>
-                        Creating thread is cheaper than creating process<br>
-                        Context switch between threads is faster<br>
-                        Example: Thread creation 10-100x faster than process<br><br>
-                        
-                        <strong>4. Scalability (Multicore):</strong><br>
-                        Threads can run on different CPU cores simultaneously<br>
-                        True parallelism on multicore systems<br>
-                        Example: Video encoding - each thread processes different frame
-                    </div>
-                    
-                    <div class="subsection-title">Types of Threads:</div>
-                    
-                    <div class="step-box">
-                        <strong>1. User-Level Threads (ULT):</strong><br>
-                        Managed by user-level thread library, OS doesn't know about them<br><br>
-                        
-                        <strong>How it works:</strong><br>
-                        • Thread library in user space manages threads<br>
-                        • OS sees only one process<br>
-                        • Thread switching done by library (no kernel involvement)<br><br>
-                        
-                        <strong>Advantages:</strong><br>
-                        ✓ Fast thread creation and switching<br>
-                        ✓ Can run on any OS<br>
-                        ✓ Flexible scheduling<br><br>
-                        
-                        <strong>Disadvantages:</strong><br>
-                        ✗ If one thread blocks, entire process blocks<br>
-                        ✗ Cannot use multiple CPUs (OS thinks it's one process)<br><br>
-                        
-                        <strong>Example:</strong> Java Green Threads (old)
-                    </div>
-                    
-                    <div class="step-box">
-                        <strong>2. Kernel-Level Threads (KLT):</strong><br>
-                        Managed directly by OS kernel<br><br>
-                        
-                        <strong>How it works:</strong><br>
-                        • OS knows about each thread<br>
-                        • Kernel schedules threads<br>
-                        • OS maintains thread table<br><br>
-                        
-                        <strong>Advantages:</strong><br>
-                        ✓ If one thread blocks, others can continue<br>
-                        ✓ Can use multiple CPUs (true parallelism)<br>
-                        ✓ Better for multicore systems<br><br>
-                        
-                        <strong>Disadvantages:</strong><br>
-                        ✗ Slower (kernel mode switches required)<br>
-                        ✗ More overhead<br><br>
-                        
-                        <strong>Example:</strong> Windows threads, Linux threads
-                    </div>
-                    
-                    <div class="subsection-title">Multithreading Models:</div>
-                    
-                    <div class="example-box">
-                        <strong>1. Many-to-One Model:</strong><br>
-                        Many user threads → mapped to → One kernel thread<br><br>
-                        
-                        <strong>Diagram:</strong><br>
-                        User Level: [T1] [T2] [T3] [T4]<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-                        Kernel Level: &nbsp;&nbsp;&nbsp;&nbsp;[K1]<br><br>
-                        
-                        <strong>Characteristics:</strong><br>
-                        • If one thread blocks, all block<br>
-                        • Cannot run on multiple CPUs<br>
-                        • Fast thread management<br><br>
-                        
-                        <strong>Example:</strong> Green Threads
-                    </div>
-                    
-                    <div class="example-box">
-                        <strong>2. One-to-One Model:</strong><br>
-                        One user thread → mapped to → One kernel thread<br><br>
-                        
-                        <strong>Diagram:</strong><br>
-                        User Level: [T1] [T2] [T3] [T4]<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-                        Kernel Level: [K1] [K2] [K3] [K4]<br><br>
-                        
-                        <strong>Characteristics:</strong><br>
-                        • If one thread blocks, others continue<br>
-                        • Can use multiple CPUs<br>
-                        • Creating thread = creating kernel thread (overhead)<br>
-                        • Most systems limit number of threads<br><br>
-                        
-                        <strong>Example:</strong> Windows, Linux
-                    </div>
-                    
-                    <div class="example-box">
-                        <strong>3. Many-to-Many Model:</strong><br>
-                        Many user threads → mapped to → Many kernel threads<br><br>
-                        
-                        <strong>Diagram:</strong><br>
-                        User Level: [T1] [T2] [T3] [T4] [T5] [T6]<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-                        Kernel Level: &nbsp;&nbsp;&nbsp;&nbsp;[K1] [K2] [K3]<br><br>
-                        
-                        <strong>Characteristics:</strong><br>
-                        • OS creates sufficient kernel threads<br>
-                        • Best of both worlds<br>
-                        • Can run on multiple CPUs<br>
-                        • If one blocks, others continue<br><br>
-                        
-                        <strong>Example:</strong> Solaris, older UNIX versions
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Section 7: CPU Scheduling -->
-            <div class="section">
-                <div class="section-title">7. CPU Scheduling</div>
-                <div class="content">
-                    <div class="definition-box">
-                        <strong>CPU Scheduling:</strong><br>
-                        The process of deciding which process in the ready queue gets the CPU next. Goal is to keep CPU busy and provide fair execution time to all processes.
-                    </div>
-                    
-                    <div class="example-box">
-                        <strong>Why Scheduling Needed?</strong><br>
-                        In multiprogramming, when one process waits (for I/O), CPU switches to another process. Scheduling decides which process runs next to maximize CPU utilization.
-                    </div>
-                    
-                    <div class="subsection-title">Preemptive vs Non-Preemptive Scheduling:</div>
-                    
-                    <div class="step-box">
-                        <strong>Non-Preemptive Scheduling:</strong><br>
-                        Once CPU is allocated to a process, process keeps it until it terminates or switches to waiting state. CPU cannot be taken away forcefully.<br><br>
-                        
-                        <strong>Characteristics:</strong><br>
-                        • Process runs until completion or blocks<br>
-                        • No interruption by scheduler<br>
-                        • Simple to implement<br><br>
-                        
-                        <strong>Real-life Example:</strong><br>
-                        Doctor's appointment - Once doctor starts with patient, continues until done. Next patient must wait.<br><br>
-                        
-                        <strong>Advantages:</strong><br>
-                        ✓ Simple<br>
-                        ✓ Low overhead (no context switching)<br>
-                        ✓ Predictable<br><br>
-                        
-                        <strong>Disadvantages:</strong><br>
-                        ✗ Long process blocks CPU for long time<br>
-                        ✗ Poor response time<br>
-                        ✗ Not suitable for time-sharing systems<br><br>
-                        
-                        <strong>Examples:</strong> FCFS, SJF (non-preemptive), Priority (non-preemptive)
-                    </div>
-                    
-                    <div class="step-box">
-                        <strong>Preemptive Scheduling:</strong><br>
-                        CPU can be taken away from a running process before it completes. Scheduler can interrupt and switch to another process.<br><br>
-                        
-                        <strong>Characteristics:</strong><br>
-                        • Process can be interrupted<br>
-                        • Higher priority process can take CPU<br>
-                        • Timer interrupts used<br><br>
-                        
-                        <strong>Real-life Example:</strong><br>
-                        Emergency room - If critical patient arrives, doctor stops current patient and attends emergency first.<br><br>
-                        
-                        <strong>Advantages:</strong><br>
-                        ✓ Better response time<br>
-                        ✓ Fair to all processes<br>
-                        ✓ Suitable for time-sharing<br>
-                        ✓ High priority tasks handled quickly<br><br>
-                        
-                        <strong>Disadvantages:</strong><br>
-                        ✗ Complex<br>
-                        ✗ Context switch overhead<br>
-                        ✗ Risk of race conditions<br><br>
-                        
-                        <strong>Examples:</strong> Round Robin, SRTF, Priority (preemptive)
-                    </div>
-                    
-                     <div class="glow-image-card">
-                        <img src="\notes\os\image\comparison preemptive vs non preemptive.png" alt="Notes Image">
-                        </div>
-                         <div class="image-caption">📊 Preemptive vs Non-Preemptive Scheduling</div>
-                         </div>
-                         </div>
-                </div>
-            </div>
-            
-            <!-- Section 8: Scheduling Criteria -->
-            <div class="section">
-                <div class="section-title">8. Scheduling Criteria</div>
-                <div class="content">
-                    <div class="definition-box">
-                        <strong>Scheduling Criteria:</strong><br>
-                        Metrics used to evaluate and compare different CPU scheduling algorithms. Help determine which algorithm is best for a given situation.
-                    </div>
-                    
-                    <div class="subsection-title">Key Criteria:</div>
-                    
-                    <div class="step-box">
-                        <strong>1. CPU Utilization:</strong><br>
-                        Percentage of time CPU is busy (not idle)<br><br>
-                        
-                        <strong>Goal:</strong> Maximize (keep CPU as busy as possible)<br>
-                        <strong>Range:</strong> 0% to 100%<br>
-                        <strong>Good:</strong> 40% (lightly loaded) to 90% (heavily loaded)<br><br>
-                        
-                        <strong>Formula:</strong><br>
-                        CPU Utilization = (Total Busy Time / Total Time) × 100%<br><br>
-                        
-                        <strong>Example:</strong><br>
-                        If CPU is busy for 80 seconds out of 100 seconds → 80% utilization
-                    </div>
-                    
-                    <div class="step-box">
-                        <strong>2. Throughput:</strong><br>
-                        Number of processes completed per unit time<br><br>
-                        
-                        <strong>Goal:</strong> Maximize (complete more processes)<br>
-                        <strong>Unit:</strong> processes/hour or processes/second<br><br>
-                        
-                        <strong>Formula:</strong><br>
-                        Throughput = Number of processes completed / Total time<br><br>
-                        
-                        <strong>Example:</strong><br>
-                        10 processes completed in 100 seconds → Throughput = 0.1 processes/second
-                    </div>
-                    
-                    <div class="step-box">
-                        <strong>3. Turnaround Time:</strong><br>
-                        Total time from process submission to completion<br>
-                        Time interval from arrival to termination<br><br>
-                        
-                        <strong>Goal:</strong> Minimize<br><br>
-                        
-                        <strong>Formula:</strong><br>
-                        Turnaround Time = Completion Time - Arrival Time<br>
-                        Or<br>
-                        Turnaround Time = Waiting Time + Burst Time<br><br>
-                        
-                        <strong>Example:</strong><br>
-                        Process arrives at time 0, completes at time 10<br>
-                        → Turnaround Time = 10 - 0 = 10 seconds
-                    </div>
-                    
-                    <div class="step-box">
-                        <strong>4. Waiting Time:</strong><br>
-                        Total time process spends in ready queue waiting for CPU<br>
-                        Does NOT include execution time<br><br>
-                        
-                        <strong>Goal:</strong> Minimize<br><br>
-                        
-                        <strong>Formula:</strong><br>
-                        Waiting Time = Turnaround Time - Burst Time<br><br>
-                        
-                        <strong>Example:</strong><br>
-                        Turnaround Time = 10s, Burst Time = 3s<br>
-                        → Waiting Time = 10 - 3 = 7 seconds
-                    </div>
-                    
-                    <div class="step-box">
-                        <strong>5. Response Time:</strong><br>
-                        Time from process submission to first response (first time it gets CPU)<br>
-                        Important for interactive systems<br><br>
-                        
-                        <strong>Goal:</strong> Minimize<br><br>
-                        
-                        <strong>Formula:</strong><br>
-                        Response Time = Time of first response - Arrival Time<br><br>
-                        
-                        <strong>Example:</strong><br>
-                        Process arrives at 0, first gets CPU at time 5<br>
-                        → Response Time = 5 - 0 = 5 seconds<br><br>
-                        
-                        <strong>Difference from Waiting Time:</strong><br>
-                        Response time is till FIRST response, waiting time is TOTAL waiting
-                    </div>
-                    
-                    <div class="glow-image-card">
-                        <img src="\notes\os\image\summary of criteria.png" alt="Notes Image">
-                        </div>
-                         <div class="image-caption">📊 Summary of Scheduling Criteria</div>
-                         </div>
-                         </div>
-                    
-                    <div class="note-box">
-                        <strong>Important:</strong><br>
-                        No single algorithm is best for all criteria. Trade-offs exist:<br>
-                        • Algorithm good for throughput may have poor response time<br>
-                        • Algorithm minimizing waiting time may reduce CPU utilization<br>
-                        • Choice depends on system requirements (batch vs interactive)
-                    </div>
-                </div>
-            </div>
-            
-            <div class="divider"></div>
-            
-            <!-- Section 9: Scheduling Algorithms -->
-            <div class="section">
-                <div class="section-title">9. CPU Scheduling Algorithms</div>
-                <div class="content">
-                    <div class="definition-box">
-                        <strong>Scheduling Algorithms:</strong><br>
-                        Rules/methods used by CPU scheduler to decide which process from the ready queue gets the CPU next.
-                    </div>
-                    
-                    <div class="subsection-title">1. First Come First Serve (FCFS):</div>
-                    <div class="definition-box">
-                        <strong>FCFS:</strong> Simplest algorithm. Process that arrives first gets CPU first. Non-preemptive.
-                    </div>
-                    
-                    <div class="example-box">
-                        <strong>Real-life Example:</strong> Queue at ticket counter - First person in line gets served first!<br><br>
-                        
-                        <strong>Implementation:</strong> Using FIFO queue<br>
-                        • New process added to tail of queue<br>
-                        • Scheduler picks from head of queue
-                    </div>
-                    
-                     <div class="glow-image-card">
-                        <img src="\notes\os\image\example.png" alt="Notes Image">
-                        </div>
-                         <div class="image-caption">📊 Example of FCFS Scheduling</div>
-                         </div>
-                         </div>
-                    
-                    <div class="advantage-box">
-                        <strong>Advantages:</strong><br>
-                        ✓ Simple and easy to implement<br>
-                        ✓ Fair (first come, first served)<br>
-                        ✓ No starvation
-                    </div>
-                    
-                    <div class="threat-box">
-                        <strong>Disadvantages:</strong><br>
-                        ✗ Convoy Effect (short processes wait for long process)<br>
-                        ✗ Poor average waiting time<br>
-                        ✗ Not suitable for time-sharing systems<br>
-                        ✗ Non-preemptive (cannot interrupt)
-                    </div>
-                    
-                    <div class="note-box">
-                        <strong>Convoy Effect:</strong> When short processes wait for a long process to complete. Like being stuck behind a slow truck on highway - all fast cars must wait!
-                    </div>
-                    
-                    <div class="subsection-title">2. Shortest Job First (SJF):</div>
-                    <div class="definition-box">
-                        <strong>SJF:</strong> Process with smallest burst time gets CPU first. Can be preemptive or non-preemptive. Optimal algorithm (gives minimum average waiting time).
-                    </div>
-                    
-                    <div class="glow-image-card">
-                        <img src="\notes\os\image\non-preemptive spj strf example.png" alt="Notes Image">
-                        </div>
-                         <div class="image-caption">📊 Example of Non-Preemptive SJF Scheduling</div>
-                         </div>
-                         </div>
-                    
-                    <div class="advantage-box">
-                        <strong>Advantages:</strong><br>
-                        ✓ Minimum average waiting time<br>
-                        ✓ Optimal algorithm<br>
-                        ✓ Better throughput than FCFS
-                    </div>
-                    
-                    <div class="threat-box">
-                        <strong>Disadvantages:</strong><br>
-                        ✗ Starvation (long processes may never execute)<br>
-                        ✗ Cannot know exact burst time in advance<br>
-                        ✗ Requires prediction of burst time
-                    </div>
-                    
-                    <div class="subsection-title">3. Shortest Remaining Time First (SRTF):</div>
-                    <div class="definition-box">
-                        <strong>SRTF:</strong> Preemptive version of SJF. If new process arrives with shorter remaining time than current process, CPU switches to new process.
-                    </div>
-                    
-                    <div class="glow-image-card">
-                        <img src="\notes\os\image\preemptive spj (srtf).png" alt="Notes Image">
-                        </div>
-                         <div class="image-caption">📊 Example of Preemptive SJF (SRTF) Scheduling</div>
-                         </div>
-                         </div>
-                    
-                    <div class="subsection-title">4. Priority Scheduling:</div>
-                    <div class="definition-box">
-                        <strong>Priority Scheduling:</strong> Each process has a priority. CPU allocated to process with highest priority. Can be preemptive or non-preemptive.
-                    </div>
-                    
-                    <div class="example-box">
-                        <strong>Priority Values:</strong><br>
-                        • Lower number = Higher priority (usually)<br>
-                        • Example: Priority 1 > Priority 5<br><br>
-                        
-                        <strong>Real-life Example:</strong> Emergency room - Critical patients (high priority) treated before minor injuries (low priority)
-                    </div>
-                    
-                     <div class="glow-image-card">
-                        <img src="\notes\os\image\non-preemptive priority example.png" alt="Notes Image">
-                        </div>
-                         <div class="image-caption">📊 Example of Non-Preemptive Priority Scheduling</div>
-                         </div>
-                         </div>
-                    
-                    <div class="threat-box">
-                        <strong>Major Problem - Starvation:</strong><br>
-                        Low priority processes may never execute if high priority processes keep arriving.<br><br>
-                        
-                        <strong>Solution - Aging:</strong><br>
-                        Gradually increase priority of waiting processes over time.<br>
-                        Example: Every 10 minutes waiting → increase priority by 1
-                    </div>
-                    
-                    <div class="subsection-title">5. Round Robin (RR):</div>
-                    <div class="definition-box">
-                        <strong>Round Robin:</strong> Each process gets small unit of CPU time (time quantum), then moved to end of queue. Preemptive. Designed for time-sharing systems.
-                    </div>
-                    
-                    <div class="example-box">
-                        <strong>Real-life Example:</strong> Teacher giving each student 5 minutes to ask questions. After 5 minutes, next student gets turn. First student goes to back of line if more questions.<br><br>
-                        
-                        <strong>Time Quantum (q):</strong> Fixed time slice (typically 10-100 milliseconds)
-                    </div>
-                    
-                    <div class="glow-image-card">
-                        <img src="\notes\os\image\round robin example.png" alt="Notes Image">
-                        </div>
-                         <div class="image-caption">📊 Example of Round Robin Scheduling</div>
-                         </div>
-                         </div>
-                    
-                    <div class="advantage-box">
-                        <strong>Advantages:</strong><br>
-                        ✓ Fair to all processes<br>
-                        ✓ No starvation<br>
-                        ✓ Good response time<br>
-                        ✓ Suitable for time-sharing systems
-                    </div>
-                    
-                    <div class="threat-box">
-                        <strong>Disadvantages:</strong><br>
-                        ✗ Context switch overhead<br>
-                        ✗ Performance depends on time quantum<br>
-                        ✗ Average waiting time often high
-                    </div>
-                    
-                    <div class="note-box">
-                        <strong>Choosing Time Quantum:</strong><br>
-                        • <strong>Too large:</strong> Becomes like FCFS (poor response)<br>
-                        • <strong>Too small:</strong> Too many context switches (overhead)<br>
-                        • <strong>Rule of thumb:</strong> 80% of processes should complete within one quantum
-                    </div>
-                    
-                    <div class="subsection-title">6. Multilevel Queue Scheduling:</div>
-                    <div class="definition-box">
-                        <strong>Multilevel Queue:</strong> Ready queue divided into multiple queues based on process characteristics. Each queue has its own scheduling algorithm.
-                    </div>
-                    
-                     <div class="glow-image-card">
-                        <img src="\notes\os\image\multilevel queue structure.png" alt="Notes Image">
-                        </div>
-                         <div class="image-caption">📊 Multilevel Queue Scheduling</div>
-                         </div>
-                         </div>
-                    
-                    <div class="example-box">
-                        <strong>Example Categories:</strong><br>
-                        • <strong>Foreground (Interactive):</strong> User applications (high priority, RR)<br>
-                        • <strong>Background (Batch):</strong> Compilations, backups (low priority, FCFS)
-                    </div>
-                    
-                    <div class="advantage-box">
-                        <strong>Advantages:</strong><br>
-                        ✓ Different algorithms for different process types<br>
-                        ✓ Low overhead (no queue switching)<br>
-                        ✓ Priority-based execution
-                    </div>
-                    
-                    <div class="threat-box">
-                        <strong>Disadvantages:</strong><br>
-                        ✗ Starvation (low priority queues may starve)<br>
-                        ✗ Inflexible (process cannot move between queues)
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Comparison Table -->
-            <div class="section">
-                <div class="section-title">10. Scheduling Algorithms Comparison</div>
-                <div class="content">
-                    <div class="glow-image-card">
-                        <img src="\notes\os\image\complete comarison.png" alt="Notes Image">
-                        </div>
-                         <div class="image-caption">📊 Complete Comparison of Scheduling Algorithms</div>
-                         </div>
-                         </div>
-                    
-                    <div class="note-box">
-                        <strong>Key Takeaways:</strong><br>
-                        • <strong>FCFS:</strong> Simplest but convoy effect<br>
-                        • <strong>SJF:</strong> Optimal but starvation possible<br>
-                        • <strong>SRTF:</strong> Better than SJF but more overhead<br>
-                        • <strong>Priority:</strong> Flexible but needs aging for starvation<br>
-                        • <strong>Round Robin:</strong> Fair but context switch overhead<br>
-                        • <strong>Multilevel:</strong> Realistic but complex<br><br>
-                        
-                        <strong>No algorithm is perfect!</strong> Choice depends on system requirements.
-                    </div>
-                </div>
-            </div>
-            
-            <div class="divider"></div>
-            
-            <!-- Section 11: Inter-process Communication -->
-            <div class="section">
-                <div class="section-title">11. Inter-process Communication (IPC)</div>
-                <div class="content">
-                    <div class="definition-box">
-                        <strong>Inter-process Communication (IPC):</strong><br>
-                        Mechanism that allows processes to communicate and synchronize their actions. Processes need to exchange data and coordinate execution.
-                    </div>
-                    
-                    <div class="example-box">
-                        <strong>Why IPC Needed?</strong><br>
-                        • Share information between processes<br>
-                        • Speed up computation (divide work among processes)<br>
-                        • Modularity (separate concerns)<br>
-                        • Convenience (user may run multiple tasks)<br><br>
-                        
-                        <strong>Example:</strong> Web browser - one process downloads, another displays, another handles user input
-                    </div>
-                    
-                    <div class="subsection-title">Two Models of IPC:</div>
-                    
-                    <div class="step-box">
-                        <strong>1. Shared Memory:</strong><br>
-                        Processes share a common memory region for communication<br><br>
-                        
-                        <strong>How it works:</strong><br>
-                        • OS creates shared memory segment<br>
-                        • Processes read/write to this shared region<br>
-                        • Fast (no kernel involvement after setup)<br><br>
-                        
-                        <strong>Advantages:</strong><br>
-                        ✓ Fast (direct memory access)<br>
-                        ✓ Efficient for large data transfer<br><br>
-                        
-                        <strong>Disadvantages:</strong><br>
-                        ✗ Need synchronization (to avoid conflicts)<br>
-                        ✗ Complex to implement
-                    </div>
-                    
-                    <div class="step-box">
-                        <strong>2. Message Passing:</strong><br>
-                        Processes communicate by sending/receiving messages<br><br>
-                        
-                        <strong>Operations:</strong><br>
-                        • send(message)<br>
-                        • receive(message)<br><br>
-                        
-                        <strong>Advantages:</strong><br>
-                        ✓ Easier to implement<br>
-                        ✓ Works for distributed systems<br>
-                        ✓ No conflicts (OS manages)<br><br>
-                        
-                        <strong>Disadvantages:</strong><br>
-                        ✗ Slower (kernel calls needed)<br>
-                        ✗ Overhead for small messages
-                    </div>
-                    
-                   <div class="glow-image-card">
-                        <img src="\notes\os\image\comparison.png" alt="Notes Image">
-                        </div>
-                         <div class="image-caption">📊 Comparison </div>
-                         </div>
-                         </div>
-                </div>
-            </div>
-            
-            <!-- Section 12: Remote Procedure Calls -->
-            <div class="section">
-                <div class="section-title">12. Remote Procedure Calls (RPC)</div>
-                <div class="content">
-                    <div class="definition-box">
-                        <strong>Remote Procedure Call (RPC):</strong><br>
-                        Allows a program to execute a procedure (function) on another machine as if it were a local call. Makes distributed computing transparent.
-                    </div>
-                    
-                    <div class="example-box">
-                        <strong>Real-life Analogy:</strong><br>
-                        Ordering food by phone:<br>
-                        • You call restaurant (remote machine)<br>
-                        • Ask for pizza (call procedure)<br>
-                        • Wait for delivery (wait for result)<br>
-                        • Get pizza (receive result)<br><br>
-                        You don't go to restaurant yourself - phone call handles everything!
-                    </div>
-                    
-                    <div class="glow-image-card">
-                        <img src="\notes\os\image\how rpc works.png" alt="Notes Image">
-                        </div>
-                         <div class="image-caption">📊 How RPC Works </div>
-                         </div>
-                         </div>
-                    
-                    <div class="note-box">
-                        <strong>Key Point:</strong> Client doesn't know the function is executing remotely. RPC makes remote calls look like local calls!
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Section 13: Process Synchronization -->
-            <div class="section">
-                <div class="section-title">13. Process Synchronization</div>
-                <div class="content">
-                    <div class="definition-box">
-                        <strong>Process Synchronization:</strong><br>
-                        Coordination of execution of multiple processes to ensure data consistency when processes access shared resources.
-                    </div>
-                    
-                    <div class="example-box">
-                        <strong>Why Synchronization Needed?</strong><br><br>
-                        
-                        <strong>Example - Bank Account (Race Condition):</strong><br>
-                        Initial Balance = ₹1000<br><br>
-                        
-                        <strong>Process A:</strong> Withdraw ₹500<br>
-                        1. Read balance (₹1000)<br>
-                        2. Calculate: 1000 - 500 = ₹500<br>
-                        3. Write back ₹500<br><br>
-                        
-                        <strong>Process B:</strong> Deposit ₹300 (runs simultaneously)<br>
-                        1. Read balance (₹1000) ← Wrong! Should be ₹500<br>
-                        2. Calculate: 1000 + 300 = ₹1300<br>
-                        3. Write back ₹1300<br><br>
-                        
-                        <strong>Final Balance:</strong> ₹1300 (Wrong! Should be ₹800)<br>
-                        ₹500 deposit lost! This is a <strong>race condition</strong>.
-                    </div>
-                    
-                    <div class="subsection-title">Critical Section Problem:</div>
-                    <div class="definition-box">
-                        <strong>Critical Section:</strong> Part of code where shared resources are accessed. Only one process should execute in critical section at a time.
-                    </div>
-                    
-                    <div class="code-box"><strong>Critical Section Structure:</strong>
+                    <strong>3. Heap:</strong><br>
+                    • Dynamically allocated memory<br>
+                    • Grows upward during execution<br>
+                    • Managed by programmer (malloc/free)<br><br>
 
-do {
-    // Entry Section (request permission)
-    
-    // CRITICAL SECTION
-    // (access shared resource)
-    
-    // Exit Section (release permission)
-    
-    // Remainder Section
-    // (other code)
-    
-} while (true);</div>
-                    
-                    <div class="subsection-title">Requirements for Solution:</div>
-                    <div class="step-box">
-                        <strong>1. Mutual Exclusion:</strong><br>
-                        Only one process in critical section at a time<br><br>
-                        
-                        <strong>2. Progress:</strong><br>
-                        If no process in critical section, selection of next process cannot be postponed indefinitely<br><br>
-                        
-                        <strong>3. Bounded Waiting:</strong><br>
-                        Limit on number of times other processes can enter CS before a waiting process gets turn (no starvation)
-                    </div>
-                    
-                    <div class="note-box">
-                        <strong>Synchronization Mechanisms:</strong><br>
-                        • Semaphores<br>
-                        • Monitors<br>
-                        • Mutex locks<br>
-                        (Covered in detail in Unit 2)
-                    </div>
+                    <strong>4. Stack:</strong><br>
+                    • Function calls<br>
+                    • Local variables<br>
+                    • Return addresses<br>
+                    • Grows downward during execution
                 </div>
             </div>
-            
         </div>
-        
-        <!-- LAST MIN NOTES TAB -->
-        <div class="tab-content" id="lastMinTab">
-            <div class="chapter-title">
-                <span>⚡</span>
-                <span>Last Minute Notes - Quick Revision (5-10 mins)</span>
-            </div>
-            
-            <div class="section">
-                <div class="note-box">
-                    <strong>📌 How to Use:</strong> Read this 5-10 minutes before exam for quick revision of all key concepts!
+
+        <!-- Section 2: Process Control Block -->
+        <div class="section">
+            <div class="section-title">2. Process Control Block (PCB)</div>
+            <div class="content">
+                <div class="definition-box">
+                    <strong>Process Control Block (PCB):</strong><br>
+                    A data structure maintained by OS for every process. Contains all information about the process.
+                    Also called Task Control Block (TCB).
                 </div>
-            </div>
-            
-            <!-- Introduction -->
-            <div class="section">
-                <div class="section-title">💻 Introduction to OS</div>
-                <div class="content">
-                    
-                    <div class="code-box">Operating System = Interface between hardware and applications
 
-<strong>Goals:</strong> Convenience, Efficiency, Resource Management, Security
-
-<strong>OS Structures:</strong>
-• Monolithic: All in kernel (fast but risky)
-• Layered: Layer by layer (modular)
-• Microkernel: Minimal kernel (reliable)
-• Modular: Loadable modules (flexible)
-
-<strong>Main Functions:</strong>
-1. Process Management
-2. Memory Management
-3. File Management
-4. I/O Management
-5. Security</div>
+                <div class="example-box">
+                    <strong>Think of PCB as:</strong><br>
+                    Student's report card containing all information: name, roll number, marks, attendance, behavior
+                    notes.<br><br>
+                    Similarly, PCB contains everything about a process!
                 </div>
-            </div>
-            
-            <!-- Types of OS -->
-            <div class="section">
-                <div class="section-title">🔄 Types of OS</div>
-                <div class="content">
-                    <div class="code-box">Batch: Jobs in batches, no interaction
-Time-Sharing: Multiple users, time slicing
-Real-Time: Hard (strict deadline), Soft (flexible)
-Distributed: Multiple computers as one system
-Mobile: Android, iOS (touch, battery optimized)</div>
+
+                <div class="subsection-title">Information in PCB:</div>
+                <div class="glow-image-card">
+                    <img src="\notes\os\image\pcb structure.png" alt="Notes Image">
                 </div>
+                <div class="image-caption">📊 PCB Structure</div>
             </div>
-            
-            <!-- System Calls -->
-            <div class="section">
-                <div class="section-title">📞 System Calls</div>
-                <div class="content">
-                    <div class="code-box"><strong>System Call:</strong> Interface between user program and OS kernel
-
-<strong>User Mode:</strong> Limited privileges
-<strong>Kernel Mode:</strong> Full access to hardware
-
-<strong>5 Types:</strong>
-1. Process Control: fork(), exit(), wait()
-2. File Management: open(), read(), write()
-3. Device Management: ioctl()
-4. Information: getpid(), time()
-5. Communication: send(), receive()</div>
-                </div>
-            </div>
-            
-            <!-- Process -->
-            <div class="section">
-                <div class="section-title">⚙️ Process Management</div>
-                <div class="content">
-                    <div class="code-box"><strong>Process:</strong> Program in execution
-
-<strong>Process vs Program:</strong>
-Program = Passive (code on disk)
-Process = Active (running in memory)
-
-<strong>PCB (Process Control Block):</strong>
-Contains: PID, State, PC, Registers, Priority, Memory info
-
-<strong>5 Process States:</strong>
-New → Ready → Running → Waiting → Terminated
-
-<strong>Context Switch:</strong> Save current process, Load next process
-(Pure overhead, takes 1-10 μs)
-
-<strong>3 Schedulers:</strong>
-• Long-term: New → Ready (minutes)
-• Short-term: Ready → Running (milliseconds)
-• Medium-term: Swapping (memory management)</div>
-                </div>
-            </div>
-            
-            <!-- Threads -->
-            <div class="section">
-                <div class="section-title">🧵 Threads</div>
-                <div class="content">
-                    <div class="code-box"><strong>Thread:</strong> Lightweight process
-
-<strong>Benefits:</strong>
-• Responsiveness
-• Resource sharing
-• Economy (cheaper than process)
-• Scalability (use multiple cores)
-
-<strong>Types:</strong>
-User-Level: Fast but blocks entire process
-Kernel-Level: Slower but true parallelism
-
-<strong>Models:</strong>
-• Many-to-One: All threads → 1 kernel thread
-• One-to-One: Each thread → 1 kernel thread
-• Many-to-Many: Multiple → Multiple (flexible)</div>
-                </div>
-            </div>
-            
-            <!-- CPU Scheduling -->
-            <div class="section">
-                <div class="section-title">📊 CPU Scheduling</div>
-                <div class="content">
-                    <div class="code-box"><strong>Preemptive:</strong> Can interrupt (RR, SRTF, Priority)
-<strong>Non-Preemptive:</strong> Cannot interrupt (FCFS, SJF)
-
-<strong>5 Criteria:</strong>
-1. CPU Utilization (Maximize)
-2. Throughput (Maximize)
-3. Turnaround Time (Minimize)
-4. Waiting Time (Minimize)
-5. Response Time (Minimize)
-
-<strong>Formulas:</strong>
-Turnaround Time = Completion Time - Arrival Time
-Waiting Time = Turnaround Time - Burst Time
-Response Time = First Response - Arrival Time</div>
-                </div>
-            </div>
-            
-            <!-- Scheduling Algorithms -->
-            <div class="section">
-                <div class="section-title">⏱️ Scheduling Algorithms</div>
-                <div class="content">
-                    <div class="code-box"><strong>FCFS:</strong> First Come First Serve
-• Simple, no starvation
-• Convoy effect problem
-
-<strong>SJF:</strong> Shortest Job First
-• Optimal (minimum avg WT)
-• Starvation possible
-
-<strong>SRTF:</strong> Shortest Remaining Time First
-• Preemptive SJF
-• Better than SJF
-
-<strong>Priority:</strong> Based on priority number
-• Starvation (solve with Aging)
-
-<strong>Round Robin:</strong> Time quantum (q)
-• Fair, no starvation
-• Context switch overhead
-• q too large → FCFS
-• q too small → too much overhead
-
-<strong>Multilevel Queue:</strong> Multiple queues
-• Different algorithms per queue
-• Can cause starvation</div>
-                </div>
-            </div>
-            
-            <!-- IPC -->
-            <div class="section">
-                <div class="section-title">💬 IPC & Synchronization</div>
-                <div class="content">
-                    <div class="code-box"><strong>IPC (Inter-process Communication):</strong>
-
-<strong>Shared Memory:</strong> Fast, needs synchronization
-<strong>Message Passing:</strong> Slower, easier to implement
-
-<strong>RPC (Remote Procedure Call):</strong>
-Execute function on remote machine as if local
-
-<strong>Process Synchronization:</strong>
-Coordinate processes accessing shared resources
-
-<strong>Race Condition:</strong> Multiple processes access shared data
-simultaneously → incorrect result
-
-<strong>Critical Section:</strong> Code accessing shared resource
-Only one process at a time
-
-<strong>Requirements:</strong>
-1. Mutual Exclusion
-2. Progress
-3. Bounded Waiting</div>
-                </div>
-            </div>
-            
-            <!-- Important Points -->
-            <div class="section">
-                <div class="section-title">⚠️ Important Exam Points</div>
-                <div class="content">
-                    <div class="threat-box">
-                        <strong>Must Remember:</strong><br>
-                        ❌ Process vs Thread differences<br>
-                        ❌ 5 Process states and transitions<br>
-                        ❌ PCB components<br>
-                        ❌ Preemptive vs Non-preemptive<br>
-                        ❌ All 5 scheduling criteria formulas<br>
-                        ❌ Scheduling algorithm examples (Gantt charts)<br>
-                        ❌ Convoy effect (FCFS)<br>
-                        ❌ Starvation vs Deadlock<br>
-                        ❌ User mode vs Kernel mode<br>
-                        ❌ Context switch overhead
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Quick Tips -->
-            <div class="section">
-                <div class="section-title">💡 Exam Strategy</div>
-                <div class="content">
-                    <div class="example-box">
-                        <strong>For Scheduling Problems:</strong><br>
-                        1. Draw Gantt chart first<br>
-                        2. Calculate completion time for each process<br>
-                        3. Use formulas: TAT = CT - AT, WT = TAT - BT<br>
-                        4. Take average of all processes<br>
-                        5. Show all steps!<br><br>
-                        
-                        <strong>For Theory Questions:</strong><br>
-                        • Define clearly<br>
-                        • Give real-life example<br>
-                        • List advantages/disadvantages<br>
-                        • Compare if asked<br><br>
-                        
-                        <strong>Common Mistakes to Avoid:</strong><br>
-                        ✗ Confusing Turnaround Time and Waiting Time<br>
-                        ✗ Forgetting arrival time in calculations<br>
-                        ✗ Wrong Gantt chart in SRTF (must check at each arrival)<br>
-                        ✗ Not specifying time quantum in Round Robin
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Final Tips -->
-            <div class="section">
-                <div class="section-title">🌟 Final Tips</div>
-                <div class="content">
-                    <div class="note-box" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%); border-left: 4px solid var(--success);">
-                        <strong>Remember:</strong><br>
-                        • OS manages hardware and provides services<br>
-                        • Process = Active, Program = Passive<br>
-                        • PCB stores all process information<br>
-                        • Context switch is overhead<br>
-                        • No perfect scheduling algorithm - each has trade-offs<br>
-                        • Synchronization prevents race conditions<br><br>
-                        
-                        <strong>🎯 All the Best!</strong><br>
-                        Practice Gantt charts for scheduling problems. Understand concepts with real-life examples. You've got this! 💪🚀
-                    </div>
-                </div>
-            </div>
-            
         </div>
-        
+
+        <div class="step-box">
+            <strong>1. Process ID (PID):</strong><br>
+            Unique number identifying the process<br>
+            Example: Chrome PID = 1234<br><br>
+
+            <strong>2. Process State:</strong><br>
+            Current state (New, Ready, Running, Waiting, Terminated)<br><br>
+
+            <strong>3. Program Counter:</strong><br>
+            Address of next instruction to execute<br><br>
+
+            <strong>4. CPU Registers:</strong><br>
+            Values of all CPU registers (saved during context switch)<br><br>
+
+            <strong>5. CPU Scheduling Information:</strong><br>
+            • Priority<br>
+            • Scheduling queue pointers<br><br>
+
+            <strong>6. Memory Management Information:</strong><br>
+            • Base and limit registers<br>
+            • Page tables<br><br>
+
+            <strong>7. Accounting Information:</strong><br>
+            • CPU time used<br>
+            • Time limits<br>
+            • Process start time<br><br>
+
+            <strong>8. I/O Status Information:</strong><br>
+            • List of open files<br>
+            • I/O devices allocated
+        </div>
+
+        <div class="note-box">
+            <strong>Why PCB is Important:</strong><br>
+            When OS switches from one process to another (context switch), it saves current process state in PCB and
+            loads next process state from its PCB. Without PCB, OS wouldn't know where to resume execution!
+        </div>
     </div>
-    
+    </div>
+
+    <!-- Section 3: Process States -->
+    <div class="section">
+        <div class="section-title">3. Process States</div>
+        <div class="content">
+            <div class="definition-box">
+                <strong>Process States:</strong><br>
+                A process changes state during its execution. There are 5 main states a process can be in.
+            </div>
+
+            <div class="glow-image-card">
+                <img src="\notes\os\image\process state diagram.png" alt="Notes Image">
+            </div>
+            <div class="image-caption">📊 Process State Diagram</div>
+        </div>
+    </div>
+
+    <div class="subsection-title">1. New State:</div>
+    <div class="example-box">
+        <strong>New:</strong> Process is being created<br>
+        • OS is allocating resources<br>
+        • PCB is being initialized<br>
+        • Not yet admitted to ready queue<br><br>
+
+        <strong>Example:</strong> You double-click Chrome icon → Process in New state
+    </div>
+
+    <div class="subsection-title">2. Ready State:</div>
+    <div class="example-box">
+        <strong>Ready:</strong> Process is ready to execute, waiting for CPU<br>
+        • All resources allocated except CPU<br>
+        • In ready queue<br>
+        • Waiting for scheduler to assign CPU<br><br>
+
+        <strong>Example:</strong> Multiple students ready to ask teacher a question, waiting for their turn
+    </div>
+
+    <div class="subsection-title">3. Running State:</div>
+    <div class="example-box">
+        <strong>Running:</strong> Process is currently executing on CPU<br>
+        • Instructions being executed<br>
+        • Only ONE process can run on one CPU at a time<br><br>
+
+        <strong>Example:</strong> Student currently asking teacher question
+    </div>
+
+    <div class="subsection-title">4. Waiting State (Blocked):</div>
+    <div class="example-box">
+        <strong>Waiting:</strong> Process waiting for some event (I/O completion)<br>
+        • Cannot execute even if CPU is free<br>
+        • Waiting for I/O operation to complete<br>
+        • Or waiting for a signal/event<br><br>
+
+        <strong>Example:</strong> Process waiting for user to click button, or waiting for file to load from disk
+    </div>
+
+    <div class="subsection-title">5. Terminated State:</div>
+    <div class="example-box">
+        <strong>Terminated:</strong> Process has finished execution<br>
+        • All resources released<br>
+        • PCB being deleted<br>
+        • Process removed from system<br><br>
+
+        <strong>Example:</strong> You close Chrome → Process terminates
+    </div>
+    </div>
+    </div>
+
+    <!-- Section 4: Process State Transitions -->
+    <div class="section">
+        <div class="section-title">4. Process State Transitions</div>
+        <div class="content">
+            <div class="subsection-title">State Transitions Explained:</div>
+
+            <div class="step-box">
+                <strong>1. New → Ready (Admitted):</strong><br>
+                OS admits process to ready queue<br>
+                Example: OS decides there's enough memory for new process<br><br>
+
+                <strong>2. Ready → Running (Scheduler Dispatch):</strong><br>
+                CPU scheduler selects process from ready queue<br>
+                Example: Your process gets CPU time<br><br>
+
+                <strong>3. Running → Ready (Interrupt):</strong><br>
+                Process loses CPU (time slice expired or higher priority process arrives)<br>
+                Example: Timer interrupt - your time is up!<br><br>
+
+                <strong>4. Running → Waiting (I/O or Event Wait):</strong><br>
+                Process needs I/O operation<br>
+                Example: Process reading from disk - must wait for disk<br><br>
+
+                <strong>5. Waiting → Ready (I/O Completion):</strong><br>
+                I/O operation completed, process can run again<br>
+                Example: File loaded from disk, process ready to continue<br><br>
+
+                <strong>6. Running → Terminated (Exit):</strong><br>
+                Process completes execution or is killed<br>
+                Example: Program finishes or crashes
+            </div>
+
+            <div class="example-box">
+                <strong>Real-life Example - Downloading a File:</strong><br><br>
+
+                1. <strong>New:</strong> You click download button → Process created<br>
+                2. <strong>Ready:</strong> Process ready to start download<br>
+                3. <strong>Running:</strong> Process starts downloading<br>
+                4. <strong>Waiting:</strong> Waiting for network packets to arrive<br>
+                5. <strong>Ready:</strong> Data received, ready to save to disk<br>
+                6. <strong>Running:</strong> Writing data to disk<br>
+                7. <strong>Terminated:</strong> Download complete!
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 5: Process Scheduling -->
+    <div class="section">
+        <div class="section-title">5. Process Scheduling</div>
+        <div class="content">
+            <div class="definition-box">
+                <strong>Process Scheduling:</strong><br>
+                The method by which OS decides which process runs on CPU and for how long. Goal is to maximize CPU
+                utilization and provide fair execution time to all processes.
+            </div>
+
+            <div class="subsection-title">Scheduling Queues:</div>
+            <div class="code-box"><strong>Types of Queues:</strong>
+
+                1. Job Queue:
+                All processes in the system
+
+                2. Ready Queue:
+                Processes in main memory, ready to execute
+                Waiting for CPU
+
+                3. Device Queue:
+                Processes waiting for I/O device
+                Each device has its own queue
+
+                Example:
+                Ready Queue: [P1, P3, P5] ← Waiting for CPU
+                Disk Queue: [P2, P4] ← Waiting for disk
+                Printer Queue: [P6] ← Waiting for printer</div>
+
+            <div class="subsection-title">Types of Schedulers:</div>
+
+            <div class="step-box">
+                <strong>1. Long-Term Scheduler (Job Scheduler):</strong><br>
+                • Selects which processes to bring into ready queue<br>
+                • Controls degree of multiprogramming<br>
+                • Executes less frequently (minutes)<br>
+                • Decides: New → Ready<br><br>
+
+                <strong>Example:</strong> Decides whether to load new program into memory or not
+            </div>
+
+            <div class="step-box">
+                <strong>2. Short-Term Scheduler (CPU Scheduler):</strong><br>
+                • Selects which process from ready queue gets CPU<br>
+                • Executes very frequently (milliseconds)<br>
+                • Must be very fast!<br>
+                • Decides: Ready → Running<br><br>
+
+                <strong>Example:</strong> Every 10ms, decides which process runs next
+            </div>
+
+            <div class="step-box">
+                <strong>3. Medium-Term Scheduler:</strong><br>
+                • Swaps processes in/out of memory<br>
+                • Reduces degree of multiprogramming<br>
+                • Used in swapping<br><br>
+
+                <strong>Example:</strong> Moves inactive process from RAM to disk to free memory
+            </div>
+
+            <div class="subsection-title">Context Switch:</div>
+            <div class="definition-box">
+                <strong>Context Switch:</strong><br>
+                The process of saving state of current process and loading state of next process.
+            </div>
+
+            <div class="code-box"><strong>Context Switch Steps:</strong>
+
+                1. Save state of Process A in its PCB
+                - Program counter
+                - CPU registers
+                - Memory maps
+
+                2. Load state of Process B from its PCB
+                - Restore program counter
+                - Restore CPU registers
+                - Restore memory maps
+
+                3. Process B starts running
+
+                <strong>Time:</strong> Context switch is pure overhead
+                No useful work done during switch
+                Typically takes 1-10 microseconds
+            </div>
+
+            <div class="note-box">
+                <strong>Important:</strong> Context switching is expensive! That's why OS tries to minimize it. Too many
+                context switches = system becomes slow.
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Section 6: Threads -->
+    <div class="section">
+        <div class="section-title">6. Threads</div>
+        <div class="content">
+            <div class="definition-box">
+                <strong>Thread:</strong><br>
+                A thread is a lightweight process - the smallest unit of execution within a process. Multiple threads
+                can exist within a single process, sharing the same resources but executing independently.
+            </div>
+
+            <div class="example-box">
+                <strong>Real-life Analogy - Microsoft Word:</strong><br><br>
+
+                <strong>Single Process (Word):</strong><br>
+                • Main process = Word application<br><br>
+
+                <strong>Multiple Threads within Word:</strong><br>
+                • Thread 1: Accept your typing<br>
+                • Thread 2: Check spelling (red underlines)<br>
+                • Thread 3: Auto-save document<br>
+                • Thread 4: Display UI<br><br>
+
+                All happening simultaneously within one Word process!
+            </div>
+
+            <div class="subsection-title">Process vs Thread:</div>
+            <div class="glow-image-card">
+                <img src="\notes\os\image\comparison thread vs process.png" alt="Notes Image">
+            </div>
+            <div class="image-caption">📊 Process vs Thread</div>
+        </div>
+    </div>
+
+    <div class="subsection-title">Benefits of Threads:</div>
+    <div class="advantage-box">
+        <strong>1. Responsiveness:</strong><br>
+        Application remains responsive even if part is blocked<br>
+        Example: Web browser can download file while you browse other tabs<br><br>
+
+        <strong>2. Resource Sharing:</strong><br>
+        Threads share memory and resources of process<br>
+        No need for IPC mechanisms<br>
+        Easier communication between threads<br><br>
+
+        <strong>3. Economy:</strong><br>
+        Creating thread is cheaper than creating process<br>
+        Context switch between threads is faster<br>
+        Example: Thread creation 10-100x faster than process<br><br>
+
+        <strong>4. Scalability (Multicore):</strong><br>
+        Threads can run on different CPU cores simultaneously<br>
+        True parallelism on multicore systems<br>
+        Example: Video encoding - each thread processes different frame
+    </div>
+
+    <div class="subsection-title">Types of Threads:</div>
+
+    <div class="step-box">
+        <strong>1. User-Level Threads (ULT):</strong><br>
+        Managed by user-level thread library, OS doesn't know about them<br><br>
+
+        <strong>How it works:</strong><br>
+        • Thread library in user space manages threads<br>
+        • OS sees only one process<br>
+        • Thread switching done by library (no kernel involvement)<br><br>
+
+        <strong>Advantages:</strong><br>
+        ✓ Fast thread creation and switching<br>
+        ✓ Can run on any OS<br>
+        ✓ Flexible scheduling<br><br>
+
+        <strong>Disadvantages:</strong><br>
+        ✗ If one thread blocks, entire process blocks<br>
+        ✗ Cannot use multiple CPUs (OS thinks it's one process)<br><br>
+
+        <strong>Example:</strong> Java Green Threads (old)
+    </div>
+
+    <div class="step-box">
+        <strong>2. Kernel-Level Threads (KLT):</strong><br>
+        Managed directly by OS kernel<br><br>
+
+        <strong>How it works:</strong><br>
+        • OS knows about each thread<br>
+        • Kernel schedules threads<br>
+        • OS maintains thread table<br><br>
+
+        <strong>Advantages:</strong><br>
+        ✓ If one thread blocks, others can continue<br>
+        ✓ Can use multiple CPUs (true parallelism)<br>
+        ✓ Better for multicore systems<br><br>
+
+        <strong>Disadvantages:</strong><br>
+        ✗ Slower (kernel mode switches required)<br>
+        ✗ More overhead<br><br>
+
+        <strong>Example:</strong> Windows threads, Linux threads
+    </div>
+
+    <div class="subsection-title">Multithreading Models:</div>
+
+    <div class="example-box">
+        <strong>1. Many-to-One Model:</strong><br>
+        Many user threads → mapped to → One kernel thread<br><br>
+
+        <strong>Diagram:</strong><br>
+        User Level: [T1] [T2] [T3] [T4]<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+        Kernel Level: &nbsp;&nbsp;&nbsp;&nbsp;[K1]<br><br>
+
+        <strong>Characteristics:</strong><br>
+        • If one thread blocks, all block<br>
+        • Cannot run on multiple CPUs<br>
+        • Fast thread management<br><br>
+
+        <strong>Example:</strong> Green Threads
+    </div>
+
+    <div class="example-box">
+        <strong>2. One-to-One Model:</strong><br>
+        One user thread → mapped to → One kernel thread<br><br>
+
+        <strong>Diagram:</strong><br>
+        User Level: [T1] [T2] [T3] [T4]<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+        Kernel Level: [K1] [K2] [K3] [K4]<br><br>
+
+        <strong>Characteristics:</strong><br>
+        • If one thread blocks, others continue<br>
+        • Can use multiple CPUs<br>
+        • Creating thread = creating kernel thread (overhead)<br>
+        • Most systems limit number of threads<br><br>
+
+        <strong>Example:</strong> Windows, Linux
+    </div>
+
+    <div class="example-box">
+        <strong>3. Many-to-Many Model:</strong><br>
+        Many user threads → mapped to → Many kernel threads<br><br>
+
+        <strong>Diagram:</strong><br>
+        User Level: [T1] [T2] [T3] [T4] [T5] [T6]<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+        Kernel Level: &nbsp;&nbsp;&nbsp;&nbsp;[K1] [K2] [K3]<br><br>
+
+        <strong>Characteristics:</strong><br>
+        • OS creates sufficient kernel threads<br>
+        • Best of both worlds<br>
+        • Can run on multiple CPUs<br>
+        • If one blocks, others continue<br><br>
+
+        <strong>Example:</strong> Solaris, older UNIX versions
+    </div>
+    </div>
+    </div>
+
+    <!-- Section 7: CPU Scheduling -->
+    <div class="section">
+        <div class="section-title">7. CPU Scheduling</div>
+        <div class="content">
+            <div class="definition-box">
+                <strong>CPU Scheduling:</strong><br>
+                The process of deciding which process in the ready queue gets the CPU next. Goal is to keep CPU busy and
+                provide fair execution time to all processes.
+            </div>
+
+            <div class="example-box">
+                <strong>Why Scheduling Needed?</strong><br>
+                In multiprogramming, when one process waits (for I/O), CPU switches to another process. Scheduling
+                decides which process runs next to maximize CPU utilization.
+            </div>
+
+            <div class="subsection-title">Preemptive vs Non-Preemptive Scheduling:</div>
+
+            <div class="step-box">
+                <strong>Non-Preemptive Scheduling:</strong><br>
+                Once CPU is allocated to a process, process keeps it until it terminates or switches to waiting state.
+                CPU cannot be taken away forcefully.<br><br>
+
+                <strong>Characteristics:</strong><br>
+                • Process runs until completion or blocks<br>
+                • No interruption by scheduler<br>
+                • Simple to implement<br><br>
+
+                <strong>Real-life Example:</strong><br>
+                Doctor's appointment - Once doctor starts with patient, continues until done. Next patient must
+                wait.<br><br>
+
+                <strong>Advantages:</strong><br>
+                ✓ Simple<br>
+                ✓ Low overhead (no context switching)<br>
+                ✓ Predictable<br><br>
+
+                <strong>Disadvantages:</strong><br>
+                ✗ Long process blocks CPU for long time<br>
+                ✗ Poor response time<br>
+                ✗ Not suitable for time-sharing systems<br><br>
+
+                <strong>Examples:</strong> FCFS, SJF (non-preemptive), Priority (non-preemptive)
+            </div>
+
+            <div class="step-box">
+                <strong>Preemptive Scheduling:</strong><br>
+                CPU can be taken away from a running process before it completes. Scheduler can interrupt and switch to
+                another process.<br><br>
+
+                <strong>Characteristics:</strong><br>
+                • Process can be interrupted<br>
+                • Higher priority process can take CPU<br>
+                • Timer interrupts used<br><br>
+
+                <strong>Real-life Example:</strong><br>
+                Emergency room - If critical patient arrives, doctor stops current patient and attends emergency
+                first.<br><br>
+
+                <strong>Advantages:</strong><br>
+                ✓ Better response time<br>
+                ✓ Fair to all processes<br>
+                ✓ Suitable for time-sharing<br>
+                ✓ High priority tasks handled quickly<br><br>
+
+                <strong>Disadvantages:</strong><br>
+                ✗ Complex<br>
+                ✗ Context switch overhead<br>
+                ✗ Risk of race conditions<br><br>
+
+                <strong>Examples:</strong> Round Robin, SRTF, Priority (preemptive)
+            </div>
+
+            <div class="glow-image-card">
+                <img src="\notes\os\image\comparison preemptive vs non preemptive.png" alt="Notes Image">
+            </div>
+            <div class="image-caption">📊 Preemptive vs Non-Preemptive Scheduling</div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- Section 8: Scheduling Criteria -->
+    <div class="section">
+        <div class="section-title">8. Scheduling Criteria</div>
+        <div class="content">
+            <div class="definition-box">
+                <strong>Scheduling Criteria:</strong><br>
+                Metrics used to evaluate and compare different CPU scheduling algorithms. Help determine which algorithm
+                is best for a given situation.
+            </div>
+
+            <div class="subsection-title">Key Criteria:</div>
+
+            <div class="step-box">
+                <strong>1. CPU Utilization:</strong><br>
+                Percentage of time CPU is busy (not idle)<br><br>
+
+                <strong>Goal:</strong> Maximize (keep CPU as busy as possible)<br>
+                <strong>Range:</strong> 0% to 100%<br>
+                <strong>Good:</strong> 40% (lightly loaded) to 90% (heavily loaded)<br><br>
+
+                <strong>Formula:</strong><br>
+                CPU Utilization = (Total Busy Time / Total Time) × 100%<br><br>
+
+                <strong>Example:</strong><br>
+                If CPU is busy for 80 seconds out of 100 seconds → 80% utilization
+            </div>
+
+            <div class="step-box">
+                <strong>2. Throughput:</strong><br>
+                Number of processes completed per unit time<br><br>
+
+                <strong>Goal:</strong> Maximize (complete more processes)<br>
+                <strong>Unit:</strong> processes/hour or processes/second<br><br>
+
+                <strong>Formula:</strong><br>
+                Throughput = Number of processes completed / Total time<br><br>
+
+                <strong>Example:</strong><br>
+                10 processes completed in 100 seconds → Throughput = 0.1 processes/second
+            </div>
+
+            <div class="step-box">
+                <strong>3. Turnaround Time:</strong><br>
+                Total time from process submission to completion<br>
+                Time interval from arrival to termination<br><br>
+
+                <strong>Goal:</strong> Minimize<br><br>
+
+                <strong>Formula:</strong><br>
+                Turnaround Time = Completion Time - Arrival Time<br>
+                Or<br>
+                Turnaround Time = Waiting Time + Burst Time<br><br>
+
+                <strong>Example:</strong><br>
+                Process arrives at time 0, completes at time 10<br>
+                → Turnaround Time = 10 - 0 = 10 seconds
+            </div>
+
+            <div class="step-box">
+                <strong>4. Waiting Time:</strong><br>
+                Total time process spends in ready queue waiting for CPU<br>
+                Does NOT include execution time<br><br>
+
+                <strong>Goal:</strong> Minimize<br><br>
+
+                <strong>Formula:</strong><br>
+                Waiting Time = Turnaround Time - Burst Time<br><br>
+
+                <strong>Example:</strong><br>
+                Turnaround Time = 10s, Burst Time = 3s<br>
+                → Waiting Time = 10 - 3 = 7 seconds
+            </div>
+
+            <div class="step-box">
+                <strong>5. Response Time:</strong><br>
+                Time from process submission to first response (first time it gets CPU)<br>
+                Important for interactive systems<br><br>
+
+                <strong>Goal:</strong> Minimize<br><br>
+
+                <strong>Formula:</strong><br>
+                Response Time = Time of first response - Arrival Time<br><br>
+
+                <strong>Example:</strong><br>
+                Process arrives at 0, first gets CPU at time 5<br>
+                → Response Time = 5 - 0 = 5 seconds<br><br>
+
+                <strong>Difference from Waiting Time:</strong><br>
+                Response time is till FIRST response, waiting time is TOTAL waiting
+            </div>
+
+            <div class="glow-image-card">
+                <img src="\notes\os\image\summary of criteria.png" alt="Notes Image">
+            </div>
+            <div class="image-caption">📊 Summary of Scheduling Criteria</div>
+        </div>
+    </div>
+
+    <div class="note-box">
+        <strong>Important:</strong><br>
+        No single algorithm is best for all criteria. Trade-offs exist:<br>
+        • Algorithm good for throughput may have poor response time<br>
+        • Algorithm minimizing waiting time may reduce CPU utilization<br>
+        • Choice depends on system requirements (batch vs interactive)
+    </div>
+    </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Section 9: Scheduling Algorithms -->
+    <div class="section">
+        <div class="section-title">9. CPU Scheduling Algorithms</div>
+        <div class="content">
+            <div class="definition-box">
+                <strong>Scheduling Algorithms:</strong><br>
+                Rules/methods used by CPU scheduler to decide which process from the ready queue gets the CPU next.
+            </div>
+
+            <div class="subsection-title">1. First Come First Serve (FCFS):</div>
+            <div class="definition-box">
+                <strong>FCFS:</strong> Simplest algorithm. Process that arrives first gets CPU first. Non-preemptive.
+            </div>
+
+            <div class="example-box">
+                <strong>Real-life Example:</strong> Queue at ticket counter - First person in line gets served
+                first!<br><br>
+
+                <strong>Implementation:</strong> Using FIFO queue<br>
+                • New process added to tail of queue<br>
+                • Scheduler picks from head of queue
+            </div>
+
+            <div class="glow-image-card">
+                <img src="\notes\os\image\example.png" alt="Notes Image">
+            </div>
+            <div class="image-caption">📊 Example of FCFS Scheduling</div>
+        </div>
+    </div>
+
+    <div class="advantage-box">
+        <strong>Advantages:</strong><br>
+        ✓ Simple and easy to implement<br>
+        ✓ Fair (first come, first served)<br>
+        ✓ No starvation
+    </div>
+
+    <div class="threat-box">
+        <strong>Disadvantages:</strong><br>
+        ✗ Convoy Effect (short processes wait for long process)<br>
+        ✗ Poor average waiting time<br>
+        ✗ Not suitable for time-sharing systems<br>
+        ✗ Non-preemptive (cannot interrupt)
+    </div>
+
+    <div class="note-box">
+        <strong>Convoy Effect:</strong> When short processes wait for a long process to complete. Like being stuck
+        behind a slow truck on highway - all fast cars must wait!
+    </div>
+
+    <div class="subsection-title">2. Shortest Job First (SJF):</div>
+    <div class="definition-box">
+        <strong>SJF:</strong> Process with smallest burst time gets CPU first. Can be preemptive or non-preemptive.
+        Optimal algorithm (gives minimum average waiting time).
+    </div>
+
+    <div class="glow-image-card">
+        <img src="\notes\os\image\non-preemptive spj strf example.png" alt="Notes Image">
+    </div>
+    <div class="image-caption">📊 Example of Non-Preemptive SJF Scheduling</div>
+    </div>
+    </div>
+
+    <div class="advantage-box">
+        <strong>Advantages:</strong><br>
+        ✓ Minimum average waiting time<br>
+        ✓ Optimal algorithm<br>
+        ✓ Better throughput than FCFS
+    </div>
+
+    <div class="threat-box">
+        <strong>Disadvantages:</strong><br>
+        ✗ Starvation (long processes may never execute)<br>
+        ✗ Cannot know exact burst time in advance<br>
+        ✗ Requires prediction of burst time
+    </div>
+
+    <div class="subsection-title">3. Shortest Remaining Time First (SRTF):</div>
+    <div class="definition-box">
+        <strong>SRTF:</strong> Preemptive version of SJF. If new process arrives with shorter remaining time than
+        current process, CPU switches to new process.
+    </div>
+
+    <div class="glow-image-card">
+        <img src="\notes\os\image\preemptive spj (srtf).png" alt="Notes Image">
+    </div>
+    <div class="image-caption">📊 Example of Preemptive SJF (SRTF) Scheduling</div>
+    </div>
+    </div>
+
+    <div class="subsection-title">4. Priority Scheduling:</div>
+    <div class="definition-box">
+        <strong>Priority Scheduling:</strong> Each process has a priority. CPU allocated to process with highest
+        priority. Can be preemptive or non-preemptive.
+    </div>
+
+    <div class="example-box">
+        <strong>Priority Values:</strong><br>
+        • Lower number = Higher priority (usually)<br>
+        • Example: Priority 1 > Priority 5<br><br>
+
+        <strong>Real-life Example:</strong> Emergency room - Critical patients (high priority) treated before minor
+        injuries (low priority)
+    </div>
+
+    <div class="glow-image-card">
+        <img src="\notes\os\image\non-preemptive priority example.png" alt="Notes Image">
+    </div>
+    <div class="image-caption">📊 Example of Non-Preemptive Priority Scheduling</div>
+    </div>
+    </div>
+
+    <div class="threat-box">
+        <strong>Major Problem - Starvation:</strong><br>
+        Low priority processes may never execute if high priority processes keep arriving.<br><br>
+
+        <strong>Solution - Aging:</strong><br>
+        Gradually increase priority of waiting processes over time.<br>
+        Example: Every 10 minutes waiting → increase priority by 1
+    </div>
+
+    <div class="subsection-title">5. Round Robin (RR):</div>
+    <div class="definition-box">
+        <strong>Round Robin:</strong> Each process gets small unit of CPU time (time quantum), then moved to end of
+        queue. Preemptive. Designed for time-sharing systems.
+    </div>
+
+    <div class="example-box">
+        <strong>Real-life Example:</strong> Teacher giving each student 5 minutes to ask questions. After 5 minutes,
+        next student gets turn. First student goes to back of line if more questions.<br><br>
+
+        <strong>Time Quantum (q):</strong> Fixed time slice (typically 10-100 milliseconds)
+    </div>
+
+    <div class="glow-image-card">
+        <img src="\notes\os\image\round robin example.png" alt="Notes Image">
+    </div>
+    <div class="image-caption">📊 Example of Round Robin Scheduling</div>
+    </div>
+    </div>
+
+    <div class="advantage-box">
+        <strong>Advantages:</strong><br>
+        ✓ Fair to all processes<br>
+        ✓ No starvation<br>
+        ✓ Good response time<br>
+        ✓ Suitable for time-sharing systems
+    </div>
+
+    <div class="threat-box">
+        <strong>Disadvantages:</strong><br>
+        ✗ Context switch overhead<br>
+        ✗ Performance depends on time quantum<br>
+        ✗ Average waiting time often high
+    </div>
+
+    <div class="note-box">
+        <strong>Choosing Time Quantum:</strong><br>
+        • <strong>Too large:</strong> Becomes like FCFS (poor response)<br>
+        • <strong>Too small:</strong> Too many context switches (overhead)<br>
+        • <strong>Rule of thumb:</strong> 80% of processes should complete within one quantum
+    </div>
+
+    <div class="subsection-title">6. Multilevel Queue Scheduling:</div>
+    <div class="definition-box">
+        <strong>Multilevel Queue:</strong> Ready queue divided into multiple queues based on process characteristics.
+        Each queue has its own scheduling algorithm.
+    </div>
+
+    <div class="glow-image-card">
+        <img src="\notes\os\image\multilevel queue structure.png" alt="Notes Image">
+    </div>
+    <div class="image-caption">📊 Multilevel Queue Scheduling</div>
+    </div>
+    </div>
+
+    <div class="example-box">
+        <strong>Example Categories:</strong><br>
+        • <strong>Foreground (Interactive):</strong> User applications (high priority, RR)<br>
+        • <strong>Background (Batch):</strong> Compilations, backups (low priority, FCFS)
+    </div>
+
+    <div class="advantage-box">
+        <strong>Advantages:</strong><br>
+        ✓ Different algorithms for different process types<br>
+        ✓ Low overhead (no queue switching)<br>
+        ✓ Priority-based execution
+    </div>
+
+    <div class="threat-box">
+        <strong>Disadvantages:</strong><br>
+        ✗ Starvation (low priority queues may starve)<br>
+        ✗ Inflexible (process cannot move between queues)
+    </div>
+    </div>
+    </div>
+
+    <!-- Comparison Table -->
+    <div class="section">
+        <div class="section-title">10. Scheduling Algorithms Comparison</div>
+        <div class="content">
+            <div class="glow-image-card">
+                <img src="\notes\os\image\complete comarison.png" alt="Notes Image">
+            </div>
+            <div class="image-caption">📊 Complete Comparison of Scheduling Algorithms</div>
+        </div>
+    </div>
+
+    <div class="note-box">
+        <strong>Key Takeaways:</strong><br>
+        • <strong>FCFS:</strong> Simplest but convoy effect<br>
+        • <strong>SJF:</strong> Optimal but starvation possible<br>
+        • <strong>SRTF:</strong> Better than SJF but more overhead<br>
+        • <strong>Priority:</strong> Flexible but needs aging for starvation<br>
+        • <strong>Round Robin:</strong> Fair but context switch overhead<br>
+        • <strong>Multilevel:</strong> Realistic but complex<br><br>
+
+        <strong>No algorithm is perfect!</strong> Choice depends on system requirements.
+    </div>
+    </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Section 11: Inter-process Communication -->
+    <div class="section">
+        <div class="section-title">11. Inter-process Communication (IPC)</div>
+        <div class="content">
+            <div class="definition-box">
+                <strong>Inter-process Communication (IPC):</strong><br>
+                Mechanism that allows processes to communicate and synchronize their actions. Processes need to exchange
+                data and coordinate execution.
+            </div>
+
+            <div class="example-box">
+                <strong>Why IPC Needed?</strong><br>
+                • Share information between processes<br>
+                • Speed up computation (divide work among processes)<br>
+                • Modularity (separate concerns)<br>
+                • Convenience (user may run multiple tasks)<br><br>
+
+                <strong>Example:</strong> Web browser - one process downloads, another displays, another handles user
+                input
+            </div>
+
+            <div class="subsection-title">Two Models of IPC:</div>
+
+            <div class="step-box">
+                <strong>1. Shared Memory:</strong><br>
+                Processes share a common memory region for communication<br><br>
+
+                <strong>How it works:</strong><br>
+                • OS creates shared memory segment<br>
+                • Processes read/write to this shared region<br>
+                • Fast (no kernel involvement after setup)<br><br>
+
+                <strong>Advantages:</strong><br>
+                ✓ Fast (direct memory access)<br>
+                ✓ Efficient for large data transfer<br><br>
+
+                <strong>Disadvantages:</strong><br>
+                ✗ Need synchronization (to avoid conflicts)<br>
+                ✗ Complex to implement
+            </div>
+
+            <div class="step-box">
+                <strong>2. Message Passing:</strong><br>
+                Processes communicate by sending/receiving messages<br><br>
+
+                <strong>Operations:</strong><br>
+                • send(message)<br>
+                • receive(message)<br><br>
+
+                <strong>Advantages:</strong><br>
+                ✓ Easier to implement<br>
+                ✓ Works for distributed systems<br>
+                ✓ No conflicts (OS manages)<br><br>
+
+                <strong>Disadvantages:</strong><br>
+                ✗ Slower (kernel calls needed)<br>
+                ✗ Overhead for small messages
+            </div>
+
+            <div class="glow-image-card">
+                <img src="\notes\os\image\comparison.png" alt="Notes Image">
+            </div>
+            <div class="image-caption">📊 Comparison </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- Section 12: Remote Procedure Calls -->
+    <div class="section">
+        <div class="section-title">12. Remote Procedure Calls (RPC)</div>
+        <div class="content">
+            <div class="definition-box">
+                <strong>Remote Procedure Call (RPC):</strong><br>
+                Allows a program to execute a procedure (function) on another machine as if it were a local call. Makes
+                distributed computing transparent.
+            </div>
+
+            <div class="example-box">
+                <strong>Real-life Analogy:</strong><br>
+                Ordering food by phone:<br>
+                • You call restaurant (remote machine)<br>
+                • Ask for pizza (call procedure)<br>
+                • Wait for delivery (wait for result)<br>
+                • Get pizza (receive result)<br><br>
+                You don't go to restaurant yourself - phone call handles everything!
+            </div>
+
+            <div class="glow-image-card">
+                <img src="\notes\os\image\how rpc works.png" alt="Notes Image">
+            </div>
+            <div class="image-caption">📊 How RPC Works </div>
+        </div>
+    </div>
+
+    <div class="note-box">
+        <strong>Key Point:</strong> Client doesn't know the function is executing remotely. RPC makes remote calls look
+        like local calls!
+    </div>
+    </div>
+    </div>
+
+    <!-- Section 13: Process Synchronization -->
+    <div class="section">
+        <div class="section-title">13. Process Synchronization</div>
+        <div class="content">
+            <div class="definition-box">
+                <strong>Process Synchronization:</strong><br>
+                Coordination of execution of multiple processes to ensure data consistency when processes access shared
+                resources.
+            </div>
+
+            <div class="example-box">
+                <strong>Why Synchronization Needed?</strong><br><br>
+
+                <strong>Example - Bank Account (Race Condition):</strong><br>
+                Initial Balance = ₹1000<br><br>
+
+                <strong>Process A:</strong> Withdraw ₹500<br>
+                1. Read balance (₹1000)<br>
+                2. Calculate: 1000 - 500 = ₹500<br>
+                3. Write back ₹500<br><br>
+
+                <strong>Process B:</strong> Deposit ₹300 (runs simultaneously)<br>
+                1. Read balance (₹1000) ← Wrong! Should be ₹500<br>
+                2. Calculate: 1000 + 300 = ₹1300<br>
+                3. Write back ₹1300<br><br>
+
+                <strong>Final Balance:</strong> ₹1300 (Wrong! Should be ₹800)<br>
+                ₹500 deposit lost! This is a <strong>race condition</strong>.
+            </div>
+
+            <div class="subsection-title">Critical Section Problem:</div>
+            <div class="definition-box">
+                <strong>Critical Section:</strong> Part of code where shared resources are accessed. Only one process
+                should execute in critical section at a time.
+            </div>
+
+            <div class="code-box"><strong>Critical Section Structure:</strong>
+
+                do {
+                // Entry Section (request permission)
+
+                // CRITICAL SECTION
+                // (access shared resource)
+
+                // Exit Section (release permission)
+
+                // Remainder Section
+                // (other code)
+
+                } while (true);</div>
+
+            <div class="subsection-title">Requirements for Solution:</div>
+            <div class="step-box">
+                <strong>1. Mutual Exclusion:</strong><br>
+                Only one process in critical section at a time<br><br>
+
+                <strong>2. Progress:</strong><br>
+                If no process in critical section, selection of next process cannot be postponed indefinitely<br><br>
+
+                <strong>3. Bounded Waiting:</strong><br>
+                Limit on number of times other processes can enter CS before a waiting process gets turn (no starvation)
+            </div>
+
+            <div class="note-box">
+                <strong>Synchronization Mechanisms:</strong><br>
+                • Semaphores<br>
+                • Monitors<br>
+                • Mutex locks<br>
+                (Covered in detail in Unit 2)
+            </div>
+        </div>
+    </div>
+
+    <!-- LAST MIN NOTES TAB -->
+    <div class="tab-content" id="lastMinTab">
+        <div class="chapter-title">
+            <span>⚡</span>
+            <span>Last Minute Notes - Quick Revision (5-10 mins)</span>
+        </div>
+
+        <div class="section">
+            <div class="note-box">
+                <strong>📌 How to Use:</strong> Read this 5-10 minutes before exam for quick revision of all key
+                concepts!
+            </div>
+        </div>
+
+        <!-- Introduction -->
+        <div class="section">
+            <div class="section-title">💻 Introduction to OS</div>
+            <div class="content">
+
+                <div class="code-box"><strong>Operating System</strong> = Interface between hardware and
+                    applications<br><br>
+                    <strong>Goals:</strong> Convenience, Efficiency, Resource Management, Security<br><br>
+                    <strong>OS Structures:</strong><br>
+                    • Monolithic: All in kernel (fast but risky)<br>
+                    • Layered: Layer by layer (modular)<br>
+                    • Microkernel: Minimal kernel (reliable)<br>
+                    • Modular: Loadable modules (flexible)<br><br>
+                    <strong>Main Functions:</strong><br>
+                    1. Process Management<br>
+                    2. Memory Management<br>
+                    3. File Management<br>
+                    4. I/O Management<br>
+                    5. Security
+                </div>
+            </div>
+        </div>
+
+        <!-- Types of OS -->
+        <div class="section">
+            <div class="section-title">🔄 Types of OS</div>
+            <div class="content">
+                <div class="code-box"><strong>Batch:</strong> Jobs in batches, no interaction<br>
+                    <strong>Time-Sharing:</strong> Multiple users, time slicing<br>
+                    <strong>Real-Time:</strong> Hard (strict deadline), Soft (flexible)<br>
+                    <strong>Distributed:</strong> Multiple computers as one system<br>
+                    <strong>Mobile:</strong> Android, iOS (touch, battery optimized)
+                </div>
+            </div>
+        </div>
+
+        <!-- System Calls -->
+        <div class="section">
+            <div class="section-title">📞 System Calls</div>
+            <div class="content">
+                <div class="code-box"><strong>System Call:</strong> Interface between user program and OS
+                    kernel<br><br>
+                    <strong>User Mode:</strong> Limited privileges<br>
+                    <strong>Kernel Mode:</strong> Full access to hardware<br><br>
+                    <strong>5 Types:</strong><br>
+                    1. Process Control: fork(), exit(), wait()<br>
+                    2. File Management: open(), read(), write()<br>
+                    3. Device Management: ioctl()<br>
+                    4. Information: getpid(), time()<br>
+                    5. Communication: send(), receive()
+                </div>
+            </div>
+        </div>
+
+        <!-- Process -->
+        <div class="section">
+            <div class="section-title">⚙️ Process Management</div>
+            <div class="content">
+                <div class="code-box"><strong>Process:</strong> Program in execution<br><br>
+                    <strong>Process vs Program:</strong><br>
+                    • Program = Passive (code on disk)<br>
+                    • Process = Active (running in memory)<br><br>
+                    <strong>PCB (Process Control Block):</strong><br>
+                    Contains: PID, State, PC, Registers, Priority, Memory info<br><br>
+                    <strong>5 Process States:</strong><br>
+                    New → Ready → Running → Waiting → Terminated<br><br>
+                    <strong>Context Switch:</strong> Save current process, Load next process<br>
+                    (Pure overhead, takes 1-10 μs)<br><br>
+                    <strong>3 Schedulers:</strong><br>
+                    • Long-term: New → Ready (minutes)<br>
+                    • Short-term: Ready → Running (milliseconds)<br>
+                    • Medium-term: Swapping (memory management)
+                </div>
+            </div>
+        </div>
+
+        <!-- Threads -->
+        <div class="section">
+            <div class="section-title">🧵 Threads</div>
+            <div class="content">
+                <div class="code-box"><strong>Thread:</strong> Lightweight process<br><br>
+                    <strong>Benefits:</strong><br>
+                    • Responsiveness<br>
+                    • Resource sharing<br>
+                    • Economy (cheaper than process)<br>
+                    • Scalability (use multiple cores)<br><br>
+                    <strong>Types:</strong><br>
+                    • User-Level: Fast but blocks entire process<br>
+                    • Kernel-Level: Slower but true parallelism<br><br>
+                    <strong>Models:</strong><br>
+                    • Many-to-One: All threads → 1 kernel thread<br>
+                    • One-to-One: Each thread → 1 kernel thread<br>
+                    • Many-to-Many: Multiple → Multiple (flexible)
+                </div>
+            </div>
+        </div>
+
+        <!-- CPU Scheduling -->
+        <div class="section">
+            <div class="section-title">📊 CPU Scheduling</div>
+            <div class="content">
+                <div class="code-box"><strong>Preemptive:</strong> Can interrupt (RR, SRTF, Priority)<br>
+                    <strong>Non-Preemptive:</strong> Cannot interrupt (FCFS, SJF)<br><br>
+                    <strong>5 Criteria:</strong><br>
+                    1. CPU Utilization (Maximize)<br>
+                    2. Throughput (Maximize)<br>
+                    3. Turnaround Time (Minimize)<br>
+                    4. Waiting Time (Minimize)<br>
+                    5. Response Time (Minimize)<br><br>
+                    <strong>Formulas:</strong><br>
+                    Turnaround Time = Completion Time - Arrival Time<br>
+                    Waiting Time = Turnaround Time - Burst Time<br>
+                    Response Time = First Response - Arrival Time
+                </div>
+            </div>
+        </div>
+
+        <!-- Scheduling Algorithms -->
+        <div class="section">
+            <div class="section-title">⏱️ Scheduling Algorithms</div>
+            <div class="content">
+                <div class="code-box"><strong>FCFS:</strong> First Come First Serve<br>
+                    • Simple, no starvation<br>
+                    • Convoy effect problem<br><br>
+                    <strong>SJF:</strong> Shortest Job First<br>
+                    • Optimal (minimum avg WT)<br>
+                    • Starvation possible<br><br>
+                    <strong>SRTF:</strong> Shortest Remaining Time First<br>
+                    • Preemptive SJF<br>
+                    • Better than SJF<br><br>
+                    <strong>Priority:</strong> Based on priority number<br>
+                    • Starvation (solve with Aging)<br><br>
+                    <strong>Round Robin:</strong> Time quantum (q)<br>
+                    • Fair, no starvation<br>
+                    • Context switch overhead<br>
+                    • q too large → FCFS<br>
+                    • q too small → too much overhead<br><br>
+                    <strong>Multilevel Queue:</strong> Multiple queues<br>
+                    • Different algorithms per queue<br>
+                    • Can cause starvation
+                </div>
+            </div>
+        </div>
+
+        <!-- IPC -->
+        <div class="section">
+            <div class="section-title">💬 IPC & Synchronization</div>
+            <div class="content">
+                <div class="code-box"><strong>IPC (Inter-process Communication):</strong><br><br>
+                    <strong>Shared Memory:</strong> Fast, needs synchronization<br>
+                    <strong>Message Passing:</strong> Slower, easier to implement<br><br>
+                    <strong>RPC (Remote Procedure Call):</strong><br>
+                    Execute function on remote machine as if local<br><br>
+                    <strong>Process Synchronization:</strong><br>
+                    Coordinate processes accessing shared resources<br><br>
+                    <strong>Race Condition:</strong> Multiple processes access shared data<br>
+                    simultaneously → incorrect result<br><br>
+                    <strong>Critical Section:</strong> Code accessing shared resource<br>
+                    Only one process at a time<br><br>
+                    <strong>Requirements:</strong><br>
+                    1. Mutual Exclusion<br>
+                    2. Progress<br>
+                    3. Bounded Waiting
+                </div>
+            </div>
+        </div>
+
+        <!-- Important Points -->
+        <div class="section">
+            <div class="section-title">⚠️ Important Exam Points</div>
+            <div class="content">
+                <div class="threat-box">
+                    <strong>Must Remember:</strong><br>
+                    ❌ Process vs Thread differences<br>
+                    ❌ 5 Process states and transitions<br>
+                    ❌ PCB components<br>
+                    ❌ Preemptive vs Non-preemptive<br>
+                    ❌ All 5 scheduling criteria formulas<br>
+                    ❌ Scheduling algorithm examples (Gantt charts)<br>
+                    ❌ Convoy effect (FCFS)<br>
+                    ❌ Starvation vs Deadlock<br>
+                    ❌ User mode vs Kernel mode<br>
+                    ❌ Context switch overhead
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Tips -->
+        <div class="section">
+            <div class="section-title">💡 Exam Strategy</div>
+            <div class="content">
+                <div class="example-box">
+                    <strong>For Scheduling Problems:</strong><br>
+                    1. Draw Gantt chart first<br>
+                    2. Calculate completion time for each process<br>
+                    3. Use formulas: TAT = CT - AT, WT = TAT - BT<br>
+                    4. Take average of all processes<br>
+                    5. Show all steps!<br><br>
+
+                    <strong>For Theory Questions:</strong><br>
+                    • Define clearly<br>
+                    • Give real-life example<br>
+                    • List advantages/disadvantages<br>
+                    • Compare if asked<br><br>
+
+                    <strong>Common Mistakes to Avoid:</strong><br>
+                    ✗ Confusing Turnaround Time and Waiting Time<br>
+                    ✗ Forgetting arrival time in calculations<br>
+                    ✗ Wrong Gantt chart in SRTF (must check at each arrival)<br>
+                    ✗ Not specifying time quantum in Round Robin
+                </div>
+            </div>
+        </div>
+
+        <!-- Final Tips -->
+        <div class="section">
+            <div class="section-title">🌟 Final Tips</div>
+            <div class="content">
+                <div class="note-box"
+                    style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%); border-left: 4px solid var(--success);">
+                    <strong>Remember:</strong><br>
+                    • OS manages hardware and provides services<br>
+                    • Process = Active, Program = Passive<br>
+                    • PCB stores all process information<br>
+                    • Context switch is overhead<br>
+                    • No perfect scheduling algorithm - each has trade-offs<br>
+                    • Synchronization prevents race conditions<br><br>
+
+                    <strong>🎯 All the Best!</strong><br>
+                    Practice Gantt charts for scheduling problems. Understand concepts with real-life examples.
+                    You've
+                    got this! 💪🚀
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    </div>
+
     <!-- Footer -->
     <div class="footer">
         <div class="footer-credit">
             Made with 💙 by <strong>Ankush Raj</strong>
         </div>
         <p class="footer-note">
-            © 2026 <a href="https://ankushraj.dev" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600;">ankushraj.dev</a> - All Rights Reserved
+            © 2026 <a href="https://ankushraj.dev" target="_blank"
+                style="color: var(--primary); text-decoration: none; font-weight: 600;">ankushraj.dev</a> - All Rights
+            Reserved
         </p>
     </div>
-    
+
     <script>
         // Dark Mode Toggle
         const darkModeBtn = document.getElementById('darkModeBtn');
         const isDarkMode = localStorage.getItem('darkMode') === 'true';
-        
+
         if (isDarkMode) {
             document.body.classList.add('dark-mode');
             updateDarkModeBtn(true);
         }
-        
+
         function toggleDarkMode() {
             document.body.classList.toggle('dark-mode');
             const isDark = document.body.classList.contains('dark-mode');
             localStorage.setItem('darkMode', isDark);
             updateDarkModeBtn(isDark);
         }
-        
+
         function updateDarkModeBtn(isDark) {
             const btn = document.getElementById('darkModeBtn');
-            btn.innerHTML = isDark 
-                ? '<span>☀️</span><span>Light</span>' 
+            btn.innerHTML = isDark
+                ? '<span>☀️</span><span>Light</span>'
                 : '<span>🌙</span><span>Dark</span>';
         }
-        
+
         // TOC Toggle
         function openTOC() {
             document.getElementById('tocPanel').classList.add('active');
             document.getElementById('overlay').classList.add('active');
         }
-        
+
         function closeTOC() {
             document.getElementById('tocPanel').classList.remove('active');
             document.getElementById('overlay').classList.remove('active');
         }
-        
+
         // Tab Switching
         function switchTab(tabName) {
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.classList.remove('active');
             });
-            
+
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
-            
+
             if (tabName === 'full') {
                 document.querySelectorAll('.tab')[0].classList.add('active');
                 document.getElementById('fullNotesTab').classList.add('active');
@@ -2341,16 +2433,16 @@ Only one process at a time
                 document.querySelectorAll('.tab')[1].classList.add('active');
                 document.getElementById('lastMinTab').classList.add('active');
             }
-            
-            window.scrollTo({top: 0, behavior: 'smooth'});
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-        
+
         // Build TOC
         const chapters = [
             { title: 'Introduction to OS', id: 'ch1' },
             { title: 'Process Management', id: 'ch2' }
         ];
-        
+
         const tocList = document.getElementById('tocList');
         chapters.forEach((ch, index) => {
             const li = document.createElement('li');
@@ -2366,4 +2458,5 @@ Only one process at a time
         });
     </script>
 </body>
+
 </html>
