@@ -1094,1026 +1094,999 @@
                     • Grows downward during execution
                 </div>
             </div>
-        </div>
 
-        <!-- Section 2: Process Control Block -->
-        <div class="section">
-            <div class="section-title">2. Process Control Block (PCB)</div>
-            <div class="content">
-                <div class="definition-box">
-                    <strong>Process Control Block (PCB):</strong><br>
-                    A data structure maintained by OS for every process. Contains all information about the process.
-                    Also called Task Control Block (TCB).
+            <!-- Section 2: Process Control Block -->
+            <div class="section">
+                <div class="section-title">2. Process Control Block (PCB)</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Process Control Block (PCB):</strong><br>
+                        A data structure maintained by OS for every process. Contains all information about the process.
+                        Also called Task Control Block (TCB).
+                    </div>
+
+                    <div class="example-box">
+                        <strong>Think of PCB as:</strong><br>
+                        Student's report card containing all information: name, roll number, marks, attendance, behavior
+                        notes.<br><br>
+                        Similarly, PCB contains everything about a process!
+                    </div>
+
+                    <div class="subsection-title">Information in PCB:</div>
+                    <div class="glow-image-card">
+                        <img src="\notes\os\image\pcb structure.png" alt="Notes Image">
+                    </div>
+                    <div class="image-caption">📊 PCB Structure</div>
                 </div>
 
+                <div class="step-box">
+                    <strong>1. Process ID (PID):</strong><br>
+                    Unique number identifying the process<br>
+                    Example: Chrome PID = 1234<br><br>
+
+                    <strong>2. Process State:</strong><br>
+                    Current state (New, Ready, Running, Waiting, Terminated)<br><br>
+
+                    <strong>3. Program Counter:</strong><br>
+                    Address of next instruction to execute<br><br>
+
+                    <strong>4. CPU Registers:</strong><br>
+                    Values of all CPU registers (saved during context switch)<br><br>
+
+                    <strong>5. CPU Scheduling Information:</strong><br>
+                    • Priority<br>
+                    • Scheduling queue pointers<br><br>
+
+                    <strong>6. Memory Management Information:</strong><br>
+                    • Base and limit registers<br>
+                    • Page tables<br><br>
+
+                    <strong>7. Accounting Information:</strong><br>
+                    • CPU time used<br>
+                    • Time limits<br>
+                    • Process start time<br><br>
+
+                    <strong>8. I/O Status Information:</strong><br>
+                    • List of open files<br>
+                    • I/O devices allocated
+                </div>
+
+                <div class="note-box">
+                    <strong>Why PCB is Important:</strong><br>
+                    When OS switches from one process to another (context switch), it saves current process state in PCB and
+                    loads next process state from its PCB. Without PCB, OS wouldn't know where to resume execution!
+                </div>
+            </div>
+
+            <!-- Section 3: Process States -->
+            <div class="section">
+                <div class="section-title">3. Process States</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Process States:</strong><br>
+                        A process changes state during its execution. There are 5 main states a process can be in.
+                    </div>
+
+                    <div class="glow-image-card">
+                        <img src="\notes\os\image\process state diagram.png" alt="Notes Image">
+                    </div>
+                    <div class="image-caption">📊 Process State Diagram</div>
+                </div>
+
+                <div class="subsection-title">1. New State:</div>
                 <div class="example-box">
-                    <strong>Think of PCB as:</strong><br>
-                    Student's report card containing all information: name, roll number, marks, attendance, behavior
-                    notes.<br><br>
-                    Similarly, PCB contains everything about a process!
+                    <strong>New:</strong> Process is being created<br>
+                    • OS is allocating resources<br>
+                    • PCB is being initialized<br>
+                    • Not yet admitted to ready queue<br><br>
+
+                    <strong>Example:</strong> You double-click Chrome icon → Process in New state
                 </div>
 
-                <div class="subsection-title">Information in PCB:</div>
-                <div class="glow-image-card">
-                    <img src="\notes\os\image\pcb structure.png" alt="Notes Image">
+                <div class="subsection-title">2. Ready State:</div>
+                <div class="example-box">
+                    <strong>Ready:</strong> Process is ready to execute, waiting for CPU<br>
+                    • All resources allocated except CPU<br>
+                    • In ready queue<br>
+                    • Waiting for scheduler to assign CPU<br><br>
+
+                    <strong>Example:</strong> Multiple students ready to ask teacher a question, waiting for their turn
                 </div>
-                <div class="image-caption">📊 PCB Structure</div>
+
+                <div class="subsection-title">3. Running State:</div>
+                <div class="example-box">
+                    <strong>Running:</strong> Process is currently executing on CPU<br>
+                    • Instructions being executed<br>
+                    • Only ONE process can run on one CPU at a time<br><br>
+
+                    <strong>Example:</strong> Student currently asking teacher question
+                </div>
+
+                <div class="subsection-title">4. Waiting State (Blocked):</div>
+                <div class="example-box">
+                    <strong>Waiting:</strong> Process waiting for some event (I/O completion)<br>
+                    • Cannot execute even if CPU is free<br>
+                    • Waiting for I/O operation to complete<br>
+                    • Or waiting for a signal/event<br><br>
+
+                    <strong>Example:</strong> Process waiting for user to click button, or waiting for file to load from disk
+                </div>
+
+                <div class="subsection-title">5. Terminated State:</div>
+                <div class="example-box">
+                    <strong>Terminated:</strong> Process has finished execution<br>
+                    • All resources released<br>
+                    • PCB being deleted<br>
+                    • Process removed from system<br><br>
+
+                    <strong>Example:</strong> You close Chrome → Process terminates
+                </div>
             </div>
+
+            <!-- Section 4: Process State Transitions -->
+            <div class="section">
+                <div class="section-title">4. Process State Transitions</div>
+                <div class="content">
+                    <div class="subsection-title">State Transitions Explained:</div>
+
+                    <div class="step-box">
+                        <strong>1. New → Ready (Admitted):</strong><br>
+                        OS admits process to ready queue<br>
+                        Example: OS decides there's enough memory for new process<br><br>
+
+                        <strong>2. Ready → Running (Scheduler Dispatch):</strong><br>
+                        CPU scheduler selects process from ready queue<br>
+                        Example: Your process gets CPU time<br><br>
+
+                        <strong>3. Running → Ready (Interrupt):</strong><br>
+                        Process loses CPU (time slice expired or higher priority process arrives)<br>
+                        Example: Timer interrupt - your time is up!<br><br>
+
+                        <strong>4. Running → Waiting (I/O or Event Wait):</strong><br>
+                        Process needs I/O operation<br>
+                        Example: Process reading from disk - must wait for disk<br><br>
+
+                        <strong>5. Waiting → Ready (I/O Completion):</strong><br>
+                        I/O operation completed, process can run again<br>
+                        Example: File loaded from disk, process ready to continue<br><br>
+
+                        <strong>6. Running → Terminated (Exit):</strong><br>
+                        Process completes execution or is killed<br>
+                        Example: Program finishes or crashes
+                    </div>
+
+                    <div class="example-box">
+                        <strong>Real-life Example - Downloading a File:</strong><br><br>
+
+                        1. <strong>New:</strong> You click download button → Process created<br>
+                        2. <strong>Ready:</strong> Process ready to start download<br>
+                        3. <strong>Running:</strong> Process starts downloading<br>
+                        4. <strong>Waiting:</strong> Waiting for network packets to arrive<br>
+                        5. <strong>Ready:</strong> Data received, ready to save to disk<br>
+                        6. <strong>Running:</strong> Writing data to disk<br>
+                        7. <strong>Terminated:</strong> Download complete!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5: Process Scheduling -->
+            <div class="section">
+                <div class="section-title">5. Process Scheduling</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Process Scheduling:</strong><br>
+                        The method by which OS decides which process runs on CPU and for how long. Goal is to maximize CPU
+                        utilization and provide fair execution time to all processes.
+                    </div>
+
+                    <div class="subsection-title">Scheduling Queues:</div>
+                    <div class="code-box"><strong>Types of Queues:</strong>
+
+                        1. Job Queue:
+                        All processes in the system
+
+                        2. Ready Queue:
+                        Processes in main memory, ready to execute
+                        Waiting for CPU
+
+                        3. Device Queue:
+                        Processes waiting for I/O device
+                        Each device has its own queue
+
+                        Example:
+                        Ready Queue: [P1, P3, P5] ← Waiting for CPU
+                        Disk Queue: [P2, P4] ← Waiting for disk
+                        Printer Queue: [P6] ← Waiting for printer</div>
+
+                    <div class="subsection-title">Types of Schedulers:</div>
+
+                    <div class="step-box">
+                        <strong>1. Long-Term Scheduler (Job Scheduler):</strong><br>
+                        • Selects which processes to bring into ready queue<br>
+                        • Controls degree of multiprogramming<br>
+                        • Executes less frequently (minutes)<br>
+                        • Decides: New → Ready<br><br>
+
+                        <strong>Example:</strong> Decides whether to load new program into memory or not
+                    </div>
+
+                    <div class="step-box">
+                        <strong>2. Short-Term Scheduler (CPU Scheduler):</strong><br>
+                        • Selects which process from ready queue gets CPU<br>
+                        • Executes very frequently (milliseconds)<br>
+                        • Must be very fast!<br>
+                        • Decides: Ready → Running<br><br>
+
+                        <strong>Example:</strong> Every 10ms, decides which process runs next
+                    </div>
+
+                    <div class="step-box">
+                        <strong>3. Medium-Term Scheduler:</strong><br>
+                        • Swaps processes in/out of memory<br>
+                        • Reduces degree of multiprogramming<br>
+                        • Used in swapping<br><br>
+
+                        <strong>Example:</strong> Moves inactive process from RAM to disk to free memory
+                    </div>
+
+                    <div class="subsection-title">Context Switch:</div>
+                    <div class="definition-box">
+                        <strong>Context Switch:</strong><br>
+                        The process of saving state of current process and loading state of next process.
+                    </div>
+
+                    <div class="code-box"><strong>Context Switch Steps:</strong>
+
+                        1. Save state of Process A in its PCB
+                        - Program counter
+                        - CPU registers
+                        - Memory maps
+
+                        2. Load state of Process B from its PCB
+                        - Restore program counter
+                        - Restore CPU registers
+                        - Restore memory maps
+
+                        3. Process B starts running
+
+                        <strong>Time:</strong> Context switch is pure overhead
+                        No useful work done during switch
+                        Typically takes 1-10 microseconds
+                    </div>
+
+                    <div class="note-box">
+                        <strong>Important:</strong> Context switching is expensive! That's why OS tries to minimize it. Too many
+                        context switches = system becomes slow.
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Section 6: Threads -->
+            <div class="section">
+                <div class="section-title">6. Threads</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Thread:</strong><br>
+                        A thread is a lightweight process - the smallest unit of execution within a process. Multiple threads
+                        can exist within a single process, sharing the same resources but executing independently.
+                    </div>
+
+                    <div class="example-box">
+                        <strong>Real-life Analogy - Microsoft Word:</strong><br><br>
+
+                        <strong>Single Process (Word):</strong><br>
+                        • Main process = Word application<br><br>
+
+                        <strong>Multiple Threads within Word:</strong><br>
+                        • Thread 1: Accept your typing<br>
+                        • Thread 2: Check spelling (red underlines)<br>
+                        • Thread 3: Auto-save document<br>
+                        • Thread 4: Display UI<br><br>
+
+                        All happening simultaneously within one Word process!
+                    </div>
+
+                    <div class="subsection-title">Process vs Thread:</div>
+                    <div class="glow-image-card">
+                        <img src="\notes\os\image\comparison thread vs process.png" alt="Notes Image">
+                    </div>
+                    <div class="image-caption">📊 Process vs Thread</div>
+
+                    <div class="subsection-title">Benefits of Threads:</div>
+                    <div class="advantage-box">
+                        <strong>1. Responsiveness:</strong><br>
+                        Application remains responsive even if part is blocked<br>
+                        Example: Web browser can download file while you browse other tabs<br><br>
+
+                        <strong>2. Resource Sharing:</strong><br>
+                        Threads share memory and resources of process<br>
+                        No need for IPC mechanisms<br>
+                        Easier communication between threads<br><br>
+
+                        <strong>3. Economy:</strong><br>
+                        Creating thread is cheaper than creating process<br>
+                        Context switch between threads is faster<br>
+                        Example: Thread creation 10-100x faster than process<br><br>
+
+                        <strong>4. Scalability (Multicore):</strong><br>
+                        Threads can run on different CPU cores simultaneously<br>
+                        True parallelism on multicore systems<br>
+                        Example: Video encoding - each thread processes different frame
+                    </div>
+
+                    <div class="subsection-title">Types of Threads:</div>
+
+                    <div class="step-box">
+                        <strong>1. User-Level Threads (ULT):</strong><br>
+                        Managed by user-level thread library, OS doesn't know about them<br><br>
+
+                        <strong>How it works:</strong><br>
+                        • Thread library in user space manages threads<br>
+                        • OS sees only one process<br>
+                        • Thread switching done by library (no kernel involvement)<br><br>
+
+                        <strong>Advantages:</strong><br>
+                        ✓ Fast thread creation and switching<br>
+                        ✓ Can run on any OS<br>
+                        ✓ Flexible scheduling<br><br>
+
+                        <strong>Disadvantages:</strong><br>
+                        ✗ If one thread blocks, entire process blocks<br>
+                        ✗ Cannot use multiple CPUs (OS thinks it's one process)<br><br>
+
+                        <strong>Example:</strong> Java Green Threads (old)
+                    </div>
+
+                    <div class="step-box">
+                        <strong>2. Kernel-Level Threads (KLT):</strong><br>
+                        Managed directly by OS kernel<br><br>
+
+                        <strong>How it works:</strong><br>
+                        • OS knows about each thread<br>
+                        • Kernel schedules threads<br>
+                        • OS maintains thread table<br><br>
+
+                        <strong>Advantages:</strong><br>
+                        ✓ If one thread blocks, others can continue<br>
+                        ✓ Can use multiple CPUs (true parallelism)<br>
+                        ✓ Better for multicore systems<br><br>
+
+                        <strong>Disadvantages:</strong><br>
+                        ✗ Slower (kernel mode switches required)<br>
+                        ✗ More overhead<br><br>
+
+                        <strong>Example:</strong> Windows threads, Linux threads
+                    </div>
+
+                    <div class="subsection-title">Multithreading Models:</div>
+
+                    <div class="example-box">
+                        <strong>1. Many-to-One Model:</strong><br>
+                        Many user threads → mapped to → One kernel thread<br><br>
+
+                        <strong>Diagram:</strong><br>
+                        User Level: [T1] [T2] [T3] [T4]<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                        Kernel Level: &nbsp;&nbsp;&nbsp;&nbsp;[K1]<br><br>
+
+                        <strong>Characteristics:</strong><br>
+                        • If one thread blocks, all block<br>
+                        • Cannot run on multiple CPUs<br>
+                        • Fast thread management<br><br>
+
+                        <strong>Example:</strong> Green Threads
+                    </div>
+
+                    <div class="example-box">
+                        <strong>2. One-to-One Model:</strong><br>
+                        One user thread → mapped to → One kernel thread<br><br>
+
+                        <strong>Diagram:</strong><br>
+                        User Level: [T1] [T2] [T3] [T4]<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                        Kernel Level: [K1] [K2] [K3] [K4]<br><br>
+
+                        <strong>Characteristics:</strong><br>
+                        • If one thread blocks, others continue<br>
+                        • Can use multiple CPUs<br>
+                        • Creating thread = creating kernel thread (overhead)<br>
+                        • Most systems limit number of threads<br><br>
+
+                        <strong>Example:</strong> Windows, Linux
+                    </div>
+
+                    <div class="example-box">
+                        <strong>3. Many-to-Many Model:</strong><br>
+                        Many user threads → mapped to → Many kernel threads<br><br>
+
+                        <strong>Diagram:</strong><br>
+                        User Level: [T1] [T2] [T3] [T4] [T5] [T6]<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                        Kernel Level: &nbsp;&nbsp;&nbsp;&nbsp;[K1] [K2] [K3]<br><br>
+
+                        <strong>Characteristics:</strong><br>
+                        • OS creates sufficient kernel threads<br>
+                        • Best of both worlds<br>
+                        • Can run on multiple CPUs<br>
+                        • If one blocks, others continue<br><br>
+
+                        <strong>Example:</strong> Solaris, older UNIX versions
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 7: CPU Scheduling -->
+            <div class="section">
+                <div class="section-title">7. CPU Scheduling</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>CPU Scheduling:</strong><br>
+                        The process of deciding which process in the ready queue gets the CPU next. Goal is to keep CPU busy and
+                        provide fair execution time to all processes.
+                    </div>
+
+                    <div class="example-box">
+                        <strong>Why Scheduling Needed?</strong><br>
+                        In multiprogramming, when one process waits (for I/O), CPU switches to another process. Scheduling
+                        decides which process runs next to maximize CPU utilization.
+                    </div>
+
+                    <div class="subsection-title">Preemptive vs Non-Preemptive Scheduling:</div>
+
+                    <div class="step-box">
+                        <strong>Non-Preemptive Scheduling:</strong><br>
+                        Once CPU is allocated to a process, process keeps it until it terminates or switches to waiting state.
+                        CPU cannot be taken away forcefully.<br><br>
+
+                        <strong>Characteristics:</strong><br>
+                        • Process runs until completion or blocks<br>
+                        • No interruption by scheduler<br>
+                        • Simple to implement<br><br>
+
+                        <strong>Real-life Example:</strong><br>
+                        Doctor's appointment - Once doctor starts with patient, continues until done. Next patient must
+                        wait.<br><br>
+
+                        <strong>Advantages:</strong><br>
+                        ✓ Simple<br>
+                        ✓ Low overhead (no context switching)<br>
+                        ✓ Predictable<br><br>
+
+                        <strong>Disadvantages:</strong><br>
+                        ✗ Long process blocks CPU for long time<br>
+                        ✗ Poor response time<br>
+                        ✗ Not suitable for time-sharing systems<br><br>
+
+                        <strong>Examples:</strong> FCFS, SJF (non-preemptive), Priority (non-preemptive)
+                    </div>
+
+                    <div class="step-box">
+                        <strong>Preemptive Scheduling:</strong><br>
+                        CPU can be taken away from a running process before it completes. Scheduler can interrupt and switch to
+                        another process.<br><br>
+
+                        <strong>Characteristics:</strong><br>
+                        • Process can be interrupted<br>
+                        • Higher priority process can take CPU<br>
+                        • Timer interrupts used<br><br>
+
+                        <strong>Real-life Example:</strong><br>
+                        Emergency room - If critical patient arrives, doctor stops current patient and attends emergency
+                        first.<br><br>
+
+                        <strong>Advantages:</strong><br>
+                        ✓ Better response time<br>
+                        ✓ Fair to all processes<br>
+                        ✓ Suitable for time-sharing<br>
+                        ✓ High priority tasks handled quickly<br><br>
+
+                        <strong>Disadvantages:</strong><br>
+                        ✗ Complex<br>
+                        ✗ Context switch overhead<br>
+                        ✗ Risk of race conditions<br><br>
+
+                        <strong>Examples:</strong> Round Robin, SRTF, Priority (preemptive)
+                    </div>
+
+                    <div class="glow-image-card">
+                        <img src="\notes\os\image\comparison preemptive vs non preemptive.png" alt="Notes Image">
+                    </div>
+                    <div class="image-caption">📊 Preemptive vs Non-Preemptive Scheduling</div>
+                </div>
+            </div>
+
+            <!-- Section 8: Scheduling Criteria -->
+            <div class="section">
+                <div class="section-title">8. Scheduling Criteria</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Scheduling Criteria:</strong><br>
+                        Metrics used to evaluate and compare different CPU scheduling algorithms. Help determine which algorithm
+                        is best for a given situation.
+                    </div>
+
+                    <div class="subsection-title">Key Criteria:</div>
+
+                    <div class="step-box">
+                        <strong>1. CPU Utilization:</strong><br>
+                        Percentage of time CPU is busy (not idle)<br><br>
+
+                        <strong>Goal:</strong> Maximize (keep CPU as busy as possible)<br>
+                        <strong>Range:</strong> 0% to 100%<br>
+                        <strong>Good:</strong> 40% (lightly loaded) to 90% (heavily loaded)<br><br>
+
+                        <strong>Formula:</strong><br>
+                        CPU Utilization = (Total Busy Time / Total Time) × 100%<br><br>
+
+                        <strong>Example:</strong><br>
+                        If CPU is busy for 80 seconds out of 100 seconds → 80% utilization
+                    </div>
+
+                    <div class="step-box">
+                        <strong>2. Throughput:</strong><br>
+                        Number of processes completed per unit time<br><br>
+
+                        <strong>Goal:</strong> Maximize (complete more processes)<br>
+                        <strong>Unit:</strong> processes/hour or processes/second<br><br>
+
+                        <strong>Formula:</strong><br>
+                        Throughput = Number of processes completed / Total time<br><br>
+
+                        <strong>Example:</strong><br>
+                        10 processes completed in 100 seconds → Throughput = 0.1 processes/second
+                    </div>
+
+                    <div class="step-box">
+                        <strong>3. Turnaround Time:</strong><br>
+                        Total time from process submission to completion<br>
+                        Time interval from arrival to termination<br><br>
+
+                        <strong>Goal:</strong> Minimize<br><br>
+
+                        <strong>Formula:</strong><br>
+                        Turnaround Time = Completion Time - Arrival Time<br>
+                        Or<br>
+                        Turnaround Time = Waiting Time + Burst Time<br><br>
+
+                        <strong>Example:</strong><br>
+                        Process arrives at time 0, completes at time 10<br>
+                        → Turnaround Time = 10 - 0 = 10 seconds
+                    </div>
+
+                    <div class="step-box">
+                        <strong>4. Waiting Time:</strong><br>
+                        Total time process spends in ready queue waiting for CPU<br>
+                        Does NOT include execution time<br><br>
+
+                        <strong>Goal:</strong> Minimize<br><br>
+
+                        <strong>Formula:</strong><br>
+                        Waiting Time = Turnaround Time - Burst Time<br><br>
+
+                        <strong>Example:</strong><br>
+                        Turnaround Time = 10s, Burst Time = 3s<br>
+                        → Waiting Time = 10 - 3 = 7 seconds
+                    </div>
+
+                    <div class="step-box">
+                        <strong>5. Response Time:</strong><br>
+                        Time from process submission to first response (first time it gets CPU)<br>
+                        Important for interactive systems<br><br>
+
+                        <strong>Goal:</strong> Minimize<br><br>
+
+                        <strong>Formula:</strong><br>
+                        Response Time = Time of first response - Arrival Time<br><br>
+
+                        <strong>Example:</strong><br>
+                        Process arrives at 0, first gets CPU at time 5<br>
+                        → Response Time = 5 - 0 = 5 seconds<br><br>
+
+                        <strong>Difference from Waiting Time:</strong><br>
+                        Response time is till FIRST response, waiting time is TOTAL waiting
+                    </div>
+
+                    <div class="glow-image-card">
+                        <img src="\notes\os\image\summary of criteria.png" alt="Notes Image">
+                    </div>
+                    <div class="image-caption">📊 Summary of Scheduling Criteria</div>
+
+                    <div class="note-box">
+                        <strong>Important:</strong><br>
+                        No single algorithm is best for all criteria. Trade-offs exist:<br>
+                        • Algorithm good for throughput may have poor response time<br>
+                        • Algorithm minimizing waiting time may reduce CPU utilization<br>
+                        • Choice depends on system requirements (batch vs interactive)
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Section 9: Scheduling Algorithms -->
+            <div class="section">
+                <div class="section-title">9. CPU Scheduling Algorithms</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Scheduling Algorithms:</strong><br>
+                        Rules/methods used by CPU scheduler to decide which process from the ready queue gets the CPU next.
+                    </div>
+
+                    <div class="subsection-title">1. First Come First Serve (FCFS):</div>
+                    <div class="definition-box">
+                        <strong>FCFS:</strong> Simplest algorithm. Process that arrives first gets CPU first. Non-preemptive.
+                    </div>
+
+                    <div class="example-box">
+                        <strong>Real-life Example:</strong> Queue at ticket counter - First person in line gets served
+                        first!<br><br>
+
+                        <strong>Implementation:</strong> Using FIFO queue<br>
+                        • New process added to tail of queue<br>
+                        • Scheduler picks from head of queue
+                    </div>
+
+                    <div class="glow-image-card">
+                        <img src="\notes\os\image\example.png" alt="Notes Image">
+                    </div>
+                    <div class="image-caption">📊 Example of FCFS Scheduling</div>
+
+                    <div class="advantage-box">
+                        <strong>Advantages:</strong><br>
+                        ✓ Simple and easy to implement<br>
+                        ✓ Fair (first come, first served)<br>
+                        ✓ No starvation
+                    </div>
+
+                    <div class="threat-box">
+                        <strong>Disadvantages:</strong><br>
+                        ✗ Convoy Effect (short processes wait for long process)<br>
+                        ✗ Poor average waiting time<br>
+                        ✗ Not suitable for time-sharing systems<br>
+                        ✗ Non-preemptive (cannot interrupt)
+                    </div>
+
+                    <div class="note-box">
+                        <strong>Convoy Effect:</strong> When short processes wait for a long process to complete. Like being stuck
+                        behind a slow truck on highway - all fast cars must wait!
+                    </div>
+
+                    <div class="subsection-title">2. Shortest Job First (SJF):</div>
+                    <div class="definition-box">
+                        <strong>SJF:</strong> Process with smallest burst time gets CPU first. Can be preemptive or non-preemptive.
+                        Optimal algorithm (gives minimum average waiting time).
+                    </div>
+
+                    <div class="glow-image-card">
+                        <img src="\notes\os\image\non-preemptive spj strf example.png" alt="Notes Image">
+                    </div>
+                    <div class="image-caption">📊 Example of Non-Preemptive SJF Scheduling</div>
+
+                    <div class="advantage-box">
+                        <strong>Advantages:</strong><br>
+                        ✓ Minimum average waiting time<br>
+                        ✓ Optimal algorithm<br>
+                        ✓ Better throughput than FCFS
+                    </div>
+
+                    <div class="threat-box">
+                        <strong>Disadvantages:</strong><br>
+                        ✗ Starvation (long processes may never execute)<br>
+                        ✗ Cannot know exact burst time in advance<br>
+                        ✗ Requires prediction of burst time
+                    </div>
+
+                    <div class="subsection-title">3. Shortest Remaining Time First (SRTF):</div>
+                    <div class="definition-box">
+                        <strong>SRTF:</strong> Preemptive version of SJF. If new process arrives with shorter remaining time than
+                        current process, CPU switches to new process.
+                    </div>
+
+                    <div class="glow-image-card">
+                        <img src="\notes\os\image\preemptive spj (srtf).png" alt="Notes Image">
+                    </div>
+                    <div class="image-caption">📊 Example of Preemptive SJF (SRTF) Scheduling</div>
+
+                    <div class="subsection-title">4. Priority Scheduling:</div>
+                    <div class="definition-box">
+                        <strong>Priority Scheduling:</strong> Each process has a priority. CPU allocated to process with highest
+                        priority. Can be preemptive or non-preemptive.
+                    </div>
+
+                    <div class="example-box">
+                        <strong>Priority Values:</strong><br>
+                        • Lower number = Higher priority (usually)<br>
+                        • Example: Priority 1 > Priority 5<br><br>
+
+                        <strong>Real-life Example:</strong> Emergency room - Critical patients (high priority) treated before minor
+                        injuries (low priority)
+                    </div>
+
+                    <div class="glow-image-card">
+                        <img src="\notes\os\image\non-preemptive priority example.png" alt="Notes Image">
+                    </div>
+                    <div class="image-caption">📊 Example of Non-Preemptive Priority Scheduling</div>
+
+                    <div class="threat-box">
+                        <strong>Major Problem - Starvation:</strong><br>
+                        Low priority processes may never execute if high priority processes keep arriving.<br><br>
+
+                        <strong>Solution - Aging:</strong><br>
+                        Gradually increase priority of waiting processes over time.<br>
+                        Example: Every 10 minutes waiting → increase priority by 1
+                    </div>
+
+                    <div class="subsection-title">5. Round Robin (RR):</div>
+                    <div class="definition-box">
+                        <strong>Round Robin:</strong> Each process gets small unit of CPU time (time quantum), then moved to end of
+                        queue. Preemptive. Designed for time-sharing systems.
+                    </div>
+
+                    <div class="example-box">
+                        <strong>Real-life Example:</strong> Teacher giving each student 5 minutes to ask questions. After 5 minutes,
+                        next student gets turn. First student goes to back of line if more questions.<br><br>
+
+                        <strong>Time Quantum (q):</strong> Fixed time slice (typically 10-100 milliseconds)
+                    </div>
+
+                    <div class="glow-image-card">
+                        <img src="\notes\os\image\round robin example.png" alt="Notes Image">
+                    </div>
+                    <div class="image-caption">📊 Example of Round Robin Scheduling</div>
+
+                    <div class="advantage-box">
+                        <strong>Advantages:</strong><br>
+                        ✓ Fair to all processes<br>
+                        ✓ No starvation<br>
+                        ✓ Good response time<br>
+                        ✓ Suitable for time-sharing systems
+                    </div>
+
+                    <div class="threat-box">
+                        <strong>Disadvantages:</strong><br>
+                        ✗ Context switch overhead<br>
+                        ✗ Performance depends on time quantum<br>
+                        ✗ Average waiting time often high
+                    </div>
+
+                    <div class="note-box">
+                        <strong>Choosing Time Quantum:</strong><br>
+                        • <strong>Too large:</strong> Becomes like FCFS (poor response)<br>
+                        • <strong>Too small:</strong> Too many context switches (overhead)<br>
+                        • <strong>Rule of thumb:</strong> 80% of processes should complete within one quantum
+                    </div>
+
+                    <div class="subsection-title">6. Multilevel Queue Scheduling:</div>
+                    <div class="definition-box">
+                        <strong>Multilevel Queue:</strong> Ready queue divided into multiple queues based on process characteristics.
+                        Each queue has its own scheduling algorithm.
+                    </div>
+
+                    <div class="glow-image-card">
+                        <img src="\notes\os\image\multilevel queue structure.png" alt="Notes Image">
+                    </div>
+                    <div class="image-caption">📊 Multilevel Queue Scheduling</div>
+
+                    <div class="example-box">
+                        <strong>Example Categories:</strong><br>
+                        • <strong>Foreground (Interactive):</strong> User applications (high priority, RR)<br>
+                        • <strong>Background (Batch):</strong> Compilations, backups (low priority, FCFS)
+                    </div>
+
+                    <div class="advantage-box">
+                        <strong>Advantages:</strong><br>
+                        ✓ Different algorithms for different process types<br>
+                        ✓ Low overhead (no queue switching)<br>
+                        ✓ Priority-based execution
+                    </div>
+
+                    <div class="threat-box">
+                        <strong>Disadvantages:</strong><br>
+                        ✗ Starvation (low priority queues may starve)<br>
+                        ✗ Inflexible (process cannot move between queues)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="section">
+                <div class="section-title">10. Scheduling Algorithms Comparison</div>
+                <div class="content">
+                    <div class="glow-image-card">
+                        <img src="\notes\os\image\complete comarison.png" alt="Notes Image">
+                    </div>
+                    <div class="image-caption">📊 Complete Comparison of Scheduling Algorithms</div>
+                </div>
+
+                <div class="note-box">
+                    <strong>Key Takeaways:</strong><br>
+                    • <strong>FCFS:</strong> Simplest but convoy effect<br>
+                    • <strong>SJF:</strong> Optimal but starvation possible<br>
+                    • <strong>SRTF:</strong> Better than SJF but more overhead<br>
+                    • <strong>Priority:</strong> Flexible but needs aging for starvation<br>
+                    • <strong>Round Robin:</strong> Fair but context switch overhead<br>
+                    • <strong>Multilevel:</strong> Realistic but complex<br><br>
+
+                    <strong>No algorithm is perfect!</strong> Choice depends on system requirements.
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Section 11: Inter-process Communication -->
+            <div class="section">
+                <div class="section-title">11. Inter-process Communication (IPC)</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Inter-process Communication (IPC):</strong><br>
+                        Mechanism that allows processes to communicate and synchronize their actions. Processes need to exchange
+                        data and coordinate execution.
+                    </div>
+
+                    <div class="example-box">
+                        <strong>Why IPC Needed?</strong><br>
+                        • Share information between processes<br>
+                        • Speed up computation (divide work among processes)<br>
+                        • Modularity (separate concerns)<br>
+                        • Convenience (user may run multiple tasks)<br><br>
+
+                        <strong>Example:</strong> Web browser - one process downloads, another displays, another handles user
+                        input
+                    </div>
+
+                    <div class="subsection-title">Two Models of IPC:</div>
+
+                    <div class="step-box">
+                        <strong>1. Shared Memory:</strong><br>
+                        Processes share a common memory region for communication<br><br>
+
+                        <strong>How it works:</strong><br>
+                        • OS creates shared memory segment<br>
+                        • Processes read/write to this shared region<br>
+                        • Fast (no kernel involvement after setup)<br><br>
+
+                        <strong>Advantages:</strong><br>
+                        ✓ Fast (direct memory access)<br>
+                        ✓ Efficient for large data transfer<br><br>
+
+                        <strong>Disadvantages:</strong><br>
+                        ✗ Need synchronization (to avoid conflicts)<br>
+                        ✗ Complex to implement
+                    </div>
+
+                    <div class="step-box">
+                        <strong>2. Message Passing:</strong><br>
+                        Processes communicate by sending/receiving messages<br><br>
+
+                        <strong>Operations:</strong><br>
+                        • send(message)<br>
+                        • receive(message)<br><br>
+
+                        <strong>Advantages:</strong><br>
+                        ✓ Easier to implement<br>
+                        ✓ Works for distributed systems<br>
+                        ✓ No conflicts (OS manages)<br><br>
+
+                        <strong>Disadvantages:</strong><br>
+                        ✗ Slower (kernel calls needed)<br>
+                        ✗ Overhead for small messages
+                    </div>
+
+                    <div class="glow-image-card">
+                        <img src="\notes\os\image\comparison.png" alt="Notes Image">
+                    </div>
+                    <div class="image-caption">📊 Comparison </div>
+                </div>
+            </div>
+
+            <!-- Section 12: Remote Procedure Calls -->
+            <div class="section">
+                <div class="section-title">12. Remote Procedure Calls (RPC)</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Remote Procedure Call (RPC):</strong><br>
+                        Allows a program to execute a procedure (function) on another machine as if it were a local call. Makes
+                        distributed computing transparent.
+                    </div>
+
+                    <div class="example-box">
+                        <strong>Real-life Analogy:</strong><br>
+                        Ordering food by phone:<br>
+                        • You call restaurant (remote machine)<br>
+                        • Ask for pizza (call procedure)<br>
+                        • Wait for delivery (wait for result)<br>
+                        • Get pizza (receive result)<br><br>
+                        You don't go to restaurant yourself - phone call handles everything!
+                    </div>
+
+                    <div class="glow-image-card">
+                        <img src="\notes\os\image\how rpc works.png" alt="Notes Image">
+                    </div>
+                    <div class="image-caption">📊 How RPC Works </div>
+
+                    <div class="note-box">
+                        <strong>Key Point:</strong> Client doesn't know the function is executing remotely. RPC makes remote calls look
+                        like local calls!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 13: Process Synchronization -->
+            <div class="section">
+                <div class="section-title">13. Process Synchronization</div>
+                <div class="content">
+                    <div class="definition-box">
+                        <strong>Process Synchronization:</strong><br>
+                        Coordination of execution of multiple processes to ensure data consistency when processes access shared
+                        resources.
+                    </div>
+
+                    <div class="example-box">
+                        <strong>Why Synchronization Needed?</strong><br><br>
+
+                        <strong>Example - Bank Account (Race Condition):</strong><br>
+                        Initial Balance = ₹1000<br><br>
+
+                        <strong>Process A:</strong> Withdraw ₹500<br>
+                        1. Read balance (₹1000)<br>
+                        2. Calculate: 1000 - 500 = ₹500<br>
+                        3. Write back ₹500<br><br>
+
+                        <strong>Process B:</strong> Deposit ₹300 (runs simultaneously)<br>
+                        1. Read balance (₹1000) ← Wrong! Should be ₹500<br>
+                        2. Calculate: 1000 + 300 = ₹1300<br>
+                        3. Write back ₹1300<br><br>
+
+                        <strong>Final Balance:</strong> ₹1300 (Wrong! Should be ₹800)<br>
+                        ₹500 deposit lost! This is a <strong>race condition</strong>.
+                    </div>
+
+                    <div class="subsection-title">Critical Section Problem:</div>
+                    <div class="definition-box">
+                        <strong>Critical Section:</strong> Part of code where shared resources are accessed. Only one process
+                        should execute in critical section at a time.
+                    </div>
+
+                    <div class="code-box"><strong>Critical Section Structure:</strong>
+
+                        do {
+                        // Entry Section (request permission)
+
+                        // CRITICAL SECTION
+                        // (access shared resource)
+
+                        // Exit Section (release permission)
+
+                        // Remainder Section
+                        // (other code)
+
+                        } while (true);</div>
+
+                    <div class="subsection-title">Requirements for Solution:</div>
+                    <div class="step-box">
+                        <strong>1. Mutual Exclusion:</strong><br>
+                        Only one process in critical section at a time<br><br>
+
+                        <strong>2. Progress:</strong><br>
+                        If no process in critical section, selection of next process cannot be postponed indefinitely<br><br>
+
+                        <strong>3. Bounded Waiting:</strong><br>
+                        Limit on number of times other processes can enter CS before a waiting process gets turn (no starvation)
+                    </div>
+
+                    <div class="note-box">
+                        <strong>Synchronization Mechanisms:</strong><br>
+                        • Semaphores<br>
+                        • Monitors<br>
+                        • Mutex locks<br>
+                        (Covered in detail in Unit 2)
+                    </div>
+                </div>
+            </div>
+
         </div>
-
-        <div class="step-box">
-            <strong>1. Process ID (PID):</strong><br>
-            Unique number identifying the process<br>
-            Example: Chrome PID = 1234<br><br>
-
-            <strong>2. Process State:</strong><br>
-            Current state (New, Ready, Running, Waiting, Terminated)<br><br>
-
-            <strong>3. Program Counter:</strong><br>
-            Address of next instruction to execute<br><br>
-
-            <strong>4. CPU Registers:</strong><br>
-            Values of all CPU registers (saved during context switch)<br><br>
-
-            <strong>5. CPU Scheduling Information:</strong><br>
-            • Priority<br>
-            • Scheduling queue pointers<br><br>
-
-            <strong>6. Memory Management Information:</strong><br>
-            • Base and limit registers<br>
-            • Page tables<br><br>
-
-            <strong>7. Accounting Information:</strong><br>
-            • CPU time used<br>
-            • Time limits<br>
-            • Process start time<br><br>
-
-            <strong>8. I/O Status Information:</strong><br>
-            • List of open files<br>
-            • I/O devices allocated
-        </div>
-
-        <div class="note-box">
-            <strong>Why PCB is Important:</strong><br>
-            When OS switches from one process to another (context switch), it saves current process state in PCB and
-            loads next process state from its PCB. Without PCB, OS wouldn't know where to resume execution!
-        </div>
-    </div>
-    </div>
-
-    <!-- Section 3: Process States -->
-    <div class="section">
-        <div class="section-title">3. Process States</div>
-        <div class="content">
-            <div class="definition-box">
-                <strong>Process States:</strong><br>
-                A process changes state during its execution. There are 5 main states a process can be in.
-            </div>
-
-            <div class="glow-image-card">
-                <img src="\notes\os\image\process state diagram.png" alt="Notes Image">
-            </div>
-            <div class="image-caption">📊 Process State Diagram</div>
-        </div>
-    </div>
-
-    <div class="subsection-title">1. New State:</div>
-    <div class="example-box">
-        <strong>New:</strong> Process is being created<br>
-        • OS is allocating resources<br>
-        • PCB is being initialized<br>
-        • Not yet admitted to ready queue<br><br>
-
-        <strong>Example:</strong> You double-click Chrome icon → Process in New state
-    </div>
-
-    <div class="subsection-title">2. Ready State:</div>
-    <div class="example-box">
-        <strong>Ready:</strong> Process is ready to execute, waiting for CPU<br>
-        • All resources allocated except CPU<br>
-        • In ready queue<br>
-        • Waiting for scheduler to assign CPU<br><br>
-
-        <strong>Example:</strong> Multiple students ready to ask teacher a question, waiting for their turn
-    </div>
-
-    <div class="subsection-title">3. Running State:</div>
-    <div class="example-box">
-        <strong>Running:</strong> Process is currently executing on CPU<br>
-        • Instructions being executed<br>
-        • Only ONE process can run on one CPU at a time<br><br>
-
-        <strong>Example:</strong> Student currently asking teacher question
-    </div>
-
-    <div class="subsection-title">4. Waiting State (Blocked):</div>
-    <div class="example-box">
-        <strong>Waiting:</strong> Process waiting for some event (I/O completion)<br>
-        • Cannot execute even if CPU is free<br>
-        • Waiting for I/O operation to complete<br>
-        • Or waiting for a signal/event<br><br>
-
-        <strong>Example:</strong> Process waiting for user to click button, or waiting for file to load from disk
-    </div>
-
-    <div class="subsection-title">5. Terminated State:</div>
-    <div class="example-box">
-        <strong>Terminated:</strong> Process has finished execution<br>
-        • All resources released<br>
-        • PCB being deleted<br>
-        • Process removed from system<br><br>
-
-        <strong>Example:</strong> You close Chrome → Process terminates
-    </div>
-    </div>
-    </div>
-
-    <!-- Section 4: Process State Transitions -->
-    <div class="section">
-        <div class="section-title">4. Process State Transitions</div>
-        <div class="content">
-            <div class="subsection-title">State Transitions Explained:</div>
-
-            <div class="step-box">
-                <strong>1. New → Ready (Admitted):</strong><br>
-                OS admits process to ready queue<br>
-                Example: OS decides there's enough memory for new process<br><br>
-
-                <strong>2. Ready → Running (Scheduler Dispatch):</strong><br>
-                CPU scheduler selects process from ready queue<br>
-                Example: Your process gets CPU time<br><br>
-
-                <strong>3. Running → Ready (Interrupt):</strong><br>
-                Process loses CPU (time slice expired or higher priority process arrives)<br>
-                Example: Timer interrupt - your time is up!<br><br>
-
-                <strong>4. Running → Waiting (I/O or Event Wait):</strong><br>
-                Process needs I/O operation<br>
-                Example: Process reading from disk - must wait for disk<br><br>
-
-                <strong>5. Waiting → Ready (I/O Completion):</strong><br>
-                I/O operation completed, process can run again<br>
-                Example: File loaded from disk, process ready to continue<br><br>
-
-                <strong>6. Running → Terminated (Exit):</strong><br>
-                Process completes execution or is killed<br>
-                Example: Program finishes or crashes
-            </div>
-
-            <div class="example-box">
-                <strong>Real-life Example - Downloading a File:</strong><br><br>
-
-                1. <strong>New:</strong> You click download button → Process created<br>
-                2. <strong>Ready:</strong> Process ready to start download<br>
-                3. <strong>Running:</strong> Process starts downloading<br>
-                4. <strong>Waiting:</strong> Waiting for network packets to arrive<br>
-                5. <strong>Ready:</strong> Data received, ready to save to disk<br>
-                6. <strong>Running:</strong> Writing data to disk<br>
-                7. <strong>Terminated:</strong> Download complete!
-            </div>
-        </div>
-    </div>
-
-    <!-- Section 5: Process Scheduling -->
-    <div class="section">
-        <div class="section-title">5. Process Scheduling</div>
-        <div class="content">
-            <div class="definition-box">
-                <strong>Process Scheduling:</strong><br>
-                The method by which OS decides which process runs on CPU and for how long. Goal is to maximize CPU
-                utilization and provide fair execution time to all processes.
-            </div>
-
-            <div class="subsection-title">Scheduling Queues:</div>
-            <div class="code-box"><strong>Types of Queues:</strong>
-
-                1. Job Queue:
-                All processes in the system
-
-                2. Ready Queue:
-                Processes in main memory, ready to execute
-                Waiting for CPU
-
-                3. Device Queue:
-                Processes waiting for I/O device
-                Each device has its own queue
-
-                Example:
-                Ready Queue: [P1, P3, P5] ← Waiting for CPU
-                Disk Queue: [P2, P4] ← Waiting for disk
-                Printer Queue: [P6] ← Waiting for printer</div>
-
-            <div class="subsection-title">Types of Schedulers:</div>
-
-            <div class="step-box">
-                <strong>1. Long-Term Scheduler (Job Scheduler):</strong><br>
-                • Selects which processes to bring into ready queue<br>
-                • Controls degree of multiprogramming<br>
-                • Executes less frequently (minutes)<br>
-                • Decides: New → Ready<br><br>
-
-                <strong>Example:</strong> Decides whether to load new program into memory or not
-            </div>
-
-            <div class="step-box">
-                <strong>2. Short-Term Scheduler (CPU Scheduler):</strong><br>
-                • Selects which process from ready queue gets CPU<br>
-                • Executes very frequently (milliseconds)<br>
-                • Must be very fast!<br>
-                • Decides: Ready → Running<br><br>
-
-                <strong>Example:</strong> Every 10ms, decides which process runs next
-            </div>
-
-            <div class="step-box">
-                <strong>3. Medium-Term Scheduler:</strong><br>
-                • Swaps processes in/out of memory<br>
-                • Reduces degree of multiprogramming<br>
-                • Used in swapping<br><br>
-
-                <strong>Example:</strong> Moves inactive process from RAM to disk to free memory
-            </div>
-
-            <div class="subsection-title">Context Switch:</div>
-            <div class="definition-box">
-                <strong>Context Switch:</strong><br>
-                The process of saving state of current process and loading state of next process.
-            </div>
-
-            <div class="code-box"><strong>Context Switch Steps:</strong>
-
-                1. Save state of Process A in its PCB
-                - Program counter
-                - CPU registers
-                - Memory maps
-
-                2. Load state of Process B from its PCB
-                - Restore program counter
-                - Restore CPU registers
-                - Restore memory maps
-
-                3. Process B starts running
-
-                <strong>Time:</strong> Context switch is pure overhead
-                No useful work done during switch
-                Typically takes 1-10 microseconds
-            </div>
-
-            <div class="note-box">
-                <strong>Important:</strong> Context switching is expensive! That's why OS tries to minimize it. Too many
-                context switches = system becomes slow.
-            </div>
-        </div>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- Section 6: Threads -->
-    <div class="section">
-        <div class="section-title">6. Threads</div>
-        <div class="content">
-            <div class="definition-box">
-                <strong>Thread:</strong><br>
-                A thread is a lightweight process - the smallest unit of execution within a process. Multiple threads
-                can exist within a single process, sharing the same resources but executing independently.
-            </div>
-
-            <div class="example-box">
-                <strong>Real-life Analogy - Microsoft Word:</strong><br><br>
-
-                <strong>Single Process (Word):</strong><br>
-                • Main process = Word application<br><br>
-
-                <strong>Multiple Threads within Word:</strong><br>
-                • Thread 1: Accept your typing<br>
-                • Thread 2: Check spelling (red underlines)<br>
-                • Thread 3: Auto-save document<br>
-                • Thread 4: Display UI<br><br>
-
-                All happening simultaneously within one Word process!
-            </div>
-
-            <div class="subsection-title">Process vs Thread:</div>
-            <div class="glow-image-card">
-                <img src="\notes\os\image\comparison thread vs process.png" alt="Notes Image">
-            </div>
-            <div class="image-caption">📊 Process vs Thread</div>
-        </div>
-    </div>
-
-    <div class="subsection-title">Benefits of Threads:</div>
-    <div class="advantage-box">
-        <strong>1. Responsiveness:</strong><br>
-        Application remains responsive even if part is blocked<br>
-        Example: Web browser can download file while you browse other tabs<br><br>
-
-        <strong>2. Resource Sharing:</strong><br>
-        Threads share memory and resources of process<br>
-        No need for IPC mechanisms<br>
-        Easier communication between threads<br><br>
-
-        <strong>3. Economy:</strong><br>
-        Creating thread is cheaper than creating process<br>
-        Context switch between threads is faster<br>
-        Example: Thread creation 10-100x faster than process<br><br>
-
-        <strong>4. Scalability (Multicore):</strong><br>
-        Threads can run on different CPU cores simultaneously<br>
-        True parallelism on multicore systems<br>
-        Example: Video encoding - each thread processes different frame
-    </div>
-
-    <div class="subsection-title">Types of Threads:</div>
-
-    <div class="step-box">
-        <strong>1. User-Level Threads (ULT):</strong><br>
-        Managed by user-level thread library, OS doesn't know about them<br><br>
-
-        <strong>How it works:</strong><br>
-        • Thread library in user space manages threads<br>
-        • OS sees only one process<br>
-        • Thread switching done by library (no kernel involvement)<br><br>
-
-        <strong>Advantages:</strong><br>
-        ✓ Fast thread creation and switching<br>
-        ✓ Can run on any OS<br>
-        ✓ Flexible scheduling<br><br>
-
-        <strong>Disadvantages:</strong><br>
-        ✗ If one thread blocks, entire process blocks<br>
-        ✗ Cannot use multiple CPUs (OS thinks it's one process)<br><br>
-
-        <strong>Example:</strong> Java Green Threads (old)
-    </div>
-
-    <div class="step-box">
-        <strong>2. Kernel-Level Threads (KLT):</strong><br>
-        Managed directly by OS kernel<br><br>
-
-        <strong>How it works:</strong><br>
-        • OS knows about each thread<br>
-        • Kernel schedules threads<br>
-        • OS maintains thread table<br><br>
-
-        <strong>Advantages:</strong><br>
-        ✓ If one thread blocks, others can continue<br>
-        ✓ Can use multiple CPUs (true parallelism)<br>
-        ✓ Better for multicore systems<br><br>
-
-        <strong>Disadvantages:</strong><br>
-        ✗ Slower (kernel mode switches required)<br>
-        ✗ More overhead<br><br>
-
-        <strong>Example:</strong> Windows threads, Linux threads
-    </div>
-
-    <div class="subsection-title">Multithreading Models:</div>
-
-    <div class="example-box">
-        <strong>1. Many-to-One Model:</strong><br>
-        Many user threads → mapped to → One kernel thread<br><br>
-
-        <strong>Diagram:</strong><br>
-        User Level: [T1] [T2] [T3] [T4]<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-        Kernel Level: &nbsp;&nbsp;&nbsp;&nbsp;[K1]<br><br>
-
-        <strong>Characteristics:</strong><br>
-        • If one thread blocks, all block<br>
-        • Cannot run on multiple CPUs<br>
-        • Fast thread management<br><br>
-
-        <strong>Example:</strong> Green Threads
-    </div>
-
-    <div class="example-box">
-        <strong>2. One-to-One Model:</strong><br>
-        One user thread → mapped to → One kernel thread<br><br>
-
-        <strong>Diagram:</strong><br>
-        User Level: [T1] [T2] [T3] [T4]<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-        Kernel Level: [K1] [K2] [K3] [K4]<br><br>
-
-        <strong>Characteristics:</strong><br>
-        • If one thread blocks, others continue<br>
-        • Can use multiple CPUs<br>
-        • Creating thread = creating kernel thread (overhead)<br>
-        • Most systems limit number of threads<br><br>
-
-        <strong>Example:</strong> Windows, Linux
-    </div>
-
-    <div class="example-box">
-        <strong>3. Many-to-Many Model:</strong><br>
-        Many user threads → mapped to → Many kernel threads<br><br>
-
-        <strong>Diagram:</strong><br>
-        User Level: [T1] [T2] [T3] [T4] [T5] [T6]<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-        Kernel Level: &nbsp;&nbsp;&nbsp;&nbsp;[K1] [K2] [K3]<br><br>
-
-        <strong>Characteristics:</strong><br>
-        • OS creates sufficient kernel threads<br>
-        • Best of both worlds<br>
-        • Can run on multiple CPUs<br>
-        • If one blocks, others continue<br><br>
-
-        <strong>Example:</strong> Solaris, older UNIX versions
-    </div>
-    </div>
-    </div>
-
-    <!-- Section 7: CPU Scheduling -->
-    <div class="section">
-        <div class="section-title">7. CPU Scheduling</div>
-        <div class="content">
-            <div class="definition-box">
-                <strong>CPU Scheduling:</strong><br>
-                The process of deciding which process in the ready queue gets the CPU next. Goal is to keep CPU busy and
-                provide fair execution time to all processes.
-            </div>
-
-            <div class="example-box">
-                <strong>Why Scheduling Needed?</strong><br>
-                In multiprogramming, when one process waits (for I/O), CPU switches to another process. Scheduling
-                decides which process runs next to maximize CPU utilization.
-            </div>
-
-            <div class="subsection-title">Preemptive vs Non-Preemptive Scheduling:</div>
-
-            <div class="step-box">
-                <strong>Non-Preemptive Scheduling:</strong><br>
-                Once CPU is allocated to a process, process keeps it until it terminates or switches to waiting state.
-                CPU cannot be taken away forcefully.<br><br>
-
-                <strong>Characteristics:</strong><br>
-                • Process runs until completion or blocks<br>
-                • No interruption by scheduler<br>
-                • Simple to implement<br><br>
-
-                <strong>Real-life Example:</strong><br>
-                Doctor's appointment - Once doctor starts with patient, continues until done. Next patient must
-                wait.<br><br>
-
-                <strong>Advantages:</strong><br>
-                ✓ Simple<br>
-                ✓ Low overhead (no context switching)<br>
-                ✓ Predictable<br><br>
-
-                <strong>Disadvantages:</strong><br>
-                ✗ Long process blocks CPU for long time<br>
-                ✗ Poor response time<br>
-                ✗ Not suitable for time-sharing systems<br><br>
-
-                <strong>Examples:</strong> FCFS, SJF (non-preemptive), Priority (non-preemptive)
-            </div>
-
-            <div class="step-box">
-                <strong>Preemptive Scheduling:</strong><br>
-                CPU can be taken away from a running process before it completes. Scheduler can interrupt and switch to
-                another process.<br><br>
-
-                <strong>Characteristics:</strong><br>
-                • Process can be interrupted<br>
-                • Higher priority process can take CPU<br>
-                • Timer interrupts used<br><br>
-
-                <strong>Real-life Example:</strong><br>
-                Emergency room - If critical patient arrives, doctor stops current patient and attends emergency
-                first.<br><br>
-
-                <strong>Advantages:</strong><br>
-                ✓ Better response time<br>
-                ✓ Fair to all processes<br>
-                ✓ Suitable for time-sharing<br>
-                ✓ High priority tasks handled quickly<br><br>
-
-                <strong>Disadvantages:</strong><br>
-                ✗ Complex<br>
-                ✗ Context switch overhead<br>
-                ✗ Risk of race conditions<br><br>
-
-                <strong>Examples:</strong> Round Robin, SRTF, Priority (preemptive)
-            </div>
-
-            <div class="glow-image-card">
-                <img src="\notes\os\image\comparison preemptive vs non preemptive.png" alt="Notes Image">
-            </div>
-            <div class="image-caption">📊 Preemptive vs Non-Preemptive Scheduling</div>
-        </div>
-    </div>
-    </div>
-    </div>
-
-    <!-- Section 8: Scheduling Criteria -->
-    <div class="section">
-        <div class="section-title">8. Scheduling Criteria</div>
-        <div class="content">
-            <div class="definition-box">
-                <strong>Scheduling Criteria:</strong><br>
-                Metrics used to evaluate and compare different CPU scheduling algorithms. Help determine which algorithm
-                is best for a given situation.
-            </div>
-
-            <div class="subsection-title">Key Criteria:</div>
-
-            <div class="step-box">
-                <strong>1. CPU Utilization:</strong><br>
-                Percentage of time CPU is busy (not idle)<br><br>
-
-                <strong>Goal:</strong> Maximize (keep CPU as busy as possible)<br>
-                <strong>Range:</strong> 0% to 100%<br>
-                <strong>Good:</strong> 40% (lightly loaded) to 90% (heavily loaded)<br><br>
-
-                <strong>Formula:</strong><br>
-                CPU Utilization = (Total Busy Time / Total Time) × 100%<br><br>
-
-                <strong>Example:</strong><br>
-                If CPU is busy for 80 seconds out of 100 seconds → 80% utilization
-            </div>
-
-            <div class="step-box">
-                <strong>2. Throughput:</strong><br>
-                Number of processes completed per unit time<br><br>
-
-                <strong>Goal:</strong> Maximize (complete more processes)<br>
-                <strong>Unit:</strong> processes/hour or processes/second<br><br>
-
-                <strong>Formula:</strong><br>
-                Throughput = Number of processes completed / Total time<br><br>
-
-                <strong>Example:</strong><br>
-                10 processes completed in 100 seconds → Throughput = 0.1 processes/second
-            </div>
-
-            <div class="step-box">
-                <strong>3. Turnaround Time:</strong><br>
-                Total time from process submission to completion<br>
-                Time interval from arrival to termination<br><br>
-
-                <strong>Goal:</strong> Minimize<br><br>
-
-                <strong>Formula:</strong><br>
-                Turnaround Time = Completion Time - Arrival Time<br>
-                Or<br>
-                Turnaround Time = Waiting Time + Burst Time<br><br>
-
-                <strong>Example:</strong><br>
-                Process arrives at time 0, completes at time 10<br>
-                → Turnaround Time = 10 - 0 = 10 seconds
-            </div>
-
-            <div class="step-box">
-                <strong>4. Waiting Time:</strong><br>
-                Total time process spends in ready queue waiting for CPU<br>
-                Does NOT include execution time<br><br>
-
-                <strong>Goal:</strong> Minimize<br><br>
-
-                <strong>Formula:</strong><br>
-                Waiting Time = Turnaround Time - Burst Time<br><br>
-
-                <strong>Example:</strong><br>
-                Turnaround Time = 10s, Burst Time = 3s<br>
-                → Waiting Time = 10 - 3 = 7 seconds
-            </div>
-
-            <div class="step-box">
-                <strong>5. Response Time:</strong><br>
-                Time from process submission to first response (first time it gets CPU)<br>
-                Important for interactive systems<br><br>
-
-                <strong>Goal:</strong> Minimize<br><br>
-
-                <strong>Formula:</strong><br>
-                Response Time = Time of first response - Arrival Time<br><br>
-
-                <strong>Example:</strong><br>
-                Process arrives at 0, first gets CPU at time 5<br>
-                → Response Time = 5 - 0 = 5 seconds<br><br>
-
-                <strong>Difference from Waiting Time:</strong><br>
-                Response time is till FIRST response, waiting time is TOTAL waiting
-            </div>
-
-            <div class="glow-image-card">
-                <img src="\notes\os\image\summary of criteria.png" alt="Notes Image">
-            </div>
-            <div class="image-caption">📊 Summary of Scheduling Criteria</div>
-        </div>
-    </div>
-
-    <div class="note-box">
-        <strong>Important:</strong><br>
-        No single algorithm is best for all criteria. Trade-offs exist:<br>
-        • Algorithm good for throughput may have poor response time<br>
-        • Algorithm minimizing waiting time may reduce CPU utilization<br>
-        • Choice depends on system requirements (batch vs interactive)
-    </div>
-    </div>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- Section 9: Scheduling Algorithms -->
-    <div class="section">
-        <div class="section-title">9. CPU Scheduling Algorithms</div>
-        <div class="content">
-            <div class="definition-box">
-                <strong>Scheduling Algorithms:</strong><br>
-                Rules/methods used by CPU scheduler to decide which process from the ready queue gets the CPU next.
-            </div>
-
-            <div class="subsection-title">1. First Come First Serve (FCFS):</div>
-            <div class="definition-box">
-                <strong>FCFS:</strong> Simplest algorithm. Process that arrives first gets CPU first. Non-preemptive.
-            </div>
-
-            <div class="example-box">
-                <strong>Real-life Example:</strong> Queue at ticket counter - First person in line gets served
-                first!<br><br>
-
-                <strong>Implementation:</strong> Using FIFO queue<br>
-                • New process added to tail of queue<br>
-                • Scheduler picks from head of queue
-            </div>
-
-            <div class="glow-image-card">
-                <img src="\notes\os\image\example.png" alt="Notes Image">
-            </div>
-            <div class="image-caption">📊 Example of FCFS Scheduling</div>
-        </div>
-    </div>
-
-    <div class="advantage-box">
-        <strong>Advantages:</strong><br>
-        ✓ Simple and easy to implement<br>
-        ✓ Fair (first come, first served)<br>
-        ✓ No starvation
-    </div>
-
-    <div class="threat-box">
-        <strong>Disadvantages:</strong><br>
-        ✗ Convoy Effect (short processes wait for long process)<br>
-        ✗ Poor average waiting time<br>
-        ✗ Not suitable for time-sharing systems<br>
-        ✗ Non-preemptive (cannot interrupt)
-    </div>
-
-    <div class="note-box">
-        <strong>Convoy Effect:</strong> When short processes wait for a long process to complete. Like being stuck
-        behind a slow truck on highway - all fast cars must wait!
-    </div>
-
-    <div class="subsection-title">2. Shortest Job First (SJF):</div>
-    <div class="definition-box">
-        <strong>SJF:</strong> Process with smallest burst time gets CPU first. Can be preemptive or non-preemptive.
-        Optimal algorithm (gives minimum average waiting time).
-    </div>
-
-    <div class="glow-image-card">
-        <img src="\notes\os\image\non-preemptive spj strf example.png" alt="Notes Image">
-    </div>
-    <div class="image-caption">📊 Example of Non-Preemptive SJF Scheduling</div>
-    </div>
-    </div>
-
-    <div class="advantage-box">
-        <strong>Advantages:</strong><br>
-        ✓ Minimum average waiting time<br>
-        ✓ Optimal algorithm<br>
-        ✓ Better throughput than FCFS
-    </div>
-
-    <div class="threat-box">
-        <strong>Disadvantages:</strong><br>
-        ✗ Starvation (long processes may never execute)<br>
-        ✗ Cannot know exact burst time in advance<br>
-        ✗ Requires prediction of burst time
-    </div>
-
-    <div class="subsection-title">3. Shortest Remaining Time First (SRTF):</div>
-    <div class="definition-box">
-        <strong>SRTF:</strong> Preemptive version of SJF. If new process arrives with shorter remaining time than
-        current process, CPU switches to new process.
-    </div>
-
-    <div class="glow-image-card">
-        <img src="\notes\os\image\preemptive spj (srtf).png" alt="Notes Image">
-    </div>
-    <div class="image-caption">📊 Example of Preemptive SJF (SRTF) Scheduling</div>
-    </div>
-    </div>
-
-    <div class="subsection-title">4. Priority Scheduling:</div>
-    <div class="definition-box">
-        <strong>Priority Scheduling:</strong> Each process has a priority. CPU allocated to process with highest
-        priority. Can be preemptive or non-preemptive.
-    </div>
-
-    <div class="example-box">
-        <strong>Priority Values:</strong><br>
-        • Lower number = Higher priority (usually)<br>
-        • Example: Priority 1 > Priority 5<br><br>
-
-        <strong>Real-life Example:</strong> Emergency room - Critical patients (high priority) treated before minor
-        injuries (low priority)
-    </div>
-
-    <div class="glow-image-card">
-        <img src="\notes\os\image\non-preemptive priority example.png" alt="Notes Image">
-    </div>
-    <div class="image-caption">📊 Example of Non-Preemptive Priority Scheduling</div>
-    </div>
-    </div>
-
-    <div class="threat-box">
-        <strong>Major Problem - Starvation:</strong><br>
-        Low priority processes may never execute if high priority processes keep arriving.<br><br>
-
-        <strong>Solution - Aging:</strong><br>
-        Gradually increase priority of waiting processes over time.<br>
-        Example: Every 10 minutes waiting → increase priority by 1
-    </div>
-
-    <div class="subsection-title">5. Round Robin (RR):</div>
-    <div class="definition-box">
-        <strong>Round Robin:</strong> Each process gets small unit of CPU time (time quantum), then moved to end of
-        queue. Preemptive. Designed for time-sharing systems.
-    </div>
-
-    <div class="example-box">
-        <strong>Real-life Example:</strong> Teacher giving each student 5 minutes to ask questions. After 5 minutes,
-        next student gets turn. First student goes to back of line if more questions.<br><br>
-
-        <strong>Time Quantum (q):</strong> Fixed time slice (typically 10-100 milliseconds)
-    </div>
-
-    <div class="glow-image-card">
-        <img src="\notes\os\image\round robin example.png" alt="Notes Image">
-    </div>
-    <div class="image-caption">📊 Example of Round Robin Scheduling</div>
-    </div>
-    </div>
-
-    <div class="advantage-box">
-        <strong>Advantages:</strong><br>
-        ✓ Fair to all processes<br>
-        ✓ No starvation<br>
-        ✓ Good response time<br>
-        ✓ Suitable for time-sharing systems
-    </div>
-
-    <div class="threat-box">
-        <strong>Disadvantages:</strong><br>
-        ✗ Context switch overhead<br>
-        ✗ Performance depends on time quantum<br>
-        ✗ Average waiting time often high
-    </div>
-
-    <div class="note-box">
-        <strong>Choosing Time Quantum:</strong><br>
-        • <strong>Too large:</strong> Becomes like FCFS (poor response)<br>
-        • <strong>Too small:</strong> Too many context switches (overhead)<br>
-        • <strong>Rule of thumb:</strong> 80% of processes should complete within one quantum
-    </div>
-
-    <div class="subsection-title">6. Multilevel Queue Scheduling:</div>
-    <div class="definition-box">
-        <strong>Multilevel Queue:</strong> Ready queue divided into multiple queues based on process characteristics.
-        Each queue has its own scheduling algorithm.
-    </div>
-
-    <div class="glow-image-card">
-        <img src="\notes\os\image\multilevel queue structure.png" alt="Notes Image">
-    </div>
-    <div class="image-caption">📊 Multilevel Queue Scheduling</div>
-    </div>
-    </div>
-
-    <div class="example-box">
-        <strong>Example Categories:</strong><br>
-        • <strong>Foreground (Interactive):</strong> User applications (high priority, RR)<br>
-        • <strong>Background (Batch):</strong> Compilations, backups (low priority, FCFS)
-    </div>
-
-    <div class="advantage-box">
-        <strong>Advantages:</strong><br>
-        ✓ Different algorithms for different process types<br>
-        ✓ Low overhead (no queue switching)<br>
-        ✓ Priority-based execution
-    </div>
-
-    <div class="threat-box">
-        <strong>Disadvantages:</strong><br>
-        ✗ Starvation (low priority queues may starve)<br>
-        ✗ Inflexible (process cannot move between queues)
-    </div>
-    </div>
-    </div>
-
-    <!-- Comparison Table -->
-    <div class="section">
-        <div class="section-title">10. Scheduling Algorithms Comparison</div>
-        <div class="content">
-            <div class="glow-image-card">
-                <img src="\notes\os\image\complete comarison.png" alt="Notes Image">
-            </div>
-            <div class="image-caption">📊 Complete Comparison of Scheduling Algorithms</div>
-        </div>
-    </div>
-
-    <div class="note-box">
-        <strong>Key Takeaways:</strong><br>
-        • <strong>FCFS:</strong> Simplest but convoy effect<br>
-        • <strong>SJF:</strong> Optimal but starvation possible<br>
-        • <strong>SRTF:</strong> Better than SJF but more overhead<br>
-        • <strong>Priority:</strong> Flexible but needs aging for starvation<br>
-        • <strong>Round Robin:</strong> Fair but context switch overhead<br>
-        • <strong>Multilevel:</strong> Realistic but complex<br><br>
-
-        <strong>No algorithm is perfect!</strong> Choice depends on system requirements.
-    </div>
-    </div>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- Section 11: Inter-process Communication -->
-    <div class="section">
-        <div class="section-title">11. Inter-process Communication (IPC)</div>
-        <div class="content">
-            <div class="definition-box">
-                <strong>Inter-process Communication (IPC):</strong><br>
-                Mechanism that allows processes to communicate and synchronize their actions. Processes need to exchange
-                data and coordinate execution.
-            </div>
-
-            <div class="example-box">
-                <strong>Why IPC Needed?</strong><br>
-                • Share information between processes<br>
-                • Speed up computation (divide work among processes)<br>
-                • Modularity (separate concerns)<br>
-                • Convenience (user may run multiple tasks)<br><br>
-
-                <strong>Example:</strong> Web browser - one process downloads, another displays, another handles user
-                input
-            </div>
-
-            <div class="subsection-title">Two Models of IPC:</div>
-
-            <div class="step-box">
-                <strong>1. Shared Memory:</strong><br>
-                Processes share a common memory region for communication<br><br>
-
-                <strong>How it works:</strong><br>
-                • OS creates shared memory segment<br>
-                • Processes read/write to this shared region<br>
-                • Fast (no kernel involvement after setup)<br><br>
-
-                <strong>Advantages:</strong><br>
-                ✓ Fast (direct memory access)<br>
-                ✓ Efficient for large data transfer<br><br>
-
-                <strong>Disadvantages:</strong><br>
-                ✗ Need synchronization (to avoid conflicts)<br>
-                ✗ Complex to implement
-            </div>
-
-            <div class="step-box">
-                <strong>2. Message Passing:</strong><br>
-                Processes communicate by sending/receiving messages<br><br>
-
-                <strong>Operations:</strong><br>
-                • send(message)<br>
-                • receive(message)<br><br>
-
-                <strong>Advantages:</strong><br>
-                ✓ Easier to implement<br>
-                ✓ Works for distributed systems<br>
-                ✓ No conflicts (OS manages)<br><br>
-
-                <strong>Disadvantages:</strong><br>
-                ✗ Slower (kernel calls needed)<br>
-                ✗ Overhead for small messages
-            </div>
-
-            <div class="glow-image-card">
-                <img src="\notes\os\image\comparison.png" alt="Notes Image">
-            </div>
-            <div class="image-caption">📊 Comparison </div>
-        </div>
-    </div>
-    </div>
-    </div>
-
-    <!-- Section 12: Remote Procedure Calls -->
-    <div class="section">
-        <div class="section-title">12. Remote Procedure Calls (RPC)</div>
-        <div class="content">
-            <div class="definition-box">
-                <strong>Remote Procedure Call (RPC):</strong><br>
-                Allows a program to execute a procedure (function) on another machine as if it were a local call. Makes
-                distributed computing transparent.
-            </div>
-
-            <div class="example-box">
-                <strong>Real-life Analogy:</strong><br>
-                Ordering food by phone:<br>
-                • You call restaurant (remote machine)<br>
-                • Ask for pizza (call procedure)<br>
-                • Wait for delivery (wait for result)<br>
-                • Get pizza (receive result)<br><br>
-                You don't go to restaurant yourself - phone call handles everything!
-            </div>
-
-            <div class="glow-image-card">
-                <img src="\notes\os\image\how rpc works.png" alt="Notes Image">
-            </div>
-            <div class="image-caption">📊 How RPC Works </div>
-        </div>
-    </div>
-
-    <div class="note-box">
-        <strong>Key Point:</strong> Client doesn't know the function is executing remotely. RPC makes remote calls look
-        like local calls!
-    </div>
-    </div>
-    </div>
-
-    <!-- Section 13: Process Synchronization -->
-    <div class="section">
-        <div class="section-title">13. Process Synchronization</div>
-        <div class="content">
-            <div class="definition-box">
-                <strong>Process Synchronization:</strong><br>
-                Coordination of execution of multiple processes to ensure data consistency when processes access shared
-                resources.
-            </div>
-
-            <div class="example-box">
-                <strong>Why Synchronization Needed?</strong><br><br>
-
-                <strong>Example - Bank Account (Race Condition):</strong><br>
-                Initial Balance = ₹1000<br><br>
-
-                <strong>Process A:</strong> Withdraw ₹500<br>
-                1. Read balance (₹1000)<br>
-                2. Calculate: 1000 - 500 = ₹500<br>
-                3. Write back ₹500<br><br>
-
-                <strong>Process B:</strong> Deposit ₹300 (runs simultaneously)<br>
-                1. Read balance (₹1000) ← Wrong! Should be ₹500<br>
-                2. Calculate: 1000 + 300 = ₹1300<br>
-                3. Write back ₹1300<br><br>
-
-                <strong>Final Balance:</strong> ₹1300 (Wrong! Should be ₹800)<br>
-                ₹500 deposit lost! This is a <strong>race condition</strong>.
-            </div>
-
-            <div class="subsection-title">Critical Section Problem:</div>
-            <div class="definition-box">
-                <strong>Critical Section:</strong> Part of code where shared resources are accessed. Only one process
-                should execute in critical section at a time.
-            </div>
-
-            <div class="code-box"><strong>Critical Section Structure:</strong>
-
-                do {
-                // Entry Section (request permission)
-
-                // CRITICAL SECTION
-                // (access shared resource)
-
-                // Exit Section (release permission)
-
-                // Remainder Section
-                // (other code)
-
-                } while (true);</div>
-
-            <div class="subsection-title">Requirements for Solution:</div>
-            <div class="step-box">
-                <strong>1. Mutual Exclusion:</strong><br>
-                Only one process in critical section at a time<br><br>
-
-                <strong>2. Progress:</strong><br>
-                If no process in critical section, selection of next process cannot be postponed indefinitely<br><br>
-
-                <strong>3. Bounded Waiting:</strong><br>
-                Limit on number of times other processes can enter CS before a waiting process gets turn (no starvation)
-            </div>
-
-            <div class="note-box">
-                <strong>Synchronization Mechanisms:</strong><br>
-                • Semaphores<br>
-                • Monitors<br>
-                • Mutex locks<br>
-                (Covered in detail in Unit 2)
-            </div>
-        </div>
-    </div>
 
     <!-- LAST MIN NOTES TAB -->
     <div class="tab-content" id="lastMinTab">
